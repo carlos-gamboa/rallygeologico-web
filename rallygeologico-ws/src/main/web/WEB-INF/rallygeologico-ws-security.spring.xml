@@ -32,7 +32,7 @@
     <bean id="accessDeniedHandler" class="cr.ac.ucr.cicg.clavicusoft.rallygeologico.ws.rest.support.security.UnauthorizedAccessHandler"/>
 
     <bean id="customAuthEntryPoint" class="cr.ac.ucr.cicg.clavicusoft.rallygeologico.ws.rest.support.security.CustomAuthenticationEntryPoint">
-        <property name="realmName" value="tcu658.ecci.ucr.ac.cr"/>
+        <property name="realmName" value="clavicusoft.ecci.ucr.ac.cr"/>
     </bean>
 
     <security:authentication-manager alias="authenticationManager">
