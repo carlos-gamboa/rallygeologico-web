@@ -12,9 +12,9 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="rallygeologico" target="1.5" />
+      <module name="rallygeologico" target="1.8" />
       <module name="rallygeologico-app" target="1.5" />
-      <module name="rallygeologico-core" target="1.5" />
+      <module name="rallygeologico-core" target="1.8" />
       <module name="rallygeologico-ws" target="1.8" />
     </bytecodeTargetLevel>
   </component>
