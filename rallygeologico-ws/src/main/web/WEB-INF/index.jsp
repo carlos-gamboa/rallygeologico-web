@@ -1,16 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Dell
-  Date: 09-Apr-18
-  Time: 8:48 AM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-  <head>
-    <title>123</title>
-  </head>
-  <body>
-  <p>456</p>
-  </body>
-</html>
+<%@ include file="/WEB-INF/jspx/include.jsp" %>
+<%-- Redirected because we can't set the welcome page to a virtual URL. --%>
+<jsp:forward page="/index.html"/>
