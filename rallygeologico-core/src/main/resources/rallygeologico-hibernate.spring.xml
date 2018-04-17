@@ -8,7 +8,6 @@
            http://www.springframework.org/schema/tx/spring-tx-4.2.xsd"
        default-init-method="init">
 
-    <!-- Definition of properties -->
     <bean id="pooledDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <property name="driverClass" value="${rallygeologico.jdbc.driver}"/>
         <property name="jdbcUrl" value="${rallygeologico.jdbc.url}"/>
@@ -29,8 +28,6 @@
         <property name="maxIdleTimeExcessConnections" value="300" />
     </bean>
 
-    <!-- Taken from https://docs.spring.io/spring/docs/1.2.x/reference/transaction.html -->
-    <!-- Bootstrapping a SessionFactory with the native Hibernate API -->
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="pooledDataSource"/>
         <property name="packagesToScan">
@@ -51,12 +48,11 @@
         </property>
     </bean>
 
-    <!-- Transaction configuration -->
-    <bean id="txManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <!-- Taken from https://docs.spring.io/spring/docs/1.2.x/reference/aop.html section 6.10.2 -->
+    <!-- transaction configuration -->
     <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
 
     <bean class="org.springframework.transaction.interceptor.TransactionAttributeSourceAdvisor">
@@ -66,15 +62,15 @@
 
     <bean id="transactionInterceptor"
           class="org.springframework.transaction.interceptor.TransactionInterceptor">
-        <property name="transactionManager" ref="txManager"/>
+        <property name="transactionManager" ref="transactionManager"/>
         <property name="transactionAttributeSource">
             <bean class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource"/>
         </property>
     </bean>
 
     <bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
-        <property name="transactionManager" ref="txManager"/>
+        <property name="transactionManager" ref="transactionManager"/>
     </bean>
 
-    <tx:annotation-driven transaction-manager="txManager"/>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 </beans>

@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-4.2.xsd"
+       default-init-method="init">
 
+    <security:http use-expressions="false" pattern="/**/*" auto-config="false" entry-point-ref="customAuthEntryPoint">
+        <security:form-login login-processing-url="/ws/login"
+                             authentication-success-handler-ref="successLoginHandler"
+                             authentication-failure-handler-ref="loginFailureHandler"
+                             password-parameter="password" username-parameter="username"/>
+        <security:logout logout-url="/ws/logout" success-handler-ref="logoutHandler" delete-cookies="JSESSIONID"/>
+        <security:intercept-url pattern="/ws/login" access="ROLE_ANONYMOUS"/>
+        <security:intercept-url pattern="/ws/student/reset-password" access="ROLE_ANONYMOUS"/>
+
+        <security:intercept-url pattern="/ws/**/*" access="ROLE_ANONYMOUS,ROLE_USER" method="HEAD"/>
+        <security:intercept-url pattern="/ws/**/*" access="ROLE_ANONYMOUS, ROLE_USER" method="OPTIONS"/>
+
+        <security:intercept-url pattern="/ws/**/*" access="ROLE_USER"/>
+
+        <security:session-management/>
+        <security:access-denied-handler ref="accessDeniedHandler"/>
+        <security:csrf disabled="true"/>
+    </security:http>
+
+    <bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl"/>
+
+    <bean id="accessDeniedHandler" class="cr.ac.ucr.cicg.clavicusoft.rallygeologico.ws.rest.support.security.UnauthorizedAccessHandler"/>
+
+    <bean id="customAuthEntryPoint" class="cr.ac.ucr.cicg.clavicusoft.rallygeologico.ws.rest.support.security.CustomAuthenticationEntryPoint">
+        <property name="realmName" value="clavicusoft.ecci.ucr.ac.cr"/>
+    </bean>
+
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider ref="daoAuthenticationProvider"/>
+    </security:authentication-manager>
 </beans>

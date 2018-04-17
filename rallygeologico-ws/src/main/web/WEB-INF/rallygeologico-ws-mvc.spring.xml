@@ -19,11 +19,10 @@
 
     <mvc:annotation-driven />
 
+    <!-- Taken from https://www.mkyong.com/spring-mvc/spring-mvc-internalresourceviewresolver-example/ -->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-        <property name="prefix" value="/WEB-INF/jspx/"/>
+        <property name="prefix" value="/WEB-INF/pages/"/>
         <property name="suffix" value=".jspx"/>
-        <property name="order" value="2"/>
     </bean>
 
     <mvc:interceptors>
@@ -41,7 +40,7 @@
         <property name="locations">
             <list>
                 <value>classpath:/rallygeologico.properties</value>
-                <value>file:${user.home}/penglish/penglish.properties</value>
+                <value>file:${user.home}/rallygeologico/rallygeologico.properties</value>
             </list>
         </property>
         <property name="ignoreResourceNotFound" value="true"/>

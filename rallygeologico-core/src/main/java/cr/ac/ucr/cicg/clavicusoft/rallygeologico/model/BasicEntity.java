@@ -1,6 +1,5 @@
 package cr.ac.ucr.cicg.clavicusoft.rallygeologico.model;
 
-import org.apache.xpath.operations.String;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.proxy.HibernateProxyHelper;
