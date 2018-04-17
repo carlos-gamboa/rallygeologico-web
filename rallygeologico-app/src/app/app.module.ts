@@ -10,6 +10,7 @@ import { RegisterComponent } from './register/register.component';
 import { LandingComponent } from './landing/landing.component';
 import { LoginComponent } from "./login/login.component";
 import {CommonModule} from "@angular/common";
+import {UserModule} from "./user/user.module";
 
 
 @NgModule({
@@ -17,7 +18,7 @@ import {CommonModule} from "@angular/common";
       AppComponent,
       LoginComponent,
       RegisterComponent,
-      LandingComponent
+      LandingComponent,
   ],
   imports: [
       BrowserModule,
@@ -27,6 +28,7 @@ import {CommonModule} from "@angular/common";
       CommonModule,
       NgbModule.forRoot(),
       NgbModule,
+      UserModule
   ],
   providers: [],
   bootstrap: [AppComponent]
