@@ -9,7 +9,6 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
-import { GlossaryComponent } from './glossary/glossary.component';
 
 @NgModule({
   imports: [
@@ -26,7 +25,10 @@ import { GlossaryComponent } from './glossary/glossary.component';
       FooterComponent,
       DashboardComponent,
       ProfileComponent,
-      GlossaryComponent,
-  ]
+  ],
+    exports: [
+        HeaderComponent,
+        FooterComponent
+    ]
 })
 export class UserModule { }

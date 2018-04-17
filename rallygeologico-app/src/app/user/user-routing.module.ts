@@ -3,17 +3,12 @@ import {NgModule} from "@angular/core";
 import {UserComponent} from "./user.component";
 import {DashboardComponent} from "./dashboard/dashboard.component";
 import {ProfileComponent} from "./profile/profile.component";
-import {GlossaryComponent} from "./glossary/glossary.component";
 
 const routes : Routes = [
-    { path: 'dashboard', component: UserComponent, children: [
+    { path: '', component: UserComponent, children: [
             {
-                path : '', component: DashboardComponent,
+                path : 'dashboard', component: DashboardComponent,
             },
-            {
-                path : 'glossary', component: GlossaryComponent
-            }
-            ,
             {
                 path : 'profile', component: ProfileComponent
             }
