@@ -8,6 +8,7 @@ import {GlossaryComponent} from "./glossary/glossary.component";
 import {RalliesComponent} from "./rallies/rallies.component";
 import {InstructionsComponent} from "./instructions/instructions.component";
 import {DefinitionComponent} from "./definition/definition.component";
+import {RegisterComponent} from "./register/register.component";
 
 const routes : Routes = [
     {
@@ -15,6 +16,9 @@ const routes : Routes = [
     },
     {
         path: 'login', component: LoginComponent
+    },
+    {
+        path: 'register', component: RegisterComponent
     },
     {
         path: 'landing', component: LandingComponent

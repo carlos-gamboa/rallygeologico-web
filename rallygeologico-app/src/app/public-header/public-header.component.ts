@@ -1,9 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-require("../../assets/js/jquery-2.2.4.min.js");
-require("../../assets/js/superfish.min.js");
-require("../../assets/js/jquery.magnific-popup.min.js");
-require("../../assets/js/jquery.counterup.min.js");
-require("../../assets/js/main.js");
 
 @Component({
   selector: 'app-public-header',
