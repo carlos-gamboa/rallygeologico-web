@@ -3,8 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/rallygeologico.iml" filepath="$PROJECT_DIR$/rallygeologico.iml" />
-      <module fileurl="file://$PROJECT_DIR$/rallygeologico-app/rallygeologico-app.iml" filepath="$PROJECT_DIR$/rallygeologico-app/rallygeologico-app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/rallygeologico-core/rallygeologico-core.iml" filepath="$PROJECT_DIR$/rallygeologico-core/rallygeologico-core.iml" />
     </modules>
   </component>
 </project>
