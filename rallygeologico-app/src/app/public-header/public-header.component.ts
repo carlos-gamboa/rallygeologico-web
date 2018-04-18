@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-public-header',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./public-header.component.css']
 })
 export class PublicHeaderComponent implements OnInit {
+
+    @Input() activeTab: number;
 
   constructor() { }
 
@@ -28,6 +30,14 @@ export class PublicHeaderComponent implements OnInit {
             scriptElement.onload = resolve;
             document.body.appendChild(scriptElement);
         })
+    }
+
+    isActive(active){
+      return (this.activeTab === active);
+    }
+
+    changeActive(active){
+      this.activeTab = active;
     }
 
 }

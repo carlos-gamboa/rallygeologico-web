@@ -1,21 +1,24 @@
-<header id="header" id="home">
+<header id="header">
+  <div class="ucr-banner">
+    <img src="../../../assets/images/ucr/firma-horizontal-una-linea-reverso.png" class="signature">
+  </div>
   <div class="container">
     <div class="row align-items-center justify-content-center d-flex">
       <nav id="nav-menu-container">
         <ul class="nav-menu">
-          <li class="menu-active"><a href="index.html">Inicio</a></li>
-          <li><a href="about.html">Mi Perfil</a></li>
-          <li class="menu-has-children"><a href="">Rallies</a>
+          <li [class.menu-active]="isActive(0)"><a routerLink="/dashboard" (click)="changeActive(0)">Inicio</a></li>
+          <li [class.menu-active]="isActive(1)"><a routerLink="/profile" (click)="changeActive(1)">Mi Perfil</a></li>
+          <li class="menu-has-children" [class.menu-active]="isActive(2)"><a routerLink="/rallies" (click)="changeActive(2)">Rallies</a>
             <ul>
-              <li><a href="blog-home.html">¿Qué es un rally geológico?</a></li>
-              <li><a href="blog-home.html">Crear un rally</a></li>
-              <li><a href="blog-single.html">Buscar rallies</a></li>
+              <li [class.menu-active]="isActive(2)"><a routerLink="/instructions" (click)="changeActive(2)">¿Qué es un rally geológico?</a></li>
+              <li [class.menu-active]="isActive(2)"><a routerLink="/create_rally" (click)="changeActive(2)">Crear un rally</a></li>
+              <li [class.menu-active]="isActive(2)"><a routerLink="/search_rallies" (click)="changeActive(2)">Buscar rallies</a></li>
             </ul>
           </li>
-          <li><a href="elements.html">Exploradores</a></li>
-          <li><a href="elements.html">Glosario</a></li>
-          <li><a href="elements.html">Acerca de nosotros</a></li>
-          <li><a href="elements.html">Cerrar Sesión</a></li>
+          <li [class.menu-active]="isActive(3)"><a routerLink="/search-users" (click)="changeActive(3)">Exploradores</a></li>
+          <li [class.menu-active]="isActive(4)"><a routerLink="/glossary" (click)="changeActive(4)">Glosario</a></li>
+          <li [class.menu-active]="isActive(5)"><a routerLink="/about_us" (click)="changeActive(5)">Acerca de nosotros</a></li>
+          <li><a >Cerrar Sesión</a></li>
         </ul>
       </nav><!-- #nav-menu-container -->
     </div>
