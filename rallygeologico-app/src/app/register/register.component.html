@@ -1,19 +1,22 @@
-
-  <div class="section-top-border">
+<div class="login-background">
+  <div class="wrap-login">
     <div class="row">
-      <div class="col-lg-4 col-md-6 booking-right center">
-        <h3 class="mb-30 text-center">Registrarse</h3>
-        <img class="mb-30 center" src="../../assets/images/user-icon.png" alt="Icono de Usuario" width="100">
-        <h5 class="mb-30 text-center ">Llene los siguientes datos para poder tener más información de usted.</h5>
+      <div class="col-sm-12 center">
+        <h2 class="mb-60 text-center login-title">Registrarse</h2>
+        <img class="mb-60 center login-icon" src="../../assets/images/login-icon.png" alt="Icono de Registro">
+        <button class="mb-40 genric-btn facebook center" >
+          <span class="mr-20 fa fa-facebook"></span><span class="text-center">Login with Facebook</span>
+        </button>
         <form action="#">
-          <input class="form-control disabled-c" type="text" name="name" placeholder="Nombre" disabled>
-          <input class="form-control disabled" type="email" name="middlename" placeholder="Primer Apellido" disabled>
-          <input class="form-control disabled" type="text" name="lastname" placeholder="Segundo Apellido" disabled>
-          <input class="form-control disabled" type="text" name="email" placeholder="Correo Electrónico" disabled>
-          <input class="form-control " type="text" name="email" placeholder="Nombre Usuario" required>
-          <button  class="btn btn-default btn-lg btn-block text-center">Registrarse</button>
+          <input class="mb-10 single-input disabled" type="text" name="name" placeholder="Nombre" disabled>
+          <input class="mb-10 single-input disabled" type="email" name="middlename" placeholder="Primer Apellido" disabled>
+          <input class="mb-10 single-input disabled" type="text" name="lastname" placeholder="Segundo Apellido" disabled>
+          <input class="mb-10 single-input disabled" type="text" name="email" placeholder="Correo Electrónico" disabled>
+          <input class="mb-10 single-input" type="text" name="email" placeholder="Nombre Usuario" required>
+          <button class="mb-30 genric-btn primary register-btn">Registrarse</button>
         </form>
       </div>
     </div>
   </div>
-  <app-public-footer></app-public-footer>
+</div>
+<app-public-footer></app-public-footer>
