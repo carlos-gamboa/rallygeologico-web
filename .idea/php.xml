@@ -22,6 +22,31 @@
       <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/cakephp/app" />
       <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/aura/intl" />
       <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/ajgl/breakpoint-twig-extension" />
+      <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/jdorn/sql-formatter" />
+      <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/seld/jsonlint" />
+      <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/dnoegel/php-xdg-base-dir" />
+      <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/jakub-onderka/php-console-color" />
+      <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/cakephp/bake" />
+      <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/symfony/var-dumper" />
+      <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/squizlabs/php_codesniffer" />
+      <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/jakub-onderka/php-console-highlighter" />
+      <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/cakephp/cakephp-codesniffer" />
+      <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/seld/cli-prompt" />
+      <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/symfony/process" />
+      <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/wyrihaximus/twig-view" />
+      <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/symfony/polyfill-php72" />
+      <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/seld/phar-utils" />
+      <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/aptoma/twig-markdown" />
+      <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/jasny/twig-extensions" />
+      <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/justinrainbow/json-schema" />
+      <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/cakephp/debug_kit" />
+      <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/twig/twig" />
+      <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/symfony/finder" />
+      <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/psy/psysh" />
+      <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/umpirsky/twig-php-function" />
+      <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/asm89/twig-cache-extension" />
     </include_path>
   </component>
 </project>

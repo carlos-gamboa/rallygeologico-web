@@ -1,0 +1,11 @@
+.logo{
+    width: 200px;
+    vertical-align: middle;
+}
+
+.helper {
+    display: inline-block;
+    height: 100%;
+    text-align: center;
+    line-height: 100%;
+}
