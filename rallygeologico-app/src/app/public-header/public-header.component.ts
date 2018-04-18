@@ -1,9 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-require("../../assets/js/jquery-2.2.4.min.js");
-require("../../assets/js/superfish.min.js");
-require("../../assets/js/jquery.magnific-popup.min.js");
-require("../../assets/js/jquery.counterup.min.js");
-require("../../assets/js/main.js");
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-public-header',
@@ -11,6 +6,8 @@ require("../../assets/js/main.js");
   styleUrls: ['./public-header.component.css']
 })
 export class PublicHeaderComponent implements OnInit {
+
+    @Input() activeTab: number;
 
   constructor() { }
 
@@ -33,6 +30,14 @@ export class PublicHeaderComponent implements OnInit {
             scriptElement.onload = resolve;
             document.body.appendChild(scriptElement);
         })
+    }
+
+    isActive(active){
+      return (this.activeTab === active);
+    }
+
+    changeActive(active){
+      this.activeTab = active;
     }
 
 }
