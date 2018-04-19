@@ -1,0 +1,113 @@
+CREATE TABLE USERS (
+  FacebookId INT PRIMARY KEY,
+  Username VARCHAR(30) UNIQUE,
+  FirstName VARCHAR(15),
+  LastName VARCHAR(15),
+  Email VARCHAR(30),
+  PhotoURL VARCHAR (200),
+  IsAdmin BIT
+);
+
+CREATE TABLE RALLY (
+  RallyId INT PRIMARY KEY,
+  Name VARCHAR(30),
+  PointsAwarded INT,
+  ImageUrl VARCHAR (200),
+  Description VARCHAR (5000)
+);
+
+CREATE TABLE COMPETITION(
+  CompetitionId INT PRIMARY KEY,
+  IsActive BIT,
+  StartingDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FinishingDate DATETIME,
+  IsPublic BIT,
+  Name VARCHAR(30),
+  RallyId INT,
+  FOREIGN KEY (RallyId) REFERENCES RALLY(RallyId)
+);
+
+CREATE TABLE INVITATION (
+  InvitationId INT PRIMARY KEY,
+  Accepted BIT,
+  FacebookIdSend INT,
+  FacebookIdReceive INT,
+  CompetitionId INT,
+  FOREIGN KEY (FacebookIdSend) REFERENCES USERS(FacebookId),
+  FOREIGN KEY (FacebookIdReceive) REFERENCES USERS(FacebookId),
+  FOREIGN KEY (CompetitionId) REFERENCES COMPETITION(CompetitionId)
+);
+
+CREATE TABLE COMPETITIONS_STATISTICS(
+  FacebookId INT,
+  CompetitionId INT,
+  StartingDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FinishingDate DATETIME,
+  Points INT,
+  FOREIGN KEY (FacebookId) REFERENCES USERS(FacebookId),
+  FOREIGN KEY (CompetitionId) REFERENCES COMPETITION(CompetitionId),
+  PRIMARY KEY (FacebookId, CompetitionId)
+);
+
+CREATE TABLE DISTRICT (
+  Name VARCHAR (40) PRIMARY KEY
+);
+
+CREATE TABLE CANTON (
+  Name VARCHAR (40) PRIMARY KEY,
+  DistrictName VARCHAR (40),
+  FOREIGN KEY (DistrictName) REFERENCES DISTRICT(Name)
+);
+
+CREATE TABLE PROVINCE (
+  Name VARCHAR (20) PRIMARY KEY,
+  CantonName VARCHAR (40),
+  FOREIGN KEY (CantonName) REFERENCES CANTON(Name)
+);
+
+CREATE TABLE SITE (
+  SiteId INT PRIMARY KEY,
+  Name VARCHAR(30),
+  PointsAwarded INT,
+  QrUrl VARCHAR(200),
+  Details VARCHAR(2000),
+  Description VARCHAR(2000),
+  Latitude FLOAT,
+  Longitude FLOAT,
+  ProvinceName VARCHAR (40),
+  FOREIGN KEY (ProvinceName) REFERENCES PROVINCE(Name)
+);
+
+CREATE TABLE RALLY_SITE(
+  RallyId INT,
+  SiteId INT,
+  FOREIGN KEY (RallyId) REFERENCES RALLY(RallyId),
+  FOREIGN KEY (SiteId) REFERENCES SITE(SiteId),
+  PRIMARY KEY (RallyId, SiteId)
+);
+
+CREATE TABLE COMPETITION_STATISTICS_SITE(
+  FacebookId INT,
+  CompetitionId INT,
+  SiteId INT,
+  FOREIGN KEY (FacebookId) REFERENCES COMPETITIONS_STATISTICS(FacebookId),
+  FOREIGN KEY (CompetitionId) REFERENCES COMPETITIONS_STATISTICS(CompetitionId),
+  FOREIGN KEY (SiteId) REFERENCES SITE(SiteId),
+  PRIMARY KEY (FacebookId, CompetitionId, SiteId)
+);
+
+CREATE TABLE TERM (
+  TermID INT PRIMARY KEY,
+  ImageUrl VARCHAR (2000),
+  VideoUrl VARCHAR (200),
+  Name VARCHAR (40),
+  Description VARCHAR(2000)
+);
+
+CREATE TABLE TERM_SITE(
+  TermId INT,
+  SiteId INT,
+  FOREIGN KEY (TermId) REFERENCES TERM(TermId),
+  FOREIGN KEY (SiteId) REFERENCES SITE(SiteId),
+  PRIMARY KEY (TermId, SiteId)
+);
