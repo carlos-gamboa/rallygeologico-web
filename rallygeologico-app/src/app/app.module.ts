@@ -19,6 +19,10 @@ import {RalliesComponent} from "./rallies/rallies.component";
 import {RallyComponent} from "./rally/rally.component";
 import {PublicHeaderComponent} from "./public-header/public-header.component";
 import {PublicFooterComponent} from "./public-footer/public-footer.component";
+import {DataService} from "./services/data/data.service";
+import {UserService} from "./services/user.service";
+import {Configuration} from "./services/data/constants";
+import {HttpClient, HttpClientModule, HttpHandler} from "@angular/common/http";
 
 
 @NgModule({
@@ -44,9 +48,10 @@ import {PublicFooterComponent} from "./public-footer/public-footer.component";
       CommonModule,
       NgbModule.forRoot(),
       NgbModule,
-      UserModule
+      UserModule,
+      HttpClientModule
   ],
-  providers: [],
+  providers: [DataService, UserService, Configuration],
   bootstrap: [AppComponent]
 })
 export class AppModule {
