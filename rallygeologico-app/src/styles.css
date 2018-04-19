@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.css";
+@import "assets/fonts/font-awesome/font-awesome.min.css";
 
 @font-face{
     font-family: "Myriad-Pro";
@@ -1888,7 +1889,7 @@ h1, h2, h3, h4, h5, h6 {
 # Header
 --------------------------------------------------------------*/
 #header {
-    padding: 14px 0;
+    padding: 0 0 14px 0;
     position: fixed;
     left: 0;
     top: 0;
@@ -2103,7 +2104,7 @@ h1, h2, h3, h4, h5, h6 {
     content: "\f107";
     position: absolute;
     right: 15px;
-    font-family: FontAwesome;
+    font-family: 'FontAwesome';
     font-style: normal;
     font-weight: normal;
 }
@@ -2339,7 +2340,7 @@ body.mobile-nav-active #mobile-nav-toggle {
     padding-left: 30px;
     padding-right: 30px;
     border: none;
-    color: #fff;
+    color: #fff !important;
     border: 1px solid transparent;
     display: inline-block;
     font-weight: 500;
@@ -2813,7 +2814,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 
 .booking-right {
     background-color: transparent;
-    padding: 30px;
+    /*padding: 30px;*/
     border: 1px solid #979196;
 }
 
@@ -3752,6 +3753,11 @@ body.mobile-nav-active #mobile-nav-toggle {
     line-height: 1.625em;
 }
 
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
 /*
 ################
                End Blog Details  Page style

@@ -1,10 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_5">
-    <output url="file://$MODULE_DIR$/target/classes" />
-    <output-test url="file://$MODULE_DIR$/target/test-classes" />
+  <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/rallygeologico-ws/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/rallygeologico-ws/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/rallygeologico-app/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/ajgl/breakpoint-twig-extension" />
+      <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/aptoma/twig-markdown" />
+      <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/asm89/twig-cache-extension" />
+      <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/cakephp/bake" />
+      <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/cakephp/cakephp-codesniffer" />
+      <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/cakephp/debug_kit" />
+      <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/dnoegel/php-xdg-base-dir" />
+      <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/jakub-onderka/php-console-color" />
+      <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/jakub-onderka/php-console-highlighter" />
+      <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/jasny/twig-extensions" />
+      <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/jdorn/sql-formatter" />
+      <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/justinrainbow/json-schema" />
+      <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/nikic/php-parser" />
+      <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/psy/psysh" />
+      <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/seld/cli-prompt" />
+      <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/seld/jsonlint" />
+      <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/seld/phar-utils" />
+      <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/squizlabs/php_codesniffer" />
+      <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/symfony/finder" />
+      <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/symfony/polyfill-php72" />
+      <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/symfony/process" />
+      <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/symfony/var-dumper" />
+      <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/twig/twig" />
+      <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/umpirsky/twig-php-function" />
+      <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/wyrihaximus/twig-view" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
