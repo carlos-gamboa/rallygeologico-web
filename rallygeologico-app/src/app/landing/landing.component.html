@@ -57,24 +57,14 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-6 single-blog">
-        <img class="img-fluid" src="../../assets/images/nicoya.jpg" alt="">
+      <div class="col-lg-6 single-blog" *ngFor="let rally of newestRallies">
+        <img class="img-fluid" src="{{rally.ImageUrl}}" alt="../../assets/images/elena.jpg">
         <ul class="tags">
-          <li><a href="#">Guanacaste</a></li>
+          <li><a >Nuevo</a></li>
         </ul>
-        <a href="#"><h4 class="text-white">Recorrido Península de Nicoya</h4></a>
+        <a href="#"><h4 class="text-white">{{rally.Name}}</h4></a>
         <p class="text-gray">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore  et dolore.
-        </p>
-      </div>
-      <div class="col-lg-6 single-blog">
-        <img class="img-fluid" src="../../assets/images/elena.jpg" alt="">
-        <ul class="tags">
-          <li><a href="#">Guanacaste</a></li>
-        </ul>
-        <a href="#"><h4 class="text-white">Recorrido Península de Santa Elena</h4></a>
-        <p class="text-gray">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore  et dolore.
+          {{rally.Description}}
         </p>
       </div>
     </div>

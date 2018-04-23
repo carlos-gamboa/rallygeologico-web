@@ -9,11 +9,14 @@ import {RallyService} from "../services/rally.service";
 })
 export class LandingComponent implements OnInit {
 
-  newestRallies: Rally[];
+  newestRallies: Rally[] = [];
 
   constructor(private rallyService: RallyService) {
       this.rallyService.getNewestRallies().subscribe((rallies: Rally[])=>{
-        this.newestRallies = rallies;
+        for (let i: number = 0; i < 2; ++i){
+            this.newestRallies.push(rallies[i]);
+        }
+        console.log(this.newestRallies);
       });
   }
 
