@@ -18,6 +18,8 @@ use Cake\Core\Configure;
 use Cake\Network\Exception\ForbiddenException;
 use Cake\Network\Exception\NotFoundException;
 use Cake\View\Exception\MissingTemplateException;
+use Cake\Http\Exception\UnauthorizedException;
+use Cake\Event\Event;
 
 /**
  * Static content controller
@@ -65,5 +67,34 @@ class PagesController extends AppController
             }
             throw new NotFoundException();
         }
+    }
+
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow();
+    }
+    public function initialize()
+    {
+
+        parent::initialize();
+    }
+
+    /**
+     *  Return Forbiden 403
+     *
+     */
+    public function forbiden()
+    {
+        throw new ForbiddenException("Access not allowed");
+    }
+
+    /**
+     *  Return Unauthorized 401
+     *
+     */
+    public function unauthorized()
+    {
+        throw new UnauthorizedException("You are not logged in");
     }
 }
