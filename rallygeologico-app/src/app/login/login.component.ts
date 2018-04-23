@@ -23,9 +23,9 @@ export class LoginComponent implements OnInit {
   constructor(private fb: FacebookService){
     console.log('Initializing Facebook');
     let initParams: InitParams = {
-      appId: '785307394989604',
+      appId: '1417631371676772',
       xfbml: true,
-      version: 'v2.11'
+      version: 'v2.12'
     };
     fb.init(initParams);
     console.log('Initialized Facebook');
@@ -35,36 +35,16 @@ export class LoginComponent implements OnInit {
      this.router.navigate(['/dashboard']);
      })*/
   }
-  onLogin(){
-    if (this.username && this.password){
-      this.studentService.login(this.username,this.password).then((user: boolean)=>{
-        this.error = null;
-        if(user)
-          this.studentService.isLoggedIn().then((user: Student) => {
-            this.userDataService.updateStudent(user);
-            if (user.passwordNeedsChange){
-              this.router.navigate(['/change/' + user.id]);
-            } else {
-              this.router.navigate(['/dashboard']);
-            }
-          })
-      }).catch( reason => {
-        this.error = "The email or password are incorrect";
-      });
-    } else {
-      this.error = "Some required inputs are missing";
-    }
-  }
 
   //Login if the Enter Key is pressed
-  @HostListener('window:keyup', ['$event'])
+/*  @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
     if (event.keyCode === 13) {
       if (this.username && this.password){
         this.onLogin();
       }
     }
-  }
+  }*/
 
 
 
@@ -88,7 +68,7 @@ export class LoginComponent implements OnInit {
             this.email = res.email;
             this.fbToken = this.fb.getAuthResponse().accessToken;
             console.log("Login got : "+this.fbId +" "+this.firstName +" "+ this.lastName +" "+this.email+" "+this.fbToken);
-            this.fbLogin();
+            //this.fbLoginService();
           })
           .catch(this.handleErrorProfile);
       })
@@ -96,7 +76,7 @@ export class LoginComponent implements OnInit {
   }
 
 
-  fbLogin(){
+  /*fbLoginService(){
     this.studentService.loginWithFacebook(this.fbId,this.fbToken).then((authentication: boolean)=>{
       this.error = null;
       if(authentication){
@@ -105,11 +85,14 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/dashboard']);
         })
       }
+      else{
+        this.router.navigate(['/register']);
+      }
 
     }).catch( reason => {
       this.error = "Unable to login with Facebook.";
     });
-  }
+  }*/
 
   private handleErrorLogin(error) {
     console.error('Error processing FB login', error);

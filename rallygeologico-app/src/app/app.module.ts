@@ -19,6 +19,7 @@ import {RalliesComponent} from "./rallies/rallies.component";
 import {RallyComponent} from "./rally/rally.component";
 import {PublicHeaderComponent} from "./public-header/public-header.component";
 import {PublicFooterComponent} from "./public-footer/public-footer.component";
+import { FacebookModule } from 'ngx-facebook';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import {PublicFooterComponent} from "./public-footer/public-footer.component";
       CommonModule,
       NgbModule.forRoot(),
       NgbModule,
-      UserModule
+      UserModule,
+      FacebookModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -24,16 +24,15 @@ export class RegisterComponent implements OnInit {
   constructor(private fb: FacebookService, private router: Router) {
     console.log('Initializing Facebook');
     let initParams: InitParams = {
-      appId: '785307394989604',
+      appId: '1417631371676772',
       xfbml: true,
-      version: 'v2.11'
+      version: 'v2.12'
     };
     fb.init(initParams);
     console.log('Initialized Facebook');
 
 
   }
-
 
   ngOnInit() {
   }
