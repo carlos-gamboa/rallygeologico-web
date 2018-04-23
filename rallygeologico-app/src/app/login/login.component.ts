@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {UserService} from "../services/user.service";
 import {FacebookService, InitParams, LoginOptions, LoginResponse, AuthResponse} from 'ngx-facebook';
 
 @Component({
@@ -8,6 +9,8 @@ import {FacebookService, InitParams, LoginOptions, LoginResponse, AuthResponse} 
 })
 export class LoginComponent implements OnInit {
 
+  constructor(private userService: UserService) {
+    this.userService.login();
   username:string;
   password:string;
   error:string;

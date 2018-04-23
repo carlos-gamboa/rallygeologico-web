@@ -77,6 +77,9 @@ Router::scope('/', function (RouteBuilder $routes) {
      */
     $routes->setExtensions(['json']);
     $routes->fallbacks(DashedRoute::class);
+
+    $routes->connect('/rallygeologico-ws/users/login',['controller'=>'users','action'=>'login', '_ext'=>'json']);
+
 });
 
 /**
