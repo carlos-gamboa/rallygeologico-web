@@ -9,6 +9,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
+import { CompetitionComponent } from './competition/competition.component';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { ProfileComponent } from './profile/profile.component';
       FooterComponent,
       DashboardComponent,
       ProfileComponent,
+      CompetitionComponent,
   ],
     exports: [
         HeaderComponent,
