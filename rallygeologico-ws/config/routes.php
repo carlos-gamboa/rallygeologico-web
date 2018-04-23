@@ -79,6 +79,7 @@ Router::scope('/', function (RouteBuilder $routes) {
     $routes->fallbacks(DashedRoute::class);
 
     $routes->connect('/rallygeologico-ws/users/login',['controller'=>'users','action'=>'login', '_ext'=>'json']);
+    $routes->connect('/rallygeologico-ws/rally/newestRallies',['controller'=>'rally','action'=>'newestRallies', '_ext'=>'json']);
 
 });
 

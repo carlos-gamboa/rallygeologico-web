@@ -9,21 +9,17 @@ import {FacebookService, InitParams, LoginOptions, LoginResponse, AuthResponse} 
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private userService: UserService) {
-    this.userService.login();
-  username:string;
-  password:string;
-  error:string;
-  fbId: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  fbToken: string;
-  loginWithFacebook:boolean=false;
+    username:string;
+    password:string;
+    error:string;
+    fbId: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    fbToken: string;
+    loginWithFacebook:boolean=false;
 
-
-
-  constructor(private fb: FacebookService){
+  constructor(private fb: FacebookService, private userService: UserService){
     console.log('Initializing Facebook');
     let initParams: InitParams = {
       appId: '1417631371676772',
