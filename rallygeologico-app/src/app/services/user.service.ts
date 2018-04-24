@@ -3,6 +3,8 @@ import {HttpClient, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "
 import {User} from "../model/user";
 import {Configuration} from "./data/constants";
 import {Observable} from "rxjs/Observable";
+import {User} from "../model/user";
+import {Rally} from "../model/rally";
 
 @Injectable()
 export class UserService {
@@ -13,16 +15,13 @@ export class UserService {
         this.baseUrl = this._configuration.ServerWithApiUrl;
     }
 
-    login(){
-        this.http.get<User[]>(this.baseUrl + "users.json").subscribe(
-            data => {
-                console.log("User Login: " + data[0].FacebookId);
-                console.log("Bio: " + data[0].FirstName);
-                console.log("Company: " + data[0].LastName);
-            },
-            err => {
-                console.log("Error occured.")
-            }
-        );
+    login(FacebookId : String) : Observable<User[]>{
+        const body = 'FacebookId=${FacebookId}';
+        return this.http.post<User[]>(this.baseUrl + "users/login.json", body);
+    }
+
+    register(FacebookId : String, Username : String, FirstName : String, LastName : String, Email : String, IsAdmin : Boolean) : Observable<User[]>{
+      const body = `FacebookId=${FacebookId}&Username=${Username}&FirstName=${FirstName}&LastName=${LastName}&Email=${Email}&IsAdmin=${IsAdmin}`;
+      return this.http.post<User[]>(this.baseUrl + "users/add.json", body); //no sé
     }
 }

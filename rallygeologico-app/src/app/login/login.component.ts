@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from "../services/user.service";
 import {FacebookService, InitParams, LoginOptions, LoginResponse, AuthResponse} from 'ngx-facebook';
+import {User} from "../model/user";
+import {Rally} from "../model/rally";
 
 @Component({
   selector: 'app-login',
@@ -18,6 +20,8 @@ export class LoginComponent implements OnInit {
     email: string;
     fbToken: string;
     loginWithFacebook:boolean=false;
+    user : User[];
+
 
   constructor(private fb: FacebookService, private userService: UserService){
     console.log('Initializing Facebook');
@@ -28,6 +32,8 @@ export class LoginComponent implements OnInit {
     };
     fb.init(initParams);
     console.log('Initialized Facebook');
+
+
 
     /*this.studentService.isLoggedIn().then((user: Student) => {
      this.userDataService.updateStudent(user);
@@ -53,7 +59,6 @@ export class LoginComponent implements OnInit {
       return_scopes: true,
       scope: 'public_profile,email'
     };
-
     this.fb.login(loginOptions)
       .then((res: LoginResponse) => {
         this.loginWithFacebook = true;
@@ -67,6 +72,9 @@ export class LoginComponent implements OnInit {
             this.email = res.email;
             this.fbToken = this.fb.getAuthResponse().accessToken;
             console.log("Login got : "+this.fbId +" "+this.firstName +" "+ this.lastName +" "+this.email+" "+this.fbToken);
+            this.user = [];
+            this.getUsers();
+
             //this.fbLoginService();
           })
           .catch(this.handleErrorProfile);
@@ -75,8 +83,8 @@ export class LoginComponent implements OnInit {
   }
 
 
-  /*fbLoginService(){
-    this.studentService.loginWithFacebook(this.fbId,this.fbToken).then((authentication: boolean)=>{
+  fbLoginService(){
+    this.userService.login(this.fbId,this.fbToken).then((authentication: boolean)=>{
       this.error = null;
       if(authentication){
         this.studentService.isLoggedIn().then((user: Student) => {
@@ -91,7 +99,7 @@ export class LoginComponent implements OnInit {
     }).catch( reason => {
       this.error = "Unable to login with Facebook.";
     });
-  }*/
+  }
 
   private handleErrorLogin(error) {
     console.error('Error processing FB login', error);
@@ -115,6 +123,13 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  getUsers(){
+      this.userService.login(this.fbId).subscribe((userArr: User[])=>{
+              this.user.push(userArr[0]);
+          console.log("USUARIO ES" + this.user);
+      });
   }
 
 }
