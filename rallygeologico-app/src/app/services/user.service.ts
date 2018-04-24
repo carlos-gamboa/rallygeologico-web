@@ -10,7 +10,6 @@ import {Rally} from "../model/rally";
 export class UserService {
 
     baseUrl: string;
-    loginUrl : string;
 
     constructor(private http : HttpClient, private _configuration: Configuration){
         this.baseUrl = this._configuration.ServerWithApiUrl;
@@ -19,5 +18,10 @@ export class UserService {
     login(FacebookId : String) : Observable<User[]>{
         const body = 'FacebookId=${FacebookId}';
         return this.http.post<User[]>(this.baseUrl + "users/login.json", body);
+    }
+
+    register(FacebookId : String, Username : String, FirstName : String, LastName : String, Email : String, IsAdmin : Boolean) : Observable<User[]>{
+      const body = `FacebookId=${FacebookId}&Username=${Username}&FirstName=${FirstName}&LastName=${LastName}&Email=${Email}&IsAdmin=${IsAdmin}`;
+      return this.http.post<User[]>(this.baseUrl + "users/add.json", body); //no sé
     }
 }
