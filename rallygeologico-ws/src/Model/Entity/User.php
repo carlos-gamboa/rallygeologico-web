@@ -6,7 +6,7 @@ use Cake\ORM\Entity;
 /**
  * User Entity
  *
- * @property int $FacebookId
+ * @property string $FacebookId
  * @property string $Username
  * @property string $FirstName
  * @property string $LastName
@@ -27,6 +27,7 @@ class User extends Entity
      * @var array
      */
     protected $_accessible = [
+        'FacebookId' => true,
         'Username' => true,
         'FirstName' => true,
         'LastName' => true,

@@ -8,8 +8,8 @@ use Cake\ORM\Entity;
  *
  * @property int $InvitationId
  * @property string $Accepted
- * @property int $FacebookIdSend
- * @property int $FacebookIdReceive
+ * @property string $FacebookIdSend
+ * @property string $FacebookIdReceive
  * @property int $CompetitionId
  */
 class Invitation extends Entity

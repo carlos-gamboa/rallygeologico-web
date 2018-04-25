@@ -23,7 +23,6 @@ class InvitationController extends AppController
         $invitation = $this->paginate($this->Invitation);
 
         $this->set(compact('invitation'));
-        $this->set('_serialize', 'invitation');
     }
 
     /**

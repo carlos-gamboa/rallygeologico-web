@@ -17,6 +17,10 @@
     <h3><?= h($user->FacebookId) ?></h3>
     <table class="vertical-table">
         <tr>
+            <th scope="row"><?= __('FacebookId') ?></th>
+            <td><?= h($user->FacebookId) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Username') ?></th>
             <td><?= h($user->Username) ?></td>
         </tr>
@@ -39,10 +43,6 @@
         <tr>
             <th scope="row"><?= __('IsAdmin') ?></th>
             <td><?= h($user->IsAdmin) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('FacebookId') ?></th>
-            <td><?= $this->Number->format($user->FacebookId) ?></td>
         </tr>
     </table>
 </div>
