@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {UserService} from "../../services/user.service";
+import {DataService} from "../../services/data/data.service";
+import {User} from "../../model/user";
 
 @Component({
   selector: 'app-competition',
@@ -7,7 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CompetitionComponent implements OnInit {
 
-  constructor() { }
+  user: User;
+  users: User[];
+
+  constructor(private userService: UserService, private dataService: DataService) {
+    this.user = this.dataService.getUser();
+    this.userService.getUsers().subscribe((users: User[]) => {
+      this.users = users;
+    });
+  }
 
   ngOnInit() {
   }

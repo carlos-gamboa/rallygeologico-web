@@ -83,23 +83,23 @@ export class LoginComponent implements OnInit {
   }
 
 
-  fbLoginService(){
-    this.userService.login(this.fbId,this.fbToken).then((authentication: boolean)=>{
-      this.error = null;
-      if(authentication){
-        this.studentService.isLoggedIn().then((user: Student) => {
-          this.userDataService.updateStudent(user);
-          this.router.navigate(['/dashboard']);
-        })
-      }
-      else{
-        this.router.navigate(['/register']);
-      }
-
-    }).catch( reason => {
-      this.error = "Unable to login with Facebook.";
-    });
-  }
+  // fbLoginService(){
+  //   this.userService.login(this.fbId,this.fbToken).then((authentication: boolean)=>{
+  //     this.error = null;
+  //     if(authentication){
+  //       this.studentService.isLoggedIn().then((user: Student) => {
+  //         this.userDataService.updateStudent(user);
+  //         this.router.navigate(['/dashboard']);
+  //       })
+  //     }
+  //     else{
+  //       this.router.navigate(['/register']);
+  //     }
+  //
+  //   }).catch( reason => {
+  //     this.error = "Unable to login with Facebook.";
+  //   });
+  // }
 
   private handleErrorLogin(error) {
     console.error('Error processing FB login', error);
