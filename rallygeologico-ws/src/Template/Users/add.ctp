@@ -15,6 +15,7 @@
     <fieldset>
         <legend><?= __('Add User') ?></legend>
         <?php
+            echo $this->Form->control('UserId');
             echo $this->Form->control('Username');
             echo $this->Form->control('FirstName');
             echo $this->Form->control('LastName');

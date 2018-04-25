@@ -44,5 +44,9 @@
             <th scope="row"><?= __('IsAdmin') ?></th>
             <td><?= h($user->IsAdmin) ?></td>
         </tr>
+        <tr>
+            <th scope="row"><?= __('UserId') ?></th>
+            <td><?= $this->Number->format($user->UserId) ?></td>
+        </tr>
     </table>
 </div>

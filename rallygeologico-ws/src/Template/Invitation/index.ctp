@@ -17,8 +17,8 @@
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('InvitationId') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('Accepted') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('FacebookIdSend') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('FacebookIdReceive') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('UserIdSend') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('UserIdReceive') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('CompetitionId') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
@@ -28,8 +28,8 @@
             <tr>
                 <td><?= $this->Number->format($invitation->InvitationId) ?></td>
                 <td><?= h($invitation->Accepted) ?></td>
-                <td><?= h($invitation->FacebookIdSend) ?></td>
-                <td><?= h($invitation->FacebookIdReceive) ?></td>
+                <td><?= $this->Number->format($invitation->UserIdSend) ?></td>
+                <td><?= $this->Number->format($invitation->UserIdReceive) ?></td>
                 <td><?= $this->Number->format($invitation->CompetitionId) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $invitation->InvitationId]) ?>

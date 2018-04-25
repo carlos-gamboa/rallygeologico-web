@@ -21,16 +21,16 @@
             <td><?= h($invitation->Accepted) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('FacebookIdSend') ?></th>
-            <td><?= h($invitation->FacebookIdSend) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('FacebookIdReceive') ?></th>
-            <td><?= h($invitation->FacebookIdReceive) ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('InvitationId') ?></th>
             <td><?= $this->Number->format($invitation->InvitationId) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('UserIdSend') ?></th>
+            <td><?= $this->Number->format($invitation->UserIdSend) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('UserIdReceive') ?></th>
+            <td><?= $this->Number->format($invitation->UserIdReceive) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('CompetitionId') ?></th>

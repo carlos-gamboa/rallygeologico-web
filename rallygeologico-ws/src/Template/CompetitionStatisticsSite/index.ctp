@@ -15,7 +15,7 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('FacebookId') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('UserId') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('CompetitionId') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('SiteId') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -24,7 +24,7 @@
         <tbody>
             <?php foreach ($competitionStatisticsSite as $competitionStatisticsSite): ?>
             <tr>
-                <td><?= $this->Number->format($competitionStatisticsSite->FacebookId) ?></td>
+                <td><?= $this->Number->format($competitionStatisticsSite->UserId) ?></td>
                 <td><?= $this->Number->format($competitionStatisticsSite->CompetitionId) ?></td>
                 <td><?= $this->Number->format($competitionStatisticsSite->SiteId) ?></td>
                 <td class="actions">

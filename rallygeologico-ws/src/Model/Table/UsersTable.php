@@ -44,9 +44,15 @@ class UsersTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
+            ->integer('UserId')
+            ->allowEmpty('UserId', 'create');
+
+        $validator
             ->scalar('FacebookId')
             ->maxLength('FacebookId', 30)
-            ->allowEmpty('FacebookId', 'create');
+            ->requirePresence('FacebookId', 'create')
+            ->notEmpty('FacebookId')
+            ->add('FacebookId', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->scalar('Username')
@@ -91,6 +97,7 @@ class UsersTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
+        $rules->add($rules->isUnique(['FacebookId']));
         $rules->add($rules->isUnique(['Username']));
 
         return $rules;

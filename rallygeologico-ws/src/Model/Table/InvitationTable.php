@@ -52,16 +52,14 @@ class InvitationTable extends Table
             ->allowEmpty('Accepted');
 
         $validator
-            ->scalar('FacebookIdSend')
-            ->maxLength('FacebookIdSend', 30)
-            ->requirePresence('FacebookIdSend', 'create')
-            ->notEmpty('FacebookIdSend');
+            ->integer('UserIdSend')
+            ->requirePresence('UserIdSend', 'create')
+            ->notEmpty('UserIdSend');
 
         $validator
-            ->scalar('FacebookIdReceive')
-            ->maxLength('FacebookIdReceive', 30)
-            ->requirePresence('FacebookIdReceive', 'create')
-            ->notEmpty('FacebookIdReceive');
+            ->integer('UserIdReceive')
+            ->requirePresence('UserIdReceive', 'create')
+            ->notEmpty('UserIdReceive');
 
         $validator
             ->integer('CompetitionId')

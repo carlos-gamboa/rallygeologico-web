@@ -44,8 +44,8 @@ class CompetitionsStatisticsTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('FacebookId')
-            ->allowEmpty('FacebookId', 'create');
+            ->integer('UserId')
+            ->allowEmpty('UserId', 'create');
 
         $validator
             ->integer('CompetitionId')

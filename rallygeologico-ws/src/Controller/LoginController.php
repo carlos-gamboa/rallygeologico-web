@@ -40,14 +40,14 @@ class LoginController extends AppController
     public function index()
     {
         try {
-            if(!isset($this->request->data['facebookId'])){
-                throw new UnauthorizedException("Please enter your facebookId");
+            if(!isset($this->request->data['UserId'])){
+                throw new UnauthorizedException("Please enter your UserId");
             }
 
-            $facebookId  = $this->request->data['facebookId'];
+            $UserId  = $this->request->data['UserId'];
 
             // Check for user credentials
-            $user = $this->User->find('login', ['facebookId'=>$facebookId]);
+            $user = $this->User->find('login', ['UserId'=>$UserId]);
             if(!$user) {
                 throw new UnauthorizedException("Invalid login");
             }
@@ -56,7 +56,7 @@ class LoginController extends AppController
             $this->Auth->setUser($user->toArray());
 
             // Generate user Auth token
-            $token =  Security::hash($user->id.$user->facebookId, 'sha1', true);
+            $token =  Security::hash($user->id.$user->UserId, 'sha1', true);
             // Add user token into Auth session
             $this->request->session()->write('Auth.User.token', $token);
 

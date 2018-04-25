@@ -8,8 +8,8 @@ use Cake\ORM\Entity;
  *
  * @property int $InvitationId
  * @property string $Accepted
- * @property string $FacebookIdSend
- * @property string $FacebookIdReceive
+ * @property int $UserIdSend
+ * @property int $UserIdReceive
  * @property int $CompetitionId
  */
 class Invitation extends Entity
@@ -26,8 +26,8 @@ class Invitation extends Entity
      */
     protected $_accessible = [
         'Accepted' => true,
-        'FacebookIdSend' => true,
-        'FacebookIdReceive' => true,
+        'UserIdSend' => true,
+        'UserIdReceive' => true,
         'CompetitionId' => true
     ];
 }

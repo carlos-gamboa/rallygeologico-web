@@ -6,6 +6,7 @@ use Cake\ORM\Entity;
 /**
  * User Entity
  *
+ * @property int $UserId
  * @property string $FacebookId
  * @property string $Username
  * @property string $FirstName

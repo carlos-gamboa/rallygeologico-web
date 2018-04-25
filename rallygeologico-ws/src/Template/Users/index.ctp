@@ -15,6 +15,7 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
+                <th scope="col"><?= $this->Paginator->sort('UserId') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('FacebookId') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('Username') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('FirstName') ?></th>
@@ -28,6 +29,7 @@
         <tbody>
             <?php foreach ($users as $user): ?>
             <tr>
+                <td><?= $this->Number->format($user->UserId) ?></td>
                 <td><?= h($user->FacebookId) ?></td>
                 <td><?= h($user->Username) ?></td>
                 <td><?= h($user->FirstName) ?></td>

@@ -15,6 +15,7 @@
     <fieldset>
         <legend><?= __('Add Competition Statistics Site') ?></legend>
         <?php
+            echo $this->Form->control('UserId');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

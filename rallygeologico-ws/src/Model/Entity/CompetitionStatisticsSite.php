@@ -6,7 +6,7 @@ use Cake\ORM\Entity;
 /**
  * CompetitionStatisticsSite Entity
  *
- * @property int $FacebookId
+ * @property int $UserId
  * @property int $CompetitionId
  * @property int $SiteId
  */

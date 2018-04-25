@@ -15,6 +15,7 @@
     <fieldset>
         <legend><?= __('Add Competitions Statistic') ?></legend>
         <?php
+            echo $this->Form->control('UserId');
             echo $this->Form->control('StartingDate', ['empty' => true]);
             echo $this->Form->control('FinishingDate', ['empty' => true]);
             echo $this->Form->control('Points');

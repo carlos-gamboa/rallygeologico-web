@@ -17,8 +17,8 @@
     <h3><?= h($competitionStatisticsSite->FacebookId) ?></h3>
     <table class="vertical-table">
         <tr>
-            <th scope="row"><?= __('FacebookId') ?></th>
-            <td><?= $this->Number->format($competitionStatisticsSite->FacebookId) ?></td>
+            <th scope="row"><?= __('UserId') ?></th>
+            <td><?= $this->Number->format($competitionStatisticsSite->UserId) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('CompetitionId') ?></th>

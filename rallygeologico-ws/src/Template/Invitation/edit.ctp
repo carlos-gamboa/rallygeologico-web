@@ -22,8 +22,8 @@
         <legend><?= __('Edit Invitation') ?></legend>
         <?php
             echo $this->Form->control('Accepted');
-            echo $this->Form->control('FacebookIdSend');
-            echo $this->Form->control('FacebookIdReceive');
+            echo $this->Form->control('UserIdSend');
+            echo $this->Form->control('UserIdReceive');
             echo $this->Form->control('CompetitionId');
         ?>
     </fieldset>
