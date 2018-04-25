@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {FacebookService, InitParams, LoginOptions, LoginResponse, AuthResponse} from 'ngx-facebook';
 import {Router} from "@angular/router";
+import {User} from "../model/user";
+import {UserService} from "../services/user.service";
 
 @Component({
   selector: 'app-register',
@@ -20,8 +22,10 @@ export class RegisterComponent implements OnInit {
   levelId:string = "no";
   error:string;
   registerWithFacebook:boolean = false;
+  photoUrl : string ="13241235";
+  user : User;
 
-  constructor(private fb: FacebookService, private router: Router) {
+  constructor(private fb: FacebookService, private router: Router,  private userService: UserService) {
     console.log('Initializing Facebook');
     let initParams: InitParams = {
       appId: '1417631371676772',
@@ -49,9 +53,15 @@ export class RegisterComponent implements OnInit {
     });
   }*/
 
-  create_acount(){
+  createAccount(){
+    console.log("Se registro1");
     if (this.registerWithFacebook){
-      //this.facebookRegisterService();
+      console.log("Se registro2");
+      this.userService.register(this.fbId, this.userName, this.firstName, this.lastName, this.email, this.photoUrl).subscribe((users: User[])=>{
+        this.user=users[0];
+        console.log(this.user);
+      });
+      console.log("Se registro3");
     }
   }
 
@@ -59,7 +69,7 @@ export class RegisterComponent implements OnInit {
    * Checks that the userName is free to use
    */
   freeUsername(){
-
+    return true;
   }
 
 

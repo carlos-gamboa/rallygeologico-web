@@ -28,7 +28,7 @@
         <tbody>
             <?php foreach ($users as $user): ?>
             <tr>
-                <td><?= $this->Number->format($user->FacebookId) ?></td>
+                <td><?= h($user->FacebookId) ?></td>
                 <td><?= h($user->Username) ?></td>
                 <td><?= h($user->FirstName) ?></td>
                 <td><?= h($user->LastName) ?></td>

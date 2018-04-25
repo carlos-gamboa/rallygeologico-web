@@ -11,8 +11,8 @@
           <input [(ngModel)]="firstName" class="mb-10 single-input disabled" type="text" name="name" placeholder="Nombre" disabled>
           <input [(ngModel)]="lastName" class="mb-10 single-input disabled" type="text" name="middlename" placeholder="Apellido(s)" disabled>
           <input [(ngModel)]="email" class="mb-10 single-input disabled" type="text" name="email" placeholder="Correo Electrónico" disabled>
-          <input [class.error-shadow]="!freeUserName()" [(ngModel)]="userName" class="mb-10 single-input" type="text" name="username" placeholder="Nombre Usuario" required>
-          <button [disabled]="!freeUsername()" class="mb-30 genric-btn primary register-btn">Registrarse</button>
+          <input [class.error-shadow]="!freeUsername()" [(ngModel)]="userName" class="mb-10 single-input" type="text" name="username" placeholder="Nombre Usuario" required>
+          <button [disabled]="freeUsername() == false" (click)="createAccount()" class="mb-30 genric-btn primary register-btn">Registrarse</button>
         </form>
       </div>
     </div>
