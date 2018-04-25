@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from "../services/user.service";
 import {FacebookService, InitParams, LoginOptions, LoginResponse, AuthResponse} from 'ngx-facebook';
+import {User} from "../model/user";
+import {Rally} from "../model/rally";
 
 @Component({
   selector: 'app-login',
@@ -9,65 +11,45 @@ import {FacebookService, InitParams, LoginOptions, LoginResponse, AuthResponse} 
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private userService: UserService) {
-    this.userService.login();
-  username:string;
-  password:string;
-  error:string;
-  fbId: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  fbToken: string;
-  loginWithFacebook:boolean=false;
+    username:string;
+    password:string;
+    error:string;
+    fbId: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    fbToken: string;
+    loginWithFacebook:boolean=false;
+    user : User[];
 
 
-
-  constructor(private fb: FacebookService){
+  constructor(private fb: FacebookService, private userService: UserService){
     console.log('Initializing Facebook');
     let initParams: InitParams = {
-      appId: '785307394989604',
+      appId: '1417631371676772',
       xfbml: true,
-      version: 'v2.11'
+      version: 'v2.12'
     };
     fb.init(initParams);
     console.log('Initialized Facebook');
+
+
 
     /*this.studentService.isLoggedIn().then((user: Student) => {
      this.userDataService.updateStudent(user);
      this.router.navigate(['/dashboard']);
      })*/
   }
-  onLogin(){
-    if (this.username && this.password){
-      this.studentService.login(this.username,this.password).then((user: boolean)=>{
-        this.error = null;
-        if(user)
-          this.studentService.isLoggedIn().then((user: Student) => {
-            this.userDataService.updateStudent(user);
-            if (user.passwordNeedsChange){
-              this.router.navigate(['/change/' + user.id]);
-            } else {
-              this.router.navigate(['/dashboard']);
-            }
-          })
-      }).catch( reason => {
-        this.error = "The email or password are incorrect";
-      });
-    } else {
-      this.error = "Some required inputs are missing";
-    }
-  }
 
   //Login if the Enter Key is pressed
-  @HostListener('window:keyup', ['$event'])
+/*  @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
     if (event.keyCode === 13) {
       if (this.username && this.password){
         this.onLogin();
       }
     }
-  }
+  }*/
 
 
 
@@ -77,7 +59,6 @@ export class LoginComponent implements OnInit {
       return_scopes: true,
       scope: 'public_profile,email'
     };
-
     this.fb.login(loginOptions)
       .then((res: LoginResponse) => {
         this.loginWithFacebook = true;
@@ -91,7 +72,10 @@ export class LoginComponent implements OnInit {
             this.email = res.email;
             this.fbToken = this.fb.getAuthResponse().accessToken;
             console.log("Login got : "+this.fbId +" "+this.firstName +" "+ this.lastName +" "+this.email+" "+this.fbToken);
-            this.fbLogin();
+            this.user = [];
+            this.getUsers();
+
+            //this.fbLoginService();
           })
           .catch(this.handleErrorProfile);
       })
@@ -99,14 +83,17 @@ export class LoginComponent implements OnInit {
   }
 
 
-  fbLogin(){
-    this.studentService.loginWithFacebook(this.fbId,this.fbToken).then((authentication: boolean)=>{
+  fbLoginService(){
+    this.userService.login(this.fbId,this.fbToken).then((authentication: boolean)=>{
       this.error = null;
       if(authentication){
         this.studentService.isLoggedIn().then((user: Student) => {
           this.userDataService.updateStudent(user);
           this.router.navigate(['/dashboard']);
         })
+      }
+      else{
+        this.router.navigate(['/register']);
       }
 
     }).catch( reason => {
@@ -136,6 +123,13 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  getUsers(){
+      this.userService.login(this.fbId).subscribe((userArr: User[])=>{
+              this.user.push(userArr[0]);
+          console.log("USUARIO ES" + this.user);
+      });
   }
 
 }

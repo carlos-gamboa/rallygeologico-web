@@ -19,10 +19,12 @@ import {RalliesComponent} from "./rallies/rallies.component";
 import {RallyComponent} from "./rally/rally.component";
 import {PublicHeaderComponent} from "./public-header/public-header.component";
 import {PublicFooterComponent} from "./public-footer/public-footer.component";
+import { FacebookModule } from 'ngx-facebook';
 import {DataService} from "./services/data/data.service";
 import {UserService} from "./services/user.service";
 import {Configuration} from "./services/data/constants";
 import {HttpClient, HttpClientModule, HttpHandler} from "@angular/common/http";
+import {RallyService} from "./services/rally.service";
 
 
 @NgModule({
@@ -49,9 +51,10 @@ import {HttpClient, HttpClientModule, HttpHandler} from "@angular/common/http";
       NgbModule.forRoot(),
       NgbModule,
       UserModule,
+      FacebookModule.forRoot(),
       HttpClientModule
   ],
-  providers: [DataService, UserService, Configuration],
+  providers: [DataService, UserService, Configuration, RallyService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

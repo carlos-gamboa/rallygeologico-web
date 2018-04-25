@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FacebookService, InitParams, LoginOptions, LoginResponse, AuthResponse} from 'ngx-facebook';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-register',
@@ -12,98 +13,61 @@ export class RegisterComponent implements OnInit {
   firstName: string;
   lastName: string;
   email: string;
+  userName: string;
   password: string;
   password2:string;
   confirmation:boolean;
   levelId:string = "no";
-  levels: Level[];
   error:string;
   registerWithFacebook:boolean = false;
 
-  constructor(private levelService: LevelService, private studentService: UserService, private router: Router, private fb: FacebookService) {
+  constructor(private fb: FacebookService, private router: Router) {
     console.log('Initializing Facebook');
     let initParams: InitParams = {
-      appId: '785307394989604',
+      appId: '1417631371676772',
       xfbml: true,
-      version: 'v2.11'
+      version: 'v2.12'
     };
     fb.init(initParams);
     console.log('Initialized Facebook');
 
 
-
-    this.levelService.availableLevel().then((levels: Level[]) =>{
-      if(levels){
-        this.levels = [];
-        this.levels = levels;
-      }
-    });
-
-
   }
-
 
   ngOnInit() {
   }
 
 
-  seleted_level(value){
-    this.levelId= value;
-  }
-
-  facebookRegisterService(){
-    this.studentService.signUpWithFacebook(this.fbId, this.email, this.firstName, this.lastName, this.levelId).then((user: Student) => {
+  /**
+   * When userService has a signUpWithFacebook method uncomment this
+   */
+  /*facebookRegisterService(){
+    this.userService.signUpWithFacebook(this.fbId, this.email, this.firstName, this.lastName).then((user: Student) => {
       if (user) {
         this.router.navigate(['/login']);
       }
-      console.log(user);
     });
-  }
+  }*/
 
   create_acount(){
     if (this.registerWithFacebook){
-      this.facebookRegisterService();
+      //this.facebookRegisterService();
     }
-    else {
-      if (this.firstName && this.lastName && this.email && this.password && this.password2 && this.confirmation && this.levelId != "no") {
-        if (this.password.localeCompare(this.password2) == 0) {
-          this.error = null;
-          this.studentService.signUp(this.email, this.firstName, this.lastName, this.password, this.levelId).then((user: Student) => {
-            if (user) {
-              this.router.navigate(['/login']);
-            }
-          });
-        } else {
-          this.error = "Passwords do not match";
-        }
-      } else {
-        this.error = "Some required inputs are missing";
-      }
-    }
+  }
+
+  /**
+   * Checks that the userName is free to use
+   */
+  freeUsername(){
 
   }
 
-  match_passwords(){
-    if (this.password && this.password2){
-      return (this.password.localeCompare(this.password2) == 0);
-    } else {
-      return true;
-    }
-
-  }
-
-  invalid_level(){
-    //return (this.levelId=="no"); use this once levels are available
-
-    return false;
-  }
 
   isFacebookRegister() {
     return this.registerWithFacebook;
   }
 
   loginWithOptions() {
-
     const loginOptions: LoginOptions = {
       enable_profile_selector: true,
       return_scopes: true,
@@ -117,13 +81,6 @@ export class RegisterComponent implements OnInit {
         this.registerWithFacebook = true;
       })
       .catch(this.handleErrorLogin);
-
-
-
-
-
-
-
   }
 
   private handleErrorLogin(error) {
@@ -143,7 +100,6 @@ export class RegisterComponent implements OnInit {
         this.email = res.email;
         console.log(this.fbId +" "+this.firstName +" "+ this.lastName +" "+this.email);
         return res;
-
       })
       .catch(this.handleErrorProfile);
   }

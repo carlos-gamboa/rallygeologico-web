@@ -58,3 +58,8 @@
 .login-icon{
   width: 70%;
 }
+
+.error-shadow{
+  box-shadow: 0 0 20px #CC4552 !important;
+}
+
