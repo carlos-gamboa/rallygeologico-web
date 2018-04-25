@@ -107,4 +107,13 @@ class RallyController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function newestRallies (){
+        $rally = $this->Rally->find('all', [
+                'order' => ['Rally.RallyId' => 'DESC']
+            ]
+        );
+        $this->set('rally', $rally);
+        $this->render('/Rally/json/template');
+    }
 }

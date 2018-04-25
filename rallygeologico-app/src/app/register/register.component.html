@@ -4,16 +4,15 @@
       <div class="col-sm-12 center">
         <h2 class="mb-60 text-center login-title">Registrarse</h2>
         <img class="mb-60 center login-icon" src="../../assets/images/login-icon.png" alt="Icono de Registro">
-        <button class="mb-40 genric-btn facebook center" >
+        <button (click)="loginWithOptions()" class="mb-40 genric-btn facebook center" >
           <span class="mr-20 fa fa-facebook"></span><span class="text-center">Login with Facebook</span>
         </button>
-        <form action="#">
-          <input class="mb-10 single-input disabled" type="text" name="name" placeholder="Nombre" disabled>
-          <input class="mb-10 single-input disabled" type="email" name="middlename" placeholder="Primer Apellido" disabled>
-          <input class="mb-10 single-input disabled" type="text" name="lastname" placeholder="Segundo Apellido" disabled>
-          <input class="mb-10 single-input disabled" type="text" name="email" placeholder="Correo Electrónico" disabled>
-          <input class="mb-10 single-input" type="text" name="email" placeholder="Nombre Usuario" required>
-          <button class="mb-30 genric-btn primary register-btn">Registrarse</button>
+        <form #registerForm="ngForm">
+          <input [(ngModel)]="firstName" class="mb-10 single-input disabled" type="text" name="name" placeholder="Nombre" disabled>
+          <input [(ngModel)]="lastName" class="mb-10 single-input disabled" type="text" name="middlename" placeholder="Apellido(s)" disabled>
+          <input [(ngModel)]="email" class="mb-10 single-input disabled" type="text" name="email" placeholder="Correo Electrónico" disabled>
+          <input [class.error-shadow]="!freeUsername()" [(ngModel)]="userName" class="mb-10 single-input" type="text" name="username" placeholder="Nombre Usuario" required>
+          <button [disabled]="freeUsername() == false" (click)="createAccount()" class="mb-30 genric-btn primary register-btn">Registrarse</button>
         </form>
       </div>
     </div>

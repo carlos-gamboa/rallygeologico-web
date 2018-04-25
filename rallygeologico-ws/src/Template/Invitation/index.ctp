@@ -28,8 +28,8 @@
             <tr>
                 <td><?= $this->Number->format($invitation->InvitationId) ?></td>
                 <td><?= h($invitation->Accepted) ?></td>
-                <td><?= $this->Number->format($invitation->FacebookIdSend) ?></td>
-                <td><?= $this->Number->format($invitation->FacebookIdReceive) ?></td>
+                <td><?= h($invitation->FacebookIdSend) ?></td>
+                <td><?= h($invitation->FacebookIdReceive) ?></td>
                 <td><?= $this->Number->format($invitation->CompetitionId) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $invitation->InvitationId]) ?>

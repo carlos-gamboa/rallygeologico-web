@@ -44,7 +44,8 @@ class UsersTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('FacebookId')
+            ->scalar('FacebookId')
+            ->maxLength('FacebookId', 30)
             ->allowEmpty('FacebookId', 'create');
 
         $validator

@@ -1,4 +1,167 @@
 <app-public-header [activeTab]="1"></app-public-header>
-<p>
-  rally works!
-</p>
+  <div class="container gap">
+    <div class="row">
+      <div class="col-md-4 col-xs-12">
+        <div class="text-center">
+          <img style="border-radius: 70%" src="img/rally.jpg" width="200" height="200">
+          <h3>Nombre de la competencia</h3>
+          <div class="offset-md-3 col-md-6 col-xs-12 center">
+            <button title="Modificar rally" class="btn btn-default btn-sm btn-block text-center">Modificar rally</button>
+          </div>
+          <p>Este rally es para aquellos que lorem ipsum dolor lorem ipsum dolor
+            lorem ipsum dolor lorem ipsum dolor
+            lorem ipsum dolor lorem ipsum dolor
+            lorem ipsum dolor lorem ipsum dolor
+            lorem ipsum dolor lorem ipsum dolor
+            lorem ipsum dolor lorem ipsum dolor</p>
+          <h5>Creado por: Expl0r3r05</h5>
+          <div class="offset-md-3 col-md-6 col-xs-12">
+            <button title="Ir al perfil del creador" class="btn btn-default btn-sm btn-block text-center">Ir al perfil</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8 col-xs-12">
+        <div class="myskills slideanim slide">
+          <h3 class="text-center">Rally</h3>
+          <p class="text-center">Información del rally</p>
+          <div>
+            <h3>Información</h3> <br>
+            <ul>
+              <li><strong>Estado</strong> Activo</li>
+              <li><strong>Creado en:</strong> 00/00/00</li>
+              <li><strong>Público</strong></li>
+              <li><strong>Cantidad de sitios en el rally: </strong> 7</li>
+              <li><strong>Puntos totales del rally: </strong> 215</li>
+              <li><strong>Número actual de jugadores: </strong> 10</li>
+              <li><strong>Jugador con más puntos: </strong> Usuario6352 <i class="fa fa-trophy"></i></li>
+            </ul>
+            <hr>
+            <h3>Estadísticas</h3> <br>
+            <div class="row">
+              <div class="col-md-4 offset-4">
+                <button title="Ver mapa interactivo de este rally" class="btn btn-default btn-sm btn-block text-center">Mapa interactivo</button>
+              </div>
+            </div>
+            <h4>Tabla de líderes</h4> <br>
+            <div>
+              <table class="table">
+                <tbody>
+                <th>Nombre</th>
+                <th>Usuario</th>
+                <th>Puntos</th>
+                <th>Perfil</th>
+                <tr>
+                  <td><h4>Ana Laura Vargas</h4></td>
+                  <td><h5>Usuario6352</h5></td>
+                  <td><p>200</p></td>
+                  <td><button title="Ir al perfil de este usuario" class="btn btn-default btn-sm btn-block text-center">Ir al perfil</button></td>
+                </tr>
+                <tr>
+                  <td><h4>Fernando Rojas</h4></td>
+                  <td><h5>Usuario6353</h5></td>
+                  <td><p>150</p></td>
+                  <td><button title="Ir al perfil" class="btn btn-default btn-sm btn-block text-center">Ir al perfil</button></td>
+                </tr>
+                <tr>
+                  <td><h4>Carlos Gamboa</h4></td>
+                  <td><h5>Usuario6354</h5></td>
+                  <td><p>110</p></td>
+                  <td><button title="Ir al perfil" class="btn btn-default btn-sm btn-block text-center">Ir al perfil</button></td>
+                </tr>
+                <tr>
+                  <td><h4>Jhosua Arias</h4></td>
+                  <td><h5>Usuario6355</h5></td>
+                  <td><p>50</p></td>
+                  <td><button title="Ir al perfil" class="btn btn-default btn-sm btn-block text-center">Ir al perfil</button></td>
+                </tr>
+                <tr>
+                  <td><h4>Benjamín Blanco</h4></td>
+                  <td><h5>Usuario6356</h5></td>
+                  <td><p>0</p></td>
+                  <td><button title="Ir al perfil" class="btn btn-default btn-sm btn-block text-center">Ir al perfil</button></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="container">
+      <div class="row">
+        <div class="offset-md-2 col-md-8 col-xs-12">
+          <h3 class="text-center">Invitar usuarios a esta competencia</h3>
+          <p class="text-center">Busque usuarios por nombre de usuario</p>
+          <div class="busqueda" id="searchform">
+            <input type="text" title="Digite aquí el nombre del usuario" id="searchterm" placeholder="Digite el nombre de usuario" />
+            <button type="button" id="search" title="Click aquí para buscar el usuario">¡Buscar!</button>
+          </div>
+          <div>
+            <div>
+              <h4>Resultados</h4> <br>
+              <div>
+                <table class="table">
+                  <tbody>
+                  <th>Foto</th>
+                  <th>Usuario</th>
+                  <th>Nombre</th>
+                  <th>Invitar</th>
+                  <tr>
+                    <td><img style="border-radius: 70%; width:30%; height: auto" src="img/hombre.png"></td>
+                    <td><h5>Usuario6352</h5></td>
+                    <td><h4>Ana Laura Vargas</h4></td>
+                    <td><button title="Invitar" class="btn btn-default btn-sm btn-block text-center">Invitar</button></td>
+                  </tr>
+                  <tr>
+                    <td><img style="border-radius: 70%; width:30%; height: auto" src="img/hombre.png"></td>
+                    <td><h5>Usuario6353</h5></td>
+                    <td><h4>Juan Rodriguez</h4></td>
+                    <td><button title="Invitar" class="btn btn-default btn-sm btn-block text-center">Invitar</button></td>
+                  </tr>
+                  <tr>
+                    <td><img style="border-radius: 70%; width:30%; height: auto" src="img/hombre.png"></td>
+                    <td><h5>Usuario6354</h5></td>
+                    <td><h4>Pedro Méndez</h4></td>
+                    <td><button title="Invitar" class="btn btn-default btn-sm btn-block text-center">Invitar</button></td>
+                  </tr>
+                  <tr>
+                    <td><img style="border-radius: 70%; width:30%; height: auto" src="img/hombre.png"></td>
+                    <td><h5>Usuario6355</h5></td>
+                    <td><h4>Francisco Alarcón</h4></td>
+                    <td><button title="Invitar" class="btn btn-default btn-sm btn-block text-center">Invitar</button></td>
+                  </tr>
+                  <tr>
+                    <td><img style="border-radius: 70%; width:30%; height: auto" src="img/hombre.png"></td>
+                    <td><h5>Usuario6356</h5></td>
+                    <td><h4>Keylor Navas</h4></td>
+                    <td><button title="Invitar" class="btn btn-default btn-sm btn-block text-center">Invitar</button></td>
+                  </tr>
+                  <tr>
+                    <td><img style="border-radius: 70%; width:30%; height: auto" src="img/hombre.png"></td>
+                    <td><h5>Usuario6357</h5></td>
+                    <td><h4>Mario Manduzukic</h4></td>
+                    <td><button title="Invitar" class="btn btn-default btn-sm btn-block text-center">Invitar</button></td>
+                  </tr>
+                  <tr>
+                    <td><img style="border-radius: 70%; width:30%; height: auto" src="img/hombre.png"></td>
+                    <td><h5>Usuario6358</h5></td>
+                    <td><h4>Marcos Ureña</h4></td>
+                    <td><button title="Invitar" class="btn btn-default btn-sm btn-block text-center">Invitar</button></td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="pagination col-md-6 offset-3">
+                <a href="#">&laquo;</a>
+                <a href="#">1</a>
+                <a class="active" href="#">2</a>
+                <a href="#">3</a>
+                <a href="#">&raquo;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

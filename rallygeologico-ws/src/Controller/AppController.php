@@ -69,7 +69,8 @@ class AppController extends Controller
 
     public function beforeFilter(Event $event)
     {
-
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
         $this->user_id = $this->Auth->user('id');
 
         // validate user token for logged user
