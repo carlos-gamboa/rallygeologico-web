@@ -39,10 +39,11 @@ class CompetitionController extends AppController
     public function view($id = null)
     {
         $competition = $this->Competition->get($id, [
-            'contain' => ['Rally', 'CompetitionStatistics', 'CompetitionStatisticsSite', 'Invitation']
+            'contain' => ['Rally']
         ]);
 
         $this->set('competition', $competition);
+        $this->render('/Competition/json/template');
     }
 
     /**
