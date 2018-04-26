@@ -6,14 +6,18 @@ use Cake\ORM\Entity;
 /**
  * User Entity
  *
- * @property int $UserId
- * @property string $FacebookId
- * @property string $Username
- * @property string $FirstName
- * @property string $LastName
- * @property string $Email
- * @property string $PhotoURL
- * @property string $IsAdmin
+ * @property int $id
+ * @property string $facebook_id
+ * @property string $username
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $email
+ * @property string $photo_url
+ * @property string $is_admin
+ *
+ * @property \App\Model\Entity\Facebook $facebook
+ * @property \App\Model\Entity\CompetitionStatistic[] $competition_statistics
+ * @property \App\Model\Entity\CompetitionStatisticsSite[] $competition_statistics_site
  */
 class User extends Entity
 {
@@ -28,12 +32,15 @@ class User extends Entity
      * @var array
      */
     protected $_accessible = [
-        'FacebookId' => true,
-        'Username' => true,
-        'FirstName' => true,
-        'LastName' => true,
-        'Email' => true,
-        'PhotoURL' => true,
-        'IsAdmin' => true
+        'facebook_id' => true,
+        'username' => true,
+        'first_name' => true,
+        'last_name' => true,
+        'email' => true,
+        'photo_url' => true,
+        'is_admin' => true,
+        'facebook' => true,
+        'competition_statistics' => true,
+        'competition_statistics_site' => true
     ];
 }

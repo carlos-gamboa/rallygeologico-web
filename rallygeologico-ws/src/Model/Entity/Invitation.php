@@ -6,11 +6,13 @@ use Cake\ORM\Entity;
 /**
  * Invitation Entity
  *
- * @property int $InvitationId
- * @property string $Accepted
- * @property int $UserIdSend
- * @property int $UserIdReceive
- * @property int $CompetitionId
+ * @property int $id
+ * @property string $accepted
+ * @property int $user_id_send
+ * @property int $user_id_receive
+ * @property int $competition_id
+ *
+ * @property \App\Model\Entity\Competition $competition
  */
 class Invitation extends Entity
 {
@@ -25,9 +27,10 @@ class Invitation extends Entity
      * @var array
      */
     protected $_accessible = [
-        'Accepted' => true,
-        'UserIdSend' => true,
-        'UserIdReceive' => true,
-        'CompetitionId' => true
+        'accepted' => true,
+        'user_id_send' => true,
+        'user_id_receive' => true,
+        'competition_id' => true,
+        'competition' => true
     ];
 }

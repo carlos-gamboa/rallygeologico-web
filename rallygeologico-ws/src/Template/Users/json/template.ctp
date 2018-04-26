@@ -1,3 +1,3 @@
 <?php
 
-echo json_encode($user);
+echo json_encode($users);

@@ -9,6 +9,10 @@ use Cake\Validation\Validator;
 /**
  * CompetitionStatisticsSite Model
  *
+ * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
+ * @property \App\Model\Table\CompetitionStatisticsTable|\Cake\ORM\Association\BelongsTo $CompetitionStatistics
+ * @property \App\Model\Table\SiteTable|\Cake\ORM\Association\BelongsTo $Site
+ *
  * @method \App\Model\Entity\CompetitionStatisticsSite get($primaryKey, $options = [])
  * @method \App\Model\Entity\CompetitionStatisticsSite newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\CompetitionStatisticsSite[] newEntities(array $data, array $options = [])
@@ -31,30 +35,36 @@ class CompetitionStatisticsSiteTable extends Table
         parent::initialize($config);
 
         $this->setTable('competition_statistics_site');
-        $this->setDisplayField('FacebookId');
-        $this->setPrimaryKey(['FacebookId', 'CompetitionId', 'SiteId']);
+        $this->setDisplayField('user_id');
+        $this->setPrimaryKey(['user_id', 'competition_id', 'site_id']);
+
+        $this->belongsTo('Users', [
+            'foreignKey' => 'user_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('CompetitionStatistics', [
+            'foreignKey' => 'competition_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('Site', [
+            'foreignKey' => 'site_id',
+            'joinType' => 'INNER'
+        ]);
     }
 
     /**
-     * Default validation rules.
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
      */
-    public function validationDefault(Validator $validator)
+    public function buildRules(RulesChecker $rules)
     {
-        $validator
-            ->integer('UserId')
-            ->allowEmpty('UserId', 'create');
+        $rules->add($rules->existsIn(['user_id'], 'Users'));
+        $rules->add($rules->existsIn(['competition_id'], 'CompetitionStatistics'));
+        $rules->add($rules->existsIn(['site_id'], 'Site'));
 
-        $validator
-            ->integer('CompetitionId')
-            ->allowEmpty('CompetitionId', 'create');
-
-        $validator
-            ->integer('SiteId')
-            ->allowEmpty('SiteId', 'create');
-
-        return $validator;
+        return $rules;
     }
 }

@@ -47,7 +47,7 @@ export class CompetitionComponent implements OnInit {
 
         if(this.searchQuery.length >= 1) {
             for (let user of this.users) {
-                if (user.Username.toLowerCase().startsWith(this.searchQuery.toLowerCase())) {
+                if (user.username.toLowerCase().startsWith(this.searchQuery.toLowerCase())) {
                     usersToShow.push(user);
                 }
             }
@@ -55,6 +55,10 @@ export class CompetitionComponent implements OnInit {
         }else{
             this.reloadUsers(this.allUsers);
         }
+    }
+
+    invite (index: number){
+
     }
 
     ngOnInit() {

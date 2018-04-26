@@ -1,114 +1,114 @@
-CREATE TABLE USERS (
-  UserId INT AUTO_INCREMENT PRIMARY KEY,
-  FacebookId VARCHAR(30) UNIQUE NOT NULL,
-  Username VARCHAR(30) UNIQUE NOT NULL,
-  FirstName VARCHAR(15),
-  LastName VARCHAR(15),
-  Email VARCHAR(30),
-  PhotoURL VARCHAR (200),
-  IsAdmin BIT DEFAULT 0
+CREATE TABLE IF NOT EXISTS users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  facebook_id VARCHAR(30) UNIQUE NOT NULL,
+  username VARCHAR(30) UNIQUE NOT NULL,
+  first_name VARCHAR(15),
+  last_name VARCHAR(15),
+  email VARCHAR(30),
+  photo_url VARCHAR (200),
+  is_admin BIT DEFAULT 0
 );
 
-CREATE TABLE RALLY (
-  RallyId INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS rally (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(30) NOT NULL,
+  points_awarded INT NOT NULL,
+  image_url VARCHAR (200),
+  description VARCHAR (5000)
+);
+
+CREATE TABLE IF NOT EXISTS competition(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  is_active BIT DEFAULT 1,
+  starting_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+  finishing_date DATETIME,
+  is_public BIT DEFAULT 1,
   Name VARCHAR(30) NOT NULL,
-  PointsAwarded INT NOT NULL,
-  ImageUrl VARCHAR (200),
-  Description VARCHAR (5000)
+  rally_id INT NOT NULL,
+  FOREIGN KEY (rally_id) REFERENCES rally(id)
 );
 
-CREATE TABLE COMPETITION(
-  CompetitionId INT AUTO_INCREMENT PRIMARY KEY,
-  IsActive BIT DEFAULT 1,
-  StartingDate DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FinishingDate DATETIME,
-  IsPublic BIT DEFAULT 1,
-  Name VARCHAR(30) NOT NULL,
-  RallyId INT NOT NULL,
-  FOREIGN KEY (RallyId) REFERENCES RALLY(RallyId)
+CREATE TABLE IF NOT EXISTS invitation (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  accepted BIT DEFAULT 0,
+  user_id_send INT NOT NULL,
+  user_id_receive INT NOT NULL,
+  competition_id INT NOT NULL,
+  FOREIGN KEY (user_id_send) REFERENCES users(id),
+  FOREIGN KEY (user_id_receive) REFERENCES users(id),
+  FOREIGN KEY (competition_id) REFERENCES competition(id)
 );
 
-CREATE TABLE INVITATION (
-  InvitationId INT AUTO_INCREMENT PRIMARY KEY,
-  Accepted BIT DEFAULT 0,
-  UserIdSend INT NOT NULL,
-  UserIdReceive INT NOT NULL,
-  CompetitionId INT NOT NULL,
-  FOREIGN KEY (UserIdSend) REFERENCES USERS(UserId),
-  FOREIGN KEY (UserIdReceive) REFERENCES USERS(UserId),
-  FOREIGN KEY (CompetitionId) REFERENCES COMPETITION(CompetitionId)
+CREATE TABLE IF NOT EXISTS competition_statistics(
+  user_id INT NOT NULL,
+  competition_id INT NOT NULL,
+  starting_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+  finishing_date DATETIME,
+  points INT DEFAULT 0,
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (competition_id) REFERENCES competition(id),
+  PRIMARY KEY (user_id, competition_id)
 );
 
-CREATE TABLE COMPETITIONS_STATISTICS(
-  UserId INT NOT NULL,
-  CompetitionId INT NOT NULL,
-  StartingDate DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FinishingDate DATETIME,
-  Points INT DEFAULT 0,
-  FOREIGN KEY (UserId) REFERENCES USERS(UserId),
-  FOREIGN KEY (CompetitionId) REFERENCES COMPETITION(CompetitionId),
-  PRIMARY KEY (UserId, CompetitionId)
+CREATE TABLE IF NOT EXISTS province (
+  name VARCHAR (20) PRIMARY KEY
 );
 
-CREATE TABLE DISTRICT (
-  Name VARCHAR (40) PRIMARY KEY
+CREATE TABLE IF NOT EXISTS canton (
+  name VARCHAR (40) PRIMARY KEY,
+  province_id VARCHAR (20) NOT NULL,
+  FOREIGN KEY (province_id) REFERENCES province(Name)
 );
 
-CREATE TABLE CANTON (
-  Name VARCHAR (40) PRIMARY KEY,
-  DistrictName VARCHAR (40) NOT NULL,
-  FOREIGN KEY (DistrictName) REFERENCES DISTRICT(Name)
+CREATE TABLE IF NOT EXISTS district (
+  name VARCHAR (40) PRIMARY KEY,
+  canton_id VARCHAR(40),
+  FOREIGN KEY (canton_id) REFERENCES canton(name)
 );
 
-CREATE TABLE PROVINCE (
-  Name VARCHAR (20) PRIMARY KEY,
-  CantonName VARCHAR (40) NOT NULL,
-  FOREIGN KEY (CantonName) REFERENCES CANTON(Name)
+CREATE TABLE IF NOT EXISTS site (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(30) NOT NULL,
+  points_awarded INT NOT NULL,
+  qr_url VARCHAR(200),
+  details VARCHAR(2000),
+  description VARCHAR(2000),
+  latitude FLOAT NOT NULL,
+  longitude FLOAT NOT NULL,
+  district_id VARCHAR (40) NOT NULL,
+  FOREIGN KEY (district_id) REFERENCES district(name)
 );
 
-CREATE TABLE SITE (
-  SiteId INT AUTO_INCREMENT PRIMARY KEY,
-  Name VARCHAR(30) NOT NULL,
-  PointsAwarded INT NOT NULL,
-  QrUrl VARCHAR(200),
-  Details VARCHAR(2000),
-  Description VARCHAR(2000),
-  Latitude FLOAT NOT NULL,
-  Longitude FLOAT NOT NULL,
-  ProvinceName VARCHAR (40) NOT NULL,
-  FOREIGN KEY (ProvinceName) REFERENCES PROVINCE(Name)
+CREATE TABLE IF NOT EXISTS rally_site(
+  rally_id INT NOT NULL,
+  site_id INT NOT NULL,
+  FOREIGN KEY (rally_id) REFERENCES rally(id),
+  FOREIGN KEY (site_id) REFERENCES site(id),
+  PRIMARY KEY (rally_id, site_id)
 );
 
-CREATE TABLE RALLY_SITE(
-  RallyId INT NOT NULL,
-  SiteId INT NOT NULL,
-  FOREIGN KEY (RallyId) REFERENCES RALLY(RallyId),
-  FOREIGN KEY (SiteId) REFERENCES SITE(SiteId),
-  PRIMARY KEY (RallyId, SiteId)
+CREATE TABLE IF NOT EXISTS competition_statistics_site(
+  user_id INT NOT NULL,
+  competition_id INT NOT NULL,
+  site_id INT NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES competition_statistics(user_id),
+  FOREIGN KEY (competition_id) REFERENCES competition_statistics(competition_id),
+  FOREIGN KEY (site_id) REFERENCES site(id),
+  PRIMARY KEY (user_id, competition_id, site_id)
 );
 
-CREATE TABLE COMPETITION_STATISTICS_SITE(
-  UserId INT NOT NULL,
-  CompetitionId INT NOT NULL,
-  SiteId INT NOT NULL,
-  FOREIGN KEY (UserId) REFERENCES COMPETITIONS_STATISTICS(UserId),
-  FOREIGN KEY (CompetitionId) REFERENCES COMPETITIONS_STATISTICS(CompetitionId),
-  FOREIGN KEY (SiteId) REFERENCES SITE(SiteId),
-  PRIMARY KEY (UserId, CompetitionId, SiteId)
+CREATE TABLE IF NOT EXISTS term (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  image_url VARCHAR (2000),
+  video_url VARCHAR (200),
+  name VARCHAR (40) NOT NULL,
+  description VARCHAR(2000)
 );
 
-CREATE TABLE TERM (
-  TermID INT AUTO_INCREMENT PRIMARY KEY,
-  ImageUrl VARCHAR (2000),
-  VideoUrl VARCHAR (200),
-  Name VARCHAR (40) NOT NULL,
-  Description VARCHAR(2000)
-);
-
-CREATE TABLE TERM_SITE(
-  TermId INT NOT NULL,
-  SiteId INT NOT NULL,
-  FOREIGN KEY (TermId) REFERENCES TERM(TermId),
-  FOREIGN KEY (SiteId) REFERENCES SITE(SiteId),
-  PRIMARY KEY (TermId, SiteId)
+CREATE TABLE term_site(
+  term_id INT NOT NULL,
+  site_id INT NOT NULL,
+  FOREIGN KEY (term_id) REFERENCES term(id),
+  FOREIGN KEY (site_id) REFERENCES term(id),
+  PRIMARY KEY (term_id, site_id)
 );

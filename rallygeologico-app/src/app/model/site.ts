@@ -1,23 +1,23 @@
 export class Site {
-    SiteId: number;
-    Name:  string;
-    PointsAwarded: number;
-    QrUrl: string;
-    Details: string;
-    Description: string;
-    Latitude: number;
-    Longitude: number;
-    ProvinceName: string;
+    id: number;
+    name:  string;
+    points_awarded: number;
+    qr_url: string;
+    details: string;
+    description: string;
+    latitude: number;
+    longitude: number;
+    province_id: string;
 
     constructor(site: any){
-        this.SiteId = site.SiteId;
-        this.Name = site.Name;
-        this.PointsAwarded = site.PointsAwarded;
-        this.QrUrl = site.QrUrl;
-        this.Details = site.Details;
-        this.Description = site.Description;
-        this.Latitude = site.Latitude;
-        this.Longitude = site.Longitude;
-        this.ProvinceName = site.ProvinceName;
+        this.id = site.id;
+        this.name = site.name;
+        this.points_awarded = site.points_awarded;
+        this.qr_url = site.qr_url;
+        this.details = site.details;
+        this.description = site.description;
+        this.latitude = site.latitude;
+        this.longitude = site.longitude;
+        this.province_id = site.province_id;
     }
 }

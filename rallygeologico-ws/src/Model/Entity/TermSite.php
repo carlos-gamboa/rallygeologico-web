@@ -6,8 +6,10 @@ use Cake\ORM\Entity;
 /**
  * TermSite Entity
  *
- * @property int $TermId
- * @property int $SiteId
+ * @property int $term_id
+ * @property int $site_id
+ *
+ * @property \App\Model\Entity\Term $term
  */
 class TermSite extends Entity
 {
@@ -22,8 +24,6 @@ class TermSite extends Entity
      * @var array
      */
     protected $_accessible = [
-        '*' => true,
-        'TermId' => false,
-        'SiteId' => false
+        'term' => true
     ];
 }

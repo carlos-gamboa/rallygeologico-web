@@ -8,6 +8,8 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('List Invitation'), ['action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('List Competition'), ['controller' => 'Competition', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Competition'), ['controller' => 'Competition', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="invitation form large-9 medium-8 columns content">
@@ -15,10 +17,10 @@
     <fieldset>
         <legend><?= __('Add Invitation') ?></legend>
         <?php
-            echo $this->Form->control('Accepted');
-            echo $this->Form->control('UserIdSend');
-            echo $this->Form->control('UserIdReceive');
-            echo $this->Form->control('CompetitionId');
+            echo $this->Form->control('accepted');
+            echo $this->Form->control('user_id_send');
+            echo $this->Form->control('user_id_receive');
+            echo $this->Form->control('competition_id', ['options' => $competition]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

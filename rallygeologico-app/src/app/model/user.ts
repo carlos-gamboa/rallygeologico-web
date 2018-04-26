@@ -1,17 +1,17 @@
 export class User {
-    UserId: number;
-    FacebookId: string;
-    Username:  string;
-    FirstName: string;
-    LastName: string;
-    PhotoURL: string;
+    id: number;
+    facebook_id: string;
+    username:  string;
+    first_name: string;
+    last_name: string;
+    photo_url: string;
 
     constructor(user: any){
-        this.UserId = user.UserId;
-        this.FacebookId = user.FacebookId;
-        this.Username = user.Username;
-        this.FirstName = user.FirstName;
-        this.LastName = user.LastName;
-        this.PhotoURL = user.PhotoURL;
+        this.id = user.id;
+        this.facebook_id = user.facebook_id;
+        this.username = user.username;
+        this.first_name = user.first_name;
+        this.last_name = user.last_name;
+        this.photo_url = user.photo_url;
     }
 }

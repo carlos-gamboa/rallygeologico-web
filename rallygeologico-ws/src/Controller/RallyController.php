@@ -36,7 +36,7 @@ class RallyController extends AppController
     public function view($id = null)
     {
         $rally = $this->Rally->get($id, [
-            'contain' => ['Site']
+            'contain' => ['Site', 'Competition']
         ]);
 
         $this->set('rally', $rally);
@@ -110,7 +110,7 @@ class RallyController extends AppController
 
     public function newestRallies (){
         $rally = $this->Rally->find('all', [
-                'order' => ['Rally.RallyId' => 'DESC']
+                'order' => ['rally.id' => 'DESC']
             ]
         );
         $this->set('rally', $rally);
