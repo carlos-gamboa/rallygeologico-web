@@ -16,4 +16,8 @@ export class CompetitionService {
     createCompetition(): Observable<Competition>{
         return this.http.get<Competition>(this.baseUrl + "competition/add.json");
     }
+
+    findCompetition(competitionId: number) : Observable<Competition>{
+        return this.http.get<Competition>(this.baseUrl + "competition/view/"+ competitionId +".json");
+    }
 }
