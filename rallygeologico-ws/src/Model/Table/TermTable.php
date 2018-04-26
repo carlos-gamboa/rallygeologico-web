@@ -33,8 +33,8 @@ class TermTable extends Table
         parent::initialize($config);
 
         $this->setTable('term');
-        $this->setDisplayField('TermID');
-        $this->setPrimaryKey('TermID');
+        $this->setDisplayField('name');
+        $this->setPrimaryKey('id');
 
         $this->belongsToMany('Site', [
             'foreignKey' => 'term_id',
@@ -52,29 +52,29 @@ class TermTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('TermID')
-            ->allowEmpty('TermID', 'create');
+            ->integer('id')
+            ->allowEmpty('id', 'create');
 
         $validator
-            ->scalar('ImageUrl')
-            ->maxLength('ImageUrl', 2000)
-            ->allowEmpty('ImageUrl');
+            ->scalar('image_url')
+            ->maxLength('image_url', 2000)
+            ->allowEmpty('image_url');
 
         $validator
-            ->scalar('VideoUrl')
-            ->maxLength('VideoUrl', 200)
-            ->allowEmpty('VideoUrl');
+            ->scalar('video_url')
+            ->maxLength('video_url', 200)
+            ->allowEmpty('video_url');
 
         $validator
-            ->scalar('Name')
-            ->maxLength('Name', 40)
-            ->requirePresence('Name', 'create')
-            ->notEmpty('Name');
+            ->scalar('name')
+            ->maxLength('name', 40)
+            ->requirePresence('name', 'create')
+            ->notEmpty('name');
 
         $validator
-            ->scalar('Description')
-            ->maxLength('Description', 2000)
-            ->allowEmpty('Description');
+            ->scalar('description')
+            ->maxLength('description', 2000)
+            ->allowEmpty('description');
 
         return $validator;
     }

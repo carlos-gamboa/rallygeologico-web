@@ -6,12 +6,13 @@ use Cake\ORM\Entity;
 /**
  * Rally Entity
  *
- * @property int $RallyId
- * @property string $Name
- * @property int $PointsAwarded
- * @property string $ImageUrl
- * @property string $Description
+ * @property int $id
+ * @property string $name
+ * @property int $points_awarded
+ * @property string $image_url
+ * @property string $description
  *
+ * @property \App\Model\Entity\Competition[] $competition
  * @property \App\Model\Entity\Site[] $site
  */
 class Rally extends Entity
@@ -27,10 +28,11 @@ class Rally extends Entity
      * @var array
      */
     protected $_accessible = [
-        'Name' => true,
-        'PointsAwarded' => true,
-        'ImageUrl' => true,
-        'Description' => true,
+        'name' => true,
+        'points_awarded' => true,
+        'image_url' => true,
+        'description' => true,
+        'competition' => true,
         'site' => true
     ];
 }

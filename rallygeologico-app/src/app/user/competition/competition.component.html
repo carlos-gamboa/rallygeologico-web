@@ -1,12 +1,28 @@
+<!-- start banner Area -->
+<section class="banner-area relative" id="home">
+  <div class="overlay overlay-bg"></div>
+  <div class="container">
+    <div class="row d-flex align-items-center justify-content-center">
+      <div class="about-content col-lg-12">
+        <h1 class="text-white">
+          Competición
+        </h1>
+        <p class="text-white link-nav"><a routerLink="/dashboard">Inicio </a>  <span class="lnr lnr-arrow-right"></span>  <a routerLink="/rallies"> Competición</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End banner Area -->
+
 <section class="contact-page-area section-gap">
   <div class="container">
     <div class="row">
       <div class="col-md-4 col-xs-12">
         <div class="text-center">
-          <img style="border-radius: 70%" src="img/rally.jpg" width="200" height="200">
-          <h3>Nombre del rally</h3>
+          <img class="competition-image mb-3" src="img/rally.jpg">
+          <h3 class="mb-3">Nombre del rally</h3>
           <div class="offset-md-3 col-md-6 col-xs-12">
-            <button title="Modificar rally" class="btn btn-default btn-sm btn-block text-center">Modificar rally</button>
+            <button title="Modificar rally" class="btn btn-default btn-sm btn-block text-center mb-3">Modificar rally</button>
           </div>
           <p>Este rally es para aquellos que lorem ipsum dolor lorem ipsum dolor
             lorem ipsum dolor lorem ipsum dolor
@@ -14,9 +30,9 @@
             lorem ipsum dolor lorem ipsum dolor
             lorem ipsum dolor lorem ipsum dolor
             lorem ipsum dolor lorem ipsum dolor</p>
-          <h5>Creado por: Expl0r3r05</h5>
+          <h5 class="mb-3">Creado por: Expl0r3r05</h5>
           <div class="offset-md-3 col-md-6 col-xs-12">
-            <button title="Ir al perfil del creador" class="btn btn-default btn-sm btn-block text-center">Ir al perfil</button>
+            <button title="Ir al perfil del creador" class="btn btn-default btn-sm btn-block text-center mb-3">Ir al perfil</button>
           </div>
         </div>
       </div>
@@ -85,19 +101,46 @@
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-6 text-center">
-            <a class="btn btn-block btn-social btn-facebook" style="color: white; text-align: center">
-              <span class="fa fa-facebook" style="color: white"></span> Invitar amigos
-            </a>
-          </div>
-          <br>
-          <div class="col-md-6 text-center">
-            <h4>Invitar por nombre de usuario</h4>
-            <form>
-              Nombre de usuario: <input  title="Digite el nombre de ususario que quiere invitar" type="text"><br>
-              <input type="submit" value="Invitar">
-            </form>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="container">
+    <div class="row">
+      <div class="offset-md-2 col-md-8 col-xs-12">
+        <h3 class="text-center mb-3">Invitar usuarios a esta competencia</h3>
+        <p class="text-center">Busque usuarios por nombre de usuario</p>
+        <div class="busqueda" id="searchform">
+          <input [(ngModel)]="searchQuery" type="text" title="Digite aquí el nombre del usuario" id="searchterm" placeholder="Digite el nombre de usuario" />
+          <button type="button" id="search" title="Click aquí para buscar el usuario" (click)="searchUser()">¡Buscar!</button>
+        </div>
+        <div>
+          <div>
+            <h4>Resultados</h4> <br>
+            <div>
+              <table class="table">
+                <tbody>
+                <th>Foto</th>
+                <th>Usuario</th>
+                <th>Nombre</th>
+                <th>Invitar</th>
+                <tr *ngFor="let user of showedUsers; let i = index">
+                  <td><img class="user-image" src="{{user.photo_url}}"></td>
+                  <td><h5>{{user.username}}</h5></td>
+                  <td><h4>{{user.first_name}} {{user.last_name}}</h4></td>
+                  <td><button title="Invitar" class="btn btn-default btn-sm btn-block text-center" (click)="invite(i)">Invitar</button></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="row">
+              <div class="col-md-12 text-center">
+                <div class="d-inline-block">
+                  <ngb-pagination [collectionSize]="totalUsers" [(page)]="currentPage" [maxSize]="5" [pageSize]="pageSize" [rotate]="true"
+                                  [ellipses]="true" [boundaryLinks]="false" (pageChange)="pageChange($event)"></ngb-pagination>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

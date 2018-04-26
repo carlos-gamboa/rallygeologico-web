@@ -9,11 +9,13 @@
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Form->postLink(
                 __('Delete'),
-                ['action' => 'delete', $province->Name],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $province->Name)]
+                ['action' => 'delete', $province->name],
+                ['confirm' => __('Are you sure you want to delete # {0}?', $province->name)]
             )
         ?></li>
         <li><?= $this->Html->link(__('List Province'), ['action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('List Canton'), ['controller' => 'Canton', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Canton'), ['controller' => 'Canton', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="province form large-9 medium-8 columns content">
@@ -21,7 +23,6 @@
     <fieldset>
         <legend><?= __('Edit Province') ?></legend>
         <?php
-            echo $this->Form->control('CantonName');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

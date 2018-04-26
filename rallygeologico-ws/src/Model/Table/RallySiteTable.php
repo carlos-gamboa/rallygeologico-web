@@ -9,6 +9,9 @@ use Cake\Validation\Validator;
 /**
  * RallySite Model
  *
+ * @property \App\Model\Table\RallyTable|\Cake\ORM\Association\BelongsTo $Rally
+ * @property \App\Model\Table\SiteTable|\Cake\ORM\Association\BelongsTo $Site
+ *
  * @method \App\Model\Entity\RallySite get($primaryKey, $options = [])
  * @method \App\Model\Entity\RallySite newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\RallySite[] newEntities(array $data, array $options = [])
@@ -31,26 +34,31 @@ class RallySiteTable extends Table
         parent::initialize($config);
 
         $this->setTable('rally_site');
-        $this->setDisplayField('RallyId');
-        $this->setPrimaryKey(['RallyId', 'SiteId']);
+        $this->setDisplayField('rally_id');
+        $this->setPrimaryKey(['rally_id', 'site_id']);
+
+        $this->belongsTo('Rally', [
+            'foreignKey' => 'rally_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('Site', [
+            'foreignKey' => 'site_id',
+            'joinType' => 'INNER'
+        ]);
     }
 
     /**
-     * Default validation rules.
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
      */
-    public function validationDefault(Validator $validator)
+    public function buildRules(RulesChecker $rules)
     {
-        $validator
-            ->integer('RallyId')
-            ->allowEmpty('RallyId', 'create');
+        $rules->add($rules->existsIn(['rally_id'], 'Rally'));
+        $rules->add($rules->existsIn(['site_id'], 'Site'));
 
-        $validator
-            ->integer('SiteId')
-            ->allowEmpty('SiteId', 'create');
-
-        return $validator;
+        return $rules;
     }
 }

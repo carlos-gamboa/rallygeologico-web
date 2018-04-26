@@ -9,6 +9,8 @@ use Cake\Validation\Validator;
 /**
  * TermSite Model
  *
+ * @property \App\Model\Table\TermTable|\Cake\ORM\Association\BelongsTo $Term
+ *
  * @method \App\Model\Entity\TermSite get($primaryKey, $options = [])
  * @method \App\Model\Entity\TermSite newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\TermSite[] newEntities(array $data, array $options = [])
@@ -31,26 +33,31 @@ class TermSiteTable extends Table
         parent::initialize($config);
 
         $this->setTable('term_site');
-        $this->setDisplayField('TermId');
-        $this->setPrimaryKey(['TermId', 'SiteId']);
+        $this->setDisplayField('term_id');
+        $this->setPrimaryKey(['term_id', 'site_id']);
+
+        $this->belongsTo('Term', [
+            'foreignKey' => 'term_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('Term', [
+            'foreignKey' => 'site_id',
+            'joinType' => 'INNER'
+        ]);
     }
 
     /**
-     * Default validation rules.
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
      */
-    public function validationDefault(Validator $validator)
+    public function buildRules(RulesChecker $rules)
     {
-        $validator
-            ->integer('TermId')
-            ->allowEmpty('TermId', 'create');
+        $rules->add($rules->existsIn(['term_id'], 'Term'));
+        $rules->add($rules->existsIn(['site_id'], 'Term'));
 
-        $validator
-            ->integer('SiteId')
-            ->allowEmpty('SiteId', 'create');
-
-        return $validator;
+        return $rules;
     }
 }
