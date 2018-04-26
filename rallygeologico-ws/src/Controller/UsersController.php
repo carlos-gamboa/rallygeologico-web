@@ -73,6 +73,15 @@ class UsersController extends AppController
         $this->render('/Users/json/template');
     }
 
+    public function facebookid($facebookid = null)
+    {
+        $users = $this->Users->find('all', [
+                'conditions' => ['users.facebook_id' => $facebookid]]
+        );
+        $this->set('users', $users);
+        $this->render('/Users/json/template');
+    }
+
 
     /**
      * Add method

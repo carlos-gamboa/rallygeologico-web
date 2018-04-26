@@ -3,6 +3,7 @@ import {UserService} from "../services/user.service";
 import {FacebookService, InitParams, LoginOptions, LoginResponse, AuthResponse} from 'ngx-facebook';
 import {User} from "../model/user";
 import {Rally} from "../model/rally";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -21,9 +22,12 @@ export class LoginComponent implements OnInit {
     fbToken: string;
     loginWithFacebook:boolean=false;
     user : User[];
+    photoUrl : string;
+    isNotRegistered: boolean = false;
+    success : boolean = false;
 
 
-  constructor(private fb: FacebookService, private userService: UserService){
+  constructor(private fb: FacebookService, private userService: UserService, private router: Router){
     console.log('Initializing Facebook');
     let initParams: InitParams = {
       appId: '1417631371676772',
@@ -63,7 +67,7 @@ export class LoginComponent implements OnInit {
       .then((res: LoginResponse) => {
         this.loginWithFacebook = true;
         console.log('Logged in', res);
-        this.fb.api('me?fields=id,first_name,last_name,email')
+        this.fb.api('me?fields=id,first_name,last_name,email,picture.width(150).height(150)')
           .then((res: any) => {
             console.log('Got the users profile information'+ res);
             this.fbId = res.id;
@@ -71,11 +75,26 @@ export class LoginComponent implements OnInit {
             this.lastName = res.last_name;
             this.email = res.email;
             this.fbToken = this.fb.getAuthResponse().accessToken;
+            this.photoUrl = res.picture.data.url;
             console.log("Login got : "+this.fbId +" "+this.firstName +" "+ this.lastName +" "+this.email+" "+this.fbToken);
-            this.user = [];
-            this.getUsers();
 
-            //this.fbLoginService();
+            var count1 = 0;
+            this.userService.facebookid(res.id).subscribe((users: User[]) => {
+              for (let i: number = 0; i < users.length; ++i) {
+                count1 += 1;
+              }
+              console.log("Count:" + count1);
+              console.log(users);
+              this.isNotRegistered = (count1 == 0);
+              if(!this.isNotRegistered){
+                this.success = true;
+                setTimeout(() =>
+                  {
+                    this.router.navigate(['/dashboard']);
+                  },
+                  5000);
+              }
+            });
           })
           .catch(this.handleErrorProfile);
       })
