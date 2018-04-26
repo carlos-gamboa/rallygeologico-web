@@ -17,14 +17,18 @@ export class UserService {
         this.baseUrl = this._configuration.ServerWithApiUrl;
     }
 
-    login(FacebookId : String) : Observable<User[]>{
-        const body = 'FacebookId=${FacebookId}';
-        return this.http.post<User[]>(this.baseUrl + "users/login.json", body);
+    email(Email : string) : Observable<User[]>{
+        const body = 'Email=${Email}';
+        return this.http.post<User[]>(this.baseUrl + "users/email/"+Email+".json", body);
     }
 
-    register(FacebookId : string, Username : string, FirstName : string, LastName : string, Email : string, PhotoUrl : string) : Observable<User[]>{
-      console.log("Se registro4");
-      console.log("FB id:" + FacebookId);
+    username(Username : string) : Observable<User[]>{
+      return this.http.post<User[]>(this.baseUrl + "users/username/"+Username+".json", {
+        'Username':Username,
+      });
+    }
+
+    register(FacebookId : string, Username : string, FirstName : string, LastName : string, Email : string, PhotoUrl : string) : Observable<string>{
       return this.http.post<User[]>(this.baseUrl + "users/add", {
         'FacebookId':FacebookId,
         'Username':Username,
@@ -32,7 +36,7 @@ export class UserService {
         'LastName':LastName,
         'Email':Email,
         'PhotoURL':PhotoUrl
-      });
+      },{ responseType: 'text'});
     }
 
     getUsers() : Observable<User[]>{

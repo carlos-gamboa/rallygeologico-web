@@ -55,6 +55,24 @@ class UsersController extends AppController
         $this->render('/Users/json/template');
     }
 
+    public function username($Username = null)
+    {
+        $user = $this->Users->find('all', [
+                'conditions' => ['Users.Username' => $Username]]
+        );
+        $this->set('user', $user);
+        $this->render('/Users/json/template');
+    }
+
+    public function email($Email = null)
+    {
+        $user = $this->Users->find('all', [
+                'conditions' => ['Users.Email' => $Email]]
+        );
+        $this->set('user', $user);
+        $this->render('/Users/json/template');
+    }
+
 
     /**
      * Add method

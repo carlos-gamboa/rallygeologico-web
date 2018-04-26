@@ -10,9 +10,36 @@
         <form #registerForm="ngForm">
           <input [(ngModel)]="firstName" class="mb-10 single-input disabled" type="text" name="name" placeholder="Nombre" disabled>
           <input [(ngModel)]="lastName" class="mb-10 single-input disabled" type="text" name="middlename" placeholder="Apellido(s)" disabled>
-          <input [(ngModel)]="email" class="mb-10 single-input disabled" type="text" name="email" placeholder="Correo Electrónico" disabled>
-          <input [class.error-shadow]="!freeUsername()" [(ngModel)]="userName" class="mb-10 single-input" type="text" name="username" placeholder="Nombre Usuario" required>
-          <button [disabled]="freeUsername() == false" (click)="createAccount()" class="mb-30 genric-btn primary register-btn">Registrarse</button>
+          <input [class.error-shadow]="emailUsed" [(ngModel)]="email" class="mb-10 single-input disabled" type="text" name="email" placeholder="Correo Electrónico" disabled>
+          <div class="form-group">
+            <input [class.error-shadow]="changeUsername"  [(ngModel)]="userName" class="mb-10 single-input" type="text" name="username" placeholder="Nombre Usuario" required minlength="6"
+                   #userName_input="ngModel" [class.error-shadow]="userName_input.invalid &&
+                       (userName_input.dirty || userName_input.touched)" required>
+            <div *ngIf="userName_input.invalid && (userName_input.dirty || userName_input.touched)">
+              <div *ngIf="userName_input.errors.required" class="alert alert-warning" role="alert">
+                Un nombre de usuario es obligatorio.
+              </div>
+              <div *ngIf="userName_input.errors.minlength" class="alert alert-warning" role="alert">
+                El nombre de usuario debe ser de más de 6 caracteres.
+              </div>
+            </div>
+          </div>
+          <div *ngIf="changeUsername" class="alert alert-danger" role="alert">
+            <h4>Ese nombre de usuario ya está en uso, digite otro.</h4>
+          </div>
+          <div *ngIf="emailUsed" class="alert alert-danger" role="alert">
+              <h4>Este correo ya está en uso, por favor inicie sesión normalmente.</h4>
+            <a class="txt2" routerLink="/login">
+              Iniciar Sesión
+            </a>
+          </div>
+          <div *ngIf="successful" class="alert alert-success" role="alert">
+            Felicidades, se ha registrado correctamente. Ya puede iniciar sesión.
+            <a class="txt2" routerLink="/login">
+              Iniciar Sesión
+            </a>
+          </div>
+          <button  (click)="register()" class="mb-30 genric-btn primary register-btn">Registrarse</button>
         </form>
       </div>
     </div>
