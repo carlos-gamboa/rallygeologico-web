@@ -20,6 +20,9 @@ class DistrictController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'contain' => ['Canton']
+        ];
         $district = $this->paginate($this->District);
 
         $this->set(compact('district'));
@@ -36,7 +39,7 @@ class DistrictController extends AppController
     public function view($id = null)
     {
         $district = $this->District->get($id, [
-            'contain' => []
+            'contain' => ['Canton', 'Site']
         ]);
 
         $this->set('district', $district);
@@ -59,7 +62,8 @@ class DistrictController extends AppController
             }
             $this->Flash->error(__('The district could not be saved. Please, try again.'));
         }
-        $this->set(compact('district'));
+        $canton = $this->District->Canton->find('list', ['limit' => 200]);
+        $this->set(compact('district', 'canton'));
     }
 
     /**
@@ -83,7 +87,8 @@ class DistrictController extends AppController
             }
             $this->Flash->error(__('The district could not be saved. Please, try again.'));
         }
-        $this->set(compact('district'));
+        $canton = $this->District->Canton->find('list', ['limit' => 200]);
+        $this->set(compact('district', 'canton'));
     }
 
     /**

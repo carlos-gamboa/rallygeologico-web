@@ -8,6 +8,8 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New Province'), ['action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Canton'), ['controller' => 'Canton', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Canton'), ['controller' => 'Canton', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="province index large-9 medium-8 columns content">
@@ -15,20 +17,18 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('Name') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('CantonName') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('name') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($province as $province): ?>
             <tr>
-                <td><?= h($province->Name) ?></td>
-                <td><?= h($province->CantonName) ?></td>
+                <td><?= h($province->name) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $province->Name]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $province->Name]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $province->Name], ['confirm' => __('Are you sure you want to delete # {0}?', $province->Name)]) ?>
+                    <?= $this->Html->link(__('View'), ['action' => 'view', $province->name]) ?>
+                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $province->name]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $province->name], ['confirm' => __('Are you sure you want to delete # {0}?', $province->name)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

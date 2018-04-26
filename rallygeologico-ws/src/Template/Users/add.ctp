@@ -8,6 +8,10 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('List Users'), ['action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('List Competition Statistics'), ['controller' => 'CompetitionStatistics', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Competition Statistic'), ['controller' => 'CompetitionStatistics', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Competition Statistics Site'), ['controller' => 'CompetitionStatisticsSite', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Competition Statistics Site'), ['controller' => 'CompetitionStatisticsSite', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="users form large-9 medium-8 columns content">
@@ -15,13 +19,13 @@
     <fieldset>
         <legend><?= __('Add User') ?></legend>
         <?php
-            echo $this->Form->control('UserId');
-            echo $this->Form->control('Username');
-            echo $this->Form->control('FirstName');
-            echo $this->Form->control('LastName');
-            echo $this->Form->control('Email');
-            echo $this->Form->control('PhotoURL');
-            echo $this->Form->control('IsAdmin');
+            echo $this->Form->control('facebook_id');
+            echo $this->Form->control('username');
+            echo $this->Form->control('first_name');
+            echo $this->Form->control('last_name');
+            echo $this->Form->control('email');
+            echo $this->Form->control('photo_url');
+            echo $this->Form->control('is_admin');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

@@ -9,6 +9,8 @@ use Cake\Validation\Validator;
 /**
  * Province Model
  *
+ * @property \App\Model\Table\CantonTable|\Cake\ORM\Association\HasMany $Canton
+ *
  * @method \App\Model\Entity\Province get($primaryKey, $options = [])
  * @method \App\Model\Entity\Province newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Province[] newEntities(array $data, array $options = [])
@@ -31,8 +33,12 @@ class ProvinceTable extends Table
         parent::initialize($config);
 
         $this->setTable('province');
-        $this->setDisplayField('Name');
-        $this->setPrimaryKey('Name');
+        $this->setDisplayField('name');
+        $this->setPrimaryKey('name');
+
+        $this->hasMany('Canton', [
+            'foreignKey' => 'province_id'
+        ]);
     }
 
     /**
@@ -44,15 +50,9 @@ class ProvinceTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->scalar('Name')
-            ->maxLength('Name', 20)
-            ->allowEmpty('Name', 'create');
-
-        $validator
-            ->scalar('CantonName')
-            ->maxLength('CantonName', 40)
-            ->requirePresence('CantonName', 'create')
-            ->notEmpty('CantonName');
+            ->scalar('name')
+            ->maxLength('name', 20)
+            ->allowEmpty('name', 'create');
 
         return $validator;
     }

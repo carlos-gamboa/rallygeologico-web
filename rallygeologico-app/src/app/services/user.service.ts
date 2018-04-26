@@ -39,8 +39,4 @@ export class UserService {
         return this.http.get<User[]>(this.baseUrl + "users.json");
     }
 
-    sendInvitation( FacebookIdSend : string, FacebookIdReceive: string, CompetitionId: number) {
-        const body = `FacebookIdSend=${FacebookIdSend}&FacebookIdReceive=${FacebookIdReceive}&CompetitionId=${CompetitionId}`;
-        return this.http.post<User[]>(this.baseUrl + "invitation/add.json", body);
-    }
 }

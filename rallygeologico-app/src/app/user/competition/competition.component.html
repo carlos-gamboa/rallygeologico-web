@@ -125,10 +125,10 @@
                 <th>Nombre</th>
                 <th>Invitar</th>
                 <tr *ngFor="let user of showedUsers; let i = index">
-                  <td><img class="user-image" src="{{user.PhotoURL}}"></td>
-                  <td><h5>{{user.Username}}</h5></td>
-                  <td><h4>{{user.FirstName}} {{user.LastName}}</h4></td>
-                  <td><button title="Invitar" class="btn btn-default btn-sm btn-block text-center">Invitar</button></td>
+                  <td><img class="user-image" src="{{user.photo_url}}"></td>
+                  <td><h5>{{user.username}}</h5></td>
+                  <td><h4>{{user.first_name}} {{user.last_name}}</h4></td>
+                  <td><button title="Invitar" class="btn btn-default btn-sm btn-block text-center" (click)="invite(i)">Invitar</button></td>
                 </tr>
                 </tbody>
               </table>

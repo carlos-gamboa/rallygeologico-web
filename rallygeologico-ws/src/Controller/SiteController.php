@@ -20,6 +20,9 @@ class SiteController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'contain' => ['District']
+        ];
         $site = $this->paginate($this->Site);
 
         $this->set(compact('site'));
@@ -36,7 +39,7 @@ class SiteController extends AppController
     public function view($id = null)
     {
         $site = $this->Site->get($id, [
-            'contain' => ['Rally', 'Term']
+            'contain' => ['District', 'CompetitionStatistics', 'Rally', 'Term']
         ]);
 
         $this->set('site', $site);
@@ -59,9 +62,11 @@ class SiteController extends AppController
             }
             $this->Flash->error(__('The site could not be saved. Please, try again.'));
         }
+        $district = $this->Site->District->find('list', ['limit' => 200]);
+        $competitionStatistics = $this->Site->CompetitionStatistics->find('list', ['limit' => 200]);
         $rally = $this->Site->Rally->find('list', ['limit' => 200]);
         $term = $this->Site->Term->find('list', ['limit' => 200]);
-        $this->set(compact('site', 'rally', 'term'));
+        $this->set(compact('site', 'district', 'competitionStatistics', 'rally', 'term'));
     }
 
     /**
@@ -74,7 +79,7 @@ class SiteController extends AppController
     public function edit($id = null)
     {
         $site = $this->Site->get($id, [
-            'contain' => ['Rally', 'Term']
+            'contain' => ['CompetitionStatistics', 'Rally', 'Term']
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $site = $this->Site->patchEntity($site, $this->request->getData());
@@ -85,9 +90,11 @@ class SiteController extends AppController
             }
             $this->Flash->error(__('The site could not be saved. Please, try again.'));
         }
+        $district = $this->Site->District->find('list', ['limit' => 200]);
+        $competitionStatistics = $this->Site->CompetitionStatistics->find('list', ['limit' => 200]);
         $rally = $this->Site->Rally->find('list', ['limit' => 200]);
         $term = $this->Site->Term->find('list', ['limit' => 200]);
-        $this->set(compact('site', 'rally', 'term'));
+        $this->set(compact('site', 'district', 'competitionStatistics', 'rally', 'term'));
     }
 
     /**

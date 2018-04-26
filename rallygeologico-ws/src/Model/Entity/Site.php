@@ -6,16 +6,18 @@ use Cake\ORM\Entity;
 /**
  * Site Entity
  *
- * @property int $SiteId
- * @property string $Name
- * @property int $PointsAwarded
- * @property string $QrUrl
- * @property string $Details
- * @property string $Description
- * @property float $Latitude
- * @property float $Longitude
- * @property string $ProvinceName
+ * @property int $id
+ * @property string $name
+ * @property int $points_awarded
+ * @property string $qr_url
+ * @property string $details
+ * @property string $description
+ * @property float $latitude
+ * @property float $longitude
+ * @property string $district_id
  *
+ * @property \App\Model\Entity\District $district
+ * @property \App\Model\Entity\CompetitionStatistic[] $competition_statistics
  * @property \App\Model\Entity\Rally[] $rally
  * @property \App\Model\Entity\Term[] $term
  */
@@ -32,14 +34,16 @@ class Site extends Entity
      * @var array
      */
     protected $_accessible = [
-        'Name' => true,
-        'PointsAwarded' => true,
-        'QrUrl' => true,
-        'Details' => true,
-        'Description' => true,
-        'Latitude' => true,
-        'Longitude' => true,
-        'ProvinceName' => true,
+        'name' => true,
+        'points_awarded' => true,
+        'qr_url' => true,
+        'details' => true,
+        'description' => true,
+        'latitude' => true,
+        'longitude' => true,
+        'district_id' => true,
+        'district' => true,
+        'competition_statistics' => true,
         'rally' => true,
         'term' => true
     ];

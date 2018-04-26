@@ -8,6 +8,10 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New User'), ['action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Competition Statistics'), ['controller' => 'CompetitionStatistics', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Competition Statistic'), ['controller' => 'CompetitionStatistics', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Competition Statistics Site'), ['controller' => 'CompetitionStatisticsSite', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Competition Statistics Site'), ['controller' => 'CompetitionStatisticsSite', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="users index large-9 medium-8 columns content">
@@ -15,32 +19,32 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('UserId') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('FacebookId') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('Username') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('FirstName') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('LastName') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('Email') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('PhotoURL') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('IsAdmin') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('facebook_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('username') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('first_name') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('last_name') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('email') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('photo_url') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('is_admin') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($users as $user): ?>
             <tr>
-                <td><?= $this->Number->format($user->UserId) ?></td>
-                <td><?= h($user->FacebookId) ?></td>
-                <td><?= h($user->Username) ?></td>
-                <td><?= h($user->FirstName) ?></td>
-                <td><?= h($user->LastName) ?></td>
-                <td><?= h($user->Email) ?></td>
-                <td><?= h($user->PhotoURL) ?></td>
-                <td><?= h($user->IsAdmin) ?></td>
+                <td><?= $this->Number->format($user->id) ?></td>
+                <td><?= h($user->facebook_id) ?></td>
+                <td><?= h($user->username) ?></td>
+                <td><?= h($user->first_name) ?></td>
+                <td><?= h($user->last_name) ?></td>
+                <td><?= h($user->email) ?></td>
+                <td><?= h($user->photo_url) ?></td>
+                <td><?= h($user->is_admin) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $user->FacebookId]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->FacebookId]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->FacebookId], ['confirm' => __('Are you sure you want to delete # {0}?', $user->FacebookId)]) ?>
+                    <?= $this->Html->link(__('View'), ['action' => 'view', $user->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

@@ -8,6 +8,8 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New Rally'), ['action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Competition'), ['controller' => 'Competition', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Competition'), ['controller' => 'Competition', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Site'), ['controller' => 'Site', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Site'), ['controller' => 'Site', 'action' => 'add']) ?></li>
     </ul>
@@ -17,26 +19,26 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('RallyId') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('Name') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('PointsAwarded') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('ImageUrl') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('Description') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('name') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('points_awarded') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('image_url') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('description') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($rally as $rally): ?>
             <tr>
-                <td><?= $this->Number->format($rally->RallyId) ?></td>
-                <td><?= h($rally->Name) ?></td>
-                <td><?= $this->Number->format($rally->PointsAwarded) ?></td>
-                <td><?= h($rally->ImageUrl) ?></td>
-                <td><?= h($rally->Description) ?></td>
+                <td><?= $this->Number->format($rally->id) ?></td>
+                <td><?= h($rally->name) ?></td>
+                <td><?= $this->Number->format($rally->points_awarded) ?></td>
+                <td><?= h($rally->image_url) ?></td>
+                <td><?= h($rally->description) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $rally->RallyId]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $rally->RallyId]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $rally->RallyId], ['confirm' => __('Are you sure you want to delete # {0}?', $rally->RallyId)]) ?>
+                    <?= $this->Html->link(__('View'), ['action' => 'view', $rally->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $rally->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $rally->id], ['confirm' => __('Are you sure you want to delete # {0}?', $rally->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>
