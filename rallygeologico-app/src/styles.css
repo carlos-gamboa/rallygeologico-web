@@ -1259,12 +1259,14 @@ h1, h2, h3, h4, h5, h6 {
 
 .single-input {
     display: block;
-    width: 100%;
+    width: 97%;
     line-height: 40px;
     border: none;
     outline: none;
     background: #f9f9ff;
     padding: 0 20px;
+    margin-left: 8px;
+    /*margin-right: 8px;*/
 }
 
 .single-input:focus {
