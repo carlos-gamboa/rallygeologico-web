@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-	"code": "ng serve --ssl 1 --ssl-key \"C:\\xampp\\htdocs\\rallygeologico-web\\rallygeologico-ws\\certs\\server.key\" --ssl-cert \"C:\\xampp\\htdocs\\rallygeologico-web\\rallygeologico-ws\\certs\\server.crt\"",
+	"code": "ng serve --ssl 1 --ssl-key \"C:\\xampp\\htdocs\\rallygeologico\\rallygeologico-ws\\certs\\server.key\" --ssl-cert \"C:\\xampp\\htdocs\\rallygeologico\\rallygeologico-ws\\certs\\server.crt\" --live-reload false",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",

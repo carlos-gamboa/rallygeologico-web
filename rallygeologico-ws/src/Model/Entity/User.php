@@ -15,7 +15,6 @@ use Cake\ORM\Entity;
  * @property string $photo_url
  * @property string $is_admin
  *
- * @property \App\Model\Entity\Facebook $facebook
  * @property \App\Model\Entity\CompetitionStatistic[] $competition_statistics
  * @property \App\Model\Entity\CompetitionStatisticsSite[] $competition_statistics_site
  */
