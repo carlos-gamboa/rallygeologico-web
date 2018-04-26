@@ -126,10 +126,10 @@ export class LoginComponent implements OnInit {
   }
 
   getUsers(){
-      this.userService.login(this.fbId).subscribe((userArr: User[])=>{
-              this.user.push(userArr[0]);
-          console.log("USUARIO ES" + this.user);
-      });
+      // this.userService.login(this.fbId).subscribe((userArr: User[])=>{
+      //         this.user.push(userArr[0]);
+      //     console.log("USUARIO ES" + this.user);
+      // });
   }
 
 }

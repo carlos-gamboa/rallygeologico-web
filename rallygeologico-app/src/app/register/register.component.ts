@@ -44,17 +44,6 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
   }
 
-  createAccount(){
-      if(!this.changeUsername){
-      if (this.registerWithFacebook){
-        this.userService.register(this.fbId, this.userName, this.firstName, this.lastName, this.email, this.photoUrl).subscribe((users: User[])=>{
-          this.user=users[0];
-          console.log(this.user);
-        });
-      }
-    }
-  }
-
   /**
    * Checks that the userName is free to use
    */

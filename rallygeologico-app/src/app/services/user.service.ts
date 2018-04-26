@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
+import {HttpClient, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest} from "@angular/common/http";
 import {RequestOptions} from "@angular/http"
 import {User} from "../model/user";
 import {Configuration} from "./data/constants";
@@ -18,25 +18,22 @@ export class UserService {
     }
 
     email(Email : string) : Observable<User[]>{
-        const body = 'Email=${Email}';
-        return this.http.post<User[]>(this.baseUrl + "users/email/"+Email+".json", body);
+        return this.http.get<User[]>(this.baseUrl + "users/email/"+Email+".json");
     }
 
     username(Username : string) : Observable<User[]>{
-      return this.http.post<User[]>(this.baseUrl + "users/username/"+Username+".json", {
-        'Username':Username,
-      });
+      return this.http.get<User[]>(this.baseUrl + "users/username/"+Username+".json");
     }
 
     register(FacebookId : string, Username : string, FirstName : string, LastName : string, Email : string, PhotoUrl : string) : Observable<string>{
-      return this.http.post<User[]>(this.baseUrl + "users/add", {
-        'FacebookId':FacebookId,
-        'Username':Username,
-        'FirstName':FirstName,
-        'LastName':LastName,
-        'Email':Email,
-        'PhotoURL':PhotoUrl
-      },{ responseType: 'text'});
+        return this.http.post<string>(this.baseUrl + "users/add", {
+        'facebook_id':FacebookId,
+        'username':Username,
+        'first_name':FirstName,
+        'last_name':LastName,
+        'email':Email,
+        'photo_url':PhotoUrl
+      }, {responseType: 'text' as 'json'});
     }
 
     getUsers() : Observable<User[]>{

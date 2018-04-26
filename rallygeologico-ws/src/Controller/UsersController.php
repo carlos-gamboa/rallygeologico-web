@@ -48,28 +48,28 @@ class UsersController extends AppController
 
     public function login($UserId = null)
     {
-        $user = $this->Users->find('all', [
+        $users = $this->Users->find('all', [
                 'conditions' => ['users.id' => $UserId]]
         );
-        $this->set('user', $user);
+        $this->set('users', $users);
         $this->render('/Users/json/template');
     }
 
     public function username($Username = null)
     {
-        $user = $this->Users->find('all', [
-                'conditions' => ['Users.Username' => $Username]]
+        $users = $this->Users->find('all', [
+                'conditions' => ['users.username' => $Username]]
         );
-        $this->set('user', $user);
+        $this->set('users', $users);
         $this->render('/Users/json/template');
     }
 
     public function email($Email = null)
     {
-        $user = $this->Users->find('all', [
-                'conditions' => ['Users.Email' => $Email]]
+        $users = $this->Users->find('all', [
+                'conditions' => ['users.email' => $Email]]
         );
-        $this->set('user', $user);
+        $this->set('users', $users);
         $this->render('/Users/json/template');
     }
 
@@ -91,8 +91,7 @@ class UsersController extends AppController
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $facebooks = $this->Users->Facebooks->find('list', ['limit' => 200]);
-        $this->set(compact('user', 'facebooks'));
+        $this->set(compact('user'));
     }
 
     /**
@@ -116,8 +115,7 @@ class UsersController extends AppController
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $facebooks = $this->Users->Facebooks->find('list', ['limit' => 200]);
-        $this->set(compact('user', 'facebooks'));
+        $this->set(compact('user'));
     }
 
     /**
