@@ -8,6 +8,8 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('List Province'), ['action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('List Canton'), ['controller' => 'Canton', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Canton'), ['controller' => 'Canton', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="province form large-9 medium-8 columns content">
@@ -15,7 +17,6 @@
     <fieldset>
         <legend><?= __('Add Province') ?></legend>
         <?php
-            echo $this->Form->control('CantonName');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

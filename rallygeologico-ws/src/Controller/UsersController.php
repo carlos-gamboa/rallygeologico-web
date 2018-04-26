@@ -20,6 +20,9 @@ class UsersController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'contain' => []
+        ];
         $users = $this->paginate($this->Users);
 
         $this->set(compact('users'));
@@ -37,18 +40,36 @@ class UsersController extends AppController
     public function view($id = null)
     {
         $user = $this->Users->get($id, [
-            'contain' => []
+            'contain' => ['Invitations', 'CompetitionStatistics', 'CompetitionStatisticsSite']
         ]);
 
         $this->set('user', $user);
     }
 
-    public function login($facebookId = null)
+    public function login($UserId = null)
     {
-        $user = $this->Users->find('all', [
-                'conditions' => ['Users.facebookId' => $facebookId]]
+        $users = $this->Users->find('all', [
+                'conditions' => ['users.id' => $UserId]]
         );
-        $this->set('user', $user);
+        $this->set('users', $users);
+        $this->render('/Users/json/template');
+    }
+
+    public function username($Username = null)
+    {
+        $users = $this->Users->find('all', [
+                'conditions' => ['users.username' => $Username]]
+        );
+        $this->set('users', $users);
+        $this->render('/Users/json/template');
+    }
+
+    public function email($Email = null)
+    {
+        $users = $this->Users->find('all', [
+                'conditions' => ['users.email' => $Email]]
+        );
+        $this->set('users', $users);
         $this->render('/Users/json/template');
     }
 

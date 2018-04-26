@@ -8,6 +8,10 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New Canton'), ['action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Province'), ['controller' => 'Province', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Province'), ['controller' => 'Province', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List District'), ['controller' => 'District', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New District'), ['controller' => 'District', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="canton index large-9 medium-8 columns content">
@@ -15,20 +19,20 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('Name') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('DistrictName') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('name') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('province_id') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($canton as $canton): ?>
             <tr>
-                <td><?= h($canton->Name) ?></td>
-                <td><?= h($canton->DistrictName) ?></td>
+                <td><?= h($canton->name) ?></td>
+                <td><?= $canton->has('province') ? $this->Html->link($canton->province->name, ['controller' => 'Province', 'action' => 'view', $canton->province->name]) : '' ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $canton->Name]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $canton->Name]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $canton->Name], ['confirm' => __('Are you sure you want to delete # {0}?', $canton->Name)]) ?>
+                    <?= $this->Html->link(__('View'), ['action' => 'view', $canton->name]) ?>
+                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $canton->name]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $canton->name], ['confirm' => __('Are you sure you want to delete # {0}?', $canton->name)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

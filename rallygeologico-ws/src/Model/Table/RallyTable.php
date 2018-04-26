@@ -9,6 +9,7 @@ use Cake\Validation\Validator;
 /**
  * Rally Model
  *
+ * @property \App\Model\Table\CompetitionTable|\Cake\ORM\Association\HasMany $Competition
  * @property \App\Model\Table\SiteTable|\Cake\ORM\Association\BelongsToMany $Site
  *
  * @method \App\Model\Entity\Rally get($primaryKey, $options = [])
@@ -33,9 +34,12 @@ class RallyTable extends Table
         parent::initialize($config);
 
         $this->setTable('rally');
-        $this->setDisplayField('RallyId');
-        $this->setPrimaryKey('RallyId');
+        $this->setDisplayField('name');
+        $this->setPrimaryKey('id');
 
+        $this->hasMany('Competition', [
+            'foreignKey' => 'rally_id'
+        ]);
         $this->belongsToMany('Site', [
             'foreignKey' => 'rally_id',
             'targetForeignKey' => 'site_id',
@@ -52,29 +56,29 @@ class RallyTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('RallyId')
-            ->allowEmpty('RallyId', 'create');
+            ->integer('id')
+            ->allowEmpty('id', 'create');
 
         $validator
-            ->scalar('Name')
-            ->maxLength('Name', 30)
-            ->requirePresence('Name', 'create')
-            ->notEmpty('Name');
+            ->scalar('name')
+            ->maxLength('name', 30)
+            ->requirePresence('name', 'create')
+            ->notEmpty('name');
 
         $validator
-            ->integer('PointsAwarded')
-            ->requirePresence('PointsAwarded', 'create')
-            ->notEmpty('PointsAwarded');
+            ->integer('points_awarded')
+            ->requirePresence('points_awarded', 'create')
+            ->notEmpty('points_awarded');
 
         $validator
-            ->scalar('ImageUrl')
-            ->maxLength('ImageUrl', 200)
-            ->allowEmpty('ImageUrl');
+            ->scalar('image_url')
+            ->maxLength('image_url', 200)
+            ->allowEmpty('image_url');
 
         $validator
-            ->scalar('Description')
-            ->maxLength('Description', 5000)
-            ->allowEmpty('Description');
+            ->scalar('description')
+            ->maxLength('description', 5000)
+            ->allowEmpty('description');
 
         return $validator;
     }

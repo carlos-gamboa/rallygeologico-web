@@ -20,6 +20,9 @@ class RallySiteController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'contain' => ['Rally', 'Site']
+        ];
         $rallySite = $this->paginate($this->RallySite);
 
         $this->set(compact('rallySite'));
@@ -36,7 +39,7 @@ class RallySiteController extends AppController
     public function view($id = null)
     {
         $rallySite = $this->RallySite->get($id, [
-            'contain' => []
+            'contain' => ['Rally', 'Site']
         ]);
 
         $this->set('rallySite', $rallySite);
@@ -59,7 +62,9 @@ class RallySiteController extends AppController
             }
             $this->Flash->error(__('The rally site could not be saved. Please, try again.'));
         }
-        $this->set(compact('rallySite'));
+        $rally = $this->RallySite->Rally->find('list', ['limit' => 200]);
+        $site = $this->RallySite->Site->find('list', ['limit' => 200]);
+        $this->set(compact('rallySite', 'rally', 'site'));
     }
 
     /**
@@ -83,7 +88,9 @@ class RallySiteController extends AppController
             }
             $this->Flash->error(__('The rally site could not be saved. Please, try again.'));
         }
-        $this->set(compact('rallySite'));
+        $rally = $this->RallySite->Rally->find('list', ['limit' => 200]);
+        $site = $this->RallySite->Site->find('list', ['limit' => 200]);
+        $this->set(compact('rallySite', 'rally', 'site'));
     }
 
     /**

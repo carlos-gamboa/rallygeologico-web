@@ -20,6 +20,9 @@ class CompetitionController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'contain' => ['Rally']
+        ];
         $competition = $this->paginate($this->Competition);
 
         $this->set(compact('competition'));
@@ -36,7 +39,7 @@ class CompetitionController extends AppController
     public function view($id = null)
     {
         $competition = $this->Competition->get($id, [
-            'contain' => []
+            'contain' => ['Rally', 'CompetitionStatistics', 'CompetitionStatisticsSite', 'Invitation']
         ]);
 
         $this->set('competition', $competition);
@@ -59,7 +62,8 @@ class CompetitionController extends AppController
             }
             $this->Flash->error(__('The competition could not be saved. Please, try again.'));
         }
-        $this->set(compact('competition'));
+        $rally = $this->Competition->Rally->find('list', ['limit' => 200]);
+        $this->set(compact('competition', 'rally'));
     }
 
     /**
@@ -83,7 +87,8 @@ class CompetitionController extends AppController
             }
             $this->Flash->error(__('The competition could not be saved. Please, try again.'));
         }
-        $this->set(compact('competition'));
+        $rally = $this->Competition->Rally->find('list', ['limit' => 200]);
+        $this->set(compact('competition', 'rally'));
     }
 
     /**

@@ -9,6 +9,8 @@ use Cake\Validation\Validator;
 /**
  * Site Model
  *
+ * @property \App\Model\Table\DistrictTable|\Cake\ORM\Association\BelongsTo $District
+ * @property \App\Model\Table\CompetitionStatisticsTable|\Cake\ORM\Association\BelongsToMany $CompetitionStatistics
  * @property \App\Model\Table\RallyTable|\Cake\ORM\Association\BelongsToMany $Rally
  * @property \App\Model\Table\TermTable|\Cake\ORM\Association\BelongsToMany $Term
  *
@@ -34,9 +36,18 @@ class SiteTable extends Table
         parent::initialize($config);
 
         $this->setTable('site');
-        $this->setDisplayField('SiteId');
-        $this->setPrimaryKey('SiteId');
+        $this->setDisplayField('name');
+        $this->setPrimaryKey('id');
 
+        $this->belongsTo('District', [
+            'foreignKey' => 'district_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->belongsToMany('CompetitionStatistics', [
+            'foreignKey' => 'site_id',
+            'targetForeignKey' => 'competition_statistic_id',
+            'joinTable' => 'competition_statistics_site'
+        ]);
         $this->belongsToMany('Rally', [
             'foreignKey' => 'site_id',
             'targetForeignKey' => 'rally_id',
@@ -58,51 +69,59 @@ class SiteTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('SiteId')
-            ->allowEmpty('SiteId', 'create');
+            ->integer('id')
+            ->allowEmpty('id', 'create');
 
         $validator
-            ->scalar('Name')
-            ->maxLength('Name', 30)
-            ->requirePresence('Name', 'create')
-            ->notEmpty('Name');
+            ->scalar('name')
+            ->maxLength('name', 30)
+            ->requirePresence('name', 'create')
+            ->notEmpty('name');
 
         $validator
-            ->integer('PointsAwarded')
-            ->requirePresence('PointsAwarded', 'create')
-            ->notEmpty('PointsAwarded');
+            ->integer('points_awarded')
+            ->requirePresence('points_awarded', 'create')
+            ->notEmpty('points_awarded');
 
         $validator
-            ->scalar('QrUrl')
-            ->maxLength('QrUrl', 200)
-            ->allowEmpty('QrUrl');
+            ->scalar('qr_url')
+            ->maxLength('qr_url', 200)
+            ->allowEmpty('qr_url');
 
         $validator
-            ->scalar('Details')
-            ->maxLength('Details', 2000)
-            ->allowEmpty('Details');
+            ->scalar('details')
+            ->maxLength('details', 2000)
+            ->allowEmpty('details');
 
         $validator
-            ->scalar('Description')
-            ->maxLength('Description', 2000)
-            ->allowEmpty('Description');
+            ->scalar('description')
+            ->maxLength('description', 2000)
+            ->allowEmpty('description');
 
         $validator
-            ->numeric('Latitude')
-            ->requirePresence('Latitude', 'create')
-            ->notEmpty('Latitude');
+            ->numeric('latitude')
+            ->requirePresence('latitude', 'create')
+            ->notEmpty('latitude');
 
         $validator
-            ->numeric('Longitude')
-            ->requirePresence('Longitude', 'create')
-            ->notEmpty('Longitude');
-
-        $validator
-            ->scalar('ProvinceName')
-            ->maxLength('ProvinceName', 40)
-            ->requirePresence('ProvinceName', 'create')
-            ->notEmpty('ProvinceName');
+            ->numeric('longitude')
+            ->requirePresence('longitude', 'create')
+            ->notEmpty('longitude');
 
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        $rules->add($rules->existsIn(['district_id'], 'District'));
+
+        return $rules;
     }
 }

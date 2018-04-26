@@ -1,0 +1,174 @@
+<!--<app-header [activeTab]="2"></app-header>-->
+<!-- start banner Area -->
+<section class="banner-area relative" id="home">
+  <div class="overlay overlay-bg"></div>
+  <div class="container">
+    <div class="row d-flex align-items-center justify-content-center">
+      <div class="about-content col-lg-12">
+        <h1 class="text-white">
+          Crear Competencia
+        </h1>
+        <p class="text-white link-nav"><a href="/dashboard">Inicio </a>  <span class="lnr lnr-arrow-right"></span>  <a href="/create-competition">Crear Competencia</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End banner Area -->
+
+<section class="contact-page-area section-gap">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 col-xs-12">
+        <p class="text-center">Encuéntrelos según su nombre</p>
+        <div>
+          <div>
+            <h4>Lista de rallies</h4> <br>
+            <div>
+              <table class="table">
+                <tbody>
+                <th><i class="fa fa-check"></i></th>
+                <th class="text-center">Foto</th>
+                <th class="text-center">Nombre</th>
+                <th class="text-center">Puntos</th>
+                <tr *ngFor="let rally of ralliesList">
+                  <td>
+                    <div class="switch-wrap d-flex justify-content-between">
+                      <div class="confirm-checkbox">
+                        <input type="checkbox" id="confirm-checkbox1" checked>
+                        <label for="confirm-checkbox1"></label>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div align="center">
+                      <img style="border-radius: 70%; width: 100px; height: auto" src="{{rally.image_url}}">
+                    </div>
+                  </td>
+                  <td><h5 class="text-center">{{rally.name}}</h5></td>
+                  <td><h4 class="text-center">{{rally.points_awarded}}</h4></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="paginationmio col-lg-8 offset-lg-4">
+              <a href="#">&laquo;</a>
+              <a href="#">1</a>
+              <a class="active" href="#">2</a>
+              <a href="#">3</a>
+              <a href="#">4</a>
+              <a href="#">&raquo;</a>
+            </div>
+          </div>
+          <div class="mt-80" align="center">
+            <button title="anadirRally" class="btn genric-btn success col-lg-2" style="font-size: 14px; background-color: #fdb727">Añadir Rally</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Start form Area -->
+<div class="whole-wrap">
+  <div class="container">
+    <div class="section-top-border">
+      <div class="row">
+        <div class="col-lg-8 col-md-12 offset-lg-2">
+          <h3 class="mb-30">Detalles de la competencia</h3>
+          <div class="booking-right">
+            <form action="#">
+              <div class="mt-10">
+                <input type="text" name="nombre" placeholder="Nombre" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nombre'" required class="single-input">
+              </div>
+              <div class="row">
+                <div class="col-lg-6 mt-10">
+                  <!--<mat-form-field>-->
+                  <input class="fechaInicial" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" placeholder="Fecha Inicial">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  <!--</mat-form-field>-->
+                </div>
+                <div class="col-lg-6 mt-10">
+                  <!--<input class="fechaFinal" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" placeholder="Fecha Final">-->
+                  <!--<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>-->
+                  <!--<mat-datepicker #picker></mat-datepicker>-->
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-group-icon mt-10 col-lg-6">
+                  <div class="icon"><i class="" aria-hidden="true"></i></div>
+                  <div class="form-select" id="default-select1">
+                    <select>
+                      <option value="1">Público</option>
+                      <option value="1">Privado</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="input-group-icon mt-10 col-lg-6">
+                  <div class="icon"><i class="" aria-hidden="true"></i></div>
+                  <div class="form-select" id="default-select2">
+                    <select>
+                      <option value="1">Activo</option>
+                      <option value="1">Inactivo</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="mt-80" align="center">
+            <button title="crearCompetencia" class="btn genric-btn success col-lg-6" style="font-size: 16px">Crear Competencia</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End form Area -->
+
+<section class="contact-page-area section-gap">
+  <div class="container">
+    <div class="row">
+      <div class="offset-md-2 col-md-8 col-xs-12">
+        <p class="text-center mt-0">Busque por nombre de usuario</p>
+        <div class="busqueda mt-0" id="searchform">
+          <input type="text" title="Digite aquí el nombre del usuario" id="searchterm" placeholder="Digite el nombre de usuario" />
+          <button type="button" id="search" title="Click aquí para buscar el usuario">Buscar!</button>
+        </div>
+        <div>
+          <div>
+            <h4>Lista de usuarios</h4> <br>
+            <div>
+              <table class="table">
+                <tbody>
+                <th class="text-center">Foto</th>
+                <th class="text-center">Usuario</th>
+                <th class="text-center">Nombre</th>
+                <th class="text-center">Perfil</th>
+                <tr *ngFor="let user of usersList">
+                  <td>
+                    <div align="center">
+                      <img style="border-radius: 70%; width: 100px; height: auto" src="{{user.photo_url}}">
+                    </div>
+                  </td>
+                  <td><h5>{{user.username}}</h5></td>
+                  <td><h4>{{user.first_name}} {{user.last_name}}</h4></td>
+                  <td><button title="Invitar" class="btn btn-default btn-sm btn-block text-center">Invitar</button></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="paginationmio col-md-6 offset-3">
+              <a href="#">&laquo;</a>
+              <a href="#">1</a>
+              <a class="active" href="#">2</a>
+              <a href="#">3</a>
+              <a href="#">4</a>
+              <a href="#">&raquo;</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
