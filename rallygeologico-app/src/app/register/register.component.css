@@ -63,3 +63,10 @@
   box-shadow: 0 0 20px #CC4552 !important;
 }
 
+.alert-danger{
+  content: "\eaf0";
+  text-decoration: inherit;
+  font-weight:normal;
+  text-transform:none;
+  margin-right: 5px;
+}
