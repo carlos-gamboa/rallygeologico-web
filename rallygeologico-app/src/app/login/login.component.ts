@@ -4,6 +4,7 @@ import {FacebookService, InitParams, LoginOptions, LoginResponse, AuthResponse} 
 import {User} from "../model/user";
 import {Rally} from "../model/rally";
 import {Router} from "@angular/router";
+import {DataService} from "../services/data/data.service";
 
 @Component({
   selector: 'app-login',
@@ -21,13 +22,14 @@ export class LoginComponent implements OnInit {
     email: string;
     fbToken: string;
     loginWithFacebook:boolean=false;
-    user : User[];
+    user : User;
     photoUrl : string;
     isNotRegistered: boolean = false;
     success : boolean = false;
+    pleaseWait = false;
 
 
-  constructor(private fb: FacebookService, private userService: UserService, private router: Router){
+  constructor(private fb: FacebookService, private userService: UserService, private router: Router, private userDataService:DataService){
     console.log('Initializing Facebook');
     let initParams: InitParams = {
       appId: '1417631371676772',
@@ -65,6 +67,7 @@ export class LoginComponent implements OnInit {
     };
     this.fb.login(loginOptions)
       .then((res: LoginResponse) => {
+        this.pleaseWait = true;
         this.loginWithFacebook = true;
         console.log('Logged in', res);
         this.fb.api('me?fields=id,first_name,last_name,email,picture.width(150).height(150)')
@@ -77,23 +80,24 @@ export class LoginComponent implements OnInit {
             this.fbToken = this.fb.getAuthResponse().accessToken;
             this.photoUrl = res.picture.data.url;
             console.log("Login got : "+this.fbId +" "+this.firstName +" "+ this.lastName +" "+this.email+" "+this.fbToken);
-
             var count1 = 0;
             this.userService.facebookid(res.id).subscribe((users: User[]) => {
               for (let i: number = 0; i < users.length; ++i) {
                 count1 += 1;
               }
-              console.log("Count:" + count1);
-              console.log(users);
               this.isNotRegistered = (count1 == 0);
               if(!this.isNotRegistered){
+                this.user=users[0];
+                this.userDataService.updateUser(this.user);
+                this.pleaseWait = false;
                 this.success = true;
                 setTimeout(() =>
                   {
                     this.router.navigate(['/dashboard']);
                   },
-                  5000);
+                  1500);
               }
+              this.pleaseWait = false;
             });
           })
           .catch(this.handleErrorProfile);
