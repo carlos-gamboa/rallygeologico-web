@@ -4,7 +4,7 @@ import {DataService} from "../../services/data/data.service";
 import {User} from "../../model/user";
 import {InvitationService} from "../../services/invitation.service";
 import {Invitation} from "../../model/invitation";
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {CompetitionService} from "../../services/competition.service";
 import {Competition} from "../../model/competition";
 
@@ -19,6 +19,8 @@ export class CompetitionComponent implements OnInit {
     currentPage : number = 0;
     totalUsers : number = 0;
 
+    readyToShow: boolean = false;
+
     searchQuery : string = "";
 
     competition: Competition;
@@ -29,7 +31,9 @@ export class CompetitionComponent implements OnInit {
     allUsers: User[];
     showedUsers: User[];
 
-    constructor(private userService: UserService, private dataService: DataService, private invitationService: InvitationService, private route: ActivatedRoute, private competitionService: CompetitionService) {
+    constructor(private userService: UserService, private dataService: DataService,
+                private invitationService: InvitationService, private route: ActivatedRoute,
+                private competitionService: CompetitionService, private router: Router) {
         this.user = this.dataService.getUser();
         this.userService.getUsers().subscribe((users: User[]) => {
           this.allUsers = users;
@@ -78,7 +82,12 @@ export class CompetitionComponent implements OnInit {
                     this.competitionId = this.route.snapshot.params['competitionId'];
                     console.log("Competition Id = " + this.competitionId);
                     this.competitionService.findCompetition(this.competitionId).subscribe((competition: Competition) => {
-                        this.competition = competition;
+                        if (competition){
+                            this.competition = competition;
+                            this.readyToShow = true;
+                        } else {
+                            this.router.navigate(['/dashboard']);
+                        }
                     });
                 }
             );

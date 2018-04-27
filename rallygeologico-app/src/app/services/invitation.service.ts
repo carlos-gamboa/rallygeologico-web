@@ -19,6 +19,5 @@ export class InvitationService {
             'user_id_receive' : userIdReceive,
             'competition_id' : competitionId,
         },{responseType: 'text' as 'json'});
-
     }
 }

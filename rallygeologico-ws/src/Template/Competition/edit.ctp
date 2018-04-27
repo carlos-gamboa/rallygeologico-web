@@ -33,6 +33,8 @@
             echo $this->Form->control('starting_date', ['empty' => true]);
             echo $this->Form->control('finishing_date', ['empty' => true]);
             echo $this->Form->control('is_public');
+            echo $this->Form->control('admin_id');
+            echo $this->Form->control('description');
             echo $this->Form->control('Name');
             echo $this->Form->control('rally_id', ['options' => $rally]);
         ?>

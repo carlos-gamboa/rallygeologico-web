@@ -39,7 +39,7 @@ class CompetitionController extends AppController
     public function view($id = null)
     {
         $competition = $this->Competition->get($id, [
-            'contain' => ['Rally']
+            'contain' => ['Rally', 'Users']
         ]);
 
         $this->set('competition', $competition);
