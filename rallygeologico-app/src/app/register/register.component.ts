@@ -25,6 +25,7 @@ export class RegisterComponent implements OnInit {
   user : User;
   successful : boolean = false;
   emailUsed : boolean = false;
+  pleaseWait : boolean = false;
 
   constructor(private fb: FacebookService, private router: Router,  private userService: UserService) {
     console.log('Initializing Facebook');
@@ -48,7 +49,7 @@ export class RegisterComponent implements OnInit {
    * Checks that the userName is free to use
    */
   register() {
-
+    this.pleaseWait = true;
     var count1 = 0;
     this.userService.email(this.email).subscribe((users: User[]) => {
       console.log(users);
@@ -67,6 +68,7 @@ export class RegisterComponent implements OnInit {
           if (!this.changeUsername) {
             this.userService.register(this.fbId, this.userName, this.firstName, this.lastName, this.email, this.photoUrl).subscribe((users: string) => {
               this.successful = true;
+              this.pleaseWait = false;
             });
           }
         });

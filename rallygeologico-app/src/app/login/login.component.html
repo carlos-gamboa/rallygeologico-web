@@ -13,6 +13,9 @@
           Registrarse
         </a>
         </div>
+        <div *ngIf="pleaseWait" class="alert alert-info" role="alert">
+          Por favor espere.
+        </div>
         <div *ngIf="success == true" class="alert alert-success" role="alert">
           Ha iniciado sesión con éxito.
         </div>
