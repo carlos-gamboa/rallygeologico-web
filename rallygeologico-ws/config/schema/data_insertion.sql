@@ -24,3 +24,5 @@ INSERT INTO `rally_site` (`rally_id`, `site_id`) VALUES ('1', '3');
 
 INSERT INTO `users` (`id`, `facebook_id`, `username`, `first_name`, `last_name`, `email`, `photo_url`, `is_admin`) VALUES (NULL, '123456789123456', 'alan', 'Alan', 'Calderón', 'alan.calderon@ucr.ac.cr', NULL, b'0');
 INSERT INTO `users` (`id`, `facebook_id`, `username`, `first_name`, `last_name`, `email`, `photo_url`, `is_admin`) VALUES (NULL, '654321987654321', 'pablo', 'Juan Pablo', 'Solano', 'juan.solano@ucr.ac.cr', NULL, b'1');
+
+INSERT INTO `competition` (`id`, `is_active`, `starting_date`, `finishing_date`, `is_public`, `admin_id`, `description`, `Name`, `rally_id`) VALUES (NULL, b'1', CURRENT_TIMESTAMP, NULL, b'1', '1', 'The best rally ever', 'Test competition', '1');

@@ -28,6 +28,8 @@
                 <th scope="col"><?= $this->Paginator->sort('starting_date') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('finishing_date') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('is_public') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('admin_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('description') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('Name') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('rally_id') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -41,6 +43,8 @@
                 <td><?= h($competition->starting_date) ?></td>
                 <td><?= h($competition->finishing_date) ?></td>
                 <td><?= h($competition->is_public) ?></td>
+                <td><?= $this->Number->format($competition->admin_id) ?></td>
+                <td><?= h($competition->description) ?></td>
                 <td><?= h($competition->Name) ?></td>
                 <td><?= $competition->has('rally') ? $this->Html->link($competition->rally->name, ['controller' => 'Rally', 'action' => 'view', $competition->rally->id]) : '' ?></td>
                 <td class="actions">

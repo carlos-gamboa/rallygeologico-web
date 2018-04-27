@@ -33,6 +33,10 @@
             <td><?= h($competition->is_public) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Description') ?></th>
+            <td><?= h($competition->description) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Name') ?></th>
             <td><?= h($competition->Name) ?></td>
         </tr>
@@ -43,6 +47,10 @@
         <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($competition->id) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Admin Id') ?></th>
+            <td><?= $this->Number->format($competition->admin_id) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Starting Date') ?></th>

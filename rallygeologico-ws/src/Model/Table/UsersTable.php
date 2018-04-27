@@ -37,6 +37,10 @@ class UsersTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
+        $this->hasMany('Competition',[
+            'className' => 'Competition',
+            'foreignKey' => 'admin_id'
+        ]);
         $this->hasMany('InvitationSend',[
             'className' => 'Invitation',
             'foreignKey' => 'user_id_send'

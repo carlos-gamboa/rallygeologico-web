@@ -1,4 +1,5 @@
 import {Rally} from "./rally";
+import {User} from "./user";
 
 export class Competition {
     id: number;
@@ -8,7 +9,9 @@ export class Competition {
     is_public: boolean;
     name:  string;
     rally_id: number;
+    description: string;
     rally: Rally;
+    user: User;
 
 
     constructor(competition: any){
@@ -20,5 +23,7 @@ export class Competition {
         this.name = competition.name;
         this.rally_id = competition.rally_id;
         this.rally = competition.rally;
+        this.user = competition.user;
+        this.description = competition.description;
     }
 }

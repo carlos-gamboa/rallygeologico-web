@@ -1,4 +1,4 @@
-<!-- start banner Area -->
+<div *ngIf="readyToShow"><!-- start banner Area -->
 <section class="banner-area relative" id="home">
   <div class="overlay overlay-bg"></div>
   <div class="container">
@@ -21,11 +21,11 @@
         <div class="text-center">
           <img class="competition-image mb-3" src="{{competition.rally.image_url}}">
           <h3 class="mb-3">{{competition.name}}</h3>
-          <div class="offset-md-3 col-md-6 col-xs-12">
+          <div class="offset-md-3 col-md-6 col-xs-12" *ngIf="competition.user.id == user.id">
             <button title="Modificar rally" class="btn btn-default btn-sm btn-block text-center mb-3">Modificar rally</button>
           </div>
-          <p class="text-justify">{{competition.rally.description}}</p>
-          <h5 class="mb-3">Creado por: Expl0r3r05</h5>
+          <p class="text-justify">{{competition.description}}</p>
+          <h5 class="mb-3">Creado por: {{competition.user.username}}</h5>
           <div class="offset-md-3 col-md-6 col-xs-12">
             <button title="Ir al perfil del creador" class="btn btn-default btn-sm btn-block text-center mb-3">Ir al perfil</button>
           </div>
@@ -76,7 +76,7 @@
     </div>
   </div>
   <hr>
-  <div class="container">
+  <div class="container" *ngIf="competition.user.id == user.id">
     <div class="row">
       <div class="offset-md-2 col-md-8 col-xs-12">
         <h3 class="text-center mb-3">Invitar usuarios a esta competencia</h3>
@@ -118,3 +118,4 @@
     </div>
   </div>
 </section>
+</div>
