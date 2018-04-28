@@ -29,6 +29,13 @@ class RallySiteController extends AppController
         $this->set('_serialize', 'rallySite');
     }
 
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow();
+
+    }
+
     /**
      * View method
      *
