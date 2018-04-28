@@ -29,6 +29,13 @@ class SiteController extends AppController
         $this->set('_serialize', 'site');
     }
 
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow();
+
+    }
+
     /**
      * View method
      *

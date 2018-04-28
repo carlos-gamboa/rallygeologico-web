@@ -26,6 +26,13 @@ class RallyController extends AppController
         $this->set('_serialize', 'rally');
     }
 
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow();
+
+    }
+
     /**
      * View method
      *

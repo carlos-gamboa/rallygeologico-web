@@ -29,6 +29,13 @@ class CantonController extends AppController
         $this->set('_serialize', 'canton');
     }
 
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow();
+
+    }
+
     /**
      * View method
      *

@@ -26,6 +26,13 @@ class ProvinceController extends AppController
         $this->set('_serialize', 'province');
     }
 
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow();
+
+    }
+
     /**
      * View method
      *

@@ -29,6 +29,13 @@ class InvitationController extends AppController
         $this->set('_serialize', 'invitation');
     }
 
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow();
+
+    }
+
     /**
      * View method
      *

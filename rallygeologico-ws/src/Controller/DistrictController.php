@@ -29,6 +29,13 @@ class DistrictController extends AppController
         $this->set('_serialize', 'district');
     }
 
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow();
+
+    }
+
     /**
      * View method
      *
