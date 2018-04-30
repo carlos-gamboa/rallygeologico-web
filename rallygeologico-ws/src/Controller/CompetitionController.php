@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * Competition Controller
@@ -27,6 +28,13 @@ class CompetitionController extends AppController
 
         $this->set(compact('competition'));
         $this->set('_serialize', 'competition');
+    }
+
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow();
+
     }
 
     /**

@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * Users Controller
@@ -28,6 +29,13 @@ class UsersController extends AppController
         $this->set(compact('users'));
         // Specify which view vars JsonView should serialize.
         $this->set('_serialize', 'users');
+    }
+
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+       $this->Auth->allow();
+
     }
 
     /**

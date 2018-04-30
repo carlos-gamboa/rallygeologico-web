@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * Canton Controller
@@ -27,6 +28,13 @@ class CantonController extends AppController
 
         $this->set(compact('canton'));
         $this->set('_serialize', 'canton');
+    }
+
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow();
+
     }
 
     /**
