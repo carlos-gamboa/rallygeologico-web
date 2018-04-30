@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * Province Controller
@@ -24,6 +25,13 @@ class ProvinceController extends AppController
 
         $this->set(compact('province'));
         $this->set('_serialize', 'province');
+    }
+
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow();
+
     }
 
     /**
