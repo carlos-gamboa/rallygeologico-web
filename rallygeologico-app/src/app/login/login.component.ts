@@ -91,11 +91,14 @@ export class LoginComponent implements OnInit {
                 this.userDataService.updateUser(this.user);
                 this.pleaseWait = false;
                 this.success = true;
-                setTimeout(() =>
-                  {
-                    this.router.navigate(['/dashboard']);
-                  },
-                  1500);
+                this.userService.auth(res.id).subscribe((users: string) => {
+                  console.log("Completed auth");
+                  setTimeout(() =>
+                    {
+                      this.router.navigate(['/dashboard']);
+                    },
+                    1000);
+                });
               }
               this.pleaseWait = false;
             });
