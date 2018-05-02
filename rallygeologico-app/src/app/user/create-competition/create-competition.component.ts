@@ -112,7 +112,7 @@ export class CreateCompetitionComponent implements OnInit {
 
       if(this.is_public && /*this.starting_date && this.finishing_date &&*/ this.name && this.rally_id){
           this.competitionService.createCompetition(this.is_public, this.starting_date, this.finishing_date, this.name, this.rally_id).subscribe((competition: Competition[]) => {
-              if (competition[0]){
+              if (competition){
                   this.currentCompetition = competition[0];
                   this.competitionCreated = true;
                   console.log("Competition created");
@@ -128,7 +128,7 @@ export class CreateCompetitionComponent implements OnInit {
   invite (index: number){
       if(this.competitionCreated){
           this.invitationService.sendInvitation(this.competitionId, this.showedUsers[index].id, this.user.id).subscribe((invitation: Invitation[]) => {
-              if(invitation[0]){
+              if(invitation){
                   console.log("Invitation sent");
               } else {
                   console.log("Couldn't send invitation");
