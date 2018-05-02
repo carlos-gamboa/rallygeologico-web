@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS competition(
   is_public BIT DEFAULT 1,
   admin_id INT,
   description varchar(2000),
-  Name VARCHAR(30) NOT NULL,
+  name VARCHAR(30) NOT NULL,
   rally_id INT NOT NULL,
   FOREIGN KEY (rally_id) REFERENCES rally(id),
   FOREIGN KEY (admin_id) REFERENCES users(id)

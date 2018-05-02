@@ -1,13 +1,62 @@
+.title{
+    color: #FFFFFF;
+}
+
+.subtitle{
+    color: #f0f0f0;
+}
+
+.booking-right{
+    width: content-box;
+}
+
+.alert{
+    min-height: 40px;
+    height: fit-content;
+    padding-top: 4px;
+    margin-bottom: 0px !important;
+}
+
+p, .alert-message{
+    font-size: 12px;
+    margin: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+.text-input{
+    width: 98%;
+    height: 40px;
+    padding: 10px;
+    color: #555555;
+}
+
+.date-input{
+    width: 96%;
+    height: 40px;
+    padding: 10px;
+    color: #555555;
+}
+
+.select-input{
+    width: 96%;
+    height: 40px;
+    color: #555555;
+}
+
+.list-users{
+    background-color: #0C344E;
+}
+
 .busqueda {
     display:flex;
     position:relative;
-    margin:5em auto;
-    width:70%;
+    margin:1em auto;
+    width:60%;
     flex-direction:row;
-    /*box-shadow:*/
-    /*1px 1px 0 #EBA71C,*/
-    /*2px 2px 0 #EBA71C*/
-;
+    /*box-shadow:
+      1px 1px 0 #EBA71C,
+      2px 2px 0 #EBA71C
+  ;*/
 }
 
 .busqueda>input[type=text],
@@ -28,19 +77,30 @@
     color:white;
     border:none;
 }
-.paginationmio {
+
+table thead{
+    background-color: #F0F0F0;
+}
+
+.user-image {
+    border-radius: 70%;
+    width:30%;
+    height: auto;
+}
+
+.pagination {
     display: inline-block;
 }
 
-.paginationmio a {
+.pagination a {
     color: #0C344E;
     float: left;
     padding: 8px 16px;
     text-decoration: none;
 }
 
-.paginationmio a.active {
-    color: white;
-    background-color: #fdb727;
-    color: white;
+/deep/ .page-item.active .page-link {
+    color: white !important;
+    background-color: #fdb727 !important;
+    border-color: #fdb727 !important;
 }

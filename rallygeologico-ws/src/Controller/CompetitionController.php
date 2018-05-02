@@ -49,7 +49,7 @@ class CompetitionController extends AppController
     /**
      * Add method
      *
-     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
+     * @return \Cake\Http\Response|integer Redirects on successful add, renders view otherwise.
      */
     public function add()
     {
@@ -65,6 +65,7 @@ class CompetitionController extends AppController
         }
         $rally = $this->Competition->Rally->find('list', ['limit' => 200]);
         $this->set(compact('competition', 'rally'));
+        //$this->render('/Competition/json/template');
     }
 
     /**
