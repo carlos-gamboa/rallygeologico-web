@@ -92,7 +92,8 @@ export class LoginComponent implements OnInit {
                 this.pleaseWait = false;
                 this.success = true;
                 this.userService.auth(res.id).subscribe((users: User[]) => {
-                    console.log(users);
+                    console.log(users[0]);
+                    this.userDataService.updateUser(users[0]);
                   console.log("Completed auth");
                   setTimeout(() =>
                     {
