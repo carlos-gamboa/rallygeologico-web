@@ -40,10 +40,10 @@ export class UserService {
       });
     }
 
-    auth(FacebookId : string) : Observable<string>{
-      return this.http.post<string>(this.baseUrl + "login/index", {
-        'facebook_id':FacebookId,
-      }, {responseType: 'text' as 'json'});
+    auth(FacebookId : string) : Observable<User[]>{
+        return this.http.post<User[]>(this.baseUrl + "login.json", {
+            'facebook_id':FacebookId,
+        });
     }
 
     getUsers() : Observable<User[]>{
