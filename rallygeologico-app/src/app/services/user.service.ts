@@ -30,7 +30,7 @@ export class UserService {
     }
 
     register(FacebookId : string, Username : string, FirstName : string, LastName : string, Email : string, PhotoUrl : string) : Observable<User[]>{
-        return this.http.post<User[]>(this.baseUrl + "users/add", {
+        return this.http.post<User[]>(this.baseUrl + "users/add.json", {
         'facebook_id':FacebookId,
         'username':Username,
         'first_name':FirstName,
