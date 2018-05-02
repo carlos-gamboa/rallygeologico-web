@@ -25,6 +25,8 @@ import {UserService} from "./services/user.service";
 import {Configuration} from "./services/data/constants";
 import {HttpClient, HttpClientModule, HttpHandler} from "@angular/common/http";
 import {RallyService} from "./services/rally.service";
+import {InvitationService} from "./services/invitation.service";
+import {CompetitionService} from "./services/competition.service";
 
 
 @NgModule({
@@ -54,7 +56,7 @@ import {RallyService} from "./services/rally.service";
       FacebookModule.forRoot(),
       HttpClientModule
   ],
-  providers: [DataService, UserService, Configuration, RallyService],
+  providers: [DataService, UserService, Configuration, RallyService, InvitationService, CompetitionService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -23,9 +23,12 @@ CREATE TABLE IF NOT EXISTS competition(
   starting_date DATETIME DEFAULT CURRENT_TIMESTAMP,
   finishing_date DATETIME,
   is_public BIT DEFAULT 1,
-  Name VARCHAR(30) NOT NULL,
+  admin_id INT,
+  description varchar(2000),
+  name VARCHAR(30) NOT NULL,
   rally_id INT NOT NULL,
-  FOREIGN KEY (rally_id) REFERENCES rally(id)
+  FOREIGN KEY (rally_id) REFERENCES rally(id),
+  FOREIGN KEY (admin_id) REFERENCES users(id)
 );
 
 CREATE TABLE IF NOT EXISTS invitation (
