@@ -32,6 +32,11 @@ class LoginController extends AppController
         $this->Auth->allow();
     }
 
+    public function activeSession(){
+        $this->set('users', $this->Auth->user()['0']);
+        $this->render('/Users/json/template');
+    }
+
     /**
      * Index Login method  API URL  /api/login method: POST
      * @return json response
@@ -65,7 +70,7 @@ class LoginController extends AppController
             $this->response->withAddedHeader('Authorization', 'Bearer ' . $token);
 
         } catch (UnauthorizedException $e) {
-            throw new UnauthorizedException($e->getMessage(),401);
+            //throw new UnauthorizedException($e->getMessage(),401);
         }
         $this->set('users', $this->Auth->user());
         $this->render('/Users/json/template');

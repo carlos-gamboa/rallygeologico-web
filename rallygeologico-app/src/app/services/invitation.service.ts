@@ -14,7 +14,7 @@ export class InvitationService {
     }
 
     sendInvitation(userIdSend: number, userIdReceive: number, competitionId: number): Observable<Invitation[]>{
-        return this.http.post<Invitation[]>(this.baseUrl + "invitation/add",{
+        return this.http.post<Invitation[]>(this.baseUrl + "invitation/add.json",{
             'user_id_send' : userIdSend,
             'user_id_receive' : userIdReceive,
             'competition_id' : competitionId,
