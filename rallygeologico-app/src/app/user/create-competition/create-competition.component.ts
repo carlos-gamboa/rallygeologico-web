@@ -41,7 +41,6 @@ export class CreateCompetitionComponent implements OnInit {
   is_active: string;
   rally_id: string;
 
-  competitionId: number;
   competitionCreated: boolean;
 
   constructor(private rallyService: RallyService, private userService: UserService, private dataService: DataService, private competitionService: CompetitionService, private invitationService: InvitationService) {
@@ -92,17 +91,12 @@ export class CreateCompetitionComponent implements OnInit {
 
   createCompetition(){
 
-      console.log("Fecha inicio: "+this.starting_date);
-      console.log("Fecha final: "+this.finishing_date);
-      console.log("Es público: "+this.is_public);
-      console.log("Nombre: "+this.name);
-      console.log("Rally id: "+this.rally_id);
-
-      this.competitionService.createCompetition(this.is_public, this.starting_date, this.finishing_date, this.name, this.rally_id).subscribe((competition: Competition[]) => {
+      this.competitionService.createCompetition(this.is_public, this.starting_date.replace("T", " ") , this.finishing_date.replace("T", " "), this.name, this.rally_id).subscribe((competition: Competition) => {
           if (competition){
-              this.currentCompetition = competition[0];
+              this.currentCompetition = competition;
               this.competitionCreated = true;
               console.log("Competition created");
+              console.log(this.currentCompetition);
           } else {
               console.log("Couldn't create competition");
           }
@@ -111,7 +105,7 @@ export class CreateCompetitionComponent implements OnInit {
 
   invite (index: number){
       if(this.competitionCreated){
-          this.invitationService.sendInvitation(this.competitionId, this.showedUsers[index].id, this.user.id).subscribe((invitation: Invitation[]) => {
+          this.invitationService.sendInvitation(this.currentCompetition.id, this.showedUsers[index].id, this.user.id).subscribe((invitation: Invitation[]) => {
               if(invitation){
                   console.log("Invitation sent");
               } else {
