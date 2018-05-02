@@ -1,5 +1,5 @@
-<!--<app-header [activeTab]="2"></app-header>-->
-<!-- start banner Area -->
+<app-header [activeTab]="2"></app-header>
+<!-- Start banner Area -->
 <section class="banner-area relative" id="home">
   <div class="overlay overlay-bg"></div>
   <div class="container">
@@ -15,156 +15,103 @@
 </section>
 <!-- End banner Area -->
 
-<section class="contact-page-area section-gap">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12 col-xs-12">
-        <p class="text-center">Encuéntrelos según su nombre</p>
-        <div>
-          <div>
-            <h4>Lista de rallies</h4> <br>
-            <div>
-              <table class="table">
-                <tbody>
-                <th><i class="fa fa-check"></i></th>
-                <th class="text-center">Foto</th>
-                <th class="text-center">Nombre</th>
-                <th class="text-center">Puntos</th>
-                <tr *ngFor="let rally of ralliesList">
-                  <td>
-                    <div class="switch-wrap d-flex justify-content-between">
-                      <div class="confirm-checkbox">
-                        <input type="checkbox" id="confirm-checkbox1" checked>
-                        <label for="confirm-checkbox1"></label>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div align="center">
-                      <img style="border-radius: 70%; width: 100px; height: auto" src="{{rally.image_url}}">
-                    </div>
-                  </td>
-                  <td><h5 class="text-center">{{rally.name}}</h5></td>
-                  <td><h4 class="text-center">{{rally.points_awarded}}</h4></td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="paginationmio col-lg-8 offset-lg-4">
-              <a href="#">&laquo;</a>
-              <a href="#">1</a>
-              <a class="active" href="#">2</a>
-              <a href="#">3</a>
-              <a href="#">4</a>
-              <a href="#">&raquo;</a>
-            </div>
-          </div>
-          <div class="mt-80" align="center">
-            <button title="anadirRally" class="btn genric-btn success col-lg-2" style="font-size: 14px; background-color: #fdb727">Añadir Rally</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- Start form Area -->
-<div class="whole-wrap">
-  <div class="container">
-    <div class="section-top-border">
-      <div class="row">
-        <div class="col-lg-8 col-md-12 offset-lg-2">
-          <h3 class="mb-30">Detalles de la competencia</h3>
-          <div class="booking-right">
-            <form action="#">
-              <div class="mt-10">
-                <input type="text" name="nombre" placeholder="Nombre" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nombre'" required class="single-input">
-              </div>
-              <div class="row">
-                <div class="col-lg-6 mt-10">
-                  <!--<mat-form-field>-->
-                  <input class="fechaInicial" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" placeholder="Fecha Inicial">
-                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                  <mat-datepicker #picker></mat-datepicker>
-                  <!--</mat-form-field>-->
-                </div>
-                <div class="col-lg-6 mt-10">
-                  <!--<input class="fechaFinal" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" placeholder="Fecha Final">-->
-                  <!--<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>-->
-                  <!--<mat-datepicker #picker></mat-datepicker>-->
-                </div>
-              </div>
-              <div class="row">
-                <div class="input-group-icon mt-10 col-lg-6">
-                  <div class="icon"><i class="" aria-hidden="true"></i></div>
-                  <div class="form-select" id="default-select1">
-                    <select>
-                      <option value="1">Público</option>
-                      <option value="1">Privado</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="input-group-icon mt-10 col-lg-6">
-                  <div class="icon"><i class="" aria-hidden="true"></i></div>
-                  <div class="form-select" id="default-select2">
-                    <select>
-                      <option value="1">Activo</option>
-                      <option value="1">Inactivo</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="mt-80" align="center">
-            <button title="crearCompetencia" class="btn genric-btn success col-lg-6" style="font-size: 16px">Crear Competencia</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- End form Area -->
-
-<section class="contact-page-area section-gap">
+<section class="whole-wrap section-gap">
   <div class="container">
     <div class="row">
       <div class="offset-md-2 col-md-8 col-xs-12">
-        <p class="text-center mt-0">Busque por nombre de usuario</p>
-        <div class="busqueda mt-0" id="searchform">
-          <input type="text" title="Digite aquí el nombre del usuario" id="searchterm" placeholder="Digite el nombre de usuario" />
-          <button type="button" id="search" title="Click aquí para buscar el usuario">Buscar!</button>
+        <h3 class="text-center mb-3">Detalles de la competencia</h3>
+        <div class="booking-right mt-50" align="center">
+          <form #competitionForm="ngForm">
+            <div class="row mt-10 mb-10">
+              <div class="col-lg-12">
+                <input class="text-input" type="text" [(ngModel)]="name" #nameInput="ngModel" name="name" placeholder="Nombre de la competencia" required>
+                <div *ngIf="(nameInput?.invalid) && (nameInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
+                  <p class="alert-message">Debe introducir un nombre para la competencia.</p>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-10">
+              <div class="col-lg-6">
+                <input class="date-input" type="datetime-local" [(ngModel)]="starting_date" #startingDateInput="ngModel" name="starting_date" max="{{maxDate}}" required><br>
+                <div *ngIf="(startingDateInput?.invalid) && (startingDateInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
+                  <p class="alert-message">Debe escoger una fecha de inicio para la competencia.</p>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <input class="date-input" type="datetime-local" [(ngModel)]="finishing_date" #finishingDateInput="ngModel" name="finishing_date" min="{{minDate}}" required><br>
+                <div *ngIf="(finishingDateInput?.invalid) && (finishingDateInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
+                  <p class="alert-message">Debe escoger una fecha de finalización para la competencia.</p>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-10">
+              <div class="col-lg-6" align="center">
+                <select class="select-input" [(ngModel)]="is_public" #isPubliceInput="ngModel" name="is_public" required>
+                    <option value="1">Público</option>
+                    <option value="0">Privado</option>
+                </select>
+                <div *ngIf="(isPubliceInput?.invalid) && (isPubliceInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
+                  <p class="alert-message">Debe seleccionar la privacidad de la competencia.</p>
+                </div>
+              </div>
+              <div class="col-lg-6" align="center">
+                <select class="select-input" [(ngModel)]="rally_id" #rallyIdInput="ngModel" name="rally_id" *ngFor="let rally of ralliesList; let i = index" required>
+                  <option value="{{rally.id}}">{{rally.name}}</option>
+                </select>
+                <div *ngIf="(rallyIdInput?.invalid) && (rallyIdInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
+                  <p class="alert-message">Debe seleccionar un rally para la competencia.</p>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="mt-50" align="center">
+          <button title="crearCompetencia" class="btn genric-btn success col-lg-6" style="font-size: 16px" (click)="createCompetition()">Crear Competencia</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End form Area -->
+
+<!-- Start list users Area -->
+<section class="contact-page-area section-gap list-users">
+  <div class="container">
+    <div class="row">
+      <div class="offset-md-2 col-md-8 col-xs-12">
+        <h3 class="title text-center mb-3">Invitar usuarios a esta competencia</h3>
+        <p class="subtitle text-center">Busque usuarios por nombre de usuario</p>
+        <div class="busqueda" id="searchform">
+          <input [(ngModel)]="searchQuery" type="text" title="Digite aquí el nombre del usuario" id="searchterm" placeholder="Digite el nombre de usuario" />
+          <button type="button" id="search" title="Click aquí para buscar el usuario" (click)="searchUser()">Buscar</button>
         </div>
         <div>
+          <h4 class="title">Resultados</h4> <br>
           <div>
-            <h4>Lista de usuarios</h4> <br>
-            <div>
-              <table class="table">
-                <tbody>
-                <th class="text-center">Foto</th>
-                <th class="text-center">Usuario</th>
-                <th class="text-center">Nombre</th>
-                <th class="text-center">Perfil</th>
-                <tr *ngFor="let user of usersList">
-                  <td>
-                    <div align="center">
-                      <img style="border-radius: 70%; width: 100px; height: auto" src="{{user.photo_url}}">
-                    </div>
-                  </td>
-                  <td><h5>{{user.username}}</h5></td>
-                  <td><h4>{{user.first_name}} {{user.last_name}}</h4></td>
-                  <td><button title="Invitar" class="btn btn-default btn-sm btn-block text-center">Invitar</button></td>
+            <table class="table">
+              <thead>
+                <th><h5 class="text-center">Foto</h5></th>
+                <th><h5 class="text-center">Usuario</h5></th>
+                <th><h5 class="text-center">Nombre</h5></th>
+                <th><h5 class="text-center">Invitar</h5></th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of showedUsers; let i = index">
+                  <td align="center"><img class="user-image" src="{{user.photo_url}}"></td>
+                  <td><h5 class="subtitle">{{user.username}}</h5></td>
+                  <td><h4 class="subtitle">{{user.first_name}} {{user.last_name}}</h4></td>
+                  <td><button title="Invitar" class="btn btn-default btn-sm btn-block text-center" (click)="invite(i)">Invitar</button></td>
                 </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="paginationmio col-md-6 offset-3">
-              <a href="#">&laquo;</a>
-              <a href="#">1</a>
-              <a class="active" href="#">2</a>
-              <a href="#">3</a>
-              <a href="#">4</a>
-              <a href="#">&raquo;</a>
+              </tbody>
+            </table>
+          </div>
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <div class="d-inline-block">
+                <ngb-pagination [collectionSize]="totalUsers" [(page)]="currentPage" [maxSize]="5" [pageSize]="pageSize" [rotate]="true"
+                                [ellipses]="true" [boundaryLinks]="false" (pageChange)="pageChange($event)"></ngb-pagination>
+              </div>
             </div>
           </div>
         </div>
@@ -172,3 +119,4 @@
     </div>
   </div>
 </section>
+<!-- End list users Area -->

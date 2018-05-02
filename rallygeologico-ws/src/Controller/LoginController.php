@@ -37,14 +37,14 @@ class LoginController extends AppController
      * Index Login method  API URL  /api/login method: POST
      * @return json response
      */
-    public function index()
+    public function index($UserId)
     {
         try {
-            if(!isset($this->request->data['UserId'])){
+            /*if(!isset($this->request->data['UserId'])){
                 throw new UnauthorizedException("Please enter your UserId");
             }
 
-            $UserId  = $this->request->data['UserId'];
+            $UserId  = $this->request->data['UserId'];*/
 
             // Check for user credentials
             $user = $this->User->find('login', ['UserId'=>$UserId]);
