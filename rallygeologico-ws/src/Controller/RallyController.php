@@ -62,13 +62,12 @@ class RallyController extends AppController
             $rally = $this->Rally->patchEntity($rally, $this->request->getData());
             if ($this->Rally->save($rally)) {
                 $this->Flash->success(__('The rally has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The rally could not be saved. Please, try again.'));
         }
         $site = $this->Rally->Site->find('list', ['limit' => 200]);
         $this->set(compact('rally', 'site'));
+        $this->render('/Rally/json/template');
     }
 
     /**

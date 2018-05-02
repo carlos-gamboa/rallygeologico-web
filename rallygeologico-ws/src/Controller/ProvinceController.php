@@ -62,12 +62,11 @@ class ProvinceController extends AppController
             $province = $this->Province->patchEntity($province, $this->request->getData());
             if ($this->Province->save($province)) {
                 $this->Flash->success(__('The province has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The province could not be saved. Please, try again.'));
         }
         $this->set(compact('province'));
+        $this->render('/Province/json/template');
     }
 
     /**

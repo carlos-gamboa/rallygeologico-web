@@ -65,13 +65,12 @@ class DistrictController extends AppController
             $district = $this->District->patchEntity($district, $this->request->getData());
             if ($this->District->save($district)) {
                 $this->Flash->success(__('The district has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The district could not be saved. Please, try again.'));
         }
         $canton = $this->District->Canton->find('list', ['limit' => 200]);
         $this->set(compact('district', 'canton'));
+        $this->render('/District/json/template');
     }
 
     /**

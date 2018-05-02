@@ -29,15 +29,15 @@ export class UserService {
       return this.http.get<User[]>(this.baseUrl + "users/facebook_id/"+facebookid+".json");
     }
 
-    register(FacebookId : string, Username : string, FirstName : string, LastName : string, Email : string, PhotoUrl : string) : Observable<string>{
-        return this.http.post<string>(this.baseUrl + "users/add", {
+    register(FacebookId : string, Username : string, FirstName : string, LastName : string, Email : string, PhotoUrl : string) : Observable<User[]>{
+        return this.http.post<User[]>(this.baseUrl + "users/add", {
         'facebook_id':FacebookId,
         'username':Username,
         'first_name':FirstName,
         'last_name':LastName,
         'email':Email,
         'photo_url':PhotoUrl
-      }, {responseType: 'text' as 'json'});
+      });
     }
 
     auth(FacebookId : string) : Observable<string>{

@@ -64,13 +64,12 @@ class InvitationController extends AppController
             $invitation = $this->Invitation->patchEntity($invitation, $this->request->getData());
             if ($this->Invitation->save($invitation)) {
                 $this->Flash->success(__('The invitation has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The invitation could not be saved. Please, try again.'));
         }
         $competition = $this->Invitation->Competition->find('list', ['limit' => 200]);
         $this->set(compact('invitation', 'competition'));
+        $this->render('/Invitation/json/template');
     }
 
     /**

@@ -65,8 +65,6 @@ class SiteController extends AppController
             $site = $this->Site->patchEntity($site, $this->request->getData());
             if ($this->Site->save($site)) {
                 $this->Flash->success(__('The site has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The site could not be saved. Please, try again.'));
         }
@@ -75,6 +73,7 @@ class SiteController extends AppController
         $rally = $this->Site->Rally->find('list', ['limit' => 200]);
         $term = $this->Site->Term->find('list', ['limit' => 200]);
         $this->set(compact('site', 'district', 'competitionStatistics', 'rally', 'term'));
+        $this->render('/Site/json/template');
     }
 
     /**

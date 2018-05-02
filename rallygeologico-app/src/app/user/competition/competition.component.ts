@@ -5,8 +5,8 @@ import {User} from "../../model/user";
 import {InvitationService} from "../../services/invitation.service";
 import {Invitation} from "../../model/invitation";
 import {ActivatedRoute, Params, Router} from "@angular/router";
-import {CompetitionService} from "../../services/competition.service";
 import {Competition} from "../../model/competition";
+import {CompetitionService} from "../../services/competition.service";
 
 @Component({
   selector: 'app-competition',
@@ -70,8 +70,12 @@ export class CompetitionComponent implements OnInit {
     }
 
     invite (index: number){
-        this.invitationService.sendInvitation(this.competitionId, this.showedUsers[index].id, this.user.id).subscribe((invitation: string) => {
-            console.log("Invitation sent");
+        this.invitationService.sendInvitation(this.competitionId, this.showedUsers[index].id, this.user.id).subscribe((invitation: Invitation[]) => {
+            if (invitation[0]){
+                console.log("Invitation sent");
+            } else {
+                console.log("Couldn't send invitation");
+            }
         });
     }
 
