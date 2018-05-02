@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * District Controller
@@ -27,6 +28,13 @@ class DistrictController extends AppController
 
         $this->set(compact('district'));
         $this->set('_serialize', 'district');
+    }
+
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow();
+
     }
 
     /**

@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * Rally Controller
@@ -24,6 +25,13 @@ class RallyController extends AppController
 
         $this->set(compact('rally'));
         $this->set('_serialize', 'rally');
+    }
+
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow();
+
     }
 
     /**

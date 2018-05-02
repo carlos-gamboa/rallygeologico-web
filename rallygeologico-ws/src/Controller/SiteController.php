@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * Site Controller
@@ -27,6 +28,13 @@ class SiteController extends AppController
 
         $this->set(compact('site'));
         $this->set('_serialize', 'site');
+    }
+
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow();
+
     }
 
     /**

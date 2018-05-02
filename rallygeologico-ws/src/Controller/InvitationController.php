@@ -2,7 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-
+use Cake\Event\Event;
 /**
  * Invitation Controller
  *
@@ -27,6 +27,13 @@ class InvitationController extends AppController
 
         $this->set(compact('invitation'));
         $this->set('_serialize', 'invitation');
+    }
+
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow();
+
     }
 
     /**
