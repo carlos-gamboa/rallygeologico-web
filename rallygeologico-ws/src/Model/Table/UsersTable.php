@@ -9,6 +9,9 @@ use Cake\Validation\Validator;
 /**
  * Users Model
  *
+ * @property \App\Model\Table\CompetitionStatisticsTable|\Cake\ORM\Association\HasMany $CompetitionStatistics
+ * @property \App\Model\Table\CompetitionStatisticsSiteTable|\Cake\ORM\Association\HasMany $CompetitionStatisticsSite
+ *
  * @method \App\Model\Entity\User get($primaryKey, $options = [])
  * @method \App\Model\Entity\User newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\User[] newEntities(array $data, array $options = [])
@@ -31,8 +34,27 @@ class UsersTable extends Table
         parent::initialize($config);
 
         $this->setTable('users');
-        $this->setDisplayField('FacebookId');
-        $this->setPrimaryKey('FacebookId');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
+
+        $this->hasMany('Competition',[
+            'className' => 'Competition',
+            'foreignKey' => 'admin_id'
+        ]);
+        $this->hasMany('InvitationSend',[
+            'className' => 'Invitation',
+            'foreignKey' => 'user_id_send'
+        ]);
+        $this->hasMany('InvitationReceive',[
+            'className' => 'Invitation',
+            'foreignKey' => 'user_id_receive'
+        ]);
+        $this->hasMany('CompetitionStatistics', [
+            'foreignKey' => 'user_id'
+        ]);
+        $this->hasMany('CompetitionStatisticsSite', [
+            'foreignKey' => 'user_id'
+        ]);
     }
 
     /**
@@ -44,39 +66,38 @@ class UsersTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('FacebookId')
-            ->allowEmpty('FacebookId', 'create');
+            ->integer('id')
+            ->allowEmpty('id', 'create');
 
         $validator
-            ->scalar('Username')
-            ->maxLength('Username', 30)
-            ->requirePresence('Username', 'create')
-            ->notEmpty('Username')
-            ->add('Username', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+            ->scalar('username')
+            ->maxLength('username', 30)
+            ->requirePresence('username', 'create')
+            ->notEmpty('username')
+            ->add('username', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
-            ->scalar('FirstName')
-            ->maxLength('FirstName', 15)
-            ->allowEmpty('FirstName');
+            ->scalar('first_name')
+            ->maxLength('first_name', 15)
+            ->allowEmpty('first_name');
 
         $validator
-            ->scalar('LastName')
-            ->maxLength('LastName', 15)
-            ->allowEmpty('LastName');
+            ->scalar('last_name')
+            ->maxLength('last_name', 15)
+            ->allowEmpty('last_name');
 
         $validator
-            ->scalar('Email')
-            ->maxLength('Email', 30)
-            ->allowEmpty('Email');
+            ->email('email')
+            ->allowEmpty('email');
 
         $validator
-            ->scalar('PhotoURL')
-            ->maxLength('PhotoURL', 200)
-            ->allowEmpty('PhotoURL');
+            ->scalar('photo_url')
+            ->maxLength('photo_url', 200)
+            ->allowEmpty('photo_url');
 
         $validator
-            ->scalar('IsAdmin')
-            ->allowEmpty('IsAdmin');
+            ->scalar('is_admin')
+            ->allowEmpty('is_admin');
 
         return $validator;
     }
@@ -90,7 +111,9 @@ class UsersTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->isUnique(['Username']));
+        $rules->add($rules->isUnique(['username']));
+        $rules->add($rules->isUnique(['email']));
+        $rules->add($rules->isUnique(['facebook_id']));
 
         return $rules;
     }

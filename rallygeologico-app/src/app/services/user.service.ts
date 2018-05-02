@@ -1,27 +1,43 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
+import {HttpClient, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest} from "@angular/common/http";
+import {RequestOptions} from "@angular/http"
 import {User} from "../model/user";
 import {Configuration} from "./data/constants";
 import {Observable} from "rxjs/Observable";
-import {User} from "../model/user";
-import {Rally} from "../model/rally";
+import {Headers} from "@angular/http";
+import "rxjs";
 
 @Injectable()
 export class UserService {
 
     baseUrl: string;
 
+
     constructor(private http : HttpClient, private _configuration: Configuration){
         this.baseUrl = this._configuration.ServerWithApiUrl;
     }
 
-    login(FacebookId : String) : Observable<User[]>{
-        const body = 'FacebookId=${FacebookId}';
-        return this.http.post<User[]>(this.baseUrl + "users/login.json", body);
+    email(Email : string) : Observable<User[]>{
+        return this.http.get<User[]>(this.baseUrl + "users/email/"+Email+".json");
     }
 
-    register(FacebookId : String, Username : String, FirstName : String, LastName : String, Email : String, IsAdmin : Boolean) : Observable<User[]>{
-      const body = `FacebookId=${FacebookId}&Username=${Username}&FirstName=${FirstName}&LastName=${LastName}&Email=${Email}&IsAdmin=${IsAdmin}`;
-      return this.http.post<User[]>(this.baseUrl + "users/add.json", body); //no sé
+    username(Username : string) : Observable<User[]>{
+      return this.http.get<User[]>(this.baseUrl + "users/username/"+Username+".json");
     }
+
+    register(FacebookId : string, Username : string, FirstName : string, LastName : string, Email : string, PhotoUrl : string) : Observable<string>{
+        return this.http.post<string>(this.baseUrl + "users/add", {
+        'facebook_id':FacebookId,
+        'username':Username,
+        'first_name':FirstName,
+        'last_name':LastName,
+        'email':Email,
+        'photo_url':PhotoUrl
+      }, {responseType: 'text' as 'json'});
+    }
+
+    getUsers() : Observable<User[]>{
+        return this.http.get<User[]>(this.baseUrl + "users.json");
+    }
+
 }

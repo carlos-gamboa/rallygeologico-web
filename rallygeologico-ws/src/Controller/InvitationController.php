@@ -20,6 +20,9 @@ class InvitationController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'contain' => ['Competition']
+        ];
         $invitation = $this->paginate($this->Invitation);
 
         $this->set(compact('invitation'));
@@ -36,7 +39,7 @@ class InvitationController extends AppController
     public function view($id = null)
     {
         $invitation = $this->Invitation->get($id, [
-            'contain' => []
+            'contain' => ['Competition']
         ]);
 
         $this->set('invitation', $invitation);
@@ -59,7 +62,8 @@ class InvitationController extends AppController
             }
             $this->Flash->error(__('The invitation could not be saved. Please, try again.'));
         }
-        $this->set(compact('invitation'));
+        $competition = $this->Invitation->Competition->find('list', ['limit' => 200]);
+        $this->set(compact('invitation', 'competition'));
     }
 
     /**
@@ -83,7 +87,8 @@ class InvitationController extends AppController
             }
             $this->Flash->error(__('The invitation could not be saved. Please, try again.'));
         }
-        $this->set(compact('invitation'));
+        $competition = $this->Invitation->Competition->find('list', ['limit' => 200]);
+        $this->set(compact('invitation', 'competition'));
     }
 
     /**

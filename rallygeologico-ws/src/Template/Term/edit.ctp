@@ -9,8 +9,8 @@
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Form->postLink(
                 __('Delete'),
-                ['action' => 'delete', $term->TermID],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $term->TermID)]
+                ['action' => 'delete', $term->id],
+                ['confirm' => __('Are you sure you want to delete # {0}?', $term->id)]
             )
         ?></li>
         <li><?= $this->Html->link(__('List Term'), ['action' => 'index']) ?></li>
@@ -23,10 +23,10 @@
     <fieldset>
         <legend><?= __('Edit Term') ?></legend>
         <?php
-            echo $this->Form->control('ImageUrl');
-            echo $this->Form->control('VideoUrl');
-            echo $this->Form->control('Name');
-            echo $this->Form->control('Description');
+            echo $this->Form->control('image_url');
+            echo $this->Form->control('video_url');
+            echo $this->Form->control('name');
+            echo $this->Form->control('description');
             echo $this->Form->control('site._ids', ['options' => $site]);
         ?>
     </fieldset>

@@ -6,11 +6,11 @@ use Cake\ORM\Entity;
 /**
  * Term Entity
  *
- * @property int $TermID
- * @property string $ImageUrl
- * @property string $VideoUrl
- * @property string $Name
- * @property string $Description
+ * @property int $id
+ * @property string $image_url
+ * @property string $video_url
+ * @property string $name
+ * @property string $description
  *
  * @property \App\Model\Entity\Site[] $site
  */
@@ -27,10 +27,10 @@ class Term extends Entity
      * @var array
      */
     protected $_accessible = [
-        'ImageUrl' => true,
-        'VideoUrl' => true,
-        'Name' => true,
-        'Description' => true,
+        'image_url' => true,
+        'video_url' => true,
+        'name' => true,
+        'description' => true,
         'site' => true
     ];
 }

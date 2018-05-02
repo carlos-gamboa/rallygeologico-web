@@ -17,10 +17,10 @@
     <fieldset>
         <legend><?= __('Add Term') ?></legend>
         <?php
-            echo $this->Form->control('ImageUrl');
-            echo $this->Form->control('VideoUrl');
-            echo $this->Form->control('Name');
-            echo $this->Form->control('Description');
+            echo $this->Form->control('image_url');
+            echo $this->Form->control('video_url');
+            echo $this->Form->control('name');
+            echo $this->Form->control('description');
             echo $this->Form->control('site._ids', ['options' => $site]);
         ?>
     </fieldset>

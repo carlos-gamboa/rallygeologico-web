@@ -20,6 +20,9 @@ class CompetitionStatisticsSiteController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'contain' => ['Users', 'CompetitionStatistics', 'Site']
+        ];
         $competitionStatisticsSite = $this->paginate($this->CompetitionStatisticsSite);
 
         $this->set(compact('competitionStatisticsSite'));
@@ -36,7 +39,7 @@ class CompetitionStatisticsSiteController extends AppController
     public function view($id = null)
     {
         $competitionStatisticsSite = $this->CompetitionStatisticsSite->get($id, [
-            'contain' => []
+            'contain' => ['Users', 'CompetitionStatistics', 'Site']
         ]);
 
         $this->set('competitionStatisticsSite', $competitionStatisticsSite);
@@ -59,7 +62,10 @@ class CompetitionStatisticsSiteController extends AppController
             }
             $this->Flash->error(__('The competition statistics site could not be saved. Please, try again.'));
         }
-        $this->set(compact('competitionStatisticsSite'));
+        $users = $this->CompetitionStatisticsSite->Users->find('list', ['limit' => 200]);
+        $competitionStatistics = $this->CompetitionStatisticsSite->CompetitionStatistics->find('list', ['limit' => 200]);
+        $site = $this->CompetitionStatisticsSite->Site->find('list', ['limit' => 200]);
+        $this->set(compact('competitionStatisticsSite', 'users', 'competitionStatistics', 'site'));
     }
 
     /**
@@ -83,7 +89,10 @@ class CompetitionStatisticsSiteController extends AppController
             }
             $this->Flash->error(__('The competition statistics site could not be saved. Please, try again.'));
         }
-        $this->set(compact('competitionStatisticsSite'));
+        $users = $this->CompetitionStatisticsSite->Users->find('list', ['limit' => 200]);
+        $competitionStatistics = $this->CompetitionStatisticsSite->CompetitionStatistics->find('list', ['limit' => 200]);
+        $site = $this->CompetitionStatisticsSite->Site->find('list', ['limit' => 200]);
+        $this->set(compact('competitionStatisticsSite', 'users', 'competitionStatistics', 'site'));
     }
 
     /**

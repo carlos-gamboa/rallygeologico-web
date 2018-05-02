@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "assets/fonts/font-awesome/font-awesome.min.css";
+@import "assets/fonts/linearicons/linearicons.css";
 
 @font-face{
     font-family: "Myriad-Pro";
@@ -1259,12 +1260,14 @@ h1, h2, h3, h4, h5, h6 {
 
 .single-input {
     display: block;
-    width: 100%;
+    width: 97%;
     line-height: 40px;
     border: none;
     outline: none;
     background: #f9f9ff;
     padding: 0 20px;
+    margin-left: 8px;
+    /*margin-right: 8px;*/
 }
 
 .single-input:focus {
@@ -1901,10 +1904,16 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (max-width: 960px) {
     #header {
-        height: 76px;
+        height: 87px;
     }
     #header hr {
         display: none;
+    }
+    .menu-button{
+        background: none !important;
+        border-radius: 0 !important;
+        text-align: start !important;
+        border: 0 !important;
     }
 }
 
@@ -2182,9 +2191,9 @@ h1, h2, h3, h4, h5, h6 {
     position: fixed;
     right: 15px;
     z-index: 999;
-    top: 24px;
+    top: 57px;
     border: 0;
-    background: none;
+    background: white;
     font-size: 24px;
     display: none;
     transition: all 0.4s;
