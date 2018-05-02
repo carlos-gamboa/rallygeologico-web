@@ -36,10 +36,9 @@ export class CreateCompetitionComponent implements OnInit {
 
   name: string;
   is_public: string;
-  starting_date: string;
-  finishing_date: string;
   is_active: string;
   rally_id: string;
+  description: string;
 
   competitionCreated: boolean;
 
@@ -91,7 +90,7 @@ export class CreateCompetitionComponent implements OnInit {
 
   createCompetition(){
 
-      this.competitionService.createCompetition(this.is_public, this.starting_date.replace("T", " ") , this.finishing_date.replace("T", " "), this.name, this.rally_id).subscribe((competition: Competition) => {
+      this.competitionService.createCompetition(this.is_public, this.user.id, this.description, this.name, this.rally_id).subscribe((competition: Competition) => {
           if (competition){
               this.currentCompetition = competition;
               this.competitionCreated = true;

@@ -43,6 +43,10 @@ p, .alert-message{
     color: #555555;
 }
 
+.text-area{
+    height: 80px;
+}
+
 .list-users{
     background-color: #0C344E;
 }
