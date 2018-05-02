@@ -65,14 +65,13 @@ class CompetitionStatisticsController extends AppController
             $competitionStatistic = $this->CompetitionStatistics->patchEntity($competitionStatistic, $this->request->getData());
             if ($this->CompetitionStatistics->save($competitionStatistic)) {
                 $this->Flash->success(__('The competition statistic has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The competition statistic could not be saved. Please, try again.'));
         }
         $users = $this->CompetitionStatistics->Users->find('list', ['limit' => 200]);
         $competition = $this->CompetitionStatistics->Competition->find('list', ['limit' => 200]);
         $this->set(compact('competitionStatistic', 'users', 'competition'));
+        $this->render('/CompetitionStatistics/json/template');
     }
 
     /**

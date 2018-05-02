@@ -6,6 +6,8 @@ import {User} from "../../model/user";
 import {DataService} from "../../services/data/data.service";
 import {CompetitionService} from "../../services/competition.service";
 import {InvitationService} from "../../services/invitation.service";
+import {Invitation} from "../../model/invitation";
+import {Competition} from "../../model/competition";
 
 @Component({
   selector: 'app-create-competition',
@@ -23,6 +25,8 @@ export class CreateCompetitionComponent implements OnInit {
   users : User[];
   allUsers: User[];
   showedUsers: User[];
+
+  currentCompetition: Competition;
 
   pageSize : number = 10;
   currentPage : number = 0;
@@ -107,9 +111,15 @@ export class CreateCompetitionComponent implements OnInit {
       console.log("Rally id: "+this.rally_id);
 
       if(this.is_public && /*this.starting_date && this.finishing_date &&*/ this.name && this.rally_id){
-          this.competitionService.createCompetition(this.is_public, this.starting_date, this.finishing_date, this.name, this.rally_id).subscribe((competition: string) => {
-              this.competitionCreated = true;
-              console.log("Competition created");
+          this.competitionService.createCompetition(this.is_public, this.starting_date, this.finishing_date, this.name, this.rally_id).subscribe((competition: Competition[]) => {
+              if (competition[0]){
+                  this.currentCompetition = competition[0];
+                  this.competitionCreated = true;
+                  console.log("Competition created");
+              } else {
+                  console.log("Couldn't create competition");
+              }
+
           });
 
       }
@@ -117,8 +127,12 @@ export class CreateCompetitionComponent implements OnInit {
 
   invite (index: number){
       if(this.competitionCreated){
-          this.invitationService.sendInvitation(this.competitionId, this.showedUsers[index].id, this.user.id).subscribe((invitation: string) => {
-              console.log("Invitation sent");
+          this.invitationService.sendInvitation(this.competitionId, this.showedUsers[index].id, this.user.id).subscribe((invitation: Invitation[]) => {
+              if(invitation[0]){
+                  console.log("Invitation sent");
+              } else {
+                  console.log("Couldn't send invitation");
+              }
           });
       }
   }

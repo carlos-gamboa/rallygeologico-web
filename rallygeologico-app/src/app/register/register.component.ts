@@ -68,9 +68,13 @@ export class RegisterComponent implements OnInit {
           }
           this.changeUsername = (count2 != 0);
           if (!this.changeUsername) {
-            this.userService.register(this.fbId, this.userName, this.firstName, this.lastName, this.email, this.photoUrl).subscribe((users: string) => {
-              this.successful = true;
-              this.pleaseWait = false;
+            this.userService.register(this.fbId, this.userName, this.firstName, this.lastName, this.email, this.photoUrl).subscribe((users: User[]) => {
+              if (users[0]) {
+                this.successful = true;
+                this.pleaseWait = false;
+              }else {
+                console.log("Couldn't register");
+              }
             });
           }
         });

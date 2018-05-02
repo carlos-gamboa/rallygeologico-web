@@ -66,14 +66,12 @@ class CompetitionController extends AppController
             $competition = $this->Competition->patchEntity($competition, $this->request->getData());
             if ($this->Competition->save($competition)) {
                 $this->Flash->success(__('The competition has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The competition could not be saved. Please, try again.'));
         }
         $rally = $this->Competition->Rally->find('list', ['limit' => 200]);
         $this->set(compact('competition', 'rally'));
-        //$this->render('/Competition/json/template');
+        $this->render('/Competition/json/template');
     }
 
     /**

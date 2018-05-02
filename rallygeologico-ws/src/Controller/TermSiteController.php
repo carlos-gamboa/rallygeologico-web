@@ -65,13 +65,12 @@ class TermSiteController extends AppController
             $termSite = $this->TermSite->patchEntity($termSite, $this->request->getData());
             if ($this->TermSite->save($termSite)) {
                 $this->Flash->success(__('The term site has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The term site could not be saved. Please, try again.'));
         }
         $term = $this->TermSite->Term->find('list', ['limit' => 200]);
         $this->set(compact('termSite', 'term'));
+        $this->render('/TermSite/json/template');
     }
 
     /**

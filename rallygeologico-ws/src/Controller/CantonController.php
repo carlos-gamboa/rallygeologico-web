@@ -66,12 +66,12 @@ class CantonController extends AppController
             if ($this->Canton->save($canton)) {
                 $this->Flash->success(__('The canton has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The canton could not be saved. Please, try again.'));
         }
         $province = $this->Canton->Province->find('list', ['limit' => 200]);
         $this->set(compact('canton', 'province'));
+        $this->render('/Canton/json/template');
     }
 
     /**

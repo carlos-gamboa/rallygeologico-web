@@ -65,8 +65,6 @@ class CompetitionStatisticsSiteController extends AppController
             $competitionStatisticsSite = $this->CompetitionStatisticsSite->patchEntity($competitionStatisticsSite, $this->request->getData());
             if ($this->CompetitionStatisticsSite->save($competitionStatisticsSite)) {
                 $this->Flash->success(__('The competition statistics site has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The competition statistics site could not be saved. Please, try again.'));
         }
@@ -74,6 +72,7 @@ class CompetitionStatisticsSiteController extends AppController
         $competitionStatistics = $this->CompetitionStatisticsSite->CompetitionStatistics->find('list', ['limit' => 200]);
         $site = $this->CompetitionStatisticsSite->Site->find('list', ['limit' => 200]);
         $this->set(compact('competitionStatisticsSite', 'users', 'competitionStatistics', 'site'));
+        $this->render('/CompetitionStatisticsSite/json/template');
     }
 
     /**
