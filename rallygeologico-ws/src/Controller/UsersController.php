@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * Users Controller
@@ -30,6 +31,13 @@ class UsersController extends AppController
         $this->set('_serialize', 'users');
     }
 
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+       $this->Auth->allow();
+
+    }
+
     /**
      * View method
      *
@@ -46,10 +54,10 @@ class UsersController extends AppController
         $this->set('user', $user);
     }
 
-    public function login($UserId = null)
+    public function login($FacebookId = null)
     {
         $users = $this->Users->find('all', [
-                'conditions' => ['users.id' => $UserId]]
+                'conditions' => ['users.facebook_id' => $FacebookId]]
         );
         $this->set('users', $users);
         $this->render('/Users/json/template');
@@ -68,6 +76,15 @@ class UsersController extends AppController
     {
         $users = $this->Users->find('all', [
                 'conditions' => ['users.email' => $Email]]
+        );
+        $this->set('users', $users);
+        $this->render('/Users/json/template');
+    }
+
+    public function facebookid($facebookid = null)
+    {
+        $users = $this->Users->find('all', [
+                'conditions' => ['users.facebook_id' => $facebookid]]
         );
         $this->set('users', $users);
         $this->render('/Users/json/template');
