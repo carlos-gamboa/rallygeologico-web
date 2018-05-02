@@ -54,10 +54,10 @@ class UsersController extends AppController
         $this->set('user', $user);
     }
 
-    public function login($UserId = null)
+    public function login($FacebookId = null)
     {
         $users = $this->Users->find('all', [
-                'conditions' => ['users.id' => $UserId]]
+                'conditions' => ['users.facebook_id' => $FacebookId]]
         );
         $this->set('users', $users);
         $this->render('/Users/json/template');
