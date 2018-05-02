@@ -25,6 +25,10 @@ export class UserService {
       return this.http.get<User[]>(this.baseUrl + "users/username/"+Username+".json");
     }
 
+    facebookid(facebookid : string) : Observable<User[]>{
+      return this.http.get<User[]>(this.baseUrl + "users/facebook_id/"+facebookid+".json");
+    }
+
     register(FacebookId : string, Username : string, FirstName : string, LastName : string, Email : string, PhotoUrl : string) : Observable<string>{
         return this.http.post<string>(this.baseUrl + "users/add", {
         'facebook_id':FacebookId,
@@ -33,6 +37,12 @@ export class UserService {
         'last_name':LastName,
         'email':Email,
         'photo_url':PhotoUrl
+      }, {responseType: 'text' as 'json'});
+    }
+
+    auth(FacebookId : string) : Observable<string>{
+      return this.http.post<string>(this.baseUrl + "login/index", {
+        'facebook_id':FacebookId,
       }, {responseType: 'text' as 'json'});
     }
 

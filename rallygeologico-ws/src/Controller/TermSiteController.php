@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * TermSite Controller
@@ -27,6 +28,13 @@ class TermSiteController extends AppController
 
         $this->set(compact('termSite'));
         $this->set('_serialize', 'termSite');
+    }
+
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow();
+
     }
 
     /**
