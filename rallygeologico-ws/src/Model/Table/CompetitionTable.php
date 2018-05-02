@@ -9,6 +9,7 @@ use Cake\Validation\Validator;
 /**
  * Competition Model
  *
+ * @property |\Cake\ORM\Association\BelongsTo $Users
  * @property \App\Model\Table\RallyTable|\Cake\ORM\Association\BelongsTo $Rally
  * @property \App\Model\Table\CompetitionStatisticsTable|\Cake\ORM\Association\HasMany $CompetitionStatistics
  * @property \App\Model\Table\CompetitionStatisticsSiteTable|\Cake\ORM\Association\HasMany $CompetitionStatisticsSite
@@ -39,6 +40,9 @@ class CompetitionTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
+        $this->belongsTo('Users', [
+            'foreignKey' => 'admin_id'
+        ]);
         $this->belongsTo('Rally', [
             'foreignKey' => 'rally_id',
             'joinType' => 'INNER'
@@ -83,10 +87,15 @@ class CompetitionTable extends Table
             ->allowEmpty('is_public');
 
         $validator
-            ->scalar('Name')
-            ->maxLength('Name', 30)
-            ->requirePresence('Name', 'create')
-            ->notEmpty('Name');
+            ->scalar('description')
+            ->maxLength('description', 2000)
+            ->allowEmpty('description');
+
+        $validator
+            ->scalar('name')
+            ->maxLength('name', 30)
+            ->requirePresence('name', 'create')
+            ->notEmpty('name');
 
         return $validator;
     }
@@ -100,6 +109,7 @@ class CompetitionTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
+        $rules->add($rules->existsIn(['admin_id'], 'Users'));
         $rules->add($rules->existsIn(['rally_id'], 'Rally'));
 
         return $rules;

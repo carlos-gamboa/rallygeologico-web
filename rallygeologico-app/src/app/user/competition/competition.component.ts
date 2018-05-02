@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import {UserService} from "../../services/user.service";
 import {DataService} from "../../services/data/data.service";
 import {User} from "../../model/user";
+import {InvitationService} from "../../services/invitation.service";
+import {Invitation} from "../../model/invitation";
+import {ActivatedRoute, Params, Router} from "@angular/router";
+import {CompetitionService} from "../../services/competition.service";
+import {Competition} from "../../model/competition";
 
 @Component({
   selector: 'app-competition',
@@ -14,14 +19,21 @@ export class CompetitionComponent implements OnInit {
     currentPage : number = 0;
     totalUsers : number = 0;
 
+    readyToShow: boolean = false;
+
     searchQuery : string = "";
+
+    competition: Competition;
+    competitionId: number;
 
     user: User;
     users : User[];
     allUsers: User[];
     showedUsers: User[];
 
-    constructor(private userService: UserService, private dataService: DataService) {
+    constructor(private userService: UserService, private dataService: DataService,
+                private invitationService: InvitationService, private route: ActivatedRoute,
+                private competitionService: CompetitionService, private router: Router) {
         this.user = this.dataService.getUser();
         this.userService.getUsers().subscribe((users: User[]) => {
           this.allUsers = users;
@@ -58,11 +70,27 @@ export class CompetitionComponent implements OnInit {
     }
 
     invite (index: number){
-
+        this.invitationService.sendInvitation(this.competitionId, this.showedUsers[index].id, this.user.id).subscribe((invitation: string) => {
+            console.log("Invitation sent");
+        });
     }
 
     ngOnInit() {
-
+        this.route.params
+            .subscribe(
+                (params: Params) => {
+                    this.competitionId = this.route.snapshot.params['competitionId'];
+                    console.log("Competition Id = " + this.competitionId);
+                    this.competitionService.findCompetition(this.competitionId).subscribe((competition: Competition) => {
+                        if (competition){
+                            this.competition = competition;
+                            this.readyToShow = true;
+                        } else {
+                            this.router.navigate(['/dashboard']);
+                        }
+                    });
+                }
+            );
     }
 
 }

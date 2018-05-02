@@ -47,16 +47,17 @@ class CompetitionController extends AppController
     public function view($id = null)
     {
         $competition = $this->Competition->get($id, [
-            'contain' => ['Rally', 'CompetitionStatistics', 'CompetitionStatisticsSite', 'Invitation']
+            'contain' => ['Rally', 'Users']
         ]);
 
         $this->set('competition', $competition);
+        $this->render('/Competition/json/template');
     }
 
     /**
      * Add method
      *
-     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
+     * @return \Cake\Http\Response|integer Redirects on successful add, renders view otherwise.
      */
     public function add()
     {
@@ -72,6 +73,7 @@ class CompetitionController extends AppController
         }
         $rally = $this->Competition->Rally->find('list', ['limit' => 200]);
         $this->set(compact('competition', 'rally'));
+        //$this->render('/Competition/json/template');
     }
 
     /**

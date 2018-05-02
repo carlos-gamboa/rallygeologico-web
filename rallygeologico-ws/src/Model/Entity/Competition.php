@@ -11,7 +11,9 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenTime $starting_date
  * @property \Cake\I18n\FrozenTime $finishing_date
  * @property string $is_public
- * @property string $Name
+ * @property int $admin_id
+ * @property string $description
+ * @property string $name
  * @property int $rally_id
  *
  * @property \App\Model\Entity\Rally $rally
@@ -36,11 +38,14 @@ class Competition extends Entity
         'starting_date' => true,
         'finishing_date' => true,
         'is_public' => true,
-        'Name' => true,
+        'admin_id' => true,
+        'description' => true,
+        'name' => true,
         'rally_id' => true,
         'rally' => true,
         'competition_statistics' => true,
         'competition_statistics_site' => true,
-        'invitation' => true
+        'invitation' => true,
+        'users' => true,
     ];
 }
