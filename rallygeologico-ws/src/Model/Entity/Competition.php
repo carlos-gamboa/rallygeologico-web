@@ -6,13 +6,20 @@ use Cake\ORM\Entity;
 /**
  * Competition Entity
  *
- * @property int $CompetitionId
- * @property string $IsActive
- * @property \Cake\I18n\FrozenTime $StartingDate
- * @property \Cake\I18n\FrozenTime $FinishingDate
- * @property string $IsPublic
- * @property string $Name
- * @property int $RallyId
+ * @property int $id
+ * @property string $is_active
+ * @property \Cake\I18n\FrozenTime $starting_date
+ * @property \Cake\I18n\FrozenTime $finishing_date
+ * @property string $is_public
+ * @property int $admin_id
+ * @property string $description
+ * @property string $name
+ * @property int $rally_id
+ *
+ * @property \App\Model\Entity\Rally $rally
+ * @property \App\Model\Entity\CompetitionStatistic[] $competition_statistics
+ * @property \App\Model\Entity\CompetitionStatisticsSite[] $competition_statistics_site
+ * @property \App\Model\Entity\Invitation[] $invitation
  */
 class Competition extends Entity
 {
@@ -27,11 +34,18 @@ class Competition extends Entity
      * @var array
      */
     protected $_accessible = [
-        'IsActive' => true,
-        'StartingDate' => true,
-        'FinishingDate' => true,
-        'IsPublic' => true,
-        'Name' => true,
-        'RallyId' => true
+        'is_active' => true,
+        'starting_date' => true,
+        'finishing_date' => true,
+        'is_public' => true,
+        'admin_id' => true,
+        'description' => true,
+        'name' => true,
+        'rally_id' => true,
+        'rally' => true,
+        'competition_statistics' => true,
+        'competition_statistics_site' => true,
+        'invitation' => true,
+        'users' => true,
     ];
 }

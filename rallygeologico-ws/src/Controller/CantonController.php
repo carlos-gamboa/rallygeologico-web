@@ -20,6 +20,9 @@ class CantonController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'contain' => ['Province']
+        ];
         $canton = $this->paginate($this->Canton);
 
         $this->set(compact('canton'));
@@ -36,7 +39,7 @@ class CantonController extends AppController
     public function view($id = null)
     {
         $canton = $this->Canton->get($id, [
-            'contain' => []
+            'contain' => ['Province', 'District']
         ]);
 
         $this->set('canton', $canton);
@@ -59,7 +62,8 @@ class CantonController extends AppController
             }
             $this->Flash->error(__('The canton could not be saved. Please, try again.'));
         }
-        $this->set(compact('canton'));
+        $province = $this->Canton->Province->find('list', ['limit' => 200]);
+        $this->set(compact('canton', 'province'));
     }
 
     /**
@@ -83,7 +87,8 @@ class CantonController extends AppController
             }
             $this->Flash->error(__('The canton could not be saved. Please, try again.'));
         }
-        $this->set(compact('canton'));
+        $province = $this->Canton->Province->find('list', ['limit' => 200]);
+        $this->set(compact('canton', 'province'));
     }
 
     /**

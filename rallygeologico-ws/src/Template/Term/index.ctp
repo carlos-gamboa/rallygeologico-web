@@ -17,26 +17,26 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('TermID') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('ImageUrl') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('VideoUrl') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('Name') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('Description') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('image_url') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('video_url') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('name') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('description') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($term as $term): ?>
             <tr>
-                <td><?= $this->Number->format($term->TermID) ?></td>
-                <td><?= h($term->ImageUrl) ?></td>
-                <td><?= h($term->VideoUrl) ?></td>
-                <td><?= h($term->Name) ?></td>
-                <td><?= h($term->Description) ?></td>
+                <td><?= $this->Number->format($term->id) ?></td>
+                <td><?= h($term->image_url) ?></td>
+                <td><?= h($term->video_url) ?></td>
+                <td><?= h($term->name) ?></td>
+                <td><?= h($term->description) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $term->TermID]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $term->TermID]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $term->TermID], ['confirm' => __('Are you sure you want to delete # {0}?', $term->TermID)]) ?>
+                    <?= $this->Html->link(__('View'), ['action' => 'view', $term->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $term->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $term->id], ['confirm' => __('Are you sure you want to delete # {0}?', $term->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

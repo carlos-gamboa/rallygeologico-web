@@ -9,6 +9,12 @@ use Cake\Validation\Validator;
 /**
  * Competition Model
  *
+ * @property |\Cake\ORM\Association\BelongsTo $Users
+ * @property \App\Model\Table\RallyTable|\Cake\ORM\Association\BelongsTo $Rally
+ * @property \App\Model\Table\CompetitionStatisticsTable|\Cake\ORM\Association\HasMany $CompetitionStatistics
+ * @property \App\Model\Table\CompetitionStatisticsSiteTable|\Cake\ORM\Association\HasMany $CompetitionStatisticsSite
+ * @property \App\Model\Table\InvitationTable|\Cake\ORM\Association\HasMany $Invitation
+ *
  * @method \App\Model\Entity\Competition get($primaryKey, $options = [])
  * @method \App\Model\Entity\Competition newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Competition[] newEntities(array $data, array $options = [])
@@ -31,8 +37,25 @@ class CompetitionTable extends Table
         parent::initialize($config);
 
         $this->setTable('competition');
-        $this->setDisplayField('CompetitionId');
-        $this->setPrimaryKey('CompetitionId');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
+
+        $this->belongsTo('Users', [
+            'foreignKey' => 'admin_id'
+        ]);
+        $this->belongsTo('Rally', [
+            'foreignKey' => 'rally_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->hasMany('CompetitionStatistics', [
+            'foreignKey' => 'competition_id'
+        ]);
+        $this->hasMany('CompetitionStatisticsSite', [
+            'foreignKey' => 'competition_id'
+        ]);
+        $this->hasMany('Invitation', [
+            'foreignKey' => 'competition_id'
+        ]);
     }
 
     /**
@@ -44,36 +67,51 @@ class CompetitionTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('CompetitionId')
-            ->allowEmpty('CompetitionId', 'create');
+            ->integer('id')
+            ->allowEmpty('id', 'create');
 
         $validator
-            ->scalar('IsActive')
-            ->allowEmpty('IsActive');
+            ->scalar('is_active')
+            ->allowEmpty('is_active');
 
         $validator
-            ->dateTime('StartingDate')
-            ->allowEmpty('StartingDate');
+            ->dateTime('starting_date')
+            ->allowEmpty('starting_date');
 
         $validator
-            ->dateTime('FinishingDate')
-            ->allowEmpty('FinishingDate');
+            ->dateTime('finishing_date')
+            ->allowEmpty('finishing_date');
 
         $validator
-            ->scalar('IsPublic')
-            ->allowEmpty('IsPublic');
+            ->scalar('is_public')
+            ->allowEmpty('is_public');
 
         $validator
-            ->scalar('Name')
-            ->maxLength('Name', 30)
-            ->requirePresence('Name', 'create')
-            ->notEmpty('Name');
+            ->scalar('description')
+            ->maxLength('description', 2000)
+            ->allowEmpty('description');
 
         $validator
-            ->integer('RallyId')
-            ->requirePresence('RallyId', 'create')
-            ->notEmpty('RallyId');
+            ->scalar('name')
+            ->maxLength('name', 30)
+            ->requirePresence('name', 'create')
+            ->notEmpty('name');
 
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        $rules->add($rules->existsIn(['admin_id'], 'Users'));
+        $rules->add($rules->existsIn(['rally_id'], 'Rally'));
+
+        return $rules;
     }
 }

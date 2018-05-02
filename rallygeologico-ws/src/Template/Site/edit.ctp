@@ -9,11 +9,15 @@
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Form->postLink(
                 __('Delete'),
-                ['action' => 'delete', $site->SiteId],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $site->SiteId)]
+                ['action' => 'delete', $site->id],
+                ['confirm' => __('Are you sure you want to delete # {0}?', $site->id)]
             )
         ?></li>
         <li><?= $this->Html->link(__('List Site'), ['action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('List District'), ['controller' => 'District', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New District'), ['controller' => 'District', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Competition Statistics'), ['controller' => 'CompetitionStatistics', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Competition Statistic'), ['controller' => 'CompetitionStatistics', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Rally'), ['controller' => 'Rally', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Rally'), ['controller' => 'Rally', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Term'), ['controller' => 'Term', 'action' => 'index']) ?></li>
@@ -25,14 +29,15 @@
     <fieldset>
         <legend><?= __('Edit Site') ?></legend>
         <?php
-            echo $this->Form->control('Name');
-            echo $this->Form->control('PointsAwarded');
-            echo $this->Form->control('QrUrl');
-            echo $this->Form->control('Details');
-            echo $this->Form->control('Description');
-            echo $this->Form->control('Latitude');
-            echo $this->Form->control('Longitude');
-            echo $this->Form->control('ProvinceName');
+            echo $this->Form->control('name');
+            echo $this->Form->control('points_awarded');
+            echo $this->Form->control('qr_url');
+            echo $this->Form->control('details');
+            echo $this->Form->control('description');
+            echo $this->Form->control('latitude');
+            echo $this->Form->control('longitude');
+            echo $this->Form->control('district_id', ['options' => $district]);
+            echo $this->Form->control('competition_statistics._ids', ['options' => $competitionStatistics]);
             echo $this->Form->control('rally._ids', ['options' => $rally]);
             echo $this->Form->control('term._ids', ['options' => $term]);
         ?>

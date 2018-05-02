@@ -20,6 +20,9 @@ class TermSiteController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'contain' => ['Term']
+        ];
         $termSite = $this->paginate($this->TermSite);
 
         $this->set(compact('termSite'));
@@ -36,7 +39,7 @@ class TermSiteController extends AppController
     public function view($id = null)
     {
         $termSite = $this->TermSite->get($id, [
-            'contain' => []
+            'contain' => ['Term']
         ]);
 
         $this->set('termSite', $termSite);
@@ -59,7 +62,8 @@ class TermSiteController extends AppController
             }
             $this->Flash->error(__('The term site could not be saved. Please, try again.'));
         }
-        $this->set(compact('termSite'));
+        $term = $this->TermSite->Term->find('list', ['limit' => 200]);
+        $this->set(compact('termSite', 'term'));
     }
 
     /**
@@ -83,7 +87,8 @@ class TermSiteController extends AppController
             }
             $this->Flash->error(__('The term site could not be saved. Please, try again.'));
         }
-        $this->set(compact('termSite'));
+        $term = $this->TermSite->Term->find('list', ['limit' => 200]);
+        $this->set(compact('termSite', 'term'));
     }
 
     /**

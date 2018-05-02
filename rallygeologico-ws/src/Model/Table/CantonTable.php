@@ -9,6 +9,9 @@ use Cake\Validation\Validator;
 /**
  * Canton Model
  *
+ * @property \App\Model\Table\ProvinceTable|\Cake\ORM\Association\BelongsTo $Province
+ * @property \App\Model\Table\DistrictTable|\Cake\ORM\Association\HasMany $District
+ *
  * @method \App\Model\Entity\Canton get($primaryKey, $options = [])
  * @method \App\Model\Entity\Canton newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Canton[] newEntities(array $data, array $options = [])
@@ -31,8 +34,16 @@ class CantonTable extends Table
         parent::initialize($config);
 
         $this->setTable('canton');
-        $this->setDisplayField('Name');
-        $this->setPrimaryKey('Name');
+        $this->setDisplayField('name');
+        $this->setPrimaryKey('name');
+
+        $this->belongsTo('Province', [
+            'foreignKey' => 'province_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->hasMany('District', [
+            'foreignKey' => 'canton_id'
+        ]);
     }
 
     /**
@@ -44,16 +55,24 @@ class CantonTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->scalar('Name')
-            ->maxLength('Name', 40)
-            ->allowEmpty('Name', 'create');
-
-        $validator
-            ->scalar('DistrictName')
-            ->maxLength('DistrictName', 40)
-            ->requirePresence('DistrictName', 'create')
-            ->notEmpty('DistrictName');
+            ->scalar('name')
+            ->maxLength('name', 40)
+            ->allowEmpty('name', 'create');
 
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        $rules->add($rules->existsIn(['province_id'], 'Province'));
+
+        return $rules;
     }
 }
