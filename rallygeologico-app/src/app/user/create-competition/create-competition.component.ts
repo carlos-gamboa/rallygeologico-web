@@ -104,7 +104,7 @@ export class CreateCompetitionComponent implements OnInit {
 
   invite (index: number){
       if(this.competitionCreated){
-          this.invitationService.sendInvitation(this.currentCompetition.id, this.showedUsers[index].id, this.user.id).subscribe((invitation: Invitation[]) => {
+          this.invitationService.sendInvitation( this.user.id, this.showedUsers[index].id, this.currentCompetition.id,).subscribe((invitation: Invitation[]) => {
               if(invitation){
                   console.log("Invitation sent");
               } else {

@@ -40,6 +40,10 @@ export class UserService {
       });
     }
 
+    isLoggedIn() : Observable<User>{
+        return this.http.get<User>(this.baseUrl + "login/activeSession.json");
+    }
+
     auth(FacebookId : string) : Observable<User[]>{
         return this.http.post<User[]>(this.baseUrl + "login.json", {
             'facebook_id':FacebookId,
