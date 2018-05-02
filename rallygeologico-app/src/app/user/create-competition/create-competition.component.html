@@ -67,7 +67,7 @@
           </form>
         </div>
         <div class="mt-50" align="center">
-          <button title="crearCompetencia" class="btn genric-btn success col-lg-6" style="font-size: 16px" (click)="createCompetition()">Crear Competencia</button>
+          <button title="crearCompetencia" class="btn genric-btn success col-lg-6" style="font-size: 16px" (click)="createCompetition()" [disabled]="competitionForm.invalid">Crear Competencia</button>
         </div>
       </div>
     </div>

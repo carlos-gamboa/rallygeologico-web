@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Rally} from "../../model/rally";
 import {RallyService} from "../../services/rally.service";
 import {UserService} from "../../services/user.service";
@@ -43,12 +43,6 @@ export class CreateCompetitionComponent implements OnInit {
 
   competitionId: number;
   competitionCreated: boolean;
-
-  // @ViewChild('nameLbl') name: ElementRef;
-  // @ViewChild('startingDateLbl') startingDate: ElementRef;
-  // @ViewChild('finishingDateLbl') finishingDate: ElementRef;
-  // @ViewChild('isPublicLbl') isPublic: ElementRef;
-  // @ViewChild('rallyIdLbl') rallyId: ElementRef;
 
   constructor(private rallyService: RallyService, private userService: UserService, private dataService: DataService, private competitionService: CompetitionService, private invitationService: InvitationService) {
       this.rallyService.getNewestRallies().subscribe((rallies: Rally[])=>{
@@ -98,31 +92,21 @@ export class CreateCompetitionComponent implements OnInit {
 
   createCompetition(){
 
-      // this.starting_date = this.startingDate.nativeElement.value;
-      // this.finishing_date = this.finishingDate.nativeElement.value;
-      // this.is_public = parseInt(this.isPublic.nativeElement.value);
-      // this.Name = this.name.nativeElement.value;
-      // this.rally_id = this.rallyId.nativeElement.value;
-
       console.log("Fecha inicio: "+this.starting_date);
       console.log("Fecha final: "+this.finishing_date);
       console.log("Es público: "+this.is_public);
       console.log("Nombre: "+this.name);
       console.log("Rally id: "+this.rally_id);
 
-      if(this.is_public && /*this.starting_date && this.finishing_date &&*/ this.name && this.rally_id){
-          this.competitionService.createCompetition(this.is_public, this.starting_date, this.finishing_date, this.name, this.rally_id).subscribe((competition: Competition[]) => {
-              if (competition){
-                  this.currentCompetition = competition[0];
-                  this.competitionCreated = true;
-                  console.log("Competition created");
-              } else {
-                  console.log("Couldn't create competition");
-              }
-
-          });
-
-      }
+      this.competitionService.createCompetition(this.is_public, this.starting_date, this.finishing_date, this.name, this.rally_id).subscribe((competition: Competition[]) => {
+          if (competition){
+              this.currentCompetition = competition[0];
+              this.competitionCreated = true;
+              console.log("Competition created");
+          } else {
+              console.log("Couldn't create competition");
+          }
+      });
   }
 
   invite (index: number){
