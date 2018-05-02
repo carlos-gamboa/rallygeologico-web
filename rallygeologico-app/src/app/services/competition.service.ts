@@ -13,14 +13,12 @@ export class CompetitionService {
         this.baseUrl = this._configuration.ServerWithApiUrl;
     }
 
-    createCompetition(isPublic: string, startingDate: string, finishingDate: string, name: string, rallyId: string): Observable<Competition>{
+    createCompetition(isPublic: string, adminId: number,  description: string, name: string, rallyId: string): Observable<Competition>{
 
         return this.http.post<Competition>(this.baseUrl + "competition/add.json", {
-            //'starting_date': JSON.stringify(new Date(startingDate)),
-            //'finishing_date': new Date(finishingDate),
-            'starting_date': startingDate,//startingDate.replace('T', startingDate),
-            'finishing_date': finishingDate,//finishingDate.replace('T', startingDate),
             'is_public': isPublic,
+            'admin_id': adminId,
+            'description': description,
             'name': name,
             'rally_id': rallyId
             }
