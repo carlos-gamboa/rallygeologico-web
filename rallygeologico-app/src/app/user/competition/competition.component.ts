@@ -35,6 +35,13 @@ export class CompetitionComponent implements OnInit {
                 private invitationService: InvitationService, private route: ActivatedRoute,
                 private competitionService: CompetitionService, private router: Router) {
         this.user = this.dataService.getUser();
+        if (!this.user){
+            this.userService.isLoggedIn().subscribe((users: User) => {
+                // this.dataService.updateUser(users[0]);
+                // this.user = users[0];
+                console.log(users);
+            });
+        }
         this.userService.getUsers().subscribe((users: User[]) => {
           this.allUsers = users;
           this.reloadUsers(users);
