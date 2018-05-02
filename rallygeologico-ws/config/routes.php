@@ -78,28 +78,8 @@ Router::scope('/', function (RouteBuilder $routes) {
     $routes->setExtensions(['json']);
     $routes->fallbacks(DashedRoute::class);
 
-    $routes->connect('/rallygeologico-ws/users/login',['controller'=>'users','action'=>'login', '_ext'=>'json']);
-    $routes->connect('/rallygeologico-ws/rally/newestRallies',['controller'=>'rally','action'=>'newestRallies', '_ext'=>'json']);
-
 });
 
-// USER Routes
-Router::scope('/user',  ['controller' => 'Users'], function($routes) {
-    $routes->connect(  '/', ['action'=>'index',  '_ext'=>'json','_method'=>'GET']);
-});
-
-// LOGIN Routes
-Router::scope('/login',  ['controller' => 'Login'], function($routes) {
-    $routes->connect(  '/', ['action'=>'index',  '_ext'=>'json','_method'=>'POST']);
-    $routes->connect(  '/', ['action'=>'logout', '_ext'=>'json','_method'=>'DELETE']);
-});
-
-// PAGES Routes
-Router::scope('/',  ['controller' => 'Pages'], function($routes) {
-    $routes->SetExtensions('json');
-    $routes->connect(  '/forbiden', ['action'=>'forbiden']);
-    $routes->connect(  '/unauthorized', ['action'=>'unauthorized']);
-});
 /**
  * Load all plugin routes. See the Plugin documentation on
  * how to customize the loading of plugin routes.

@@ -29,14 +29,14 @@ class LoginController extends AppController
     public function beforeFilter(Event $event)
     {
         /*parent::beforeFilter($event);*/
-        $this->Auth->allow(['index', 'logout']);
+        $this->Auth->allow();
     }
 
     /**
      * Index Login method  API URL  /api/login method: POST
      * @return json response
      */
-    public function index($FacebookId = null)
+    public function index()
     {
         try {
             $data = $this->request->getData();
@@ -59,18 +59,15 @@ class LoginController extends AppController
             // Generate user Auth token
             $token =  Security::hash($users->id.$users->facebook_id, 'sha1', true);
             // Add user token into Auth session
-            $this->request->session()->write('Auth.User.token', $token);
+            $this->request->getSession()->write('Auth.User.token', $token);
 
             // return Auth token
-            $this->response->header('Authorization', 'Bearer ' . $token);
-
-
+            $this->response->withAddedHeader('Authorization', 'Bearer ' . $token);
 
         } catch (UnauthorizedException $e) {
             throw new UnauthorizedException($e->getMessage(),401);
         }
         $this->set('users', $this->Auth->user());
-        $this->set('_serialize', ['users']);
         $this->render('/Users/json/template');
     }
     /**
