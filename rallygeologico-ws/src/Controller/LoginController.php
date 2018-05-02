@@ -65,7 +65,7 @@ class LoginController extends AppController
             $this->response->withAddedHeader('Authorization', 'Bearer ' . $token);
 
         } catch (UnauthorizedException $e) {
-            throw new UnauthorizedException($e->getMessage(),401);
+            //throw new UnauthorizedException($e->getMessage(),401);
         }
         $this->set('users', $this->Auth->user());
         $this->render('/Users/json/template');

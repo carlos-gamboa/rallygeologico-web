@@ -55,14 +55,23 @@ class UsersController extends AppController
         $this->set('user', $user);
     }
 
-    public function login($FacebookId = null)
+    /*public function login()
     {
-        $users = $this->Users->find('all', [
-                'conditions' => ['users.facebook_id' => $FacebookId]]
-        );
-        $this->set('users', $users);
+        if ($this->request->is('post')) {
+            $data = $this->request->getData();
+            if(!isset($data['facebook_id'])){
+                throw new UnauthorizedException("Please enter your FacebookId" . print_r($data, true));
+            }
+
+            $FacebookId = $data['facebook_id'];
+
+            $users = $this->Users->find('all', [
+                    'conditions' => ['users.facebook_id' => $FacebookId]]
+            );
+        }
+        $this->set(compact('users'));
         $this->render('/Users/json/template');
-    }
+    }*/
 
     public function username($Username = null)
     {
