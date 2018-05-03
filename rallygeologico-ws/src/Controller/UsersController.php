@@ -57,8 +57,8 @@ class UsersController extends AppController
 
     /*public function login()
     {
-        if ($this->request->is('post')) {
-            $data = $this->request->getData();
+        if ($this->getRequest()->is('post')) {
+            $data = $this->getRequest()->getData();
             if(!isset($data['facebook_id'])){
                 throw new UnauthorizedException("Please enter your FacebookId" . print_r($data, true));
             }
@@ -109,8 +109,8 @@ class UsersController extends AppController
     public function add()
     {
         $users = $this->Users->newEntity();
-        if ($this->request->is('post')) {
-            $users = $this->Users->patchEntity($users, $this->request->getData());
+        if ($this->getRequest()->is('post')) {
+            $users = $this->Users->patchEntity($users, $this->getRequest()->getData());
             if ($this->Users->save($users)) {
                 $this->Flash->success(__('The user has been saved.'));
             }
@@ -132,8 +132,8 @@ class UsersController extends AppController
         $user = $this->Users->get($id, [
             'contain' => []
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
+        if ($this->getRequest()->is(['patch', 'post', 'put'])) {
+            $user = $this->Users->patchEntity($user, $this->getRequest()->getData());
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 
@@ -153,7 +153,7 @@ class UsersController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->getRequest()->allowMethod(['post', 'delete']);
         $user = $this->Users->get($id);
         if ($this->Users->delete($user)) {
             $this->Flash->success(__('The user has been deleted.'));

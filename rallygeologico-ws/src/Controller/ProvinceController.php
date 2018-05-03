@@ -58,8 +58,8 @@ class ProvinceController extends AppController
     public function add()
     {
         $province = $this->Province->newEntity();
-        if ($this->request->is('post')) {
-            $province = $this->Province->patchEntity($province, $this->request->getData());
+        if ($this->getRequest()->is('post')) {
+            $province = $this->Province->patchEntity($province, $this->getRequest()->getData());
             if ($this->Province->save($province)) {
                 $this->Flash->success(__('The province has been saved.'));
             }
@@ -81,8 +81,8 @@ class ProvinceController extends AppController
         $province = $this->Province->get($id, [
             'contain' => []
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $province = $this->Province->patchEntity($province, $this->request->getData());
+        if ($this->getRequest()->is(['patch', 'post', 'put'])) {
+            $province = $this->Province->patchEntity($province, $this->getRequest()->getData());
             if ($this->Province->save($province)) {
                 $this->Flash->success(__('The province has been saved.'));
 
@@ -102,7 +102,7 @@ class ProvinceController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->getRequest()->allowMethod(['post', 'delete']);
         $province = $this->Province->get($id);
         if ($this->Province->delete($province)) {
             $this->Flash->success(__('The province has been deleted.'));

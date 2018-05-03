@@ -58,8 +58,8 @@ class TermController extends AppController
     public function add()
     {
         $term = $this->Term->newEntity();
-        if ($this->request->is('post')) {
-            $term = $this->Term->patchEntity($term, $this->request->getData());
+        if ($this->getRequest()->is('post')) {
+            $term = $this->Term->patchEntity($term, $this->getRequest()->getData());
             if ($this->Term->save($term)) {
                 $this->Flash->success(__('The term has been saved.'));
             }
@@ -82,8 +82,8 @@ class TermController extends AppController
         $term = $this->Term->get($id, [
             'contain' => ['Site']
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $term = $this->Term->patchEntity($term, $this->request->getData());
+        if ($this->getRequest()->is(['patch', 'post', 'put'])) {
+            $term = $this->Term->patchEntity($term, $this->getRequest()->getData());
             if ($this->Term->save($term)) {
                 $this->Flash->success(__('The term has been saved.'));
 
@@ -104,7 +104,7 @@ class TermController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->getRequest()->allowMethod(['post', 'delete']);
         $term = $this->Term->get($id);
         if ($this->Term->delete($term)) {
             $this->Flash->success(__('The term has been deleted.'));

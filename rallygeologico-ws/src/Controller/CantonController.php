@@ -61,8 +61,8 @@ class CantonController extends AppController
     public function add()
     {
         $canton = $this->Canton->newEntity();
-        if ($this->request->is('post')) {
-            $canton = $this->Canton->patchEntity($canton, $this->request->getData());
+        if ($this->getRequest()->is('post')) {
+            $canton = $this->Canton->patchEntity($canton, $this->getRequest()->getData());
             if ($this->Canton->save($canton)) {
                 $this->Flash->success(__('The canton has been saved.'));
 
@@ -86,8 +86,8 @@ class CantonController extends AppController
         $canton = $this->Canton->get($id, [
             'contain' => []
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $canton = $this->Canton->patchEntity($canton, $this->request->getData());
+        if ($this->getRequest()->is(['patch', 'post', 'put'])) {
+            $canton = $this->Canton->patchEntity($canton, $this->getRequest()->getData());
             if ($this->Canton->save($canton)) {
                 $this->Flash->success(__('The canton has been saved.'));
 
@@ -108,7 +108,7 @@ class CantonController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->getRequest()->allowMethod(['post', 'delete']);
         $canton = $this->Canton->get($id);
         if ($this->Canton->delete($canton)) {
             $this->Flash->success(__('The canton has been deleted.'));

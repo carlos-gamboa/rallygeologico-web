@@ -60,8 +60,8 @@ class InvitationController extends AppController
     public function add()
     {
         $invitation = $this->Invitation->newEntity();
-        if ($this->request->is('post')) {
-            $invitation = $this->Invitation->patchEntity($invitation, $this->request->getData());
+        if ($this->getRequest()->is('post')) {
+            $invitation = $this->Invitation->patchEntity($invitation, $this->getRequest()->getData());
             if ($this->Invitation->save($invitation)) {
                 $this->Flash->success(__('The invitation has been saved.'));
             }
@@ -84,8 +84,8 @@ class InvitationController extends AppController
         $invitation = $this->Invitation->get($id, [
             'contain' => []
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $invitation = $this->Invitation->patchEntity($invitation, $this->request->getData());
+        if ($this->getRequest()->is(['patch', 'post', 'put'])) {
+            $invitation = $this->Invitation->patchEntity($invitation, $this->getRequest()->getData());
             if ($this->Invitation->save($invitation)) {
                 $this->Flash->success(__('The invitation has been saved.'));
 
@@ -106,7 +106,7 @@ class InvitationController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->getRequest()->allowMethod(['post', 'delete']);
         $invitation = $this->Invitation->get($id);
         if ($this->Invitation->delete($invitation)) {
             $this->Flash->success(__('The invitation has been deleted.'));
