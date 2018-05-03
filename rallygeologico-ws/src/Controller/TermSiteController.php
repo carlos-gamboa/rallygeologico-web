@@ -61,8 +61,8 @@ class TermSiteController extends AppController
     public function add()
     {
         $termSite = $this->TermSite->newEntity();
-        if ($this->request->is('post')) {
-            $termSite = $this->TermSite->patchEntity($termSite, $this->request->getData());
+        if ($this->getRequest()->is('post')) {
+            $termSite = $this->TermSite->patchEntity($termSite, $this->getRequest()->getData());
             if ($this->TermSite->save($termSite)) {
                 $this->Flash->success(__('The term site has been saved.'));
             }
@@ -85,8 +85,8 @@ class TermSiteController extends AppController
         $termSite = $this->TermSite->get($id, [
             'contain' => []
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $termSite = $this->TermSite->patchEntity($termSite, $this->request->getData());
+        if ($this->getRequest()->is(['patch', 'post', 'put'])) {
+            $termSite = $this->TermSite->patchEntity($termSite, $this->getRequest()->getData());
             if ($this->TermSite->save($termSite)) {
                 $this->Flash->success(__('The term site has been saved.'));
 
@@ -107,7 +107,7 @@ class TermSiteController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->getRequest()->allowMethod(['post', 'delete']);
         $termSite = $this->TermSite->get($id);
         if ($this->TermSite->delete($termSite)) {
             $this->Flash->success(__('The term site has been deleted.'));

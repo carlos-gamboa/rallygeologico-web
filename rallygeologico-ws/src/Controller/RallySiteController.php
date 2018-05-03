@@ -61,8 +61,8 @@ class RallySiteController extends AppController
     public function add()
     {
         $rallySite = $this->RallySite->newEntity();
-        if ($this->request->is('post')) {
-            $rallySite = $this->RallySite->patchEntity($rallySite, $this->request->getData());
+        if ($this->getRequest()->is('post')) {
+            $rallySite = $this->RallySite->patchEntity($rallySite, $this->getRequest()->getData());
             if ($this->RallySite->save($rallySite)) {
                 $this->Flash->success(__('The rally site has been saved.'));
             }
@@ -86,8 +86,8 @@ class RallySiteController extends AppController
         $rallySite = $this->RallySite->get($id, [
             'contain' => []
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $rallySite = $this->RallySite->patchEntity($rallySite, $this->request->getData());
+        if ($this->getRequest()->is(['patch', 'post', 'put'])) {
+            $rallySite = $this->RallySite->patchEntity($rallySite, $this->getRequest()->getData());
             if ($this->RallySite->save($rallySite)) {
                 $this->Flash->success(__('The rally site has been saved.'));
 
@@ -109,7 +109,7 @@ class RallySiteController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->getRequest()->allowMethod(['post', 'delete']);
         $rallySite = $this->RallySite->get($id);
         if ($this->RallySite->delete($rallySite)) {
             $this->Flash->success(__('The rally site has been deleted.'));

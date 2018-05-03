@@ -61,8 +61,8 @@ class CompetitionStatisticsSiteController extends AppController
     public function add()
     {
         $competitionStatisticsSite = $this->CompetitionStatisticsSite->newEntity();
-        if ($this->request->is('post')) {
-            $competitionStatisticsSite = $this->CompetitionStatisticsSite->patchEntity($competitionStatisticsSite, $this->request->getData());
+        if ($this->getRequest()->is('post')) {
+            $competitionStatisticsSite = $this->CompetitionStatisticsSite->patchEntity($competitionStatisticsSite, $this->getRequest()->getData());
             if ($this->CompetitionStatisticsSite->save($competitionStatisticsSite)) {
                 $this->Flash->success(__('The competition statistics site has been saved.'));
             }
@@ -87,8 +87,8 @@ class CompetitionStatisticsSiteController extends AppController
         $competitionStatisticsSite = $this->CompetitionStatisticsSite->get($id, [
             'contain' => []
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $competitionStatisticsSite = $this->CompetitionStatisticsSite->patchEntity($competitionStatisticsSite, $this->request->getData());
+        if ($this->getRequest()->is(['patch', 'post', 'put'])) {
+            $competitionStatisticsSite = $this->CompetitionStatisticsSite->patchEntity($competitionStatisticsSite, $this->getRequest()->getData());
             if ($this->CompetitionStatisticsSite->save($competitionStatisticsSite)) {
                 $this->Flash->success(__('The competition statistics site has been saved.'));
 
@@ -111,7 +111,7 @@ class CompetitionStatisticsSiteController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->getRequest()->allowMethod(['post', 'delete']);
         $competitionStatisticsSite = $this->CompetitionStatisticsSite->get($id);
         if ($this->CompetitionStatisticsSite->delete($competitionStatisticsSite)) {
             $this->Flash->success(__('The competition statistics site has been deleted.'));

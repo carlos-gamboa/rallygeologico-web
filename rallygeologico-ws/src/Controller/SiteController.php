@@ -61,8 +61,8 @@ class SiteController extends AppController
     public function add()
     {
         $site = $this->Site->newEntity();
-        if ($this->request->is('post')) {
-            $site = $this->Site->patchEntity($site, $this->request->getData());
+        if ($this->getRequest()->is('post')) {
+            $site = $this->Site->patchEntity($site, $this->getRequest()->getData());
             if ($this->Site->save($site)) {
                 $this->Flash->success(__('The site has been saved.'));
             }
@@ -88,8 +88,8 @@ class SiteController extends AppController
         $site = $this->Site->get($id, [
             'contain' => ['CompetitionStatistics', 'Rally', 'Term']
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $site = $this->Site->patchEntity($site, $this->request->getData());
+        if ($this->getRequest()->is(['patch', 'post', 'put'])) {
+            $site = $this->Site->patchEntity($site, $this->getRequest()->getData());
             if ($this->Site->save($site)) {
                 $this->Flash->success(__('The site has been saved.'));
 
@@ -113,7 +113,7 @@ class SiteController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->getRequest()->allowMethod(['post', 'delete']);
         $site = $this->Site->get($id);
         if ($this->Site->delete($site)) {
             $this->Flash->success(__('The site has been deleted.'));
