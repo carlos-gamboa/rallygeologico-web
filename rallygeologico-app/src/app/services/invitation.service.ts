@@ -13,11 +13,11 @@ export class InvitationService {
         this.baseUrl = this._configuration.ServerWithApiUrl;
     }
 
-    sendInvitation(userIdSend: number, userIdReceive: number, competitionId: number): Observable<string>{
-        return this.http.post<string>(this.baseUrl + "invitation/add",{
+    sendInvitation(userIdSend: number, userIdReceive: number, competitionId: number): Observable<Invitation[]>{
+        return this.http.post<Invitation[]>(this.baseUrl + "invitation/add.json",{
             'user_id_send' : userIdSend,
             'user_id_receive' : userIdReceive,
             'competition_id' : competitionId,
-        },{responseType: 'text' as 'json'});
+        });
     }
 }

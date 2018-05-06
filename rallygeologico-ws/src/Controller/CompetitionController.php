@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * Competition Controller
@@ -29,6 +30,13 @@ class CompetitionController extends AppController
         $this->set('_serialize', 'competition');
     }
 
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow();
+
+    }
+
     /**
      * View method
      *
@@ -54,18 +62,16 @@ class CompetitionController extends AppController
     public function add()
     {
         $competition = $this->Competition->newEntity();
-        if ($this->request->is('post')) {
-            $competition = $this->Competition->patchEntity($competition, $this->request->getData());
+        if ($this->getRequest()->is('post')) {
+            $competition = $this->Competition->patchEntity($competition, $this->getRequest()->getData());
             if ($this->Competition->save($competition)) {
                 $this->Flash->success(__('The competition has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The competition could not be saved. Please, try again.'));
         }
         $rally = $this->Competition->Rally->find('list', ['limit' => 200]);
         $this->set(compact('competition', 'rally'));
-        //$this->render('/Competition/json/template');
+        $this->render('/Competition/json/template');
     }
 
     /**
@@ -80,8 +86,8 @@ class CompetitionController extends AppController
         $competition = $this->Competition->get($id, [
             'contain' => []
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $competition = $this->Competition->patchEntity($competition, $this->request->getData());
+        if ($this->getRequest()->is(['patch', 'post', 'put'])) {
+            $competition = $this->Competition->patchEntity($competition, $this->getRequest()->getData());
             if ($this->Competition->save($competition)) {
                 $this->Flash->success(__('The competition has been saved.'));
 
@@ -102,7 +108,7 @@ class CompetitionController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->getRequest()->allowMethod(['post', 'delete']);
         $competition = $this->Competition->get($id);
         if ($this->Competition->delete($competition)) {
             $this->Flash->success(__('The competition has been deleted.'));

@@ -1,3 +1,4 @@
+<app-public-header></app-public-header>
 <div class="login-background">
   <div class="wrap-login">
     <div class="row">
@@ -7,6 +8,18 @@
         <button (click)="loginWithOptions()" class="mb-40 center genric-btn facebook">
            <span class="mr-20 fa fa-facebook text-rigth"></span> <span class="text-center">Login with Facebook</span>
         </button>
+        <div *ngIf="isNotRegistered == true" class="alert alert-warning" role="alert">
+          Usted no está registrado, por favor registrese.
+          <a class="txt2" routerLink="/register">
+          Registrarse
+        </a>
+        </div>
+        <div *ngIf="pleaseWait" class="alert alert-info" role="alert">
+          Por favor espere.
+        </div>
+        <div *ngIf="success == true" class="alert alert-success" role="alert">
+          Ha iniciado sesión con éxito.
+        </div>
         <div class="center text-center">
             <span class="txt1">
                 ¿No tiene cuenta?

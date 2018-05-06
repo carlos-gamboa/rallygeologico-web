@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * RallySite Controller
@@ -29,6 +30,13 @@ class RallySiteController extends AppController
         $this->set('_serialize', 'rallySite');
     }
 
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow();
+
+    }
+
     /**
      * View method
      *
@@ -53,18 +61,17 @@ class RallySiteController extends AppController
     public function add()
     {
         $rallySite = $this->RallySite->newEntity();
-        if ($this->request->is('post')) {
-            $rallySite = $this->RallySite->patchEntity($rallySite, $this->request->getData());
+        if ($this->getRequest()->is('post')) {
+            $rallySite = $this->RallySite->patchEntity($rallySite, $this->getRequest()->getData());
             if ($this->RallySite->save($rallySite)) {
                 $this->Flash->success(__('The rally site has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The rally site could not be saved. Please, try again.'));
         }
         $rally = $this->RallySite->Rally->find('list', ['limit' => 200]);
         $site = $this->RallySite->Site->find('list', ['limit' => 200]);
         $this->set(compact('rallySite', 'rally', 'site'));
+        $this->render('/RallySite/json/template');
     }
 
     /**
@@ -79,8 +86,8 @@ class RallySiteController extends AppController
         $rallySite = $this->RallySite->get($id, [
             'contain' => []
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $rallySite = $this->RallySite->patchEntity($rallySite, $this->request->getData());
+        if ($this->getRequest()->is(['patch', 'post', 'put'])) {
+            $rallySite = $this->RallySite->patchEntity($rallySite, $this->getRequest()->getData());
             if ($this->RallySite->save($rallySite)) {
                 $this->Flash->success(__('The rally site has been saved.'));
 
@@ -102,7 +109,7 @@ class RallySiteController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->getRequest()->allowMethod(['post', 'delete']);
         $rallySite = $this->RallySite->get($id);
         if ($this->RallySite->delete($rallySite)) {
             $this->Flash->success(__('The rally site has been deleted.'));

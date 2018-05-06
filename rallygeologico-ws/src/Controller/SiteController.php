@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * Site Controller
@@ -29,6 +30,13 @@ class SiteController extends AppController
         $this->set('_serialize', 'site');
     }
 
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow();
+
+    }
+
     /**
      * View method
      *
@@ -53,12 +61,10 @@ class SiteController extends AppController
     public function add()
     {
         $site = $this->Site->newEntity();
-        if ($this->request->is('post')) {
-            $site = $this->Site->patchEntity($site, $this->request->getData());
+        if ($this->getRequest()->is('post')) {
+            $site = $this->Site->patchEntity($site, $this->getRequest()->getData());
             if ($this->Site->save($site)) {
                 $this->Flash->success(__('The site has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The site could not be saved. Please, try again.'));
         }
@@ -67,6 +73,7 @@ class SiteController extends AppController
         $rally = $this->Site->Rally->find('list', ['limit' => 200]);
         $term = $this->Site->Term->find('list', ['limit' => 200]);
         $this->set(compact('site', 'district', 'competitionStatistics', 'rally', 'term'));
+        $this->render('/Site/json/template');
     }
 
     /**
@@ -81,8 +88,8 @@ class SiteController extends AppController
         $site = $this->Site->get($id, [
             'contain' => ['CompetitionStatistics', 'Rally', 'Term']
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $site = $this->Site->patchEntity($site, $this->request->getData());
+        if ($this->getRequest()->is(['patch', 'post', 'put'])) {
+            $site = $this->Site->patchEntity($site, $this->getRequest()->getData());
             if ($this->Site->save($site)) {
                 $this->Flash->success(__('The site has been saved.'));
 
@@ -106,7 +113,7 @@ class SiteController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->getRequest()->allowMethod(['post', 'delete']);
         $site = $this->Site->get($id);
         if ($this->Site->delete($site)) {
             $this->Flash->success(__('The site has been deleted.'));

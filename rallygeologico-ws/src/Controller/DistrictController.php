@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * District Controller
@@ -29,6 +30,13 @@ class DistrictController extends AppController
         $this->set('_serialize', 'district');
     }
 
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow();
+
+    }
+
     /**
      * View method
      *
@@ -53,17 +61,16 @@ class DistrictController extends AppController
     public function add()
     {
         $district = $this->District->newEntity();
-        if ($this->request->is('post')) {
-            $district = $this->District->patchEntity($district, $this->request->getData());
+        if ($this->getRequest()->is('post')) {
+            $district = $this->District->patchEntity($district, $this->getRequest()->getData());
             if ($this->District->save($district)) {
                 $this->Flash->success(__('The district has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The district could not be saved. Please, try again.'));
         }
         $canton = $this->District->Canton->find('list', ['limit' => 200]);
         $this->set(compact('district', 'canton'));
+        $this->render('/District/json/template');
     }
 
     /**
@@ -78,8 +85,8 @@ class DistrictController extends AppController
         $district = $this->District->get($id, [
             'contain' => []
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $district = $this->District->patchEntity($district, $this->request->getData());
+        if ($this->getRequest()->is(['patch', 'post', 'put'])) {
+            $district = $this->District->patchEntity($district, $this->getRequest()->getData());
             if ($this->District->save($district)) {
                 $this->Flash->success(__('The district has been saved.'));
 
@@ -100,7 +107,7 @@ class DistrictController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->getRequest()->allowMethod(['post', 'delete']);
         $district = $this->District->get($id);
         if ($this->District->delete($district)) {
             $this->Flash->success(__('The district has been deleted.'));

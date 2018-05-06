@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * CompetitionStatisticsSite Controller
@@ -29,6 +30,13 @@ class CompetitionStatisticsSiteController extends AppController
         $this->set('_serialize', 'competitionStatisticsSite');
     }
 
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow();
+
+    }
+
     /**
      * View method
      *
@@ -53,12 +61,10 @@ class CompetitionStatisticsSiteController extends AppController
     public function add()
     {
         $competitionStatisticsSite = $this->CompetitionStatisticsSite->newEntity();
-        if ($this->request->is('post')) {
-            $competitionStatisticsSite = $this->CompetitionStatisticsSite->patchEntity($competitionStatisticsSite, $this->request->getData());
+        if ($this->getRequest()->is('post')) {
+            $competitionStatisticsSite = $this->CompetitionStatisticsSite->patchEntity($competitionStatisticsSite, $this->getRequest()->getData());
             if ($this->CompetitionStatisticsSite->save($competitionStatisticsSite)) {
                 $this->Flash->success(__('The competition statistics site has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The competition statistics site could not be saved. Please, try again.'));
         }
@@ -66,6 +72,7 @@ class CompetitionStatisticsSiteController extends AppController
         $competitionStatistics = $this->CompetitionStatisticsSite->CompetitionStatistics->find('list', ['limit' => 200]);
         $site = $this->CompetitionStatisticsSite->Site->find('list', ['limit' => 200]);
         $this->set(compact('competitionStatisticsSite', 'users', 'competitionStatistics', 'site'));
+        $this->render('/CompetitionStatisticsSite/json/template');
     }
 
     /**
@@ -80,8 +87,8 @@ class CompetitionStatisticsSiteController extends AppController
         $competitionStatisticsSite = $this->CompetitionStatisticsSite->get($id, [
             'contain' => []
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $competitionStatisticsSite = $this->CompetitionStatisticsSite->patchEntity($competitionStatisticsSite, $this->request->getData());
+        if ($this->getRequest()->is(['patch', 'post', 'put'])) {
+            $competitionStatisticsSite = $this->CompetitionStatisticsSite->patchEntity($competitionStatisticsSite, $this->getRequest()->getData());
             if ($this->CompetitionStatisticsSite->save($competitionStatisticsSite)) {
                 $this->Flash->success(__('The competition statistics site has been saved.'));
 
@@ -104,7 +111,7 @@ class CompetitionStatisticsSiteController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->getRequest()->allowMethod(['post', 'delete']);
         $competitionStatisticsSite = $this->CompetitionStatisticsSite->get($id);
         if ($this->CompetitionStatisticsSite->delete($competitionStatisticsSite)) {
             $this->Flash->success(__('The competition statistics site has been deleted.'));

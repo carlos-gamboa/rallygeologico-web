@@ -9,23 +9,40 @@ export class CompetitionService {
 
     baseUrl: string;
 
+    /**
+     * Creates a Competition Service
+     * @param {HttpClient} http
+     * @param {Configuration} _configuration
+     */
     constructor(private http : HttpClient, private _configuration: Configuration){
         this.baseUrl = this._configuration.ServerWithApiUrl;
     }
 
-    createCompetition(isPublic: string, startingDate: string, finishingDate: string, name: string, rallyId: string): Observable<string>{
-        return this.http.post<string>(this.baseUrl + "competition/add", {
-            //'starting_date': JSON.stringify(new Date(startingDate)),
-            //'finishing_date': new Date(finishingDate),
-            'starting_date': startingDate,
-            'finishing_date': finishingDate,
+    /**
+     * Service for adding a new competition to the database, creates a post request with the attributes in the body
+     * @param {string} isPublic
+     * @param {number} adminId
+     * @param {string} description
+     * @param {string} name
+     * @param {string} rallyId
+     * @returns {Observable<Competition>}
+     */
+    createCompetition(isPublic: string, adminId: number,  description: string, name: string, rallyId: string): Observable<Competition>{
+        return this.http.post<Competition>(this.baseUrl + "competition/add.json", {
             'is_public': isPublic,
+            'admin_id': adminId,
+            'description': description,
             'name': name,
             'rally_id': rallyId
-            }, {responseType: 'text' as 'json'}
+            }
         );
     }
 
+    /**
+     * Service for getting a competition from the database, using the id in the url as a parameter
+     * @param {number} competitionId
+     * @returns {Observable<Competition>}
+     */
     findCompetition(competitionId: number) : Observable<Competition>{
         return this.http.get<Competition>(this.baseUrl + "competition/view/"+ competitionId +".json");
     }
