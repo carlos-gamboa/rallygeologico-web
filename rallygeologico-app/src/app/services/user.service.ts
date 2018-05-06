@@ -25,15 +25,29 @@ export class UserService {
       return this.http.get<User[]>(this.baseUrl + "users/username/"+Username+".json");
     }
 
-    register(FacebookId : string, Username : string, FirstName : string, LastName : string, Email : string, PhotoUrl : string) : Observable<string>{
-        return this.http.post<string>(this.baseUrl + "users/add", {
+    facebookid(facebookid : string) : Observable<User[]>{
+      return this.http.get<User[]>(this.baseUrl + "users/facebook_id/"+facebookid+".json");
+    }
+
+    register(FacebookId : string, Username : string, FirstName : string, LastName : string, Email : string, PhotoUrl : string) : Observable<User[]>{
+        return this.http.post<User[]>(this.baseUrl + "users/add.json", {
         'facebook_id':FacebookId,
         'username':Username,
         'first_name':FirstName,
         'last_name':LastName,
         'email':Email,
         'photo_url':PhotoUrl
-      }, {responseType: 'text' as 'json'});
+      });
+    }
+
+    isLoggedIn() : Observable<User>{
+        return this.http.get<User>(this.baseUrl + "login/activeSession.json");
+    }
+
+    auth(FacebookId : string) : Observable<User[]>{
+        return this.http.post<User[]>(this.baseUrl + "login.json", {
+            'facebook_id':FacebookId,
+        });
     }
 
     getUsers() : Observable<User[]>{

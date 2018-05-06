@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * Rally Controller
@@ -24,6 +25,13 @@ class RallyController extends AppController
 
         $this->set(compact('rally'));
         $this->set('_serialize', 'rally');
+    }
+
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow();
+
     }
 
     /**
@@ -50,17 +58,16 @@ class RallyController extends AppController
     public function add()
     {
         $rally = $this->Rally->newEntity();
-        if ($this->request->is('post')) {
-            $rally = $this->Rally->patchEntity($rally, $this->request->getData());
+        if ($this->getRequest()->is('post')) {
+            $rally = $this->Rally->patchEntity($rally, $this->getRequest()->getData());
             if ($this->Rally->save($rally)) {
                 $this->Flash->success(__('The rally has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The rally could not be saved. Please, try again.'));
         }
         $site = $this->Rally->Site->find('list', ['limit' => 200]);
         $this->set(compact('rally', 'site'));
+        $this->render('/Rally/json/template');
     }
 
     /**
@@ -75,8 +82,8 @@ class RallyController extends AppController
         $rally = $this->Rally->get($id, [
             'contain' => ['Site']
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $rally = $this->Rally->patchEntity($rally, $this->request->getData());
+        if ($this->getRequest()->is(['patch', 'post', 'put'])) {
+            $rally = $this->Rally->patchEntity($rally, $this->getRequest()->getData());
             if ($this->Rally->save($rally)) {
                 $this->Flash->success(__('The rally has been saved.'));
 
@@ -97,7 +104,7 @@ class RallyController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->getRequest()->allowMethod(['post', 'delete']);
         $rally = $this->Rally->get($id);
         if ($this->Rally->delete($rally)) {
             $this->Flash->success(__('The rally has been deleted.'));

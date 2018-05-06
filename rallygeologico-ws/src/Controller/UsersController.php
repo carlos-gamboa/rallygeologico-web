@@ -2,6 +2,8 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
+use Cake\Network\Exception\UnauthorizedException;
 
 /**
  * Users Controller
@@ -31,6 +33,19 @@ class UsersController extends AppController
     }
 
     /**
+     * Allow not authorized users
+     *
+     * @param Event $event
+     * @return \Cake\Http\Response|null|void
+     */
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+       $this->Auth->allow();
+
+    }
+
+    /**
      * View method
      *
      * @param string|null $id User id.
@@ -46,15 +61,11 @@ class UsersController extends AppController
         $this->set('user', $user);
     }
 
-    public function login($UserId = null)
-    {
-        $users = $this->Users->find('all', [
-                'conditions' => ['users.id' => $UserId]]
-        );
-        $this->set('users', $users);
-        $this->render('/Users/json/template');
-    }
-
+    /**
+     * Find an user by it's username
+     *
+     * @param null $Username
+     */
     public function username($Username = null)
     {
         $users = $this->Users->find('all', [
@@ -64,6 +75,11 @@ class UsersController extends AppController
         $this->render('/Users/json/template');
     }
 
+    /**
+     * Find an user by it's email
+     *
+     * @param null $Email
+     */
     public function email($Email = null)
     {
         $users = $this->Users->find('all', [
@@ -73,6 +89,19 @@ class UsersController extends AppController
         $this->render('/Users/json/template');
     }
 
+    /**
+     * Find an user by it's facebook id
+     *
+     * @param null $facebookid
+     */
+    public function facebookid($facebookid = null)
+    {
+        $users = $this->Users->find('all', [
+                'conditions' => ['users.facebook_id' => $facebookid]]
+        );
+        $this->set('users', $users);
+        $this->render('/Users/json/template');
+    }
 
     /**
      * Add method
@@ -81,17 +110,16 @@ class UsersController extends AppController
      */
     public function add()
     {
-        $user = $this->Users->newEntity();
-        if ($this->request->is('post')) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
-            if ($this->Users->save($user)) {
+        $users = $this->Users->newEntity();
+        if ($this->getRequest()->is('post')) {
+            $users = $this->Users->patchEntity($users, $this->getRequest()->getData());
+            if ($this->Users->save($users)) {
                 $this->Flash->success(__('The user has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $this->set(compact('user'));
+        $this->set(compact('users'));
+        $this->render('/Users/json/template');
     }
 
     /**
@@ -106,8 +134,8 @@ class UsersController extends AppController
         $user = $this->Users->get($id, [
             'contain' => []
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
+        if ($this->getRequest()->is(['patch', 'post', 'put'])) {
+            $user = $this->Users->patchEntity($user, $this->getRequest()->getData());
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 
@@ -127,7 +155,7 @@ class UsersController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->getRequest()->allowMethod(['post', 'delete']);
         $user = $this->Users->get($id);
         if ($this->Users->delete($user)) {
             $this->Flash->success(__('The user has been deleted.'));

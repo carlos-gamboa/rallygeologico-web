@@ -32,23 +32,9 @@
               </div>
             </div>
             <div class="row mb-10">
-              <div class="col-lg-6">
-                <input class="date-input" type="datetime-local" [(ngModel)]="starting_date" #startingDateInput="ngModel" name="starting_date" max="{{maxDate}}" required><br>
-                <div *ngIf="(startingDateInput?.invalid) && (startingDateInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
-                  <p class="alert-message">Debe escoger una fecha de inicio para la competencia.</p>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <input class="date-input" type="datetime-local" [(ngModel)]="finishing_date" #finishingDateInput="ngModel" name="finishing_date" min="{{minDate}}" required><br>
-                <div *ngIf="(finishingDateInput?.invalid) && (finishingDateInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
-                  <p class="alert-message">Debe escoger una fecha de finalización para la competencia.</p>
-                </div>
-              </div>
-            </div>
-            <div class="row mb-10">
               <div class="col-lg-6" align="center">
                 <select class="select-input" [(ngModel)]="is_public" #isPubliceInput="ngModel" name="is_public" required>
-                    <option value="1">Público</option>
+                    <option value="1" selected>Público</option>
                     <option value="0">Privado</option>
                 </select>
                 <div *ngIf="(isPubliceInput?.invalid) && (isPubliceInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
@@ -64,10 +50,18 @@
                 </div>
               </div>
             </div>
+            <div class="row mb-10">
+                <div class="col-lg-12" align="center">
+                    <textarea class="text-input text-area" [(ngModel)]="description" #descriptionInput="ngModel" name="description" placeholder="Descripción de la competencia"> </textarea>
+                </div>
+            </div>
           </form>
         </div>
         <div class="mt-50" align="center">
-          <button title="crearCompetencia" class="btn genric-btn success col-lg-6" style="font-size: 16px" (click)="createCompetition()">Crear Competencia</button>
+          <button title="crearCompetencia" class="btn genric-btn success col-lg-6" style="font-size: 16px" (click)="createCompetition()" [disabled]="competitionForm.invalid">Crear Competencia</button>
+          <div *ngIf="competitionCreated" class="alert alert-success col-lg-6 mt-10" role="alert">
+            La competencia ha sido creada.
+          </div>
         </div>
       </div>
     </div>
@@ -106,8 +100,13 @@
               </tbody>
             </table>
           </div>
+          <div align="center">
+            <div *ngIf="invitationSent" class="alert alert-success col-lg-6 mt-10 mb-10" role="alert">
+              Ha enviado una invitación.
+            </div>
+          </div>
           <div class="row">
-            <div class="col-md-12 text-center">
+            <div class="col-md-12 mt-10 text-center">
               <div class="d-inline-block">
                 <ngb-pagination [collectionSize]="totalUsers" [(page)]="currentPage" [maxSize]="5" [pageSize]="pageSize" [rotate]="true"
                                 [ellipses]="true" [boundaryLinks]="false" (pageChange)="pageChange($event)"></ngb-pagination>

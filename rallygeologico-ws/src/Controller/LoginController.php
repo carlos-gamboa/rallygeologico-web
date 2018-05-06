@@ -11,7 +11,6 @@ use Cake\Utility\Security;
 /**
  * Login Controller
  *
- * @property \App\Model\Table\LoginTable $Login
  */
 class LoginController extends AppController
 {
@@ -22,54 +21,68 @@ class LoginController extends AppController
 
     public function initialize()
     {
-        $this->loadModel('User');
         parent::initialize();
+        $this->loadModel('Users');
     }
 
 
+    /**
+     * Allow non authorized users
+     *
+     * @param Event $event
+     * @return \Cake\Http\Response|null|void
+     */
     public function beforeFilter(Event $event)
     {
-        parent::beforeFilter($event);
-        $this->Auth->allow(['index', 'logout']);
+        /*parent::beforeFilter($event);*/
+        $this->Auth->allow();
+    }
+
+    /**
+     * Get the active session user
+     */
+    public function activeSession(){
+        $this->set('users', $this->Auth->user());
+        $this->render('/Users/json/template');
     }
 
     /**
      * Index Login method  API URL  /api/login method: POST
      * @return json response
      */
-    public function index($UserId)
+    public function index()
     {
         try {
-            /*if(!isset($this->request->data['UserId'])){
-                throw new UnauthorizedException("Please enter your UserId");
+            $data = $this->getRequest()->getData();
+            if(!isset($data['facebook_id'])){
+                throw new UnauthorizedException("Please enter your FacebookId" . print_r($data, true));
             }
 
-            $UserId  = $this->request->data['UserId'];*/
+            $FacebookId = $data['facebook_id'];
 
             // Check for user credentials
-            $user = $this->User->find('login', ['UserId'=>$UserId]);
-            if(!$user) {
+            $users = $this->Users->find('all', [
+                'conditions' => ['users.facebook_id' => $FacebookId]]);
+            if(!$users) {
                 throw new UnauthorizedException("Invalid login");
             }
 
             // if everything is OK set Auth session with user data
-            $this->Auth->setUser($user->toArray());
+            $this->Auth->setUser($users->toArray());
 
             // Generate user Auth token
-            $token =  Security::hash($user->id.$user->UserId, 'sha1', true);
+            $token =  Security::hash($users->id.$users->facebook_id, 'sha1', true);
             // Add user token into Auth session
-            $this->request->session()->write('Auth.User.token', $token);
+            $this->getRequest()->getSession()->write('Auth.User.token', $token);
 
             // return Auth token
-            $this->response->header('Authorization', 'Bearer ' . $token);
-
-
+            $this->getResponse()->withAddedHeader('Authorization', 'Bearer ' . $token);
 
         } catch (UnauthorizedException $e) {
-            throw new UnauthorizedException($e->getMessage(),401);
+            //throw new UnauthorizedException($e->getMessage(),401);
         }
-        $this->set('user', $this->Auth->user());
-        $this->set('_serialize', ['user']);
+        $this->set('users', $this->Auth->user());
+        $this->render('/Users/json/template');
     }
     /**
      * Logout user

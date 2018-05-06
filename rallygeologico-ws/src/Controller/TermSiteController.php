@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * TermSite Controller
@@ -29,6 +30,13 @@ class TermSiteController extends AppController
         $this->set('_serialize', 'termSite');
     }
 
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow();
+
+    }
+
     /**
      * View method
      *
@@ -53,17 +61,16 @@ class TermSiteController extends AppController
     public function add()
     {
         $termSite = $this->TermSite->newEntity();
-        if ($this->request->is('post')) {
-            $termSite = $this->TermSite->patchEntity($termSite, $this->request->getData());
+        if ($this->getRequest()->is('post')) {
+            $termSite = $this->TermSite->patchEntity($termSite, $this->getRequest()->getData());
             if ($this->TermSite->save($termSite)) {
                 $this->Flash->success(__('The term site has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The term site could not be saved. Please, try again.'));
         }
         $term = $this->TermSite->Term->find('list', ['limit' => 200]);
         $this->set(compact('termSite', 'term'));
+        $this->render('/TermSite/json/template');
     }
 
     /**
@@ -78,8 +85,8 @@ class TermSiteController extends AppController
         $termSite = $this->TermSite->get($id, [
             'contain' => []
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $termSite = $this->TermSite->patchEntity($termSite, $this->request->getData());
+        if ($this->getRequest()->is(['patch', 'post', 'put'])) {
+            $termSite = $this->TermSite->patchEntity($termSite, $this->getRequest()->getData());
             if ($this->TermSite->save($termSite)) {
                 $this->Flash->success(__('The term site has been saved.'));
 
@@ -100,7 +107,7 @@ class TermSiteController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->getRequest()->allowMethod(['post', 'delete']);
         $termSite = $this->TermSite->get($id);
         if ($this->TermSite->delete($termSite)) {
             $this->Flash->success(__('The term site has been deleted.'));

@@ -1,3 +1,4 @@
+<app-public-header></app-public-header>
 <div class="login-background">
   <div class="wrap-login">
     <div class="row">
@@ -8,9 +9,9 @@
           <span class="mr-20 fa fa-facebook"></span><span class="text-center">Login with Facebook</span>
         </button>
         <form #registerForm="ngForm">
-          <input [(ngModel)]="firstName" class="mb-10 single-input disabled" type="text" name="name" placeholder="Nombre" disabled>
-          <input [(ngModel)]="lastName" class="mb-10 single-input disabled" type="text" name="middlename" placeholder="Apellido(s)" disabled>
-          <input [class.error-shadow]="emailUsed" [(ngModel)]="email" class="mb-10 single-input disabled" type="text" name="email" placeholder="Correo Electrónico" disabled>
+          <input required minlength="1" [(ngModel)]="firstName"  #firstName_input="ngModel" class="mb-10 single-input disabled" type="text" name="name" placeholder="Nombre" disabled required>
+          <input required minlength="1" [(ngModel)]="lastName" #lastName_input="ngModel" class="mb-10 single-input disabled" type="text" name="middlename" placeholder="Apellido(s)" disabled required>
+          <input required minlength="1" [class.error-shadow]="emailUsed" [(ngModel)]="email" #email_input="ngModel" class="mb-10 single-input disabled" type="text" name="email" placeholder="Correo Electrónico" disabled required>
           <div class="form-group">
             <input [class.error-shadow]="changeUsername"  [(ngModel)]="userName" class="mb-10 single-input" type="text" name="username" placeholder="Nombre Usuario" required minlength="6"
                    #userName_input="ngModel" [class.error-shadow]="userName_input.invalid &&
@@ -39,7 +40,10 @@
               Iniciar Sesión
             </a>
           </div>
-          <button  (click)="register()" class="mb-30 genric-btn primary register-btn">Registrarse</button>
+          <div *ngIf="pleaseWait" class="alert alert-info" role="alert">
+            Por favor espere.
+          </div>
+          <button  *ngIf="registerWithFacebook" (click)="register()" class="mb-30 genric-btn primary register-btn" [disabled]="registerForm.invalid">Registrarse</button>
         </form>
       </div>
     </div>

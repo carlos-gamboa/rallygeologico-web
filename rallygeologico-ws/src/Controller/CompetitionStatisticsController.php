@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * CompetitionStatistics Controller
@@ -29,6 +30,13 @@ class CompetitionStatisticsController extends AppController
         $this->set('_serialize', 'competitionStatistics');
     }
 
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow();
+
+    }
+
     /**
      * View method
      *
@@ -53,18 +61,17 @@ class CompetitionStatisticsController extends AppController
     public function add()
     {
         $competitionStatistic = $this->CompetitionStatistics->newEntity();
-        if ($this->request->is('post')) {
-            $competitionStatistic = $this->CompetitionStatistics->patchEntity($competitionStatistic, $this->request->getData());
+        if ($this->getRequest()->is('post')) {
+            $competitionStatistic = $this->CompetitionStatistics->patchEntity($competitionStatistic, $this->getRequest()->getData());
             if ($this->CompetitionStatistics->save($competitionStatistic)) {
                 $this->Flash->success(__('The competition statistic has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The competition statistic could not be saved. Please, try again.'));
         }
         $users = $this->CompetitionStatistics->Users->find('list', ['limit' => 200]);
         $competition = $this->CompetitionStatistics->Competition->find('list', ['limit' => 200]);
         $this->set(compact('competitionStatistic', 'users', 'competition'));
+        $this->render('/CompetitionStatistics/json/template');
     }
 
     /**
@@ -79,8 +86,8 @@ class CompetitionStatisticsController extends AppController
         $competitionStatistic = $this->CompetitionStatistics->get($id, [
             'contain' => []
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $competitionStatistic = $this->CompetitionStatistics->patchEntity($competitionStatistic, $this->request->getData());
+        if ($this->getRequest()->is(['patch', 'post', 'put'])) {
+            $competitionStatistic = $this->CompetitionStatistics->patchEntity($competitionStatistic, $this->getRequest()->getData());
             if ($this->CompetitionStatistics->save($competitionStatistic)) {
                 $this->Flash->success(__('The competition statistic has been saved.'));
 
@@ -102,7 +109,7 @@ class CompetitionStatisticsController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->getRequest()->allowMethod(['post', 'delete']);
         $competitionStatistic = $this->CompetitionStatistics->get($id);
         if ($this->CompetitionStatistics->delete($competitionStatistic)) {
             $this->Flash->success(__('The competition statistic has been deleted.'));

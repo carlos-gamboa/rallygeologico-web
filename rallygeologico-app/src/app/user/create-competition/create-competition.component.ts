@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Rally} from "../../model/rally";
 import {RallyService} from "../../services/rally.service";
 import {UserService} from "../../services/user.service";
@@ -6,6 +6,8 @@ import {User} from "../../model/user";
 import {DataService} from "../../services/data/data.service";
 import {CompetitionService} from "../../services/competition.service";
 import {InvitationService} from "../../services/invitation.service";
+import {Invitation} from "../../model/invitation";
+import {Competition} from "../../model/competition";
 
 @Component({
   selector: 'app-create-competition',
@@ -16,13 +18,12 @@ export class CreateCompetitionComponent implements OnInit {
 
   ralliesList: Rally[] = [];
 
-  minDate = new Date(2000, 0, 1);
-  maxDate = new Date(2020, 0, 1);
-
   user: User;
   users : User[];
   allUsers: User[];
   showedUsers: User[];
+
+  currentCompetition: Competition;
 
   pageSize : number = 10;
   currentPage : number = 0;
@@ -32,20 +33,21 @@ export class CreateCompetitionComponent implements OnInit {
 
   name: string;
   is_public: string;
-  starting_date: string;
-  finishing_date: string;
   is_active: string;
   rally_id: string;
+  description: string;
 
-  competitionId: number;
   competitionCreated: boolean;
+  invitationSent: boolean;
 
-  // @ViewChild('nameLbl') name: ElementRef;
-  // @ViewChild('startingDateLbl') startingDate: ElementRef;
-  // @ViewChild('finishingDateLbl') finishingDate: ElementRef;
-  // @ViewChild('isPublicLbl') isPublic: ElementRef;
-  // @ViewChild('rallyIdLbl') rallyId: ElementRef;
-
+    /**
+     * Creates a CreateCompetitionComponent, initialize the components
+     * @param {RallyService} rallyService
+     * @param {UserService} userService
+     * @param {DataService} dataService
+     * @param {CompetitionService} competitionService
+     * @param {InvitationService} invitationService
+     */
   constructor(private rallyService: RallyService, private userService: UserService, private dataService: DataService, private competitionService: CompetitionService, private invitationService: InvitationService) {
       this.rallyService.getNewestRallies().subscribe((rallies: Rally[])=>{
           for (let i: number = 0; i < rallies.length; ++i){
@@ -60,11 +62,16 @@ export class CreateCompetitionComponent implements OnInit {
           //console.log(this.allUsers);
       });
       this.competitionCreated = false;
+      this.invitationSent = false;
   }
 
   ngOnInit() {
   }
 
+    /**
+     * Reloads the corresponding users in the table
+     * @param {User[]} users
+     */
   reloadUsers(users : User[]) : void{
       this.users = users;
       this.totalUsers = users.length;
@@ -72,12 +79,18 @@ export class CreateCompetitionComponent implements OnInit {
       this.currentPage = 0;
   }
 
+    /**
+     * Selects the number of users' pages
+     */
   pageChange() : void{
       if(this.users) {
           this.showedUsers = this.users.slice((this.currentPage - 1) * this.pageSize, ((this.currentPage) * this.pageSize));
       }
   }
 
+    /**
+     * Searches a specified user
+     */
   searchUser(){
       let usersToShow = [];
       if(this.searchQuery.length >= 1) {
@@ -92,33 +105,35 @@ export class CreateCompetitionComponent implements OnInit {
       }
   }
 
+    /**
+     * Creates a competition calling the corresponding service
+     */
   createCompetition(){
-
-      // this.starting_date = this.startingDate.nativeElement.value;
-      // this.finishing_date = this.finishingDate.nativeElement.value;
-      // this.is_public = parseInt(this.isPublic.nativeElement.value);
-      // this.Name = this.name.nativeElement.value;
-      // this.rally_id = this.rallyId.nativeElement.value;
-
-      console.log("Fecha inicio: "+this.starting_date);
-      console.log("Fecha final: "+this.finishing_date);
-      console.log("Es público: "+this.is_public);
-      console.log("Nombre: "+this.name);
-      console.log("Rally id: "+this.rally_id);
-
-      if(this.is_public && /*this.starting_date && this.finishing_date &&*/ this.name && this.rally_id){
-          this.competitionService.createCompetition(this.is_public, this.starting_date, this.finishing_date, this.name, this.rally_id).subscribe((competition: string) => {
+      this.competitionService.createCompetition(this.is_public, this.user.id, this.description, this.name, this.rally_id).subscribe((competition: Competition) => {
+          if (competition){
+              this.currentCompetition = competition;
               this.competitionCreated = true;
               console.log("Competition created");
-          });
-
-      }
+              console.log(this.currentCompetition);
+          } else {
+              console.log("Couldn't create competition");
+          }
+      });
   }
 
+    /**
+     * Creates an invitation calling the corresponding service, using the current competition_Id as a parameter
+     * @param {number} index
+     */
   invite (index: number){
       if(this.competitionCreated){
-          this.invitationService.sendInvitation(this.competitionId, this.showedUsers[index].id, this.user.id).subscribe((invitation: string) => {
-              console.log("Invitation sent");
+          this.invitationService.sendInvitation( this.user.id, this.showedUsers[index].id, this.currentCompetition.id,).subscribe((invitation: Invitation[]) => {
+              if(invitation){
+                  this.invitationSent = true;
+                  console.log("Invitation sent");
+              } else {
+                  console.log("Couldn't send invitation");
+              }
           });
       }
   }

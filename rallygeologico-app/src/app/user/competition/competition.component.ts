@@ -5,8 +5,8 @@ import {User} from "../../model/user";
 import {InvitationService} from "../../services/invitation.service";
 import {Invitation} from "../../model/invitation";
 import {ActivatedRoute, Params, Router} from "@angular/router";
-import {CompetitionService} from "../../services/competition.service";
 import {Competition} from "../../model/competition";
+import {CompetitionService} from "../../services/competition.service";
 
 @Component({
   selector: 'app-competition',
@@ -35,6 +35,13 @@ export class CompetitionComponent implements OnInit {
                 private invitationService: InvitationService, private route: ActivatedRoute,
                 private competitionService: CompetitionService, private router: Router) {
         this.user = this.dataService.getUser();
+        if (!this.user){
+            this.userService.isLoggedIn().subscribe((users: User) => {
+                // this.dataService.updateUser(users[0]);
+                // this.user = users[0];
+                console.log(users);
+            });
+        }
         this.userService.getUsers().subscribe((users: User[]) => {
           this.allUsers = users;
           this.reloadUsers(users);
@@ -70,8 +77,12 @@ export class CompetitionComponent implements OnInit {
     }
 
     invite (index: number){
-        this.invitationService.sendInvitation(this.competitionId, this.showedUsers[index].id, this.user.id).subscribe((invitation: string) => {
-            console.log("Invitation sent");
+        this.invitationService.sendInvitation(this.competitionId, this.showedUsers[index].id, this.user.id).subscribe((invitation: Invitation[]) => {
+            if (invitation){
+                console.log("Invitation sent");
+            } else {
+                console.log("Couldn't send invitation");
+            }
         });
     }
 

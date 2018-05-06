@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * Canton Controller
@@ -29,6 +30,13 @@ class CantonController extends AppController
         $this->set('_serialize', 'canton');
     }
 
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow();
+
+    }
+
     /**
      * View method
      *
@@ -53,17 +61,17 @@ class CantonController extends AppController
     public function add()
     {
         $canton = $this->Canton->newEntity();
-        if ($this->request->is('post')) {
-            $canton = $this->Canton->patchEntity($canton, $this->request->getData());
+        if ($this->getRequest()->is('post')) {
+            $canton = $this->Canton->patchEntity($canton, $this->getRequest()->getData());
             if ($this->Canton->save($canton)) {
                 $this->Flash->success(__('The canton has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The canton could not be saved. Please, try again.'));
         }
         $province = $this->Canton->Province->find('list', ['limit' => 200]);
         $this->set(compact('canton', 'province'));
+        $this->render('/Canton/json/template');
     }
 
     /**
@@ -78,8 +86,8 @@ class CantonController extends AppController
         $canton = $this->Canton->get($id, [
             'contain' => []
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $canton = $this->Canton->patchEntity($canton, $this->request->getData());
+        if ($this->getRequest()->is(['patch', 'post', 'put'])) {
+            $canton = $this->Canton->patchEntity($canton, $this->getRequest()->getData());
             if ($this->Canton->save($canton)) {
                 $this->Flash->success(__('The canton has been saved.'));
 
@@ -100,7 +108,7 @@ class CantonController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->getRequest()->allowMethod(['post', 'delete']);
         $canton = $this->Canton->get($id);
         if ($this->Canton->delete($canton)) {
             $this->Flash->success(__('The canton has been deleted.'));
