@@ -32,6 +32,12 @@ class UsersController extends AppController
         $this->set('_serialize', 'users');
     }
 
+    /**
+     * Allow not authorized users
+     *
+     * @param Event $event
+     * @return \Cake\Http\Response|null|void
+     */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
@@ -55,24 +61,11 @@ class UsersController extends AppController
         $this->set('user', $user);
     }
 
-    /*public function login()
-    {
-        if ($this->getRequest()->is('post')) {
-            $data = $this->getRequest()->getData();
-            if(!isset($data['facebook_id'])){
-                throw new UnauthorizedException("Please enter your FacebookId" . print_r($data, true));
-            }
-
-            $FacebookId = $data['facebook_id'];
-
-            $users = $this->Users->find('all', [
-                    'conditions' => ['users.facebook_id' => $FacebookId]]
-            );
-        }
-        $this->set(compact('users'));
-        $this->render('/Users/json/template');
-    }*/
-
+    /**
+     * Find an user by it's username
+     *
+     * @param null $Username
+     */
     public function username($Username = null)
     {
         $users = $this->Users->find('all', [
@@ -82,6 +75,11 @@ class UsersController extends AppController
         $this->render('/Users/json/template');
     }
 
+    /**
+     * Find an user by it's email
+     *
+     * @param null $Email
+     */
     public function email($Email = null)
     {
         $users = $this->Users->find('all', [
@@ -91,6 +89,11 @@ class UsersController extends AppController
         $this->render('/Users/json/template');
     }
 
+    /**
+     * Find an user by it's facebook id
+     *
+     * @param null $facebookid
+     */
     public function facebookid($facebookid = null)
     {
         $users = $this->Users->find('all', [
@@ -99,7 +102,6 @@ class UsersController extends AppController
         $this->set('users', $users);
         $this->render('/Users/json/template');
     }
-
 
     /**
      * Add method
