@@ -26,14 +26,23 @@ class LoginController extends AppController
     }
 
 
+    /**
+     * Allow non authorized users
+     *
+     * @param Event $event
+     * @return \Cake\Http\Response|null|void
+     */
     public function beforeFilter(Event $event)
     {
         /*parent::beforeFilter($event);*/
         $this->Auth->allow();
     }
 
+    /**
+     * Get the active session user
+     */
     public function activeSession(){
-        $this->set('users', $this->Auth->user()['0']);
+        $this->set('users', $this->Auth->user());
         $this->render('/Users/json/template');
     }
 
@@ -64,10 +73,10 @@ class LoginController extends AppController
             // Generate user Auth token
             $token =  Security::hash($users->id.$users->facebook_id, 'sha1', true);
             // Add user token into Auth session
-            $this->request->getSession()->write('Auth.User.token', $token);
+            $this->getRequest()->getSession()->write('Auth.User.token', $token);
 
             // return Auth token
-            $this->response->withAddedHeader('Authorization', 'Bearer ' . $token);
+            $this->getResponse()->withAddedHeader('Authorization', 'Bearer ' . $token);
 
         } catch (UnauthorizedException $e) {
             //throw new UnauthorizedException($e->getMessage(),401);
