@@ -21,7 +21,7 @@ class InvitationController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Competition']
+            'contain' => ['Competition', 'UserSend']
         ];
         $invitation = $this->paginate($this->Invitation);
 
@@ -115,5 +115,24 @@ class InvitationController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    /**
+     * Find an invitation by it's receiver id
+     *
+     * @param null $receiveId
+     */
+    public function receive($receiveId = null)
+    {
+        $invitations = $this->Invitation->find('all', [
+                'conditions' => [
+                    'invitation.user_id_receive' => $receiveId,
+                    'invitation.accepted' => 0,
+                ],
+                'contain' => ['Competition', 'UserSend']
+            ]
+        );
+        $this->set('invitation', $invitations);
+        $this->render('/Invitation/json/template');
     }
 }
