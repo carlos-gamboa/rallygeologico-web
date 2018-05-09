@@ -6,6 +6,7 @@ import {Invitation} from "../../model/invitation";
 import {User} from "../../model/user";
 import {UserService} from "../../services/user.service";
 import {DataService} from "../../services/data/data.service";
+import {Competition} from "../../model/competition";
 
 @Component({
   selector: 'app-dashboard',
@@ -15,7 +16,8 @@ import {DataService} from "../../services/data/data.service";
 export class DashboardComponent implements OnInit {
 
     user: User;
-    invitations: Invitation[];
+    invitations: Invitation[] = [];
+    competitions: Competition[] = [];
 
     constructor(private userService: UserService, private dataService: DataService,
               private invitationService: InvitationService,
@@ -31,6 +33,9 @@ export class DashboardComponent implements OnInit {
         }
         this.invitationService.getInvitations(this.user.id).subscribe((invitations: Invitation[]) =>{
             this.invitations = invitations;
+        });
+        this.competitionService.getCurrentCompetitions(this.user.id).subscribe((competitions: Competition[]) =>{
+            this.competitions = competitions;
         });
     }
 

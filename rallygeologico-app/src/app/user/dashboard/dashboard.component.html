@@ -46,17 +46,10 @@
               <table class="table mt-3">
                 <tbody>
                 <th>Nombre</th>
-                <th>Estado</th>
                 <th>Link</th>
-                <tr>
-                  <td><h4>Rally 1</h4></td>
-                  <td><p>100</p></td>
-                  <td><button class="btn btn-default btn-sm btn-block text-center">Ir a rally</button></td>
-                </tr>
-                <tr>
-                  <td><h4>Rally 2</h4></td>
-                  <td><p>200</p></td>
-                  <td><button class="btn btn-default btn-sm btn-block text-center">Ir a rally</button></td>
+                <tr *ngFor="let competition of competitions">
+                  <td><h4>{{competition.Name}}</h4></td>
+                  <td><button class="btn btn-default btn-sm btn-block text-center" routerLink="/competition/{{competition.id}}">Ir a rally</button></td>
                 </tr>
                 </tbody>
               </table>
