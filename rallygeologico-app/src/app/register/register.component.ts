@@ -4,6 +4,8 @@ import {Router} from "@angular/router";
 import {User} from "../model/user";
 import {UserService} from "../services/user.service";
 
+declare var gapi: any;
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -28,6 +30,7 @@ export class RegisterComponent implements OnInit {
   successful : boolean = false;
   emailUsed : boolean = false;
   pleaseWait : boolean = false;
+  googleClientS : string = "CTaoCHlssqekMMVcMcCgpOnn";
 
   constructor(private fb: FacebookService, private router: Router,  private userService: UserService) {
     console.log('Initializing Facebook');
@@ -42,6 +45,40 @@ export class RegisterComponent implements OnInit {
     this.userName = "";
 
 
+  }
+
+  ngAfterViewInit(): void {
+    gapi.load('auth2', function() {
+      gapi.auth2.init({
+        client_id: '708185845755-a6l47jh5csctecdbe85gb1hvasiofsi9.apps.googleusercontent.com',
+        //This two lines are important not to get profile info from your users
+        fetch_basic_profile: false,
+        scope: 'email'
+      });
+    });
+  }
+
+  signIn() {
+    console.log('I am passing signIn');
+    var auth2 = gapi.auth2.getAuthInstance();
+    // Sign the user in, and then retrieve their ID.
+    auth2.signIn().then(function() {
+      console.log(auth2.currentUser.get().getId());
+    });
+  }
+
+
+
+
+
+
+
+  onSignIn(googleUser) {
+    var profile = googleUser.getBasicProfile();
+    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    console.log('Name: ' + profile.getName());
+    console.log('Image URL: ' + profile.getImageUrl());
+    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
   }
 
   ngOnInit() {

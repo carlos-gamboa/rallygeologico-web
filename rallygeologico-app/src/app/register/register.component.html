@@ -8,6 +8,15 @@
         <button (click)="loginWithOptions()" class="mb-40 genric-btn facebook center" >
           <span class="mr-20 fa fa-facebook"></span><span class="text-center">Login with Facebook</span>
         </button>
+       <!-- <button  class="g-signin2" >
+        </button>-->
+
+        <button (click)="loginWithOptions()" class="mb-40 genric-btn btn-social btn-google center" >
+          <span class="mr-20 fa fa-google" ></span><span class="text-center">Login with Google</span>
+        </button>
+
+
+
         <form #registerForm="ngForm">
           <input required minlength="1" [(ngModel)]="firstName"  #firstName_input="ngModel" class="mb-10 single-input disabled" type="text" name="name" placeholder="Nombre" disabled required>
           <input required minlength="1" [(ngModel)]="lastName" #lastName_input="ngModel" class="mb-10 single-input disabled" type="text" name="middlename" placeholder="Apellido(s)" disabled required>
