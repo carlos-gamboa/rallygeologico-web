@@ -7,6 +7,8 @@ import {User} from "../../model/user";
 import {UserService} from "../../services/user.service";
 import {DataService} from "../../services/data/data.service";
 import {Competition} from "../../model/competition";
+import {RallyService} from "../../services/rally.service";
+import {Rally} from "../../model/rally";
 
 @Component({
   selector: 'app-dashboard',
@@ -18,10 +20,16 @@ export class DashboardComponent implements OnInit {
     user: User;
     invitations: Invitation[] = [];
     competitions: Competition[] = [];
+    ralliesToShow: Rally[] = [];
+    initialLatitude: number;
+    initialLongitude: number;
+    zoom: number;
+
 
     constructor(private userService: UserService, private dataService: DataService,
-              private invitationService: InvitationService,
-              private competitionService: CompetitionService,) {
+                private invitationService: InvitationService,
+                private competitionService: CompetitionService,
+                private rallyService: RallyService) {
 
         this.user = this.dataService.getUser();
         if (!this.user){
@@ -37,6 +45,13 @@ export class DashboardComponent implements OnInit {
         this.competitionService.getCurrentCompetitions(this.user.id).subscribe((competitions: Competition[]) =>{
             this.competitions = competitions;
         });
+        this.rallyService.getAllRallies().subscribe((rallies: Rally[]) =>{
+            this.ralliesToShow = rallies;
+        });
+
+        this.initialLatitude = 10.4958;
+        this.initialLongitude = -85.355;
+        this.zoom = 9;
     }
 
     ngOnInit() {

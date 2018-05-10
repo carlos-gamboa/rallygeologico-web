@@ -127,7 +127,8 @@ class CompetitionController extends AppController
                 'recursive' => -1,
                 'conditions' => [
                     'Invitation.user_id_receive' => $userId,
-                    'Invitation.accepted' => 1
+                    'Invitation.accepted' => 0,
+                    'Invitation.rejected' => 0
                 ]
             ]
         );

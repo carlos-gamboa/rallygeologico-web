@@ -40,6 +40,16 @@ class InvitationTable extends Table
             'foreignKey' => 'competition_id',
             'joinType' => 'INNER'
         ]);
+
+        $this->belongsTo('UserSend', [
+            'className' => 'Users',
+            'foreignKey' => 'user_id_send'
+        ]);
+
+        $this->belongsTo('UserReceive', [
+            'className' => 'Users',
+            'foreignKey' => 'user_id_receive'
+        ]);
     }
 
     /**
