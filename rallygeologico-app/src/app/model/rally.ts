@@ -1,3 +1,6 @@
+import {Site} from "./site";
+import {Competition} from "./competition";
+
 export class Rally {
     id: number;
     name:  string;
@@ -6,6 +9,8 @@ export class Rally {
     description: string;
     latitude: number;
     longitude: number;
+    site: Site[];
+    competition: Competition[];
 
     constructor(rally: any){
         this.id = rally.id;
@@ -15,5 +20,11 @@ export class Rally {
         this.description = rally.description;
         this.latitude = rally.latitude;
         this.longitude = rally.longitude;
+        for (let site of rally.site){
+            this.site.push(site);
+        }
+        for (let competition of rally.competition){
+            this.competition.push(competition);
+        }
     }
 }

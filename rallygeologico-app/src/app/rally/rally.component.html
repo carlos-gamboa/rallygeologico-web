@@ -8,7 +8,7 @@
                 <h1 class="text-white">
                     Rally:
                 </h1>
-                <h3 style="color: #ffffff;">{{rally?.name}}</h3>
+                <h2 style="color: #ffffff;">{{rally?.name}}</h2>
                 <p class="text-white link-nav"><a routerLink="/dashboard">Inicio </a>  <span class="lnr lnr-arrow-right"></span>  <a routerLink="/rallies/:rallyId">Rally</a></p>
             </div>
         </div>
@@ -21,19 +21,25 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-4">
-                <b class="text-center">Descripción:</b>
-                <p class="text-justify">{{rally?.description}}</p>
-                <b>Points: {{rally?.points_awarded}}</b>
+                <h4 class="text-center"><b>Descripción:</b></h4>
+                <p class="text-justify mt-4">{{rally?.description}}</p>
+                <h5 class="text-center" style="display: inline"><b>Points: </b></h5>
+                <p style="display: inline">{{rally?.points_awarded}}</p>
             </div>
             <div class="col-lg-8">
-                <agm-map class="map" [latitude]="initialLatitude" [longitude]="initialLongitude" [zoom]="zoom">
-                    <agm-marker [latitude]="initialLatitude" [longitude]="initialLongitude">
-                        <agm-snazzy-info-window [maxWidth]="200" [closeWhenOthersOpen]="true">
+                <agm-map class="map" [latitude]="rally?.latitude" [longitude]="rally?.longitude" [zoom]="zoom">
+                    <agm-marker [latitude]="site?.latitude" [longitude]="site?.longitude" *ngFor="let site of rally?.site;">
+                        <!--<agm-info-window><a routerLink="/sites/:{{site.id}}">{{site.name}}</a></agm-info-window>-->
+                        <agm-snazzy-info-window [maxWidth]="500" [closeWhenOthersOpen]="true">
                             <ng-template>
-                                My first Snazzy Info Window!
+                                <h4 class="text-center"><a routerLink="/sites/:{{site.id}}">{{site.name}}</a></h4>
+                                <!--<p class="text-justify mt-2">{{site.details}}</p>-->
                             </ng-template>
                         </agm-snazzy-info-window>
                     </agm-marker>
+                    <!--<agm-polyline>-->
+                        <!--<agm-polyline-point [latitude]="site?.latitude" [longitude]="site?.longitude" *ngFor="let site of rally?.site;"></agm-polyline-point>-->
+                    <!--</agm-polyline>-->
                 </agm-map>
             </div>
         </div>
