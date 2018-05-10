@@ -47,10 +47,12 @@ class SiteController extends AppController
     public function view($id = null)
     {
         $site = $this->Site->get($id, [
-            'contain' => ['District', 'CompetitionStatistics', 'Rally', 'Term']
+            'contain' => ['Rally']
+            //'contain' => ['District', 'CompetitionStatistics', 'Rally', 'Term']
         ]);
 
         $this->set('site', $site);
+        $this->render('/Site/json/template');
     }
 
     /**
