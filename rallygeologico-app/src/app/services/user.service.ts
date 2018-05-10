@@ -27,14 +27,14 @@ export class UserService {
 
     apiId(ApiId : string, LoginApi: number) : Observable<User[]>{
       return this.http.post<User[]>(this.baseUrl + "users/findApiId.json",{
-          'facebook_id':ApiId,
+          'api_id':ApiId,
           'login_api':LoginApi
       });
     }
 
     register(ApiId : string, Username : string, FirstName : string, LastName : string, Email : string, PhotoUrl : string, LoginApi: number) : Observable<User[]>{
         return this.http.post<User[]>(this.baseUrl + "users/add.json", {
-            'facebook_id':ApiId,
+            'api_id':ApiId,
             'username':Username,
             'first_name':FirstName,
             'last_name':LastName,
