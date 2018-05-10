@@ -7,7 +7,7 @@ export class Competition {
     starting_date: string;
     finishing_date: string;
     is_public: boolean;
-    name:  string;
+    Name:  string;
     rally_id: number;
     description: string;
     rally: Rally;
@@ -20,7 +20,7 @@ export class Competition {
         this.starting_date = competition.starting_date;
         this.finishing_date = competition.finishing_date;
         this.is_public = competition.is_public;
-        this.name = competition.name;
+        this.Name = competition.Name;
         this.rally_id = competition.rally_id;
         this.rally = competition.rally;
         this.user = competition.user;
