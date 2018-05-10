@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-	"code": "ng serve --ssl 1 --ssl-key \"C:\\xampp\\htdocs\\rallygeologico\\rallygeologico-ws\\certs\\server.key\" --ssl-cert \"C:\\xampp\\htdocs\\rallygeologico\\rallygeologico-ws\\certs\\server.crt\" --live-reload false",
+    "code": "ng serve --ssl 1 --ssl-key \"C:\\xampp\\htdocs\\rallygeologico\\rallygeologico-ws\\certs\\server.key\" --ssl-cert \"C:\\xampp\\htdocs\\rallygeologico\\rallygeologico-ws\\certs\\server.crt\" --live-reload false",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
@@ -13,6 +13,8 @@
   },
   "private": true,
   "dependencies": {
+    "@agm/core": "^1.0.0-beta.2",
+    "@agm/snazzy-info-window": "^1.0.0-beta.2",
     "@angular/animations": "^5.2.0",
     "@angular/cdk": "^5.2.4",
     "@angular/common": "^5.2.0",
@@ -30,6 +32,7 @@
     "ngx-facebook": "^2.4.0",
     "npm": "^5.8.0",
     "rxjs": "^5.5.6",
+    "snazzy-info-window": "^1.1.0",
     "superfish": "^1.7.10",
     "zone.js": "^0.8.19"
   },
