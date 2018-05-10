@@ -12,18 +12,13 @@ import {Site} from "../model/site";
 })
 export class RallyComponent implements OnInit {
 
-  initialLatitude: number;
-  initialLongitude: number;
   zoom: number;
 
   rally: Rally;
   rallyId: number;
-  sites: Site[];
-
+  paths: Array<any>;
 
   constructor(private rallyService: RallyService, private route: ActivatedRoute, private router: Router){
-    this.initialLatitude = 10.4958;
-    this.initialLongitude = -85.355;
     this.zoom = 9;
   }
 
@@ -36,10 +31,12 @@ export class RallyComponent implements OnInit {
               this.rallyService.getRally(this.rallyId).subscribe((rally: Rally)=>{
                 if (rally){
                    this.rally = rally;
-                   console.log("Rally"+this.rally);
-                    // for (let site of rally.){
-                    //     this.sites.push(site);
-                    // }
+                   //console.log("Rally "+JSON.stringify(this.rally));
+                    for(let site of this.rally.site)
+                    {
+                        this.paths.push([{latitude: site.latitude, longitude: site.longitude}]);
+                        //this.paths.push(site.latitude, site.longitude);
+                    }
                 } else {
                    this.router.navigate(['/dashboard']);
                 }
