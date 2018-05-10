@@ -3,7 +3,6 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
-use Cake\Network\Exception\UnauthorizedException;
 
 /**
  * Users Controller
@@ -55,7 +54,7 @@ class UsersController extends AppController
     public function view($id = null)
     {
         $user = $this->Users->get($id, [
-            'contain' => ['Invitations', 'CompetitionStatistics', 'CompetitionStatisticsSite']
+            'contain' => ['Competition']
         ]);
 
         $this->set('user', $user);
@@ -90,14 +89,20 @@ class UsersController extends AppController
     }
 
     /**
-     * Find an user by it's facebook id
+     * Find an user by it's api id
      *
-     * @param null $facebookid
      */
-    public function facebookid($facebookid = null)
+    public function findApiId()
     {
+        $data = $this->getRequest()->getData();
+        $ApiId = $data['api_id'];
+        $LoginApi = $data['login_api'];
         $users = $this->Users->find('all', [
-                'conditions' => ['users.facebook_id' => $facebookid]]
+                'conditions' => [
+                    'users.api_id' => $ApiId,
+                    'users.login_api' => $LoginApi
+                ]
+            ]
         );
         $this->set('users', $users);
         $this->render('/Users/json/template');
