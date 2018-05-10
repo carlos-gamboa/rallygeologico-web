@@ -1,0 +1,40 @@
+<app-header></app-header>
+<!-- Start banner Area -->
+<section class="banner-area relative" id="home">
+  <div class="overlay overlay-bg"></div>
+  <div class="container">
+    <div class="row d-flex align-items-center justify-content-center">
+      <div class="about-content col-lg-12">
+        <h1 class="text-white">
+          Site:
+        </h1>
+        <h2 style="color: #ffffff;">{{site?.name}}</h2>
+        <p class="text-white link-nav"><a routerLink="/dashboard">Inicio </a>  <span class="lnr lnr-arrow-right"></span>  <a routerLink="/sites/:sitesId">Site</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End banner Area -->
+
+<!-- Start map Area-->
+<section class="contact-page-area section-gap">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4">
+        <h4 class="text-center"><b>Descripción:</b></h4>
+        <p class="text-justify mt-4">{{site?.description}}</p>
+        <h4 class="text-center"><b>Detalles:</b></h4>
+        <p class="text-justify mt-4">{{site?.details}}</p>
+      </div>
+      <div class="col-lg-8">
+        <agm-map class="map" [latitude]="site?.latitude" [longitude]="site?.longitude" [zoom]="9">
+          <agm-marker [latitude]="site?.latitude" [longitude]="site?.longitude">
+          </agm-marker>
+        </agm-map>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End map Area-->
+
+<app-footer></app-footer>

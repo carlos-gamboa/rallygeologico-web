@@ -28,6 +28,8 @@ import {InvitationService} from "./services/invitation.service";
 import {CompetitionService} from "./services/competition.service";
 import {AgmCoreModule} from '@agm/core';
 import {AgmSnazzyInfoWindowModule} from '@agm/snazzy-info-window';
+import {SiteComponent} from './site/site.component';
+import {SiteService} from "./services/site.service";
 
 
 @NgModule({
@@ -43,7 +45,8 @@ import {AgmSnazzyInfoWindowModule} from '@agm/snazzy-info-window';
       RalliesComponent,
       RallyComponent,
       PublicHeaderComponent,
-      PublicFooterComponent
+      PublicFooterComponent,
+      SiteComponent
   ],
   imports: [
       BrowserModule,
@@ -61,7 +64,7 @@ import {AgmSnazzyInfoWindowModule} from '@agm/snazzy-info-window';
       }),
       AgmSnazzyInfoWindowModule
   ],
-  providers: [DataService, UserService, Configuration, RallyService, InvitationService, CompetitionService],
+  providers: [DataService, UserService, Configuration, RallyService, InvitationService, CompetitionService, SiteService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

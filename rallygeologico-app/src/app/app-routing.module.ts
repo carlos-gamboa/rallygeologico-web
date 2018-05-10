@@ -9,6 +9,7 @@ import {RalliesComponent} from "./rallies/rallies.component";
 import {InstructionsComponent} from "./instructions/instructions.component";
 import {DefinitionComponent} from "./definition/definition.component";
 import {RegisterComponent} from "./register/register.component";
+import {SiteComponent} from "./site/site.component";
 
 const routes : Routes = [
     {
@@ -41,6 +42,9 @@ const routes : Routes = [
     },
     {
         path : 'rallies/:rallyId', component: RallyComponent
+    },
+    {
+        path : 'sites/:siteId', component: SiteComponent
     }
 ];
 
