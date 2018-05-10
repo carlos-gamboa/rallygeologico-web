@@ -29,7 +29,7 @@
                 <th>Link</th>
                 <tr *ngFor="let invitation of invitations">
                   <td><h4>{{invitation.user_send.username}}</h4></td>
-                  <td><p>{{invitation.competition.Name}}</p></td>
+                  <td><p>{{invitation.competition.name}}</p></td>
                   <td><button class="btn btn-default btn-sm btn-block text-center" routerLink="/competition/{{invitation.competition_id}}">Ir a rally</button></td>
                 </tr>
                 </tbody>
@@ -42,13 +42,13 @@
         <div class="row">
           <div class="menu-content pb-60 col-lg-12">
             <div class="title text-center">
-              <h2>Rallies Activos</h2>
+              <h2>Competencias Activas</h2>
               <table class="table mt-3">
                 <tbody>
                 <th>Nombre</th>
                 <th>Link</th>
                 <tr *ngFor="let competition of competitions">
-                  <td><h4>{{competition.Name}}</h4></td>
+                  <td><h4>{{competition.name}}</h4></td>
                   <td><button class="btn btn-default btn-sm btn-block text-center" routerLink="/competition/{{competition.id}}">Ir a rally</button></td>
                 </tr>
                 </tbody>
@@ -58,10 +58,29 @@
         </div>
       </div>
       <div class="menu-content pb-60 col-lg-12">
-        <div class="title text-center">
+        <div class="title text-center mb-4">
           <h2>Inspecciona el mapa en busca de rallies</h2>
         </div>
-        <div class="map-wrap mt-3" style="width:100%; height: 550px;" id="map"></div>
+        <div class="container">
+          <div class="row">
+            <!--<div class="col-lg-8 offset-2">-->
+            <agm-map class="map" [latitude]="initialLatitude" [longitude]="initialLongitude" [zoom]="zoom">
+              <div *ngFor="let rally of ralliesToShow">
+                <agm-marker [latitude]="rally.latitude" [longitude]="rally.longitude">
+                  <agm-snazzy-info-window [maxWidth]="200" [closeWhenOthersOpen]="true">
+                    <ng-template>
+                      <a routerLink="/rallies/{{rally.id}}">
+                        <h5>{{rally.name}}:</h5>
+                        <p class="mt-1 snaggy-text">{{rally.description.substring(0,50) + "..."}}</p>
+                      </a>
+                    </ng-template>
+                  </agm-snazzy-info-window>
+                </agm-marker>
+              </div>
+            </agm-map>
+            <!--</div>-->
+          </div>
+        </div>
       </div>
     </div>
   </div>
