@@ -56,16 +56,6 @@ class TermTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->scalar('image_url')
-            ->maxLength('image_url', 2000)
-            ->allowEmpty('image_url');
-
-        $validator
-            ->scalar('video_url')
-            ->maxLength('video_url', 200)
-            ->allowEmpty('video_url');
-
-        $validator
             ->scalar('name')
             ->maxLength('name', 40)
             ->requirePresence('name', 'create')
