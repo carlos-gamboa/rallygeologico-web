@@ -40,16 +40,6 @@ class InvitationTable extends Table
             'foreignKey' => 'competition_id',
             'joinType' => 'INNER'
         ]);
-
-        $this->belongsTo('UserSend', [
-            'className' => 'Users',
-            'foreignKey' => 'user_id_send'
-        ]);
-
-        $this->belongsTo('UserReceive', [
-            'className' => 'Users',
-            'foreignKey' => 'user_id_receive'
-        ]);
     }
 
     /**
@@ -67,6 +57,10 @@ class InvitationTable extends Table
         $validator
             ->scalar('accepted')
             ->allowEmpty('accepted');
+
+        $validator
+            ->scalar('rejected')
+            ->allowEmpty('rejected');
 
         $validator
             ->integer('user_id_send')
