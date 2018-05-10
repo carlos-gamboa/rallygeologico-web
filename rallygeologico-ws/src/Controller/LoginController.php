@@ -54,7 +54,7 @@ class LoginController extends AppController
     {
         try {
             $data = $this->getRequest()->getData();
-            if(!isset($data['facebook_id'])){
+            if(!isset($data['api_id'])||!isset($data['login_api'])){
                 throw new UnauthorizedException("Please enter your FacebookId" . print_r($data, true));
             }
 
