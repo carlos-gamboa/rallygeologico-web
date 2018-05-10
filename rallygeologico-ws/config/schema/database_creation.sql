@@ -1,12 +1,13 @@
 CREATE TABLE IF NOT EXISTS users (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  facebook_id VARCHAR(30) UNIQUE NOT NULL,
+  api_id VARCHAR(30) NOT NULL,
   username VARCHAR(30) UNIQUE NOT NULL,
   first_name VARCHAR(15),
   last_name VARCHAR(15),
   email VARCHAR(30),
   photo_url VARCHAR (200),
-  is_admin BIT DEFAULT 0
+  is_admin BIT DEFAULT 0,
+  login_api INT
 );
 
 CREATE TABLE IF NOT EXISTS rally (
@@ -14,7 +15,9 @@ CREATE TABLE IF NOT EXISTS rally (
   name VARCHAR(30) NOT NULL,
   points_awarded INT NOT NULL,
   image_url VARCHAR (200),
-  description VARCHAR (5000)
+  description VARCHAR (5000),
+  latitude FLOAT NOT NULL,
+  longitude FLOAT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS competition(
@@ -34,6 +37,7 @@ CREATE TABLE IF NOT EXISTS competition(
 CREATE TABLE IF NOT EXISTS invitation (
   id INT AUTO_INCREMENT PRIMARY KEY,
   accepted BIT DEFAULT 0,
+  rejected BIT DEFAULT 0,
   user_id_send INT NOT NULL,
   user_id_receive INT NOT NULL,
   competition_id INT NOT NULL,
@@ -72,7 +76,6 @@ CREATE TABLE IF NOT EXISTS district (
 CREATE TABLE IF NOT EXISTS site (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(30) NOT NULL,
-  points_awarded INT NOT NULL,
   qr_url VARCHAR(200),
   details VARCHAR(2000),
   description VARCHAR(2000),
@@ -102,16 +105,53 @@ CREATE TABLE IF NOT EXISTS competition_statistics_site(
 
 CREATE TABLE IF NOT EXISTS term (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  image_url VARCHAR (2000),
-  video_url VARCHAR (200),
   name VARCHAR (40) NOT NULL,
   description VARCHAR(2000)
 );
 
-CREATE TABLE term_site(
+CREATE TABLE IF NOT EXISTS term_site(
   term_id INT NOT NULL,
   site_id INT NOT NULL,
   FOREIGN KEY (term_id) REFERENCES term(id),
-  FOREIGN KEY (site_id) REFERENCES term(id),
+  FOREIGN KEY (site_id) REFERENCES site(id),
   PRIMARY KEY (term_id, site_id)
+);
+
+CREATE TABLE IF NOT EXISTS multimedia(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  media_type INT NOT NULL,
+  media_url VARCHAR(2000)
+);
+
+CREATE TABLE IF NOT EXISTS activity(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  site_id INT,
+  activity_type INT NOT NULL,
+  points_awarded INT NOT NULL,
+  description VARCHAR(1000),
+  FOREIGN KEY (site_id) REFERENCES site(id)
+);
+
+CREATE TABLE IF NOT EXISTS options(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  activity_id INT,
+  is_correct BIT NOT NULL,
+  option_text VARCHAR(200),
+  FOREIGN KEY (activity_id) REFERENCES activity(id)
+);
+
+CREATE TABLE IF NOT EXISTS activity_multimedia(
+  activity_id INT NOT NULL,
+  multimedia_id INT NOT NULL,
+  FOREIGN KEY (activity_id) REFERENCES activity(id),
+  FOREIGN KEY (multimedia_id) REFERENCES multimedia(id),
+  PRIMARY KEY (activity_id, multimedia_id)
+);
+
+CREATE TABLE IF NOT EXISTS term_multimedia(
+  term_id INT NOT NULL,
+  multimedia_id INT NOT NULL,
+  FOREIGN KEY (term_id) REFERENCES term(id),
+  FOREIGN KEY (multimedia_id) REFERENCES multimedia(id),
+  PRIMARY KEY (term_id, multimedia_id)
 );

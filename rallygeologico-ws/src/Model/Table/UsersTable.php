@@ -99,6 +99,10 @@ class UsersTable extends Table
             ->scalar('is_admin')
             ->allowEmpty('is_admin');
 
+        $validator
+            ->integer('login_api')
+            ->allowEmpty('login_api');
+
         return $validator;
     }
 
@@ -113,7 +117,6 @@ class UsersTable extends Table
     {
         $rules->add($rules->isUnique(['username']));
         $rules->add($rules->isUnique(['email']));
-        $rules->add($rules->isUnique(['facebook_id']));
 
         return $rules;
     }

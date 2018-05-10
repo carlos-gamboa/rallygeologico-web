@@ -7,13 +7,14 @@ use Cake\ORM\Entity;
  * User Entity
  *
  * @property int $id
- * @property string $facebook_id
+ * @property string $api_id
  * @property string $username
  * @property string $first_name
  * @property string $last_name
  * @property string $email
  * @property string $photo_url
  * @property string $is_admin
+ * @property int $login_api
  *
  * @property \App\Model\Entity\CompetitionStatistic[] $competition_statistics
  * @property \App\Model\Entity\CompetitionStatisticsSite[] $competition_statistics_site
@@ -31,14 +32,15 @@ class User extends Entity
      * @var array
      */
     protected $_accessible = [
-        'facebook_id' => true,
+        'api_id' => true,
         'username' => true,
         'first_name' => true,
         'last_name' => true,
         'email' => true,
         'photo_url' => true,
         'is_admin' => true,
-        'facebook' => true,
+        'login_api' => true,
+
         'competition_statistics' => true,
         'competition_statistics_site' => true
     ];
