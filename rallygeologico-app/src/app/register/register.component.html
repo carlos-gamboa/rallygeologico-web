@@ -11,7 +11,7 @@
        <!-- <button  class="g-signin2" >
         </button>-->
 
-        <button (click)="loginWithOptions()" class="mb-40 genric-btn btn-social btn-google center" >
+        <button (click)="googleSignIn()" class="mb-40 genric-btn btn-social btn-google center" >
           <span class="mr-20 fa fa-google" ></span><span class="text-center">Login with Google</span>
         </button>
 
@@ -52,7 +52,8 @@
           <div *ngIf="pleaseWait" class="alert alert-info" role="alert">
             Por favor espere.
           </div>
-          <button  *ngIf="registerWithFacebook" (click)="register()" class="mb-30 genric-btn primary register-btn" [disabled]="registerForm.invalid">Registrarse</button>
+          <button  *ngIf="registerWithFacebook" (click)="registerFb()" class="mb-30 genric-btn primary register-btn" [disabled]="registerForm.invalid">Registrarse con Facebook</button>
+          <button  *ngIf="registerWithGoogle" (click)="registerGoogle()" class="mb-30 genric-btn primary register-btn" [disabled]="registerForm.invalid">Registrarse con Google</button>
         </form>
       </div>
     </div>
