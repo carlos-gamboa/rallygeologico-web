@@ -79,11 +79,6 @@ class SiteTable extends Table
             ->notEmpty('name');
 
         $validator
-            ->integer('points_awarded')
-            ->requirePresence('points_awarded', 'create')
-            ->notEmpty('points_awarded');
-
-        $validator
             ->scalar('qr_url')
             ->maxLength('qr_url', 200)
             ->allowEmpty('qr_url');
