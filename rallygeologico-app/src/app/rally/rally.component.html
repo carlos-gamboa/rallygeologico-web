@@ -6,8 +6,9 @@
         <div class="row d-flex align-items-center justify-content-center">
             <div class="about-content col-lg-12">
                 <h1 class="text-white">
-                    Rally
+                    Rally:
                 </h1>
+                <h3 style="color: #ffffff;">{{rally?.name}}</h3>
                 <p class="text-white link-nav"><a routerLink="/dashboard">Inicio </a>  <span class="lnr lnr-arrow-right"></span>  <a routerLink="/rallies/:rallyId">Rally</a></p>
             </div>
         </div>
@@ -19,7 +20,12 @@
 <section class="contact-page-area section-gap">
     <div class="container">
         <div class="row">
-            <!--<div class="col-lg-8 offset-2">-->
+            <div class="col-lg-4">
+                <b class="text-center">Descripción:</b>
+                <p class="text-justify">{{rally?.description}}</p>
+                <b>Points: {{rally?.points_awarded}}</b>
+            </div>
+            <div class="col-lg-8">
                 <agm-map class="map" [latitude]="initialLatitude" [longitude]="initialLongitude" [zoom]="zoom">
                     <agm-marker [latitude]="initialLatitude" [longitude]="initialLongitude">
                         <agm-snazzy-info-window [maxWidth]="200" [closeWhenOthersOpen]="true">
@@ -29,7 +35,7 @@
                         </agm-snazzy-info-window>
                     </agm-marker>
                 </agm-map>
-            <!--</div>-->
+            </div>
         </div>
     </div>
 </section>

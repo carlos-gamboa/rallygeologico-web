@@ -48,6 +48,7 @@ class RallyController extends AppController
         ]);
 
         $this->set('rally', $rally);
+        $this->render('/Rally/json/template');
     }
 
     /**
