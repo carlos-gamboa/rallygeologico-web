@@ -16,6 +16,8 @@
         <li><?= $this->Html->link(__('List Invitation'), ['action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('List Competition'), ['controller' => 'Competition', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Competition'), ['controller' => 'Competition', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List User Send'), ['controller' => 'Users', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New User Send'), ['controller' => 'Users', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="invitation form large-9 medium-8 columns content">
@@ -24,8 +26,9 @@
         <legend><?= __('Edit Invitation') ?></legend>
         <?php
             echo $this->Form->control('accepted');
-            echo $this->Form->control('user_id_send');
-            echo $this->Form->control('user_id_receive');
+            echo $this->Form->control('rejected');
+            echo $this->Form->control('user_id_send', ['options' => $userSend]);
+            echo $this->Form->control('user_id_receive', ['options' => $userReceive]);
             echo $this->Form->control('competition_id', ['options' => $competition]);
         ?>
     </fieldset>
