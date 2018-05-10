@@ -81,7 +81,7 @@ export class LoginComponent implements OnInit {
             this.photoUrl = res.picture.data.url;
             console.log("Login got : "+this.fbId +" "+this.firstName +" "+ this.lastName +" "+this.email+" "+this.fbToken);
             var count1 = 0;
-            this.userService.facebookid(res.id).subscribe((users: User[]) => {
+            this.userService.apiId(res.id, 0).subscribe((users: User[]) => {
               for (let i: number = 0; i < users.length; ++i) {
                 count1 += 1;
               }
@@ -91,7 +91,7 @@ export class LoginComponent implements OnInit {
                 this.userDataService.updateUser(this.user);
                 this.pleaseWait = false;
                 this.success = true;
-                this.userService.auth(res.id).subscribe((users: User[]) => {
+                this.userService.auth(res.id, 0).subscribe((users: User[]) => {
                     console.log(users[0]);
                     this.userDataService.updateUser(users[0]);
                   console.log("Completed auth");
