@@ -28,13 +28,15 @@ export class CompetitionComponent implements OnInit {
 
     user: User;
     users : User[];
-    allUsers: User[];
+    allUsers: User[] = [];
     showedUsers: User[];
+    invitation: Invitation;
 
     constructor(private userService: UserService, private dataService: DataService,
                 private invitationService: InvitationService, private route: ActivatedRoute,
                 private competitionService: CompetitionService, private router: Router) {
         this.user = this.dataService.getUser();
+
         if (!this.user){
             this.userService.isLoggedIn().subscribe((users: User) => {
                 // this.dataService.updateUser(users[0]);
@@ -42,10 +44,6 @@ export class CompetitionComponent implements OnInit {
                 console.log(users);
             });
         }
-        this.userService.getUsers().subscribe((users: User[]) => {
-          this.allUsers = users;
-          this.reloadUsers(users);
-        });
     }
 
     reloadUsers(users : User[]) : void{
@@ -86,6 +84,16 @@ export class CompetitionComponent implements OnInit {
         });
     }
 
+    acceptInvitation(){
+        this.invitation.accepted = true;
+        this.invitationService.editInvitation(this.invitation.id, this.invitation.accepted, this.invitation.rejected).subscribe();
+    }
+
+    rejectInvitation(){
+        this.invitation.rejected = true;
+        this.invitationService.editInvitation(this.invitation.id, this.invitation.accepted, this.invitation.rejected).subscribe();
+    }
+
     ngOnInit() {
         this.route.params
             .subscribe(
@@ -95,7 +103,18 @@ export class CompetitionComponent implements OnInit {
                     this.competitionService.findCompetition(this.competitionId).subscribe((competition: Competition) => {
                         if (competition){
                             this.competition = competition;
-                            this.readyToShow = true;
+                            this.userService.getUsersToInvite(this.competitionId).subscribe((users: User[]) => {
+                                this.allUsers = users;
+                                this.reloadUsers(users);
+                            });
+                            this.invitationService.getInvitation(this.user.id, this.competitionId).subscribe((invitation: Invitation[]) => {
+                                if (invitation){
+                                    this.invitation = invitation[0];
+                                } else if (!this.competition.is_public) {
+                                    this.router.navigate(['/dashboard']);
+                                }
+                                this.readyToShow = true;
+                            })
                         } else {
                             this.router.navigate(['/dashboard']);
                         }

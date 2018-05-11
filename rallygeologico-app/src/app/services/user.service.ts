@@ -59,4 +59,10 @@ export class UserService {
         return this.http.get<User[]>(this.baseUrl + "users.json");
     }
 
+    getUsersToInvite(id: number) : Observable<User[]>{
+        return this.http.post<User[]>(this.baseUrl + "users/usersToInvite.json",{
+            'competition_id':id
+        });
+    }
+
 }

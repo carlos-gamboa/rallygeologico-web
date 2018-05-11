@@ -24,4 +24,18 @@ export class InvitationService {
     getInvitations(userIdReceive: number): Observable<Invitation[]>{
         return this.http.get<Invitation[]>(this.baseUrl + "invitation/receive/"+ userIdReceive +".json");
     }
+
+    getInvitation(userIdReceive: number, competitionId: number): Observable<Invitation[]>{
+        return this.http.post<Invitation[]>(this.baseUrl + "invitation/userCompetitionInvitation.json",{
+            'user_id_receive' : userIdReceive,
+            'competition_id' : competitionId,
+        });
+    }
+
+    editInvitation(id: number, accepted: boolean, rejected: boolean): Observable<Invitation>{
+        return this.http.post<Invitation>(this.baseUrl + "invitation/edit/"+id+".json",{
+            'accepted' : accepted,
+            'rejected' : rejected
+        });
+    }
 }

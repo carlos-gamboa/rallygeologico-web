@@ -60,3 +60,14 @@
     background-color: #fdb727 !important;
     border-color: #fdb727 !important;
 }
+
+.btn-inv{
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+    font-size: inherit !important;
+}
+
+.genric-btn{
+    font-size: inherit !important;
+}
