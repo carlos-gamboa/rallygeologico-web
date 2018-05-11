@@ -6,3 +6,7 @@
 .snaggy-text{
     color: black;
 }
+
+.genric-btn{
+    font-size: inherit !important;
+}

@@ -30,7 +30,7 @@
                 <tr *ngFor="let invitation of invitations">
                   <td><h4>{{invitation.user_send.username}}</h4></td>
                   <td><p>{{invitation.competition.name}}</p></td>
-                  <td><button class="btn btn-default btn-sm btn-block text-center" routerLink="/competition/{{invitation.competition_id}}">Ir a rally</button></td>
+                  <td><button class="genric-btn circle info text-center medium" routerLink="/competition/{{invitation.competition_id}}">Ir a rally</button></td>
                 </tr>
                 </tbody>
               </table>
@@ -49,7 +49,7 @@
                 <th>Link</th>
                 <tr *ngFor="let competition of competitions">
                   <td><h4>{{competition.name}}</h4></td>
-                  <td><button class="btn btn-default btn-sm btn-block text-center" routerLink="/competition/{{competition.id}}">Ir a rally</button></td>
+                  <td><button class="genric-btn circle info text-center medium" routerLink="/competition/{{competition.id}}">Ir a rally</button></td>
                 </tr>
                 </tbody>
               </table>
