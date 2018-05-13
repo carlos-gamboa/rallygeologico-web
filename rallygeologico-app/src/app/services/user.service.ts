@@ -11,10 +11,11 @@ import "rxjs";
 export class UserService {
 
     baseUrl: string;
-
+    headers: HttpHeaders = new HttpHeaders();
 
     constructor(private http : HttpClient, private _configuration: Configuration){
         this.baseUrl = this._configuration.ServerWithApiUrl;
+        this.headers.append('Content-Type', 'application/json');
     }
 
     email(Email : string) : Observable<User[]>{
@@ -45,14 +46,14 @@ export class UserService {
     }
 
     isLoggedIn() : Observable<User>{
-        return this.http.get<User>(this.baseUrl + "login/activeSession.json");
+        return this.http.get<User>(this.baseUrl + "login/activeSession.json",{ headers: this.headers, withCredentials: true });
     }
 
     auth(ApiId : string, LoginApi: number) : Observable<User[]>{
         return this.http.post<User[]>(this.baseUrl + "login.json", {
             'api_id':ApiId,
             'login_api':LoginApi
-        });
+        },{ headers: this.headers, withCredentials: true });
     }
 
     getUsers() : Observable<User[]>{
