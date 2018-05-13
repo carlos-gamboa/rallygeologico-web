@@ -42,8 +42,8 @@
                 </div>
               </div>
               <div class="col-lg-6" align="center">
-                <select class="select-input" [(ngModel)]="rally_id" #rallyIdInput="ngModel" name="rally_id" *ngFor="let rally of ralliesList; let i = index" required>
-                  <option value="{{rally.id}}">{{rally.name}}</option>
+                <select class="select-input" [(ngModel)]="rally_id" #rallyIdInput="ngModel" name="rally_id" required>
+                  <option *ngFor="let rally of ralliesList; let i = index" value="{{rally.id}}">{{rally.name}}</option>
                 </select>
                 <div *ngIf="(rallyIdInput?.invalid) && (rallyIdInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
                   <p class="alert-message">Debe seleccionar un rally para la competencia.</p>
