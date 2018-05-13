@@ -34,11 +34,19 @@ export class DashboardComponent implements OnInit {
         this.user = this.dataService.getUser();
         if (!this.user){
             this.userService.isLoggedIn().subscribe((users: User) => {
-                // this.dataService.updateUser(users[0]);
-                // this.user = users[0];
-                console.log(users);
+                this.dataService.updateUser(users[0]);
+                this.user = users[0];
+                this.setupData();
             });
+        } else {
+            this.setupData();
         }
+        this.initialLatitude = 10.4958;
+        this.initialLongitude = -85.355;
+        this.zoom = 9;
+    }
+
+    setupData(){
         this.invitationService.getInvitations(this.user.id).subscribe((invitations: Invitation[]) =>{
             this.invitations = invitations;
         });
@@ -48,10 +56,6 @@ export class DashboardComponent implements OnInit {
         this.rallyService.getAllRallies().subscribe((rallies: Rally[]) =>{
             this.ralliesToShow = rallies;
         });
-
-        this.initialLatitude = 10.4958;
-        this.initialLongitude = -85.355;
-        this.zoom = 9;
     }
 
     ngOnInit() {
