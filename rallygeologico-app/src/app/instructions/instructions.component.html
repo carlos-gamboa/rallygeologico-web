@@ -1,3 +1,4 @@
+<app-public-header></app-public-header>
 <!-- start banner Area -->
 <section class="banner-area relative" id="home">
   <div class="overlay overlay-bg"></div>
@@ -7,7 +8,8 @@
         <h1 class="text-white">
           ¿Qué es un rally geológico?
         </h1>
-        <p class="text-white link-nav"><a routerLink="/dashboard">Inicio </a>  <span class="lnr lnr-arrow-right"></span>  <a routerLink="/rallies"> Rallies</a></p>
+        <p class="text-white link-nav"><a routerLink="/dashboard">Inicio </a>  <span class="lnr lnr-arrow-right"></span>
+            <a routerLink="/instructions"> ¿Qué es un rally geológico?</a></p>
       </div>
     </div>
   </div>
@@ -22,25 +24,112 @@
       <h3 class="mb-30">¿Qué es un rally geológico?</h3>
       <div class="row">
         <div class="col-md-5">
-          <img src="../../assets/images/instructions.png" alt="" class="img-fluid">
+          <img src="../../assets/images/rally_instructions.PNG" alt="" class="img-fluid">
         </div>
-        <div class="col-md-7 mt-sm-20">
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel ornare mauris. Suspendisse rhoncus egestas elit at fringilla. In hac habitasse platea dictumst. Integer luctus imperdiet venenatis. Donec ac fermentum mauris. Sed mollis sem id lacus tempus gravida. Pellentesque cursus arcu velit, id pretium mi maximus a. Aliquam non est ornare, varius lectus non, dictum massa.</p>
-          <p>Fusce pellentesque lorem arcu, cursus faucibus sem accumsan at. Sed a elit consequat, venenatis tellus sit amet, pharetra nulla. In quis turpis eu ipsum porta congue. Cras est lorem, malesuada eget mi ut, vestibulum ornare quam. Ut in nulla a mauris vulputate sodales. Morbi dapibus viverra ex, a blandit lectus cursus non. Aliquam vitae ultrices nisi. Aenean vitae arcu id ligula hendrerit blandit. Duis tempor lectus velit, a accumsan ante placerat convallis. Vivamus nisl est, eleifend eget aliquet quis, aliquam a est. Vivamus volutpat arcu quis odio sollicitudin efficitur. Etiam in augue diam. Praesent convallis venenatis pharetra. Ut rutrum, lacus sit amet feugiat hendrerit, felis ante dictum erat, ac ultrices odio augue sed ante. Phasellus eu lobortis magna, quis bibendum libero.</p>
+        <div class="col-md-7 mt-sm-20 text-justify">
+          <p>Un rally geológico es una aventura en realidad aumentada (AR). Donde podrás conocer nuevos lugares, competir
+              con tus amigos y aprender sobre los procesos geológicos que se han desarrollado en varios lugares de Costa Rica.
+              Tales como la Península de Santa Elena, Nacascolo, etc.
+          </p>
+          <p>Un rally geologico consiste en una ruta con puntos de interés geológicos. Cada ruta puede hacerse aproximadamente
+              en una semana. Y pueden requerir de servicios especiales como alquiler de carros todo terreno, lanchas, etc.
+          </p>
         </div>
       </div>
       </div>
     </div>
+  <!------------------------------------- Section delimiter -------------------------------------------------->
     <div class="section-top-border text-right section-2">
       <div class="container">
-      <h3 class="mb-30">¿Cómo participo rally geológico?</h3>
+      <h3 class="mb-30">Preparativos para tu aventura</h3>
       <div class="row">
-        <div class="col-md-7">
-          <p class="text-right"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel ornare mauris. Suspendisse rhoncus egestas elit at fringilla. In hac habitasse platea dictumst. Integer luctus imperdiet venenatis. Donec ac fermentum mauris. Sed mollis sem id lacus tempus gravida. Pellentesque cursus arcu velit, id pretium mi maximus a. Aliquam non est ornare, varius lectus non, dictum massa.</p>
-          <p class="text-right">Fusce pellentesque lorem arcu, cursus faucibus sem accumsan at. Sed a elit consequat, venenatis tellus sit amet, pharetra nulla. In quis turpis eu ipsum porta congue. Cras est lorem, malesuada eget mi ut, vestibulum ornare quam. Ut in nulla a mauris vulputate sodales. Morbi dapibus viverra ex, a blandit lectus cursus non. Aliquam vitae ultrices nisi. Aenean vitae arcu id ligula hendrerit blandit. Duis tempor lectus velit, a accumsan ante placerat convallis. Vivamus nisl est, eleifend eget aliquet quis, aliquam a est. Vivamus volutpat arcu quis odio sollicitudin efficitur. Etiam in augue diam. Praesent convallis venenatis pharetra. Ut rutrum, lacus sit amet feugiat hendrerit, felis ante dictum erat, ac ultrices odio augue sed ante. Phasellus eu lobortis magna, quis bibendum libero.</p>
+        <div class="col-md-7 text-justify">
+          <p>
+              Para poder iniciar tu aventura por el país, debes tener una cuenta. Para crearla: primero, puedes entrar
+              <a routerLink="/register">aquí</a> e ingresar a Facebook con el botón de login, el resto de información personal
+              solicitada se llenará automáticamente con solo ingresar a tu cuenta. Finalmente solo debes inventar el nombre de
+              usuario que más te identifique o que más recuerdes.
+          </p>
+          <p>
+              Como es una aventura móvil, necesitas tener la aplicación instalada en un dispositivo con una versión de
+              Android mayor a 5.0. Puedes descargar la aplicación desde <a routerLink="#">aquí</a> o escaneando el código
+              QR al final de la página
+          </p>
         </div>
         <div class="col-md-5">
-          <img src="../../assets/images/instructions.png" alt="" class="img-fluid">
+          <img src="../../assets/images/qr_scanning.jpg" alt="" class="img-fluid">
+        </div>
+      </div>
+    </div>
+  </div>
+  <!------------------------------------- Section delimiter -------------------------------------------------->
+  <div class="section-top-border">
+    <div class="container">
+      <h3 class="mb-30">Inicia tu competencia</h3>
+      <div class="row">
+        <div class="col-md-5">
+          <img src="../../assets/images/competition.jpg" alt="" class="img-fluid">
+        </div>
+        <div class="col-md-7 mt-sm-20 text-justify">
+          <p>
+              La aplicación te da la posiblidad de jugar solo o con amigos. Si quieres jugar en grupo tendrás que crear
+              una competencia e invitar a todos los posibles concursantes. Para esto ve a la sección de "Crear Competencia",
+              y selecciona las ubicaciones que habran en tu competencia, marcando los cuadritos. Cuando hayas acabado, ponle
+              el nombre que quieras y una descripción.
+          </p>
+          <p>
+              Es importante marcar las fechas de inicio y finalización de la competencia
+              por que sacamos estádisticas de los concursantes. También puedes escoger si tu competencia es pública o privada,
+              para que cualquier persona pueda unirse o solo puedas jugar con tus amigos.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!------------------------------------- Section delimiter -------------------------------------------------->
+  <div class="section-top-border text-right section-2">
+    <div class="container">
+      <h3 class="mb-30">Invitando a tus amigos</h3>
+      <div class="row">
+        <div class="col-md-7 text-justify">
+          <p>
+              Para tener una aventura en conjunto puedes invitar a tus amigos de diversas formas: la primera es en la
+              página para crear una competencia, porque  al final de esta encontrarás a tus amigos de Facebook que también
+              utilizan la aplicación, a quienes puedes invitar con tan solo  presionar el botón "Invitar".
+          </p>
+          <p>
+              La segunda es al entrar al perfil de alguna de tus competencias, en la cual encontrarás dos opciones, al final del perfil, para
+              invitar amigos: con la primera podrás encontrar a tus amigos de Facebook y con la segunda podrás buscar a cualquier
+              persona con su nombre de usuario.
+          </p>
+        </div>
+        <div class="col-md-5">
+          <img src="../../assets/images/friends.jpg" alt="" class="img-fluid">
+        </div>
+      </div>
+    </div>
+  </div>
+  <!------------------------------------- Section delimiter -------------------------------------------------->
+  <div class="section-top-border">
+    <div class="container">
+      <h3 class="mb-30">Juega con todos</h3>
+      <div class="row">
+        <div class="col-md-5">
+          <img src="../../assets/images/highfive.jpg" alt="" class="img-fluid">
+        </div>
+        <div class="col-md-7 mt-sm-20 text-justify">
+          <p>
+              Para ampliar o mantener tu círculo de amistad en este juego puedes crear competencias privadas o públicas.
+              La única manera en que tus amigos pueden participar en tus competencias privadas es invitándolos; de la misma manera,
+              la única forma en que tu puedas participar en las competencias privadas de ellos es mediante el mismo proceso
+              [ver la explicación de este proceso en "Invita a tus amigos"]. Para ver si tus amigos te han invitado a sus aventuras,
+              ve a la página de inicio y a la izquierda verás una lista de invitaciones que podrás aceptar o rechazar.
+          </p>
+          <p>
+              Si quieres conocer gente nueva también puedes entrar a una competencia pública. Para esto ve a la página de
+              "Rallies" y encontrarás una lista con todos las competencias públicas, presiona el botón de "Ir al Rally", este
+              te llevará al perfil de la competencia y con solo presionar "Unirme" ya serás partícipe de la diversión.
+          </p>
         </div>
       </div>
     </div>
