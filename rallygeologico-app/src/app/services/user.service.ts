@@ -18,12 +18,12 @@ export class UserService {
         this.headers.append('Content-Type', 'application/json');
     }
 
-    email(Email : string) : Observable<User[]>{
-        return this.http.get<User[]>(this.baseUrl + "users/email/"+Email+".json");
+    emailExists(Email : string) : Observable<boolean>{
+        return this.http.get<boolean>(this.baseUrl + "users/emailExists/"+Email+".json");
     }
 
-    username(Username : string) : Observable<User[]>{
-      return this.http.get<User[]>(this.baseUrl + "users/username/"+Username+".json");
+    usernameExists(Username : string) : Observable<boolean>{
+      return this.http.get<boolean>(this.baseUrl + "users/usernameExists/"+Username+".json");
     }
 
     apiId(ApiId : string, LoginApi: number) : Observable<User[]>{

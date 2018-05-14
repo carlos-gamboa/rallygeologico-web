@@ -5,55 +5,102 @@
       <div class="col-sm-12 center">
         <h2 class="mb-60 text-center login-title">Registrarse</h2>
         <img class="mb-60 center login-icon" src="../../assets/images/login-icon.png" alt="Icono de Registro">
-        <button (click)="loginWithOptions()" class="mb-40 genric-btn facebook center" >
+        <button *ngIf="!successful && !emailUsed" (click)="loginWithOptions()" class="mb-40 genric-btn facebook center" >
           <span class="mr-20 fa fa-facebook"></span><span class="text-center">Login with Facebook</span>
         </button>
        <!-- <button  class="g-signin2" >
         </button>-->
 
-        <button (click)="googleSignIn()" class="mb-40 genric-btn btn-social btn-google center" >
+        <button *ngIf="!successful && !emailUsed" (click)="googleSignIn()" class="mb-40 genric-btn btn-social btn-google center" >
           <span class="mr-20 fa fa-google" ></span><span class="text-center">Login with Google</span>
         </button>
 
 
 
         <form #registerForm="ngForm">
-          <input required minlength="1" [(ngModel)]="firstName"  #firstName_input="ngModel" class="mb-10 single-input disabled" type="text" name="name" placeholder="Nombre" disabled required>
-          <input required minlength="1" [(ngModel)]="lastName" #lastName_input="ngModel" class="mb-10 single-input disabled" type="text" name="middlename" placeholder="Apellido(s)" disabled required>
-          <input required minlength="1" [class.error-shadow]="emailUsed" [(ngModel)]="email" #email_input="ngModel" class="mb-10 single-input disabled" type="text" name="email" placeholder="Correo Electrónico" disabled required>
-          <div class="form-group">
-            <input [class.error-shadow]="changeUsername"  [(ngModel)]="userName" class="mb-10 single-input" type="text" name="username" placeholder="Nombre Usuario" required minlength="6"
-                   #userName_input="ngModel" [class.error-shadow]="userName_input.invalid &&
+
+
+          <!--FACEBOOK-->
+          <div *ngIf="registerWithFacebook">
+            <input required minlength="1" [(ngModel)]="firstName"  #firstName_input="ngModel" class="mb-10 single-input disabled" type="text" name="name" placeholder="Nombre" disabled required>
+            <input required minlength="1" [(ngModel)]="lastName" #lastName_input="ngModel" class="mb-10 single-input disabled" type="text" name="middlename" placeholder="Apellido(s)" disabled required>
+            <input required minlength="1" [class.error-shadow]="emailUsed" [(ngModel)]="email" #email_input="ngModel" class="mb-10 single-input disabled" type="text" name="email" placeholder="Correo Electrónico" disabled required>
+            <div class="form-group">
+              <input [class.error-shadow]="changeUsername"  [(ngModel)]="userName" class="mb-10 single-input" type="text" name="username" placeholder="Nombre Usuario" required minlength="6"
+                     #userName_input="ngModel" [class.error-shadow]="userName_input.invalid &&
                        (userName_input.dirty || userName_input.touched)" required>
-            <div *ngIf="userName_input.invalid && (userName_input.dirty || userName_input.touched)">
-              <div *ngIf="userName_input.errors.required" class="alert alert-warning" role="alert">
-                Un nombre de usuario es obligatorio.
-              </div>
-              <div *ngIf="userName_input.errors.minlength" class="alert alert-warning" role="alert">
-                El nombre de usuario debe ser de más de 6 caracteres.
+              <div *ngIf="userName_input.invalid && (userName_input.dirty || userName_input.touched)">
+                <div *ngIf="userName_input.errors.required" class="alert alert-warning" role="alert">
+                  Un nombre de usuario es obligatorio.
+                </div>
+                <div *ngIf="userName_input.errors.minlength" class="alert alert-warning" role="alert">
+                  El nombre de usuario debe ser de más de 6 caracteres.
+                </div>
               </div>
             </div>
-          </div>
-          <div *ngIf="changeUsername" class="alert alert-danger" role="alert">
-            <h4>Ese nombre de usuario ya está en uso, digite otro.</h4>
-          </div>
-          <div *ngIf="emailUsed" class="alert alert-danger" role="alert">
+            <div *ngIf="changeUsername" class="alert alert-danger" role="alert">
+              <h4>Ese nombre de usuario ya está en uso, digite otro.</h4>
+            </div>
+            <div *ngIf="emailUsed" class="alert alert-danger" role="alert">
               <h4>Este correo ya está en uso, por favor inicie sesión normalmente.</h4>
-            <a class="txt2" routerLink="/login">
-              Iniciar Sesión
-            </a>
+              <a class="txt2" routerLink="/login">
+                Iniciar Sesión
+              </a>
+            </div>
+            <div *ngIf="successful" class="alert alert-success" role="alert">
+              Felicidades, se ha registrado correctamente. Ya puede iniciar sesión.
+              <a class="txt2" routerLink="/login">
+                Iniciar Sesión
+              </a>
+            </div>
+            <div *ngIf="pleaseWait && !emailUsed && !changeUsername" class="alert alert-info" role="alert">
+              Por favor espere.
+            </div>
           </div>
-          <div *ngIf="successful" class="alert alert-success" role="alert">
-            Felicidades, se ha registrado correctamente. Ya puede iniciar sesión.
-            <a class="txt2" routerLink="/login">
-              Iniciar Sesión
-            </a>
+
+
+
+          <!--GOOGLE-->
+          <div *ngIf="registerWithGoogle">
+            <input required minlength="1" [(ngModel)]="GfirstName"  #firstName_input="ngModel" class="mb-10 single-input disabled" type="text" name="name" placeholder="Nombre" disabled required>
+            <input required minlength="1" [(ngModel)]="GlastName" #lastName_input="ngModel" class="mb-10 single-input disabled" type="text" name="middlename" placeholder="Apellido(s)" disabled required>
+            <input required minlength="1" [class.error-shadow]="emailUsed" [(ngModel)]="Gemail" #email_input="ngModel" class="mb-10 single-input disabled" type="text" name="email" placeholder="Correo Electrónico" disabled required>
+            <div class="form-group">
+              <input [class.error-shadow]="changeUsername"  [(ngModel)]="userName" class="mb-10 single-input" type="text" name="username" placeholder="Nombre Usuario" required minlength="6"
+                     #userName_input="ngModel" [class.error-shadow]="userName_input.invalid &&
+                       (userName_input.dirty || userName_input.touched)" required>
+              <div *ngIf="userName_input.invalid && (userName_input.dirty || userName_input.touched)">
+                <div *ngIf="userName_input.errors.required" class="alert alert-warning" role="alert">
+                  Un nombre de usuario es obligatorio.
+                </div>
+                <div *ngIf="userName_input.errors.minlength" class="alert alert-warning" role="alert">
+                  El nombre de usuario debe ser de más de 6 caracteres.
+                </div>
+              </div>
+            </div>
+            <div *ngIf="changeUsername" class="alert alert-danger" role="alert">
+              <h4>Ese nombre de usuario ya está en uso, digite otro.</h4>
+            </div>
+            <div *ngIf="emailUsed" class="alert alert-danger" role="alert">
+              <h4>Este correo ya está en uso, por favor inicie sesión normalmente.</h4>
+              <a class="txt2" routerLink="/login">
+                Iniciar Sesión
+              </a>
+            </div>
+            <div *ngIf="successful" class="alert alert-success" role="alert">
+              Felicidades, se ha registrado correctamente. Ya puede iniciar sesión.
+              <a class="txt2" routerLink="/login">
+                Iniciar Sesión
+              </a>
+            </div>
+            <div *ngIf="pleaseWait && !emailUsed && !changeUsername" class="alert alert-info" role="alert">
+              Por favor espere.
+            </div>
           </div>
-          <div *ngIf="pleaseWait" class="alert alert-info" role="alert">
-            Por favor espere.
-          </div>
-          <button  *ngIf="registerWithFacebook" (click)="registerFb()" class="mb-30 genric-btn primary register-btn" [disabled]="registerForm.invalid">Registrarse con Facebook</button>
-          <button  *ngIf="registerWithGoogle" (click)="registerGoogle()" class="mb-30 genric-btn primary register-btn" [disabled]="registerForm.invalid">Registrarse con Google</button>
+
+
+          <button  *ngIf="registerWithFacebook && !successful && !emailUsed" (click)="registerFb()" class="mb-30 genric-btn primary register-btn" [disabled]="registerForm.invalid">Registrarse con Facebook</button>
+          <button  *ngIf="registerWithGoogle && !successful && !emailUsed" (click)="registerGoogle()" class="mb-30 genric-btn primary register-btn" [disabled]="registerForm.invalid">Registrarse con Google</button>
         </form>
       </div>
     </div>
