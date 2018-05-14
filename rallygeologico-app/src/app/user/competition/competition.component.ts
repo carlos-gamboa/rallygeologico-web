@@ -39,10 +39,13 @@ export class CompetitionComponent implements OnInit {
 
         if (!this.user){
             this.userService.isLoggedIn().subscribe((users: User) => {
-                // this.dataService.updateUser(users[0]);
-                // this.user = users[0];
-                console.log(users);
+                this.dataService.updateUser(users[0]);
+                this.user = users[0];
+                this.setupData();
             });
+        }
+        else {
+            this.setupData();
         }
     }
 
@@ -94,7 +97,7 @@ export class CompetitionComponent implements OnInit {
         this.invitationService.editInvitation(this.invitation.id, this.invitation.accepted, this.invitation.rejected).subscribe();
     }
 
-    ngOnInit() {
+    setupData(){
         this.route.params
             .subscribe(
                 (params: Params) => {
@@ -121,6 +124,10 @@ export class CompetitionComponent implements OnInit {
                     });
                 }
             );
+    }
+
+    ngOnInit() {
+
     }
 
 }
