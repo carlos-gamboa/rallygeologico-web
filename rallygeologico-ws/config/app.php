@@ -379,4 +379,9 @@ return [
     'Session' => [
         'defaults' => 'php',
     ],
+
+    'Cors' => [
+        'AllowOrigin' => 'https://localhost:4200',
+        'AllowCredentials' => true
+    ]
 ];
