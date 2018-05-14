@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {InvitationService} from "../../services/invitation.service";
 import {CompetitionService} from "../../services/competition.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Invitation} from "../../model/invitation";
 import {User} from "../../model/user";
 import {UserService} from "../../services/user.service";
@@ -29,14 +29,18 @@ export class DashboardComponent implements OnInit {
     constructor(private userService: UserService, private dataService: DataService,
                 private invitationService: InvitationService,
                 private competitionService: CompetitionService,
-                private rallyService: RallyService) {
+                private rallyService: RallyService, private router: Router) {
 
         this.user = this.dataService.getUser();
         if (!this.user){
             this.userService.isLoggedIn().subscribe((users: User) => {
-                this.dataService.updateUser(users[0]);
-                this.user = users[0];
-                this.setupData();
+                if(users[0]){
+                    this.dataService.updateUser(users[0]);
+                    this.user = users[0];
+                    this.setupData();
+                } else {
+                    this.router.navigate(['/landing']);
+                }
             });
         } else {
             this.setupData();
