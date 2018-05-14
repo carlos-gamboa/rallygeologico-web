@@ -20,8 +20,4 @@ export class InvitationService {
             'competition_id' : competitionId,
         });
     }
-
-    getInvitations(userIdReceive: number): Observable<Invitation[]>{
-        return this.http.get<Invitation[]>(this.baseUrl + "invitation/receive/"+ userIdReceive +".json");
-    }
 }

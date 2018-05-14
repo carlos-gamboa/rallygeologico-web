@@ -21,7 +21,7 @@ class InvitationController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Competition', 'UserSend', 'UserReceive']
+            'contain' => ['Competition']
         ];
         $invitation = $this->paginate($this->Invitation);
 
@@ -46,7 +46,7 @@ class InvitationController extends AppController
     public function view($id = null)
     {
         $invitation = $this->Invitation->get($id, [
-            'contain' => ['Competition', 'UserSend', 'UserReceive']
+            'contain' => ['Competition']
         ]);
 
         $this->set('invitation', $invitation);
@@ -68,9 +68,7 @@ class InvitationController extends AppController
             $this->Flash->error(__('The invitation could not be saved. Please, try again.'));
         }
         $competition = $this->Invitation->Competition->find('list', ['limit' => 200]);
-        $userSend = $this->Invitation->UserSend->find('list', ['limit' => 200]);
-        $userReceive = $this->Invitation->UserReceive->find('list', ['limit' => 200]);
-        $this->set(compact('invitation', 'competition', 'userSend', 'userReceive'));
+        $this->set(compact('invitation', 'competition'));
         $this->render('/Invitation/json/template');
     }
 
@@ -96,9 +94,7 @@ class InvitationController extends AppController
             $this->Flash->error(__('The invitation could not be saved. Please, try again.'));
         }
         $competition = $this->Invitation->Competition->find('list', ['limit' => 200]);
-        $userSend = $this->Invitation->UserSend->find('list', ['limit' => 200]);
-        $userReceive = $this->Invitation->UserReceive->find('list', ['limit' => 200]);
-        $this->set(compact('invitation', 'competition', 'userSend', 'userReceive'));
+        $this->set(compact('invitation', 'competition'));
     }
 
     /**

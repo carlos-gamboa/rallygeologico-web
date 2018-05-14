@@ -11,8 +11,6 @@ use Cake\ORM\Entity;
  * @property int $points_awarded
  * @property string $image_url
  * @property string $description
- * @property float $latitude
- * @property float $longitude
  *
  * @property \App\Model\Entity\Competition[] $competition
  * @property \App\Model\Entity\Site[] $site
@@ -35,8 +33,6 @@ class Rally extends Entity
         'image_url' => true,
         'description' => true,
         'competition' => true,
-        'latitude' => true,
-        'longitude' => true,
         'site' => true
     ];
 }

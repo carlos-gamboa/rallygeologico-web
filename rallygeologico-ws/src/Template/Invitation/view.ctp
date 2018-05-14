@@ -13,10 +13,6 @@
         <li><?= $this->Html->link(__('New Invitation'), ['action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Competition'), ['controller' => 'Competition', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Competition'), ['controller' => 'Competition', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List User Send'), ['controller' => 'Users', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New User Send'), ['controller' => 'Users', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List User Receive'), ['controller' => 'Users', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New User Receive'), ['controller' => 'Users', 'action' => 'add']) ?> </li>
     </ul>
 </nav>
 <div class="invitation view large-9 medium-8 columns content">
@@ -27,24 +23,20 @@
             <td><?= h($invitation->accepted) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Rejected') ?></th>
-            <td><?= h($invitation->rejected) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('User Send') ?></th>
-            <td><?= $invitation->has('user_send') ? $this->Html->link($invitation->user_send->id, ['controller' => 'Users', 'action' => 'view', $invitation->user_send->id]) : '' ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('User Receive') ?></th>
-            <td><?= $invitation->has('user_receive') ? $this->Html->link($invitation->user_receive->id, ['controller' => 'Users', 'action' => 'view', $invitation->user_receive->id]) : '' ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('Competition') ?></th>
             <td><?= $invitation->has('competition') ? $this->Html->link($invitation->competition->id, ['controller' => 'Competition', 'action' => 'view', $invitation->competition->id]) : '' ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($invitation->id) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('User Id Send') ?></th>
+            <td><?= $this->Number->format($invitation->user_id_send) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('User Id Receive') ?></th>
+            <td><?= $this->Number->format($invitation->user_id_receive) ?></td>
         </tr>
     </table>
 </div>

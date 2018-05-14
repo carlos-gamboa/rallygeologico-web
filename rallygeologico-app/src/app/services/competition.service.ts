@@ -3,7 +3,6 @@ import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
 import {Competition} from "../model/competition";
-import {Invitation} from "../model/invitation";
 
 @Injectable()
 export class CompetitionService {
@@ -46,10 +45,5 @@ export class CompetitionService {
      */
     findCompetition(competitionId: number) : Observable<Competition>{
         return this.http.get<Competition>(this.baseUrl + "competition/view/"+ competitionId +".json");
-    }
-
-
-    getCurrentCompetitions(userId: number): Observable<Competition[]>{
-        return this.http.get<Competition[]>(this.baseUrl + "competition/currentCompetitions/"+ userId +".json");
     }
 }

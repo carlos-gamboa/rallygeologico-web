@@ -25,22 +25,18 @@ export class UserService {
       return this.http.get<User[]>(this.baseUrl + "users/username/"+Username+".json");
     }
 
-    apiId(ApiId : string, LoginApi: number) : Observable<User[]>{
-      return this.http.post<User[]>(this.baseUrl + "users/findApiId.json",{
-          'api_id':ApiId,
-          'login_api':LoginApi
-      });
+    facebookid(facebookid : string) : Observable<User[]>{
+      return this.http.get<User[]>(this.baseUrl + "users/facebook_id/"+facebookid+".json");
     }
 
-    register(ApiId : string, Username : string, FirstName : string, LastName : string, Email : string, PhotoUrl : string, LoginApi: number) : Observable<User[]>{
+    register(FacebookId : string, Username : string, FirstName : string, LastName : string, Email : string, PhotoUrl : string) : Observable<User[]>{
         return this.http.post<User[]>(this.baseUrl + "users/add.json", {
-            'api_id':ApiId,
-            'username':Username,
-            'first_name':FirstName,
-            'last_name':LastName,
-            'email':Email,
-            'photo_url':PhotoUrl,
-            'login_api':LoginApi
+        'facebook_id':FacebookId,
+        'username':Username,
+        'first_name':FirstName,
+        'last_name':LastName,
+        'email':Email,
+        'photo_url':PhotoUrl
       });
     }
 
@@ -48,10 +44,9 @@ export class UserService {
         return this.http.get<User>(this.baseUrl + "login/activeSession.json");
     }
 
-    auth(ApiId : string, LoginApi: number) : Observable<User[]>{
+    auth(FacebookId : string) : Observable<User[]>{
         return this.http.post<User[]>(this.baseUrl + "login.json", {
-            'api_id':ApiId,
-            'login_api':LoginApi
+            'facebook_id':FacebookId,
         });
     }
 

@@ -4,8 +4,6 @@ export class Rally {
     points_awarded: number;
     image_url: string;
     description: string;
-    latitude: number;
-    longitude: number;
 
     constructor(rally: any){
         this.id = rally.id;
@@ -13,7 +11,5 @@ export class Rally {
         this.points_awarded = rally.points_awarded;
         this.image_url = rally.image_url;
         this.description = rally.description;
-        this.latitude = rally.latitude;
-        this.longitude = rally.longitude;
     }
 }

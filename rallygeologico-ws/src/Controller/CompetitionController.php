@@ -2,9 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-use App\Model\Entity\Invitation;
 use Cake\Event\Event;
-use Cake\Utility\Hash;
 
 /**
  * Competition Controller
@@ -119,37 +117,5 @@ class CompetitionController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
-    }
-
-    public function currentCompetitions($userId = null){
-        $ids = $this->Competition->Invitation->find('all', [
-                'fields' => ['Invitation.id'],
-                'recursive' => -1,
-                'conditions' => [
-                    'Invitation.user_id_receive' => $userId,
-                    'Invitation.accepted' => 1
-                ]
-            ]
-        );
-
-        $competitions = $this->Competition->find('all', [
-                'conditions' => [
-                    'OR' => [
-                        [
-                            'competition.admin_id' => $userId,
-                            'competition.is_active' => 1
-                        ],
-                        [
-                            'Competition.id IN' => Hash::extract($ids->toList(), '{n}.id'),
-                            'Competition.is_active' => 1
-                        ]
-                    ]
-
-                ]
-            ]
-        );
-
-        $this->set('competition', $competitions);
-        $this->render('/Competition/json/template');
     }
 }

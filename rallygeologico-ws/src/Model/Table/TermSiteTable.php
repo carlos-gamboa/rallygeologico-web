@@ -10,7 +10,6 @@ use Cake\Validation\Validator;
  * TermSite Model
  *
  * @property \App\Model\Table\TermTable|\Cake\ORM\Association\BelongsTo $Term
- * @property |\Cake\ORM\Association\BelongsTo $Site
  *
  * @method \App\Model\Entity\TermSite get($primaryKey, $options = [])
  * @method \App\Model\Entity\TermSite newEntity($data = null, array $options = [])
@@ -41,7 +40,7 @@ class TermSiteTable extends Table
             'foreignKey' => 'term_id',
             'joinType' => 'INNER'
         ]);
-        $this->belongsTo('Site', [
+        $this->belongsTo('Term', [
             'foreignKey' => 'site_id',
             'joinType' => 'INNER'
         ]);
@@ -57,7 +56,7 @@ class TermSiteTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['term_id'], 'Term'));
-        $rules->add($rules->existsIn(['site_id'], 'Site'));
+        $rules->add($rules->existsIn(['site_id'], 'Term'));
 
         return $rules;
     }
