@@ -42,7 +42,7 @@ class LoginController extends AppController
      * Get the active session user
      */
     public function activeSession(){
-        $this->set('users', $this->Auth->user());
+        $this->set('users', [$this->Auth->user()['0']]);
         $this->render('/Users/json/template');
     }
 
@@ -81,7 +81,7 @@ class LoginController extends AppController
             $this->getRequest()->getSession()->write('Auth.User.token', $token);
 
             // return Auth token
-            $this->getResponse()->withAddedHeader('Authorization', 'Bearer ' . $token);
+            $this->getResponse()->header('Authorization', 'Bearer ' . $token);
 
         } catch (UnauthorizedException $e) {
             //throw new UnauthorizedException($e->getMessage(),401);

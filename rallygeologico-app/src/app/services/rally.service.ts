@@ -25,4 +25,8 @@ export class RallyService {
     getRally(id: number): Observable<Rally>{
         return this.http.get<Rally>(this.baseUrl + "rally/view/"+id+".json");
     }
+  
+    getAllRallies(): Observable<Rally[]>{
+        return this.http.get<Rally[]>(this.baseUrl + "rally.json");
+    }
 }

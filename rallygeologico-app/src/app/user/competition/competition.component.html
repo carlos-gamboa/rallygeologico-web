@@ -27,7 +27,7 @@
           <p class="text-justify">{{competition.description}}</p>
           <h5 class="mb-3">Creado por: {{competition.user.username}}</h5>
           <div class="offset-md-3 col-md-6 col-xs-12">
-            <button title="Ir al perfil del creador" class="btn btn-default btn-sm btn-block text-center mb-3">Ir al perfil</button>
+            <button title="Ir al perfil del creador" class="genric-btn info circle text-center info mb-3 medium">Ir al perfil</button>
           </div>
         </div>
       </div>
@@ -46,11 +46,23 @@
               <li><strong>Número actual de jugadores: </strong> 10</li>
               <li><strong>Jugador con más puntos: </strong> Usuario6352 <i class="fa fa-trophy"></i></li>
             </ul>
+            <div class="row mt-3" *ngIf="invitation">
+              <div class="col-md-6 offset-3" *ngIf="invitation.accepted == false && invitation.rejected == false">
+                <div class="row">
+                  <div class="col-md-6">
+                    <button title="Aceptar" (click)="acceptInvitation()" class="genric-btn success circle btn-inv text-center">Aceptar</button>
+                  </div>
+                  <div class="col-md-6">
+                    <button title="Rechazar" (click)="rejectInvitation()" class="genric-btn danger circle btn-inv text-center">Rechazar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
             <hr>
             <h3>Estadísticas</h3> <br>
             <div class="row">
               <div class="col-md-4 offset-4">
-                <button title="Ver mapa interactivo de este rally" class="btn btn-default btn-sm btn-block text-center">Mapa interactivo</button>
+                <button title="Ver mapa interactivo de este rally" class="genric-btn circle primary text-center">Mapa interactivo</button>
               </div>
             </div>
             <h4>Tabla de líderes</h4> <br>
@@ -65,7 +77,7 @@
                   <td><h4>Ana Laura Vargas</h4></td>
                   <td><h5>Usuario6352</h5></td>
                   <td><p>200</p></td>
-                  <td><button title="Ir al perfil de este usuario" class="btn btn-default btn-sm btn-block text-center">Ir al perfil</button></td>
+                  <td><button title="Ir al perfil de este usuario" class="genric-btn circle info text-center medium">Ir al perfil</button></td>
                 </tr>
                 </tbody>
               </table>
@@ -99,7 +111,7 @@
                   <td><img class="user-image" src="{{user.photo_url}}"></td>
                   <td><h5>{{user.username}}</h5></td>
                   <td><h4>{{user.first_name}} {{user.last_name}}</h4></td>
-                  <td><button title="Invitar" class="btn btn-default btn-sm btn-block text-center" (click)="invite(i)">Invitar</button></td>
+                  <td><button title="Invitar" class="genric-btn circle text-center warning medium" (click)="invite(i)">Invitar</button></td>
                 </tr>
                 </tbody>
               </table>
