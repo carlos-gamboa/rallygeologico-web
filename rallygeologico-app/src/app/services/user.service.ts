@@ -56,6 +56,10 @@ export class UserService {
         },{ headers: this.headers, withCredentials: true });
     }
 
+    logout() : Observable<User> {
+        return this.http.get<User>(this.baseUrl + "login/logout.json" ,{ headers: this.headers, withCredentials: true });
+    }
+
     getUsers() : Observable<User[]>{
         return this.http.get<User[]>(this.baseUrl + "users.json");
     }

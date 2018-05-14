@@ -18,7 +18,7 @@
           <li [class.menu-active]="isActive(3)"><a routerLink="/search-users" (click)="changeActive(3)">Exploradores</a></li>
           <li [class.menu-active]="isActive(4)"><a routerLink="/glossary" (click)="changeActive(4)">Glosario</a></li>
           <li [class.menu-active]="isActive(5)"><a routerLink="/about_us" (click)="changeActive(5)">Acerca de nosotros</a></li>
-          <li><a >Cerrar Sesión</a></li>
+          <li [class.menu-active]="isActive(6)"><a routerLink="" (click)="logout(); changeActive(6)">Cerrar Sesión</a></li>
         </ul>
       </nav><!-- #nav-menu-container -->
     </div>
