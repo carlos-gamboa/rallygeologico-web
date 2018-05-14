@@ -11,6 +11,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
 import { CompetitionComponent } from './competition/competition.component';
 import { CreateCompetitionComponent} from "./create-competition/create-competition.component";
+import {AgmSnazzyInfoWindowModule} from "@agm/snazzy-info-window";
+import {AgmCoreModule} from "@agm/core";
 
 @NgModule({
   imports: [
@@ -21,7 +23,11 @@ import { CreateCompetitionComponent} from "./create-competition/create-competiti
       FormsModule,
       NgbModule,
       MatDatepickerModule,
-      MatNativeDateModule
+      MatNativeDateModule,
+      AgmCoreModule.forRoot({
+          apiKey: 'AIzaSyB2x45eM22K3ILg7W2jYnEAJ4tGYmODqjg'
+      }),
+      AgmSnazzyInfoWindowModule
   ],
   declarations: [
       UserComponent,

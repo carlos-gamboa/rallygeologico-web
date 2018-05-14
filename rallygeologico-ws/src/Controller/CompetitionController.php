@@ -122,32 +122,29 @@ class CompetitionController extends AppController
     }
 
     public function currentCompetitions($userId = null){
-        $ids = $this->Competition->Invitation->find('all', [
-                'fields' => ['Invitation.id'],
-                'recursive' => -1,
-                'conditions' => [
-                    'Invitation.user_id_receive' => $userId,
-                    'Invitation.accepted' => 1
-                ]
-            ]
-        );
 
         $competitions = $this->Competition->find('all', [
-                'conditions' => [
-                    'OR' => [
-                        [
-                            'competition.admin_id' => $userId,
-                            'competition.is_active' => 1
-                        ],
-                        [
-                            'Competition.id IN' => Hash::extract($ids->toList(), '{n}.id'),
-                            'Competition.is_active' => 1
-                        ]
+            'conditions' => [
+                'OR' => [
+                    [
+                        'competition.admin_id' => $userId,
+                        'competition.is_active' => 1
+                    ],
+                    [
+                        'Competition.id IN' => $this->Competition->Invitation->find('all', [
+                            'fields' => ['Invitation.competition_id'],
+                                'conditions' => [
+                                    'Invitation.user_id_receive' => $userId,
+                                    'Invitation.accepted' => 1
+                                ]
+                            ]
+                        ),
+                        'Competition.is_active' => 1
                     ]
-
                 ]
+
             ]
-        );
+        ]);
 
         $this->set('competition', $competitions);
         $this->render('/Competition/json/template');

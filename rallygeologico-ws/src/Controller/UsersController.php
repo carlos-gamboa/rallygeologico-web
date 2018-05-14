@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
+use Cake\Utility\Hash;
 
 /**
  * Users Controller
@@ -169,5 +170,52 @@ class UsersController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function usersToInvite(){
+        $data = $this->getRequest()->getData();
+        $CompetitionId = $data['competition_id'];
+
+        $this->loadModel('Invitation');
+        $this->loadModel('Competition');
+
+        $users = $this->Users->find('all', [
+                'conditions' => [
+                    'AND' => [
+                        [
+                            'Users.id NOT IN' => $this->Invitation->find('all', [
+                                    'fields' => ['Invitation.user_id_receive'],
+                                    'conditions' => [
+                                        'Invitation.competition_id' => $CompetitionId
+                                    ]
+                                ]
+                            )
+                        ],
+                        [
+                            'Users.id NOT IN' => $this->Invitation->find('all', [
+                                    'fields' => ['Invitation.user_id_send'],
+                                    'conditions' => [
+                                        'Invitation.competition_id' => $CompetitionId
+                                    ]
+                                ]
+                            )
+                        ],
+                        [
+                            'Users.id NOT IN' => $this->Competition->find('all', [
+                                    'fields' => ['Competition.admin_id'],
+                                    'conditions' => [
+                                        'Competition.id' => $CompetitionId
+                                    ]
+                                ]
+                            )
+                        ]
+                    ]
+
+                ]
+            ]
+        );
+
+        $this->set('users', $users->toList());
+        $this->render('/Users/json/template');
     }
 }
