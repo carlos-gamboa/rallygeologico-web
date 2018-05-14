@@ -8,6 +8,15 @@
         <button (click)="loginWithOptions()" class="mb-40 genric-btn facebook center" >
           <span class="mr-20 fa fa-facebook"></span><span class="text-center">Login with Facebook</span>
         </button>
+       <!-- <button  class="g-signin2" >
+        </button>-->
+
+        <button (click)="googleSignIn()" class="mb-40 genric-btn btn-social btn-google center" >
+          <span class="mr-20 fa fa-google" ></span><span class="text-center">Login with Google</span>
+        </button>
+
+
+
         <form #registerForm="ngForm">
           <input required minlength="1" [(ngModel)]="firstName"  #firstName_input="ngModel" class="mb-10 single-input disabled" type="text" name="name" placeholder="Nombre" disabled required>
           <input required minlength="1" [(ngModel)]="lastName" #lastName_input="ngModel" class="mb-10 single-input disabled" type="text" name="middlename" placeholder="Apellido(s)" disabled required>
@@ -43,7 +52,8 @@
           <div *ngIf="pleaseWait" class="alert alert-info" role="alert">
             Por favor espere.
           </div>
-          <button  *ngIf="registerWithFacebook" (click)="register()" class="mb-30 genric-btn primary register-btn" [disabled]="registerForm.invalid">Registrarse</button>
+          <button  *ngIf="registerWithFacebook" (click)="registerFb()" class="mb-30 genric-btn primary register-btn" [disabled]="registerForm.invalid">Registrarse con Facebook</button>
+          <button  *ngIf="registerWithGoogle" (click)="registerGoogle()" class="mb-30 genric-btn primary register-btn" [disabled]="registerForm.invalid">Registrarse con Google</button>
         </form>
       </div>
     </div>
