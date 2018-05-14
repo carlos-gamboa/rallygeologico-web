@@ -6,9 +6,10 @@
         <div class="row d-flex align-items-center justify-content-center">
             <div class="about-content col-lg-12">
                 <h1 class="text-white">
-                    Rally
+                    Rally:
                 </h1>
-                <p class="text-white link-nav"><a routerLink="/dashboard">Inicio </a>  <span class="lnr lnr-arrow-right"></span>  <a routerLink="/rallies/:rallyId">Rally</a></p>
+                <h2 style="color: #ffffff;">{{rally?.name}}</h2>
+                <p class="text-white link-nav"><a routerLink="/dashboard">Inicio </a>  <span class="lnr lnr-arrow-right"></span>  <a routerLink="/rallies/{{rallyId}}">Rally</a></p>
             </div>
         </div>
     </div>
@@ -19,17 +20,26 @@
 <section class="contact-page-area section-gap">
     <div class="container">
         <div class="row">
-            <!--<div class="col-lg-8 offset-2">-->
-                <agm-map class="map" [latitude]="initialLatitude" [longitude]="initialLongitude" [zoom]="zoom">
-                    <agm-marker [latitude]="initialLatitude" [longitude]="initialLongitude">
-                        <agm-snazzy-info-window [maxWidth]="200" [closeWhenOthersOpen]="true">
+            <div class="col-lg-4">
+                <h4 class="text-center"><b>Descripción:</b></h4>
+                <p class="text-justify mt-4">{{rally?.description}}</p>
+                <h5 class="text-center" style="display: inline"><b>Points: </b></h5>
+                <p style="display: inline">{{rally?.points_awarded}}</p>
+            </div>
+            <div class="col-lg-8">
+                <agm-map class="map" [latitude]="rally?.latitude" [longitude]="rally?.longitude" [zoom]="zoom">
+                    <agm-marker [latitude]="site?.latitude" [longitude]="site?.longitude" *ngFor="let site of rally?.site;">
+                        <agm-snazzy-info-window [maxWidth]="300" [closeWhenOthersOpen]="true">
                             <ng-template>
-                                My first Snazzy Info Window!
+                                <a routerLink="/sites/{{site.id}}">
+                                    <h5 class="text-center title"><b>{{site.name}}</b></h5>
+                                    <p class="mt-1 snaggy-text text-justify">{{site.description.substring(0,70) + "..."}}</p>
+                                </a>
                             </ng-template>
                         </agm-snazzy-info-window>
                     </agm-marker>
                 </agm-map>
-            <!--</div>-->
+            </div>
         </div>
     </div>
 </section>

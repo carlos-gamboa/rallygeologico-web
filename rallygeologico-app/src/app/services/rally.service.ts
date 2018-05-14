@@ -17,6 +17,15 @@ export class RallyService {
         return this.http.get<Rally[]>(this.baseUrl + "rally/newestRallies.json");
     }
 
+    /**
+     * Service for getting a specific rally from database, creates a get request with the id as a parameter
+     * @param {number} id
+     * @returns {Observable<Rally>}
+     */
+    getRally(id: number): Observable<Rally>{
+        return this.http.get<Rally>(this.baseUrl + "rally/view/"+id+".json");
+    }
+  
     getAllRallies(): Observable<Rally[]>{
         return this.http.get<Rally[]>(this.baseUrl + "rally.json");
     }
