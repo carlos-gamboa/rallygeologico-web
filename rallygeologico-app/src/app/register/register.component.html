@@ -78,16 +78,16 @@
                 </div>
               </div>
             </div>
-            <div *ngIf="changeUsername" class="alert alert-danger" role="alert">
+            <div *ngIf="changeUsername" class="alert alert-danger text-center" role="alert">
               <h4>Ese nombre de usuario ya está en uso, digite otro.</h4>
             </div>
-            <div *ngIf="emailUsed" class="alert alert-danger" role="alert">
+            <div *ngIf="emailUsed" class="alert alert-danger text-center" role="alert">
               <h4>Este correo ya está en uso, por favor inicie sesión normalmente.</h4>
               <a class="txt2" routerLink="/login">
                 Iniciar Sesión
               </a>
             </div>
-            <div *ngIf="successful" class="alert alert-success" role="alert">
+            <div *ngIf="successful" class="alert alert-success text-center" role="alert">
               Felicidades, se ha registrado correctamente. Ya puede iniciar sesión.
               <a class="txt2" routerLink="/login">
                 Iniciar Sesión
