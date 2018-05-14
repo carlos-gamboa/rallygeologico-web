@@ -10,6 +10,8 @@
         <li><?= $this->Html->link(__('New Invitation'), ['action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Competition'), ['controller' => 'Competition', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Competition'), ['controller' => 'Competition', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List User Send'), ['controller' => 'Users', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New User Send'), ['controller' => 'Users', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="invitation index large-9 medium-8 columns content">
@@ -19,6 +21,7 @@
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('accepted') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('rejected') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('user_id_send') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('user_id_receive') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('competition_id') ?></th>
@@ -30,8 +33,9 @@
             <tr>
                 <td><?= $this->Number->format($invitation->id) ?></td>
                 <td><?= h($invitation->accepted) ?></td>
-                <td><?= $this->Number->format($invitation->user_id_send) ?></td>
-                <td><?= $this->Number->format($invitation->user_id_receive) ?></td>
+                <td><?= h($invitation->rejected) ?></td>
+                <td><?= $invitation->has('user_send') ? $this->Html->link($invitation->user_send->id, ['controller' => 'Users', 'action' => 'view', $invitation->user_send->id]) : '' ?></td>
+                <td><?= $invitation->has('user_receive') ? $this->Html->link($invitation->user_receive->id, ['controller' => 'Users', 'action' => 'view', $invitation->user_receive->id]) : '' ?></td>
                 <td><?= $invitation->has('competition') ? $this->Html->link($invitation->competition->id, ['controller' => 'Competition', 'action' => 'view', $invitation->competition->id]) : '' ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $invitation->id]) ?>

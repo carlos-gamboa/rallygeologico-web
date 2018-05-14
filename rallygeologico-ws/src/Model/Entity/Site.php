@@ -8,7 +8,6 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $name
- * @property int $points_awarded
  * @property string $qr_url
  * @property string $details
  * @property string $description
@@ -35,7 +34,6 @@ class Site extends Entity
      */
     protected $_accessible = [
         'name' => true,
-        'points_awarded' => true,
         'qr_url' => true,
         'details' => true,
         'description' => true,
