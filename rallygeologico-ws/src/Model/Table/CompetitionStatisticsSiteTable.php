@@ -9,7 +9,6 @@ use Cake\Validation\Validator;
 /**
  * CompetitionStatisticsSite Model
  *
- * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
  * @property \App\Model\Table\CompetitionStatisticsTable|\Cake\ORM\Association\BelongsTo $CompetitionStatistics
  * @property \App\Model\Table\SiteTable|\Cake\ORM\Association\BelongsTo $Site
  *
@@ -36,14 +35,14 @@ class CompetitionStatisticsSiteTable extends Table
 
         $this->setTable('competition_statistics_site');
         $this->setDisplayField('user_id');
-        $this->setPrimaryKey(['user_id', 'competition_id', 'site_id']);
+        $this->setPrimaryKey(['competition_statistics_id', 'site_id']);
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
             'joinType' => 'INNER'
         ]);
         $this->belongsTo('CompetitionStatistics', [
-            'foreignKey' => 'competition_id',
+            'foreignKey' => 'competition_statistics_id',
             'joinType' => 'INNER'
         ]);
         $this->belongsTo('Site', [
@@ -61,8 +60,7 @@ class CompetitionStatisticsSiteTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['user_id'], 'Users'));
-        $rules->add($rules->existsIn(['competition_id'], 'CompetitionStatistics'));
+        $rules->add($rules->existsIn(['competition_statistics_id'], 'CompetitionStatistics'));
         $rules->add($rules->existsIn(['site_id'], 'Site'));
 
         return $rules;

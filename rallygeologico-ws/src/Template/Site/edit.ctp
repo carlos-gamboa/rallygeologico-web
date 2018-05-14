@@ -30,7 +30,6 @@
         <legend><?= __('Edit Site') ?></legend>
         <?php
             echo $this->Form->control('name');
-            echo $this->Form->control('points_awarded');
             echo $this->Form->control('qr_url');
             echo $this->Form->control('details');
             echo $this->Form->control('description');

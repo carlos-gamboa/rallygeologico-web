@@ -13,7 +13,7 @@ use Cake\ORM\Entity;
  * @property string $description
  * @property float $latitude
  * @property float $longitude
- * @property string $district_id
+ * @property int $district_id
  *
  * @property \App\Model\Entity\District $district
  * @property \App\Model\Entity\CompetitionStatistic[] $competition_statistics

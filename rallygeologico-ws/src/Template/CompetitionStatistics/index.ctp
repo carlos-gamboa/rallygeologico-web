@@ -19,6 +19,7 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
+                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('user_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('competition_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('starting_date') ?></th>
@@ -30,15 +31,16 @@
         <tbody>
             <?php foreach ($competitionStatistics as $competitionStatistic): ?>
             <tr>
+                <td><?= $this->Number->format($competitionStatistic->id) ?></td>
                 <td><?= $competitionStatistic->has('user') ? $this->Html->link($competitionStatistic->user->id, ['controller' => 'Users', 'action' => 'view', $competitionStatistic->user->id]) : '' ?></td>
                 <td><?= $competitionStatistic->has('competition') ? $this->Html->link($competitionStatistic->competition->id, ['controller' => 'Competition', 'action' => 'view', $competitionStatistic->competition->id]) : '' ?></td>
                 <td><?= h($competitionStatistic->starting_date) ?></td>
                 <td><?= h($competitionStatistic->finishing_date) ?></td>
                 <td><?= $this->Number->format($competitionStatistic->points) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $competitionStatistic->user_id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $competitionStatistic->user_id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $competitionStatistic->user_id], ['confirm' => __('Are you sure you want to delete # {0}?', $competitionStatistic->user_id)]) ?>
+                    <?= $this->Html->link(__('View'), ['action' => 'view', $competitionStatistic->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $competitionStatistic->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $competitionStatistic->id], ['confirm' => __('Are you sure you want to delete # {0}?', $competitionStatistic->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

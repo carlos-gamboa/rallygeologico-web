@@ -28,18 +28,24 @@
             <th scope="row"><?= __('Province') ?></th>
             <td><?= $canton->has('province') ? $this->Html->link($canton->province->name, ['controller' => 'Province', 'action' => 'view', $canton->province->name]) : '' ?></td>
         </tr>
+        <tr>
+            <th scope="row"><?= __('Id') ?></th>
+            <td><?= $this->Number->format($canton->id) ?></td>
+        </tr>
     </table>
     <div class="related">
         <h4><?= __('Related District') ?></h4>
         <?php if (!empty($canton->district)): ?>
         <table cellpadding="0" cellspacing="0">
             <tr>
+                <th scope="col"><?= __('Id') ?></th>
                 <th scope="col"><?= __('Name') ?></th>
                 <th scope="col"><?= __('Canton Id') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
             <?php foreach ($canton->district as $district): ?>
             <tr>
+                <td><?= h($district->id) ?></td>
                 <td><?= h($district->name) ?></td>
                 <td><?= h($district->canton_id) ?></td>
                 <td class="actions">

@@ -6,8 +6,9 @@ use Cake\ORM\Entity;
 /**
  * Canton Entity
  *
+ * @property int $id
  * @property string $name
- * @property string $province_id
+ * @property int $province_id
  *
  * @property \App\Model\Entity\Province $province
  * @property \App\Model\Entity\District[] $district
@@ -25,6 +26,7 @@ class Canton extends Entity
      * @var array
      */
     protected $_accessible = [
+        'name' => true,
         'province_id' => true,
         'province' => true,
         'district' => true

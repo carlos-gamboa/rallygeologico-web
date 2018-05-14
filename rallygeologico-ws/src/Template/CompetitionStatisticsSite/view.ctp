@@ -23,16 +23,12 @@
     <h3><?= h($competitionStatisticsSite->user_id) ?></h3>
     <table class="vertical-table">
         <tr>
-            <th scope="row"><?= __('User') ?></th>
-            <td><?= $competitionStatisticsSite->has('user') ? $this->Html->link($competitionStatisticsSite->user->id, ['controller' => 'Users', 'action' => 'view', $competitionStatisticsSite->user->id]) : '' ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Competition Statistic') ?></th>
-            <td><?= $competitionStatisticsSite->has('competition_statistic') ? $this->Html->link($competitionStatisticsSite->competition_statistic->user_id, ['controller' => 'CompetitionStatistics', 'action' => 'view', $competitionStatisticsSite->competition_statistic->user_id]) : '' ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('Site') ?></th>
             <td><?= $competitionStatisticsSite->has('site') ? $this->Html->link($competitionStatisticsSite->site->name, ['controller' => 'Site', 'action' => 'view', $competitionStatisticsSite->site->id]) : '' ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Competition Statistics Id') ?></th>
+            <td><?= $this->Number->format($competitionStatisticsSite->competition_statistics_id) ?></td>
         </tr>
     </table>
 </div>

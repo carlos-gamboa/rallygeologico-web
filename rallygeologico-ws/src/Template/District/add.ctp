@@ -19,6 +19,7 @@
     <fieldset>
         <legend><?= __('Add District') ?></legend>
         <?php
+            echo $this->Form->control('id');
             echo $this->Form->control('canton_id', ['options' => $canton, 'empty' => true]);
         ?>
     </fieldset>

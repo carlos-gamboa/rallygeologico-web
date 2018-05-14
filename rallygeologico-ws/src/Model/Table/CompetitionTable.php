@@ -9,10 +9,9 @@ use Cake\Validation\Validator;
 /**
  * Competition Model
  *
- * @property |\Cake\ORM\Association\BelongsTo $Users
+ * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
  * @property \App\Model\Table\RallyTable|\Cake\ORM\Association\BelongsTo $Rally
  * @property \App\Model\Table\CompetitionStatisticsTable|\Cake\ORM\Association\HasMany $CompetitionStatistics
- * @property \App\Model\Table\CompetitionStatisticsSiteTable|\Cake\ORM\Association\HasMany $CompetitionStatisticsSite
  * @property \App\Model\Table\InvitationTable|\Cake\ORM\Association\HasMany $Invitation
  *
  * @method \App\Model\Entity\Competition get($primaryKey, $options = [])
@@ -48,9 +47,6 @@ class CompetitionTable extends Table
             'joinType' => 'INNER'
         ]);
         $this->hasMany('CompetitionStatistics', [
-            'foreignKey' => 'competition_id'
-        ]);
-        $this->hasMany('CompetitionStatisticsSite', [
             'foreignKey' => 'competition_id'
         ]);
         $this->hasMany('Invitation', [

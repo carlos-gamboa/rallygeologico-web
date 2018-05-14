@@ -25,7 +25,6 @@
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('name') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('points_awarded') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('qr_url') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('details') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('description') ?></th>
@@ -40,7 +39,6 @@
             <tr>
                 <td><?= $this->Number->format($site->id) ?></td>
                 <td><?= h($site->name) ?></td>
-                <td><?= $this->Number->format($site->points_awarded) ?></td>
                 <td><?= h($site->qr_url) ?></td>
                 <td><?= h($site->details) ?></td>
                 <td><?= h($site->description) ?></td>
