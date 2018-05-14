@@ -8,6 +8,8 @@ import {CompetitionService} from "../../services/competition.service";
 import {InvitationService} from "../../services/invitation.service";
 import {Invitation} from "../../model/invitation";
 import {Competition} from "../../model/competition";
+import {CompetitionStatisticsService} from "../../services/competition.statistics.service";
+import {CompetitionStatistics} from "../../model/competition.statistics";
 
 @Component({
   selector: 'app-create-competition',
@@ -47,8 +49,12 @@ export class CreateCompetitionComponent implements OnInit {
      * @param {DataService} dataService
      * @param {CompetitionService} competitionService
      * @param {InvitationService} invitationService
+     * @param {CompetitionStatisticsService} competitionStatisticsService
      */
-  constructor(private rallyService: RallyService, private userService: UserService, private dataService: DataService, private competitionService: CompetitionService, private invitationService: InvitationService) {
+  constructor(private rallyService: RallyService, private userService: UserService,
+              private dataService: DataService, private competitionService: CompetitionService,
+              private invitationService: InvitationService,
+              private competitionStatisticsService: CompetitionStatisticsService) {
       this.rallyService.getNewestRallies().subscribe((rallies: Rally[])=>{
           for (let i: number = 0; i < rallies.length; ++i){
               this.ralliesList.push(rallies[i]);
@@ -112,9 +118,13 @@ export class CreateCompetitionComponent implements OnInit {
       this.competitionService.createCompetition(this.is_public, this.user.id, this.description, this.name, this.rally_id).subscribe((competition: Competition) => {
           if (competition){
               this.currentCompetition = competition;
-              this.competitionCreated = true;
-              console.log("Competition created");
-              console.log(this.currentCompetition);
+              this.competitionStatisticsService.createCompetitionStatistics(this.user.id, this.currentCompetition.id).subscribe((statistics: CompetitionStatistics) =>{
+                 if (statistics){
+                     this.competitionCreated = true;
+                 }  else {
+                     console.log("Couldn't create competition");
+                 }
+              });
           } else {
               console.log("Couldn't create competition");
           }
