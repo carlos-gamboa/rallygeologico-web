@@ -30,6 +30,7 @@ import {AgmCoreModule} from '@agm/core';
 import {AgmSnazzyInfoWindowModule} from '@agm/snazzy-info-window';
 import {SiteComponent} from './site/site.component';
 import {SiteService} from "./services/site.service";
+import {environment} from "../environments/environment";
 
 
 @NgModule({
@@ -60,7 +61,7 @@ import {SiteService} from "./services/site.service";
       FacebookModule.forRoot(),
       HttpClientModule,
       AgmCoreModule.forRoot({
-          apiKey: 'AIzaSyB2x45eM22K3ILg7W2jYnEAJ4tGYmODqjg'
+          apiKey: environment.googleMapsKey
       }),
       AgmSnazzyInfoWindowModule
   ],

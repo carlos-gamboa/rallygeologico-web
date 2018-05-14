@@ -3,6 +3,7 @@ import {FacebookService, InitParams, LoginOptions, LoginResponse, AuthResponse} 
 import {Router} from "@angular/router";
 import {User} from "../model/user";
 import {UserService} from "../services/user.service";
+import {environment} from "../../environments/environment";
 
 declare var gapi: any;
 
@@ -33,12 +34,12 @@ export class RegisterComponent implements OnInit {
   successful : boolean = false;
   emailUsed : boolean = false;
   pleaseWait : boolean = false;
-  googleClientS : string = "CTaoCHlssqekMMVcMcCgpOnn";
+  googleClientS : string = environment.googleClientS;
 
   constructor(private fb: FacebookService, private router: Router,  private userService: UserService) {
     console.log('Initializing Facebook');
     let initParams: InitParams = {
-      appId: '1417631371676772',
+      appId: environment.facebookKey,
       xfbml: true,
       version: 'v2.12'
     };
@@ -53,29 +54,11 @@ export class RegisterComponent implements OnInit {
   ngAfterViewInit(): void {
     gapi.load('auth2', function() {
       gapi.auth2.init({
-        client_id: '708185845755-a6l47jh5csctecdbe85gb1hvasiofsi9.apps.googleusercontent.com',
+        client_id: environment.googleClient,
         fetch_basic_profile: true
       });
     });
   }
-
-
-  /*googleSignIn() {
-    console.log('I am passing signIn');
-    var auth2 = gapi.auth2.getAuthInstance();
-    var user = auth2.currentUser.get();
-    auth2.signIn().then((res: any) => {
-      var profile = res.getBasicProfile();
-      this.setGoogleVariables(profile.getId(),profile.getGivenName(),profile.getFamilyName(),profile.getImageUrl,profile.getEmail);
-      console.log(profile.getId());
-      console.log(profile.getGivenName());
-      console.log(profile.getFamilyName());
-      console.log(profile.getImageUrl());
-      console.log(profile.getEmail());
-    })
-      .catch(this.handleErrorProfile);
-
-  }*/
 
   googleSignIn() {
     console.log('I am passing signIn');

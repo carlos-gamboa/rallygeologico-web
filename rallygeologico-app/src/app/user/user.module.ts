@@ -13,6 +13,7 @@ import { CompetitionComponent } from './competition/competition.component';
 import { CreateCompetitionComponent} from "./create-competition/create-competition.component";
 import {AgmSnazzyInfoWindowModule} from "@agm/snazzy-info-window";
 import {AgmCoreModule} from "@agm/core";
+import {environment} from "../../environments/environment";
 
 @NgModule({
   imports: [
@@ -25,7 +26,7 @@ import {AgmCoreModule} from "@agm/core";
       MatDatepickerModule,
       MatNativeDateModule,
       AgmCoreModule.forRoot({
-          apiKey: 'AIzaSyB2x45eM22K3ILg7W2jYnEAJ4tGYmODqjg'
+          apiKey: environment.googleMapsKey
       }),
       AgmSnazzyInfoWindowModule
   ],

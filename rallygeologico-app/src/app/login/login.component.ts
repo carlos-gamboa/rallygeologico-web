@@ -5,6 +5,7 @@ import {User} from "../model/user";
 import {Rally} from "../model/rally";
 import {Router} from "@angular/router";
 import {DataService} from "../services/data/data.service";
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-login',
@@ -32,7 +33,7 @@ export class LoginComponent implements OnInit {
   constructor(private fb: FacebookService, private userService: UserService, private router: Router, private userDataService:DataService){
     console.log('Initializing Facebook');
     let initParams: InitParams = {
-      appId: '1417631371676772',
+      appId: environment.facebookKey,
       xfbml: true,
       version: 'v2.12'
     };
