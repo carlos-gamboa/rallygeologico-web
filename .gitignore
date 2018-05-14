@@ -1,6 +1,7 @@
 *.iml
 environment.ts
 environment.prod.ts
+/src/environments/
 
 # IDEs and editors
 /.idea
