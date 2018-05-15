@@ -24,6 +24,7 @@ class MultimediaController extends AppController
         $multimedia = $this->paginate($this->Multimedia);
 
         $this->set(compact('multimedia'));
+        $this->set('_serialize', 'multimedia');
     }
 
     public function beforeFilter(Event $event)
@@ -57,8 +58,8 @@ class MultimediaController extends AppController
     public function add()
     {
         $multimedia = $this->Multimedia->newEntity();
-        if ($this->request->is('post')) {
-            $multimedia = $this->Multimedia->patchEntity($multimedia, $this->request->getData());
+        if ($this->getRequest()->is('post')) {
+            $multimedia = $this->Multimedia->patchEntity($multimedia, $this->getRequest()->getData());
             if ($this->Multimedia->save($multimedia)) {
                 $this->Flash->success(__('The multimedia has been saved.'));
             }
@@ -82,8 +83,8 @@ class MultimediaController extends AppController
         $multimedia = $this->Multimedia->get($id, [
             'contain' => ['Activity', 'Term']
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $multimedia = $this->Multimedia->patchEntity($multimedia, $this->request->getData());
+        if ($this->getRequest()->is(['patch', 'post', 'put'])) {
+            $multimedia = $this->Multimedia->patchEntity($multimedia, $this->getRequest()->getData());
             if ($this->Multimedia->save($multimedia)) {
                 $this->Flash->success(__('The multimedia has been saved.'));
 
@@ -105,7 +106,7 @@ class MultimediaController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->getRequest()->allowMethod(['post', 'delete']);
         $multimedia = $this->Multimedia->get($id);
         if ($this->Multimedia->delete($multimedia)) {
             $this->Flash->success(__('The multimedia has been deleted.'));
