@@ -14,6 +14,7 @@ import { CreateCompetitionComponent} from "./create-competition/create-competiti
 import {AgmSnazzyInfoWindowModule} from "@agm/snazzy-info-window";
 import {AgmCoreModule} from "@agm/core";
 import {environment} from "../../environments/environment";
+import { SearchRalliesComponent } from './search-rallies/search-rallies.component';
 
 @NgModule({
   imports: [
@@ -37,7 +38,8 @@ import {environment} from "../../environments/environment";
       DashboardComponent,
       ProfileComponent,
       CompetitionComponent,
-      CreateCompetitionComponent
+      CreateCompetitionComponent,
+      SearchRalliesComponent
   ],
     exports: [
         HeaderComponent,

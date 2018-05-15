@@ -47,30 +47,33 @@ CREATE TABLE IF NOT EXISTS invitation (
 );
 
 CREATE TABLE IF NOT EXISTS competition_statistics(
+  id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
   competition_id INT NOT NULL,
   starting_date DATETIME DEFAULT CURRENT_TIMESTAMP,
   finishing_date DATETIME,
   points INT DEFAULT 0,
   FOREIGN KEY (user_id) REFERENCES users(id),
-  FOREIGN KEY (competition_id) REFERENCES competition(id),
-  PRIMARY KEY (user_id, competition_id)
+  FOREIGN KEY (competition_id) REFERENCES competition(id)
 );
 
 CREATE TABLE IF NOT EXISTS province (
-  name VARCHAR (20) PRIMARY KEY
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR (20) UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS canton (
-  name VARCHAR (40) PRIMARY KEY,
-  province_id VARCHAR (20) NOT NULL,
-  FOREIGN KEY (province_id) REFERENCES province(Name)
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR (40),
+  province_id INT NOT NULL,
+  FOREIGN KEY (province_id) REFERENCES province(id)
 );
 
 CREATE TABLE IF NOT EXISTS district (
-  name VARCHAR (40) PRIMARY KEY,
-  canton_id VARCHAR(40),
-  FOREIGN KEY (canton_id) REFERENCES canton(name)
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR (40),
+  canton_id INT,
+  FOREIGN KEY (canton_id) REFERENCES canton(id)
 );
 
 CREATE TABLE IF NOT EXISTS site (
@@ -81,8 +84,8 @@ CREATE TABLE IF NOT EXISTS site (
   description VARCHAR(2000),
   latitude FLOAT NOT NULL,
   longitude FLOAT NOT NULL,
-  district_id VARCHAR (40) NOT NULL,
-  FOREIGN KEY (district_id) REFERENCES district(name)
+  district_id INT NOT NULL,
+  FOREIGN KEY (district_id) REFERENCES district(id)
 );
 
 CREATE TABLE IF NOT EXISTS rally_site(
@@ -94,13 +97,11 @@ CREATE TABLE IF NOT EXISTS rally_site(
 );
 
 CREATE TABLE IF NOT EXISTS competition_statistics_site(
-  user_id INT NOT NULL,
-  competition_id INT NOT NULL,
+  competition_statistics_id INT NOT NULL,
   site_id INT NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES competition_statistics(user_id),
-  FOREIGN KEY (competition_id) REFERENCES competition_statistics(competition_id),
+  FOREIGN KEY (competition_statistics_id) REFERENCES competition_statistics(id),
   FOREIGN KEY (site_id) REFERENCES site(id),
-  PRIMARY KEY (user_id, competition_id, site_id)
+  PRIMARY KEY (competition_statistics_id, site_id)
 );
 
 CREATE TABLE IF NOT EXISTS term (

@@ -47,8 +47,7 @@ class SiteController extends AppController
     public function view($id = null)
     {
         $site = $this->Site->get($id, [
-            'contain' => ['Rally']
-            //'contain' => ['District', 'CompetitionStatistics', 'Rally', 'Term']
+            'contain' => ['District', 'CompetitionStatistics', 'Rally', 'Term']
         ]);
 
         $this->set('site', $site);

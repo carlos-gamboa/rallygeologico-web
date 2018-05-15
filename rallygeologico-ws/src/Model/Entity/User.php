@@ -16,6 +16,9 @@ use Cake\ORM\Entity;
  * @property string $is_admin
  * @property int $login_api
  *
+ * @property \App\Model\Entity\Competition[] $competition
+ * @property \App\Model\Entity\Invitation[] $invitation_send
+ * @property \App\Model\Entity\Invitation[] $invitation_receive
  * @property \App\Model\Entity\CompetitionStatistic[] $competition_statistics
  * @property \App\Model\Entity\CompetitionStatisticsSite[] $competition_statistics_site
  */
@@ -40,7 +43,9 @@ class User extends Entity
         'photo_url' => true,
         'is_admin' => true,
         'login_api' => true,
-
+        'competition' => true,
+        'invitation_send' => true,
+        'invitation_receive' => true,
         'competition_statistics' => true,
         'competition_statistics_site' => true
     ];

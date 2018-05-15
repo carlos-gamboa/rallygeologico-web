@@ -1,0 +1,68 @@
+<app-header [activeTab]="2"></app-header>
+<!-- Start banner Area -->
+<section class="banner-area relative" id="home">
+  <div class="overlay overlay-bg"></div>
+  <div class="container">
+    <div class="row d-flex align-items-center justify-content-center">
+      <div class="about-content col-lg-12">
+        <h1 class="text-white">
+          Buscar Rallies
+        </h1>
+        <p class="text-white link-nav"><a routerLink="/dashboard">Inicio </a>  <span class="lnr lnr-arrow-right"></span>  <a routerLink="/search-rallies">Buscar Rallies</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End banner Area -->
+
+<!-- Start list rallies Area -->
+<section class="contact-page-area section-gap list-users">
+  <div class="container">
+    <div class="row">
+      <div class="offset-md-2 col-md-8 col-xs-12">
+        <h3 class="title text-center mb-3">Invitar usuarios a esta competencia</h3>
+        <p class="subtitle text-center">Busque usuarios por nombre de usuario</p>
+        <div class="busqueda" id="searchform">
+          <input [(ngModel)]="searchQuery" type="text" title="Digite aquí el nombre del la competencia" id="searchterm" placeholder="Digite el nombre de la competencia" />
+          <button type="button" id="search" title="Click aquí para buscar el usuario" (click)="searchCompetition()">Buscar</button>
+        </div>
+        <div>
+          <h4 class="title">Resultados</h4> <br>
+          <div>
+            <table class="table">
+              <thead>
+              <th><h5 class="text-center">Creador</h5></th>
+              <th><h5 class="text-center">Nombre</h5></th>
+              <th><h5 class="text-center">Rally</h5></th>
+              <th><h5 class="text-center">Inicio</h5></th>
+              <th><h5 class="text-center">Ir a</h5></th>
+              </thead>
+              <tbody>
+              <tr *ngFor="let user of showedUsers; let i = index">
+                <td align="center"><img class="user-image" src="{{user.photo_url}}"></td>
+                <td><h5 class="subtitle">{{user.username}}</h5></td>
+                <td><h4 class="subtitle">{{user.first_name}} {{user.last_name}}</h4></td>
+                <td><button title="Invitar" class="btn btn-default btn-sm btn-block text-center" (click)="invite(i)">Invitar</button></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div align="center">
+            <div *ngIf="invitationSent" class="alert alert-success col-lg-6 mt-10 mb-10" role="alert">
+              Ha enviado una invitación.
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 mt-10 text-center">
+              <div class="d-inline-block">
+                <ngb-pagination [collectionSize]="totalUsers" [(page)]="currentPage" [maxSize]="5" [pageSize]="pageSize" [rotate]="true"
+                                [ellipses]="true" [boundaryLinks]="false" (pageChange)="pageChange($event)"></ngb-pagination>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End list users Area -->

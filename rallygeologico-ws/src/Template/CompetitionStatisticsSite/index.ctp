@@ -21,8 +21,7 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('user_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('competition_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('competition_statistics_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('site_id') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
@@ -30,8 +29,7 @@
         <tbody>
             <?php foreach ($competitionStatisticsSite as $competitionStatisticsSite): ?>
             <tr>
-                <td><?= $competitionStatisticsSite->has('user') ? $this->Html->link($competitionStatisticsSite->user->id, ['controller' => 'Users', 'action' => 'view', $competitionStatisticsSite->user->id]) : '' ?></td>
-                <td><?= $competitionStatisticsSite->has('competition_statistic') ? $this->Html->link($competitionStatisticsSite->competition_statistic->user_id, ['controller' => 'CompetitionStatistics', 'action' => 'view', $competitionStatisticsSite->competition_statistic->user_id]) : '' ?></td>
+                <td><?= $this->Number->format($competitionStatisticsSite->competition_statistics_id) ?></td>
                 <td><?= $competitionStatisticsSite->has('site') ? $this->Html->link($competitionStatisticsSite->site->name, ['controller' => 'Site', 'action' => 'view', $competitionStatisticsSite->site->id]) : '' ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $competitionStatisticsSite->user_id]) ?>

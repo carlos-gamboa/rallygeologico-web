@@ -34,7 +34,6 @@ class CompetitionStatisticsController extends AppController
     {
         parent::beforeFilter($event);
         $this->Auth->allow();
-
     }
 
     /**
@@ -46,11 +45,12 @@ class CompetitionStatisticsController extends AppController
      */
     public function view($id = null)
     {
-        $competitionStatistic = $this->CompetitionStatistics->get($id, [
+        $competitionStatistics = $this->CompetitionStatistics->get($id, [
             'contain' => ['Users', 'Competition']
         ]);
 
-        $this->set('competitionStatistic', $competitionStatistic);
+        $this->set('competitionStatistics', $competitionStatistics);
+        $this->render('/CompetitionStatistics/json/template');
     }
 
     /**
@@ -60,17 +60,17 @@ class CompetitionStatisticsController extends AppController
      */
     public function add()
     {
-        $competitionStatistic = $this->CompetitionStatistics->newEntity();
+        $competitionStatistics = $this->CompetitionStatistics->newEntity();
         if ($this->getRequest()->is('post')) {
-            $competitionStatistic = $this->CompetitionStatistics->patchEntity($competitionStatistic, $this->getRequest()->getData());
-            if ($this->CompetitionStatistics->save($competitionStatistic)) {
+            $competitionStatistics = $this->CompetitionStatistics->patchEntity($competitionStatistics, $this->getRequest()->getData());
+            if ($this->CompetitionStatistics->save($competitionStatistics)) {
                 $this->Flash->success(__('The competition statistic has been saved.'));
             }
             $this->Flash->error(__('The competition statistic could not be saved. Please, try again.'));
         }
         $users = $this->CompetitionStatistics->Users->find('list', ['limit' => 200]);
         $competition = $this->CompetitionStatistics->Competition->find('list', ['limit' => 200]);
-        $this->set(compact('competitionStatistic', 'users', 'competition'));
+        $this->set(compact('competitionStatistics', 'users', 'competition'));
         $this->render('/CompetitionStatistics/json/template');
     }
 
@@ -83,12 +83,12 @@ class CompetitionStatisticsController extends AppController
      */
     public function edit($id = null)
     {
-        $competitionStatistic = $this->CompetitionStatistics->get($id, [
+        $competitionStatistics = $this->CompetitionStatistics->get($id, [
             'contain' => []
         ]);
         if ($this->getRequest()->is(['patch', 'post', 'put'])) {
-            $competitionStatistic = $this->CompetitionStatistics->patchEntity($competitionStatistic, $this->getRequest()->getData());
-            if ($this->CompetitionStatistics->save($competitionStatistic)) {
+            $competitionStatistics = $this->CompetitionStatistics->patchEntity($competitionStatistics, $this->getRequest()->getData());
+            if ($this->CompetitionStatistics->save($competitionStatistics)) {
                 $this->Flash->success(__('The competition statistic has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
@@ -97,7 +97,7 @@ class CompetitionStatisticsController extends AppController
         }
         $users = $this->CompetitionStatistics->Users->find('list', ['limit' => 200]);
         $competition = $this->CompetitionStatistics->Competition->find('list', ['limit' => 200]);
-        $this->set(compact('competitionStatistic', 'users', 'competition'));
+        $this->set(compact('competitionStatistics', 'users', 'competition'));
     }
 
     /**
@@ -110,8 +110,8 @@ class CompetitionStatisticsController extends AppController
     public function delete($id = null)
     {
         $this->getRequest()->allowMethod(['post', 'delete']);
-        $competitionStatistic = $this->CompetitionStatistics->get($id);
-        if ($this->CompetitionStatistics->delete($competitionStatistic)) {
+        $competitionStatistics = $this->CompetitionStatistics->get($id);
+        if ($this->CompetitionStatistics->delete($competitionStatistics)) {
             $this->Flash->success(__('The competition statistic has been deleted.'));
         } else {
             $this->Flash->error(__('The competition statistic could not be deleted. Please, try again.'));

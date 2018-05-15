@@ -25,6 +25,7 @@
     <fieldset>
         <legend><?= __('Edit Canton') ?></legend>
         <?php
+            echo $this->Form->control('id');
             echo $this->Form->control('province_id', ['options' => $province]);
         ?>
     </fieldset>

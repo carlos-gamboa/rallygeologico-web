@@ -167,6 +167,7 @@
         <?php if (!empty($user->competition_statistics)): ?>
         <table cellpadding="0" cellspacing="0">
             <tr>
+                <th scope="col"><?= __('Id') ?></th>
                 <th scope="col"><?= __('User Id') ?></th>
                 <th scope="col"><?= __('Competition Id') ?></th>
                 <th scope="col"><?= __('Starting Date') ?></th>
@@ -176,6 +177,7 @@
             </tr>
             <?php foreach ($user->competition_statistics as $competitionStatistics): ?>
             <tr>
+                <td><?= h($competitionStatistics->id) ?></td>
                 <td><?= h($competitionStatistics->user_id) ?></td>
                 <td><?= h($competitionStatistics->competition_id) ?></td>
                 <td><?= h($competitionStatistics->starting_date) ?></td>
@@ -196,15 +198,13 @@
         <?php if (!empty($user->competition_statistics_site)): ?>
         <table cellpadding="0" cellspacing="0">
             <tr>
-                <th scope="col"><?= __('User Id') ?></th>
-                <th scope="col"><?= __('Competition Id') ?></th>
+                <th scope="col"><?= __('Competition Statistics Id') ?></th>
                 <th scope="col"><?= __('Site Id') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
             <?php foreach ($user->competition_statistics_site as $competitionStatisticsSite): ?>
             <tr>
-                <td><?= h($competitionStatisticsSite->user_id) ?></td>
-                <td><?= h($competitionStatisticsSite->competition_id) ?></td>
+                <td><?= h($competitionStatisticsSite->competition_statistics_id) ?></td>
                 <td><?= h($competitionStatisticsSite->site_id) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['controller' => 'CompetitionStatisticsSite', 'action' => 'view', $competitionStatisticsSite->user_id]) ?>

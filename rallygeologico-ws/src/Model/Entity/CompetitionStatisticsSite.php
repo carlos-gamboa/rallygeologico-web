@@ -6,8 +6,7 @@ use Cake\ORM\Entity;
 /**
  * CompetitionStatisticsSite Entity
  *
- * @property int $user_id
- * @property int $competition_id
+ * @property int $competition_statistics_id
  * @property int $site_id
  *
  * @property \App\Model\Entity\User $user

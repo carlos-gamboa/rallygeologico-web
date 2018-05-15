@@ -22,18 +22,24 @@
             <th scope="row"><?= __('Name') ?></th>
             <td><?= h($province->name) ?></td>
         </tr>
+        <tr>
+            <th scope="row"><?= __('Id') ?></th>
+            <td><?= $this->Number->format($province->id) ?></td>
+        </tr>
     </table>
     <div class="related">
         <h4><?= __('Related Canton') ?></h4>
         <?php if (!empty($province->canton)): ?>
         <table cellpadding="0" cellspacing="0">
             <tr>
+                <th scope="col"><?= __('Id') ?></th>
                 <th scope="col"><?= __('Name') ?></th>
                 <th scope="col"><?= __('Province Id') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
             <?php foreach ($province->canton as $canton): ?>
             <tr>
+                <td><?= h($canton->id) ?></td>
                 <td><?= h($canton->name) ?></td>
                 <td><?= h($canton->province_id) ?></td>
                 <td class="actions">

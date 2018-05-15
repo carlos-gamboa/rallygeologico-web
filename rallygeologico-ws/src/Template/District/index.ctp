@@ -19,6 +19,7 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
+                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('name') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('canton_id') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -27,6 +28,7 @@
         <tbody>
             <?php foreach ($district as $district): ?>
             <tr>
+                <td><?= $this->Number->format($district->id) ?></td>
                 <td><?= h($district->name) ?></td>
                 <td><?= $district->has('canton') ? $this->Html->link($district->canton->name, ['controller' => 'Canton', 'action' => 'view', $district->canton->name]) : '' ?></td>
                 <td class="actions">

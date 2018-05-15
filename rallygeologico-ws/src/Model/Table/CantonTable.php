@@ -34,8 +34,8 @@ class CantonTable extends Table
         parent::initialize($config);
 
         $this->setTable('canton');
-        $this->setDisplayField('name');
-        $this->setPrimaryKey('name');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         $this->belongsTo('Province', [
             'foreignKey' => 'province_id',
@@ -55,9 +55,13 @@ class CantonTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
+            ->integer('id')
+            ->allowEmpty('id', 'create');
+
+        $validator
             ->scalar('name')
             ->maxLength('name', 40)
-            ->allowEmpty('name', 'create');
+            ->allowEmpty('name');
 
         return $validator;
     }

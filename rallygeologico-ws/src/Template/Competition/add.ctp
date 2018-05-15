@@ -8,6 +8,8 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('List Competition'), ['action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Rally'), ['controller' => 'Rally', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Rally'), ['controller' => 'Rally', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Competition Statistics'), ['controller' => 'CompetitionStatistics', 'action' => 'index']) ?></li>
@@ -27,9 +29,9 @@
             echo $this->Form->control('starting_date', ['empty' => true]);
             echo $this->Form->control('finishing_date', ['empty' => true]);
             echo $this->Form->control('is_public');
-            echo $this->Form->control('admin_id');
+            echo $this->Form->control('admin_id', ['options' => $users, 'empty' => true]);
             echo $this->Form->control('description');
-            echo $this->Form->control('Name');
+            echo $this->Form->control('name');
             echo $this->Form->control('rally_id', ['options' => $rally]);
         ?>
     </fieldset>
