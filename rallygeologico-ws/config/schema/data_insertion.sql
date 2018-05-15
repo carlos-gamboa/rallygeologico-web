@@ -83,97 +83,154 @@ INSERT INTO `rally_site` (`rally_id`, `site_id`) VALUES ('3', '20');
 INSERT INTO `users` (`id`, `api_id`, `username`, `first_name`, `last_name`, `email`, `photo_url`, `is_admin`, `login_api`) VALUES (NULL, '123456789123456', 'alan', 'Alan', 'Calderón', 'alan.calderon@ucr.ac.cr', NULL, b'0', 0);
 INSERT INTO `users` (`id`, `api_id`, `username`, `first_name`, `last_name`, `email`, `photo_url`, `is_admin`, `login_api`) VALUES (NULL, '654321987654321', 'pablo', 'Juan Pablo', 'Solano', 'juan.solano@ucr.ac.cr', NULL, b'1', 0);
 
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Círculo Graduado', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Azimuth', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Cordillera Volcánica de Guanacaste', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'El cerro El Inglés', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Manto terrestre', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Placa del Geográfico', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Discordancia', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Peridotitas', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Acantilado de la península de Santa Elena', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Dique de diabasa', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Poza de El General', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Estratos', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Inclinado', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Fracturas', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Árboles', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Destrucción de la roca', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Bioturbaciones', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Troncos', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Mirador', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Los Muñecos', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Nefertiti', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Coral', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Lenticular', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Modelo tridimensional', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Conglomerado', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Fragmentos redondeados', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Duna costera', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Flecha', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Polígonos', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Límite fronterizo', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Puntos', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Sinclinal', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Brecha', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Estructuras volcánicas', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Roca', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Biotita', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Quebrada Duende', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Fiammes', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Marmitas de erosión', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Columnas', '');
-INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Hexágonos', '');
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Círculo Graduado', ''); -- 1
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Azimuth', ''); -- 2
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Cordillera Volcánica de Guanacaste', ''); -- 3
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'El cerro El Inglés', ''); -- 4
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Manto terrestre', ''); -- 5
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Placa del Geográfico', ''); -- 6
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Discordancia', ''); -- 7
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Peridotitas', ''); -- 8
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Acantilado de la península de Santa Elena', ''); -- 9
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Dique de diabasa', ''); -- 10
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Poza de El General', ''); -- 11
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Estratos', ''); -- 12
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Inclinado', ''); -- 13
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Fracturas', ''); -- 14
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Árboles', ''); -- 15
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Destrucción de la roca', ''); -- 16
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Bioturbaciones', ''); -- 17
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Troncos', ''); -- 18
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Mirador', ''); -- 19
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Los Muñecos', ''); -- 20
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Nefertiti', ''); -- 21
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Coral', ''); -- 22
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Lenticular', ''); -- 23
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Modelo tridimensional', ''); -- 24
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Conglomerado', ''); -- 25
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Fragmentos redondeados', ''); -- 26
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Duna costera', ''); -- 27
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Flecha', ''); -- 28
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Polígonos', ''); -- 29
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Límite fronterizo', ''); -- 30
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Puntos', ''); -- 31
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Sinclinal', ''); -- 32
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Brecha', ''); -- 33
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Estructuras volcánicas', ''); -- 34
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Roca', ''); -- 35
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Biotita', ''); -- 36
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Quebrada Duende', ''); -- 37
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Fiammes', ''); -- 38
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Marmitas de erosión', ''); -- 39
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Columnas', ''); -- 40
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Hexágonos', ''); -- 41
+INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Escoria', ''); -- 42
 
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Círculo gradudo');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Azimuth de 45°');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Azimuth de 200°');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Cordillera Volcánica de Guanacaste');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'El cerro El Ingés');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Manto terrestre');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Placa del Geográfico');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Escorias');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Ver esquema');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Esta discordancia');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Peridotitas');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Un ejemplo del acantilado de la península de Santa Elena');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Peridotita en luz natural');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Peridotita en luz polarizada');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Dique de diabasa en luz natural');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Dique de diabasa en luz polarizada');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Peridotitas y diques de diabasa');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Poza de El General');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Estratos');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Inclinado');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Fracturas');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Árboles');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Destrucción de la roca');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Bioturbaciones');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Troncos');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Mirador');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Los Muñecos');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Como El Muñeco');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Nefertiti');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Coral');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Troncos');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Bioturbaciones');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Modelo tridimensional');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Conglomerado');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Fragmentos redondeados');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Duna costera');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Flecha');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Polígono');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Límite fronterizo');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Puntos');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Sinclinal');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Brecha');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Estructuras volcánicas');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Roca');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Biotita');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Quebrada Duende');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Extremos de la cueva');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Fiammes');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Marmitas de erosión');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Columnas');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Hexágonos');
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Irregulares');
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Círculo gradudo'); -- 1
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Azimuth de 45°'); -- 2
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Azimuth de 200°'); -- 3
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Cordillera Volcánica de Guanacaste'); -- 4
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'El cerro El Ingés'); -- 5
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Manto terrestre'); -- 6
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Placa del Geográfico'); -- 7
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Escorias'); -- 8
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Ver esquema'); -- 9
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Esta discordancia'); -- 10
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Peridotitas'); -- 11
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Un ejemplo del acantilado de la península de Santa Elena'); -- 12
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Peridotita en luz natural'); -- 13
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Peridotita en luz polarizada'); -- 14
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Dique de diabasa en luz natural'); -- 15
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Dique de diabasa en luz polarizada'); -- 16
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Peridotitas y diques de diabasa'); -- 17
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Poza de El General'); -- 18
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Estratos'); -- 19
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Inclinado'); -- 20
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Fracturas'); -- 21
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Árboles'); -- 22
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Destrucción de la roca'); -- 23
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Bioturbaciones'); -- 24
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Troncos'); -- 25
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Mirador'); -- 26
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Los Muñecos'); -- 27
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Como El Muñeco'); -- 28
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Nefertiti'); -- 29
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Coral'); -- 30
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Troncos'); -- 31
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Bioturbaciones'); -- 32
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Modelo tridimensional'); -- 33
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Conglomerado'); -- 34
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Fragmentos redondeados'); -- 35
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Duna costera'); -- 36
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Flecha'); -- 37
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Polígono'); -- 38
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Límite fronterizo'); -- 39
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Puntos'); -- 40
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Sinclinal'); -- 41
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Brecha'); -- 42
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Estructuras volcánicas'); -- 43
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Roca'); -- 44
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Biotita'); -- 45
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Quebrada Duende'); -- 46
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Extremos de la cueva'); -- 47
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Fiammes'); -- 48
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Marmitas de erosión'); -- 49
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Columnas'); -- 50
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Hexágonos'); -- 51
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Irregulares'); -- 52
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Lenticular'); -- 53
+
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (1, 1);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (2, 2);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (2, 3);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (3, 4);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (4, 5);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (5, 6);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (6, 7);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (42, 8);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (7, 9);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (7, 10);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (8, 11);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (9, 12);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (8, 13);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (8, 14);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (10, 15);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (10, 16);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (10, 17);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (8, 17);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (11, 18);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (12, 19);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (13, 20);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (14, 21);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (15, 22);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (16, 23);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (17, 24);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (18, 25);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (19, 26);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (20, 27);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (20, 28);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (21, 29);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (22, 30);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (18, 31);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (17, 32);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (23, 53);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (24, 33);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (25, 34);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (26, 35);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (27, 36);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (28, 37);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (29, 38);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (30, 39);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (31, 40);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (32, 41);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (33, 42);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (34, 43);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (35, 44);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (36, 45);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (37, 46);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (38, 47);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (39, 48);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (40, 49);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (41, 50);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (42, 51);
+INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (42, 52);
