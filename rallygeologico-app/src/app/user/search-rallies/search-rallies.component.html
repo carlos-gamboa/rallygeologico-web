@@ -38,24 +38,25 @@
               <th><h5 class="text-center">Ir a</h5></th>
               </thead>
               <tbody>
-              <tr *ngFor="let user of showedUsers; let i = index">
-                <td align="center"><img class="user-image" src="{{user.photo_url}}"></td>
-                <td><h5 class="subtitle">{{user.username}}</h5></td>
-                <td><h4 class="subtitle">{{user.first_name}} {{user.last_name}}</h4></td>
-                <td><button title="Invitar" class="btn btn-default btn-sm btn-block text-center" (click)="invite(i)">Invitar</button></td>
+              <tr *ngFor="let competition of showedCompetitions; let i = index">
+                <td><h5 class="subtitle">{{competition.user.first_name}} {{competition.user.last_name}}</h5></td>
+                <td><h5 class="subtitle">{{competition.name}}</h5></td>
+                <td><h4 class="subtitle">{{competition.rally.name}}</h4></td>
+                <td><h4 class="subtitle">{{competition.starting_date}}</h4></td>
+                <td><button title="Ir a" class="btn btn-default btn-sm btn-block text-center" (click)="goto(i)">Ir a</button></td>
               </tr>
               </tbody>
             </table>
           </div>
           <div align="center">
-            <div *ngIf="invitationSent" class="alert alert-success col-lg-6 mt-10 mb-10" role="alert">
+            <!--<div *ngIf="invitationSent" class="alert alert-success col-lg-6 mt-10 mb-10" role="alert">
               Ha enviado una invitación.
-            </div>
+            </div>-->
           </div>
           <div class="row">
             <div class="col-md-12 mt-10 text-center">
               <div class="d-inline-block">
-                <ngb-pagination [collectionSize]="totalUsers" [(page)]="currentPage" [maxSize]="5" [pageSize]="pageSize" [rotate]="true"
+                <ngb-pagination [collectionSize]="totalCompetitions" [(page)]="currentPage" [maxSize]="5" [pageSize]="pageSize" [rotate]="true"
                                 [ellipses]="true" [boundaryLinks]="false" (pageChange)="pageChange($event)"></ngb-pagination>
               </div>
             </div>

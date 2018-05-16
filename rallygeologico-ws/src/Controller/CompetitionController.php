@@ -151,4 +151,19 @@ class CompetitionController extends AppController
         $this->set('competition', $competitions);
         $this->render('/Competition/json/template');
     }
+
+    public function getAllPublicCompetitions() {
+        $competitions = $this->Competition->find('all', [
+            'conditions' => [
+                    [
+                        'competition.is_active' => 1,
+                        'competition.is_public' => 1
+                    ]
+            ]
+        ]);
+
+        $this->set('competition', $competitions);
+        $this->render('/Competition/json/template');
+    }
+    
 }

@@ -52,4 +52,8 @@ export class CompetitionService {
     getCurrentCompetitions(userId: number): Observable<Competition[]>{
         return this.http.get<Competition[]>(this.baseUrl + "competition/currentCompetitions/"+ userId +".json");
     }
+
+    getAllPublicCompetitions(): Observable<Competition[]>{
+        return this.http.get<Competition[]>(this.baseUrl + "competition/getallpubliccompetitions.json")
+    }
 }
