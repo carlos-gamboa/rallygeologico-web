@@ -208,6 +208,7 @@ class UsersController extends AppController
 
         $this->loadModel('Invitation');
         $this->loadModel('Competition');
+        $this->loadModel('CompetitionStatistics');
 
         $users = $this->Users->find('all', [
                 'conditions' => [
@@ -238,9 +239,17 @@ class UsersController extends AppController
                                     ]
                                 ]
                             )
+                        ],
+                        [
+                            'Users.id NOT IN' => $this->CompetitionStatistics->find('all', [
+                                    'fields' => ['CompetitionStatistics.user_id'],
+                                    'conditions' => [
+                                        'CompetitionStatistics.competition_id' => $CompetitionId
+                                    ]
+                                ]
+                            )
                         ]
                     ]
-
                 ]
             ]
         );

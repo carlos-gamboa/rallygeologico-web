@@ -37,10 +37,6 @@ class CompetitionStatisticsSiteTable extends Table
         $this->setDisplayField('user_id');
         $this->setPrimaryKey(['competition_statistics_id', 'site_id']);
 
-        $this->belongsTo('Users', [
-            'foreignKey' => 'user_id',
-            'joinType' => 'INNER'
-        ]);
         $this->belongsTo('CompetitionStatistics', [
             'foreignKey' => 'competition_statistics_id',
             'joinType' => 'INNER'

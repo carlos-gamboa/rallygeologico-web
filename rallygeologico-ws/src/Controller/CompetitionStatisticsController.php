@@ -119,4 +119,25 @@ class CompetitionStatisticsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function getCompetitionStatistics ($competitionId = null)
+    {
+        $competitionStatistics = $this->CompetitionStatistics->find('all', [
+            'contain' => ['Users'],
+            'conditions' => ['competitionStatistics.competition_id' => $competitionId]]
+        );
+        $this->set('competitionStatistics', $competitionStatistics);
+        $this->render('/CompetitionStatistics/json/template');
+    }
+
+    public function currentCompetitions($userId = null){
+
+        $competitionStatistics = $this->CompetitionStatistics->find('all', [
+            'contain' => ['Competition'],
+            'conditions' => ['competitionStatistics.user_id' => $userId]
+        ]);
+
+        $this->set('competitionStatistics', $competitionStatistics);
+        $this->render('/CompetitionStatistics/json/template');
+    }
 }

@@ -58,13 +58,18 @@
                 </div>
               </div>
             </div>
-            <hr>
-            <h3>Estadísticas</h3> <br>
-            <div class="row">
-              <div class="col-md-4 offset-4">
-                <button title="Ver mapa interactivo de este rally" class="genric-btn circle primary text-center">Mapa interactivo</button>
+            <div class="row mt-3" *ngIf="notOnCompetition()">
+              <div class="col-md-12">
+                <button title="Unirse a la competencia" (click)="joinCompetition()" class="genric-btn success circle btn-inv text-center join-button">Unirse</button>
               </div>
             </div>
+            <hr>
+            <div class="row">
+              <div class="col-md-12">
+                <button title="Ver mapa interactivo de este rally" class="genric-btn circle primary text-center btn-inv join-button" routerLink="/rallies/{{competition.rally_id}}">Mapa interactivo</button>
+              </div>
+            </div>
+            <h3>Estadísticas</h3> <br>
             <h4>Tabla de líderes</h4> <br>
             <div>
               <table class="table">
@@ -73,10 +78,10 @@
                 <th>Usuario</th>
                 <th>Puntos</th>
                 <th>Perfil</th>
-                <tr>
-                  <td><h4>Ana Laura Vargas</h4></td>
-                  <td><h5>Usuario6352</h5></td>
-                  <td><p>200</p></td>
+                <tr *ngFor="let participant of statistics">
+                  <td><h4>{{participant.user.first_name}} {{participant.user.last_name}}</h4></td>
+                  <td><h5>{{participant.user.username}}</h5></td>
+                  <td><p>{{participant.points}}</p></td>
                   <td><button title="Ir al perfil de este usuario" class="genric-btn circle info text-center medium">Ir al perfil</button></td>
                 </tr>
                 </tbody>

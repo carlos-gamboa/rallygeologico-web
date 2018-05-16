@@ -67,7 +67,7 @@ export class UserService {
     getUsersToInvite(id: number) : Observable<User[]>{
         return this.http.post<User[]>(this.baseUrl + "users/usersToInvite.json",{
             'competition_id':id
-        });
+        },{ headers: this.headers, withCredentials: true });
     }
 
 }
