@@ -25,6 +25,10 @@
             <td><?= h($multimedia->media_url) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Name') ?></th>
+            <td><?= h($multimedia->name) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($multimedia->id) ?></td>
         </tr>

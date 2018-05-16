@@ -6,6 +6,7 @@ use Cake\ORM\Entity;
 /**
  * Province Entity
  *
+ * @property int $id
  * @property string $name
  *
  * @property \App\Model\Entity\Canton[] $canton
@@ -23,6 +24,7 @@ class Province extends Entity
      * @var array
      */
     protected $_accessible = [
+        'name' => true,
         'canton' => true
     ];
 }

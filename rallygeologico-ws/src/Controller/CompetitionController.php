@@ -24,7 +24,7 @@ class CompetitionController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Rally']
+            'contain' => ['Users', 'Rally']
         ];
         $competition = $this->paginate($this->Competition);
 
@@ -49,7 +49,7 @@ class CompetitionController extends AppController
     public function view($id = null)
     {
         $competition = $this->Competition->get($id, [
-            'contain' => ['Rally', 'Users']
+            'contain' => ['Users', 'Rally', 'CompetitionStatistics', 'Invitation']
         ]);
 
         $this->set('competition', $competition);
@@ -59,7 +59,7 @@ class CompetitionController extends AppController
     /**
      * Add method
      *
-     * @return \Cake\Http\Response|integer Redirects on successful add, renders view otherwise.
+     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
     public function add()
     {
@@ -71,8 +71,9 @@ class CompetitionController extends AppController
             }
             $this->Flash->error(__('The competition could not be saved. Please, try again.'));
         }
+        $users = $this->Competition->Users->find('list', ['limit' => 200]);
         $rally = $this->Competition->Rally->find('list', ['limit' => 200]);
-        $this->set(compact('competition', 'rally'));
+        $this->set(compact('competition', 'users', 'rally'));
         $this->render('/Competition/json/template');
     }
 
@@ -97,8 +98,9 @@ class CompetitionController extends AppController
             }
             $this->Flash->error(__('The competition could not be saved. Please, try again.'));
         }
+        $users = $this->Competition->Users->find('list', ['limit' => 200]);
         $rally = $this->Competition->Rally->find('list', ['limit' => 200]);
-        $this->set(compact('competition', 'rally'));
+        $this->set(compact('competition', 'users', 'rally'));
     }
 
     /**
@@ -119,34 +121,5 @@ class CompetitionController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
-    }
-
-    public function currentCompetitions($userId = null){
-
-        $competitions = $this->Competition->find('all', [
-            'conditions' => [
-                'OR' => [
-                    [
-                        'competition.admin_id' => $userId,
-                        'competition.is_active' => 1
-                    ],
-                    [
-                        'Competition.id IN' => $this->Competition->Invitation->find('all', [
-                            'fields' => ['Invitation.competition_id'],
-                                'conditions' => [
-                                    'Invitation.user_id_receive' => $userId,
-                                    'Invitation.accepted' => 1
-                                ]
-                            ]
-                        ),
-                        'Competition.is_active' => 1
-                    ]
-                ]
-
-            ]
-        ]);
-
-        $this->set('competition', $competitions);
-        $this->render('/Competition/json/template');
     }
 }

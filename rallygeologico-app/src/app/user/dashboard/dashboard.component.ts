@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {InvitationService} from "../../services/invitation.service";
 import {CompetitionService} from "../../services/competition.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Invitation} from "../../model/invitation";
 import {User} from "../../model/user";
 import {UserService} from "../../services/user.service";
@@ -9,6 +9,8 @@ import {DataService} from "../../services/data/data.service";
 import {Competition} from "../../model/competition";
 import {RallyService} from "../../services/rally.service";
 import {Rally} from "../../model/rally";
+import {CompetitionStatisticsService} from "../../services/competition.statistics.service";
+import {CompetitionStatistics} from "../../model/competition.statistics";
 
 @Component({
   selector: 'app-dashboard',
@@ -19,7 +21,7 @@ export class DashboardComponent implements OnInit {
 
     user: User;
     invitations: Invitation[] = [];
-    competitions: Competition[] = [];
+    competitionsStatistics: CompetitionStatistics[] = [];
     ralliesToShow: Rally[] = [];
     initialLatitude: number;
     initialLongitude: number;
@@ -28,15 +30,19 @@ export class DashboardComponent implements OnInit {
 
     constructor(private userService: UserService, private dataService: DataService,
                 private invitationService: InvitationService,
-                private competitionService: CompetitionService,
-                private rallyService: RallyService) {
+                private competitionStatisticsService: CompetitionStatisticsService,
+                private rallyService: RallyService, private router: Router) {
 
         this.user = this.dataService.getUser();
         if (!this.user){
             this.userService.isLoggedIn().subscribe((users: User) => {
-                this.dataService.updateUser(users[0]);
-                this.user = users[0];
-                this.setupData();
+                if(users[0]){
+                    this.dataService.updateUser(users[0]);
+                    this.user = users[0];
+                    this.setupData();
+                } else {
+                    this.router.navigate(['/landing']);
+                }
             });
         } else {
             this.setupData();
@@ -50,8 +56,8 @@ export class DashboardComponent implements OnInit {
         this.invitationService.getInvitations(this.user.id).subscribe((invitations: Invitation[]) =>{
             this.invitations = invitations;
         });
-        this.competitionService.getCurrentCompetitions(this.user.id).subscribe((competitions: Competition[]) =>{
-            this.competitions = competitions;
+        this.competitionStatisticsService.getCurrentCompetitions(this.user.id).subscribe((stats: CompetitionStatistics[]) =>{
+            this.competitionsStatistics = stats;
         });
         this.rallyService.getAllRallies().subscribe((rallies: Rally[]) =>{
             this.ralliesToShow = rallies;

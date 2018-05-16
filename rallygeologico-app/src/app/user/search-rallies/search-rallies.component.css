@@ -1,18 +1,52 @@
-.competition-image{
-    border-radius: 70%;
-    width: 200px;
-    height: 200px;
+.title{
+    color: #FFFFFF;
 }
 
-.user-image {
-    border-radius: 70%;
-    width:30%;
-    height: auto;
+.subtitle{
+    color: #f0f0f0;
 }
 
-.gap {
-    padding: 10em 0;
+.booking-right{
+    width: content-box;
 }
+
+.alert{
+    min-height: 40px;
+    height: fit-content;
+    padding-top: 4px;
+    margin-bottom: 0px !important;
+}
+
+p, .alert-message{
+    font-size: 12px;
+    margin: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+.text-input{
+    width: 98%;
+    height: 40px;
+    padding: 10px;
+    color: #555555;
+}
+
+.date-input{
+    width: 96%;
+    height: 40px;
+    padding: 10px;
+    color: #555555;
+}
+
+.select-input{
+    width: 96%;
+    height: 40px;
+    color: #555555;
+}
+
+.text-area{
+    height: 80px;
+}
+
 
 .busqueda {
     display:flex;
@@ -44,6 +78,17 @@
     color:white;
     border:none;
 }
+
+table thead{
+    background-color: #F0F0F0;
+}
+
+.user-image {
+    border-radius: 70%;
+    width:30%;
+    height: auto;
+}
+
 .pagination {
     display: inline-block;
 }
@@ -59,19 +104,4 @@
     color: white !important;
     background-color: #fdb727 !important;
     border-color: #fdb727 !important;
-}
-
-.btn-inv{
-    display: block;
-    width: 100%;
-    margin: 0 auto;
-    font-size: inherit !important;
-}
-
-.genric-btn{
-    font-size: inherit !important;
-}
-
-.join-button{
-    width: 40%;
 }

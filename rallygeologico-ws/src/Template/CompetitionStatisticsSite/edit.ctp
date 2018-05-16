@@ -27,6 +27,7 @@
     <fieldset>
         <legend><?= __('Edit Competition Statistics Site') ?></legend>
         <?php
+            echo $this->Form->control('competition_statistics_id');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

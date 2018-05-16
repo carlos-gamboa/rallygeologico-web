@@ -28,6 +28,10 @@
             <th scope="row"><?= __('Canton') ?></th>
             <td><?= $district->has('canton') ? $this->Html->link($district->canton->name, ['controller' => 'Canton', 'action' => 'view', $district->canton->name]) : '' ?></td>
         </tr>
+        <tr>
+            <th scope="row"><?= __('Id') ?></th>
+            <td><?= $this->Number->format($district->id) ?></td>
+        </tr>
     </table>
     <div class="related">
         <h4><?= __('Related Site') ?></h4>
@@ -36,7 +40,6 @@
             <tr>
                 <th scope="col"><?= __('Id') ?></th>
                 <th scope="col"><?= __('Name') ?></th>
-                <th scope="col"><?= __('Points Awarded') ?></th>
                 <th scope="col"><?= __('Qr Url') ?></th>
                 <th scope="col"><?= __('Details') ?></th>
                 <th scope="col"><?= __('Description') ?></th>
@@ -49,7 +52,6 @@
             <tr>
                 <td><?= h($site->id) ?></td>
                 <td><?= h($site->name) ?></td>
-                <td><?= h($site->points_awarded) ?></td>
                 <td><?= h($site->qr_url) ?></td>
                 <td><?= h($site->details) ?></td>
                 <td><?= h($site->description) ?></td>

@@ -55,7 +55,7 @@ class UsersController extends AppController
     public function view($id = null)
     {
         $user = $this->Users->get($id, [
-            'contain' => ['Competition']
+            'contain' => ['Competition', 'InvitationSend', 'InvitationReceive', 'CompetitionStatistics', 'CompetitionStatisticsSite']
         ]);
 
         $this->set('user', $user);
@@ -230,6 +230,7 @@ class UsersController extends AppController
 
         $this->loadModel('Invitation');
         $this->loadModel('Competition');
+        $this->loadModel('CompetitionStatistics');
 
         $users = $this->Users->find('all', [
                 'conditions' => [
@@ -260,9 +261,17 @@ class UsersController extends AppController
                                     ]
                                 ]
                             )
+                        ],
+                        [
+                            'Users.id NOT IN' => $this->CompetitionStatistics->find('all', [
+                                    'fields' => ['CompetitionStatistics.user_id'],
+                                    'conditions' => [
+                                        'CompetitionStatistics.competition_id' => $CompetitionId
+                                    ]
+                                ]
+                            )
                         ]
                     ]
-
                 ]
             ]
         );

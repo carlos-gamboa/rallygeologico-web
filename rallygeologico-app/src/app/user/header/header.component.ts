@@ -1,4 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {UserService} from "../../services/user.service";
+import {Router} from "@angular/router";
+import {User} from "../../model/user";
 
 @Component({
   selector: 'app-header',
@@ -9,7 +12,7 @@ export class HeaderComponent implements OnInit {
 
     @Input() activeTab: number;
 
-  constructor() {
+  constructor(private userService: UserService,private router: Router) {
   }
 
   ngOnInit() {
@@ -41,4 +44,15 @@ export class HeaderComponent implements OnInit {
       this.activeTab = active;
     }
 
+    logout() {
+      this.userService.logout().subscribe((user: User)=>{
+          console.log(user);
+          setTimeout(() =>
+              {
+                  this.router.navigate(['/landing']);
+              },
+              1000);
+      } );
+
+    }
 }

@@ -19,6 +19,7 @@
     <fieldset>
         <legend><?= __('Add Canton') ?></legend>
         <?php
+            echo $this->Form->control('id');
             echo $this->Form->control('province_id', ['options' => $province]);
         ?>
     </fieldset>

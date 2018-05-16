@@ -11,6 +11,7 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
  * @property \App\Model\Table\CompetitionTable|\Cake\ORM\Association\BelongsTo $Competition
+ * @property |\Cake\ORM\Association\BelongsToMany $Site
  *
  * @method \App\Model\Entity\CompetitionStatistic get($primaryKey, $options = [])
  * @method \App\Model\Entity\CompetitionStatistic newEntity($data = null, array $options = [])
@@ -34,8 +35,8 @@ class CompetitionStatisticsTable extends Table
         parent::initialize($config);
 
         $this->setTable('competition_statistics');
-        $this->setDisplayField('user_id');
-        $this->setPrimaryKey(['user_id', 'competition_id']);
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
@@ -44,6 +45,11 @@ class CompetitionStatisticsTable extends Table
         $this->belongsTo('Competition', [
             'foreignKey' => 'competition_id',
             'joinType' => 'INNER'
+        ]);
+        $this->belongsToMany('Site', [
+            'foreignKey' => 'competition_statistic_id',
+            'targetForeignKey' => 'site_id',
+            'joinTable' => 'competition_statistics_site'
         ]);
     }
 
@@ -55,6 +61,10 @@ class CompetitionStatisticsTable extends Table
      */
     public function validationDefault(Validator $validator)
     {
+        $validator
+            ->integer('id')
+            ->allowEmpty('id', 'create');
+
         $validator
             ->dateTime('starting_date')
             ->allowEmpty('starting_date');

@@ -21,6 +21,7 @@
         <?php
             echo $this->Form->control('media_type');
             echo $this->Form->control('media_url');
+            echo $this->Form->control('name');
             echo $this->Form->control('activity._ids', ['options' => $activity]);
             echo $this->Form->control('term._ids', ['options' => $term]);
         ?>

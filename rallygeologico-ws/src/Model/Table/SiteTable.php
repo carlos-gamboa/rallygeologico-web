@@ -10,6 +10,7 @@ use Cake\Validation\Validator;
  * Site Model
  *
  * @property \App\Model\Table\DistrictTable|\Cake\ORM\Association\BelongsTo $District
+ * @property |\Cake\ORM\Association\HasMany $Activity
  * @property \App\Model\Table\CompetitionStatisticsTable|\Cake\ORM\Association\BelongsToMany $CompetitionStatistics
  * @property \App\Model\Table\RallyTable|\Cake\ORM\Association\BelongsToMany $Rally
  * @property \App\Model\Table\TermTable|\Cake\ORM\Association\BelongsToMany $Term
@@ -43,6 +44,9 @@ class SiteTable extends Table
             'foreignKey' => 'district_id',
             'joinType' => 'INNER'
         ]);
+        $this->hasMany('Activity', [
+            'foreignKey' => 'site_id'
+        ]);
         $this->belongsToMany('CompetitionStatistics', [
             'foreignKey' => 'site_id',
             'targetForeignKey' => 'competition_statistic_id',
@@ -57,6 +61,9 @@ class SiteTable extends Table
             'foreignKey' => 'site_id',
             'targetForeignKey' => 'term_id',
             'joinTable' => 'term_site'
+        ]);
+        $this->hasMany('CompetitionStatisticsSite', [
+            'foreignKey' => 'site_id'
         ]);
     }
 

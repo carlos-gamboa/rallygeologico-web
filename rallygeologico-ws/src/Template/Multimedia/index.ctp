@@ -22,6 +22,7 @@
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('media_type') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('media_url') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('name') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -31,6 +32,7 @@
                 <td><?= $this->Number->format($multimedia->id) ?></td>
                 <td><?= $this->Number->format($multimedia->media_type) ?></td>
                 <td><?= h($multimedia->media_url) ?></td>
+                <td><?= h($multimedia->name) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $multimedia->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $multimedia->id]) ?>
