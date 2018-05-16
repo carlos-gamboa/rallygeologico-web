@@ -139,6 +139,28 @@ class UsersController extends AppController
         $this->render('/Users/json/template');
     }
 
+    public function idExists()
+    {
+        $data = $this->getRequest()->getData();
+        $ApiId = $data['api_id'];
+        $LoginApi = $data['login_api'];
+        $users = $this->Users->find('all', [
+                'conditions' => [
+                    'users.api_id' => $ApiId,
+                    'users.login_api' => $LoginApi
+                ]
+            ]
+        );
+        $this->set('users', $users);
+        if ($users->isEmpty()){
+            $this->set('users', false);
+        }
+        else{
+            $this->set('users', true);
+        }
+        $this->render('/Users/json/template');
+    }
+
     /**
      * Add method
      *

@@ -7,6 +7,8 @@ import {Router} from "@angular/router";
 import {DataService} from "../services/data/data.service";
 import {environment} from "../../environments/environment";
 
+declare var gapi: any;
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -22,8 +24,16 @@ export class LoginComponent implements OnInit {
     lastName: string;
     email: string;
     fbToken: string;
-    loginWithFacebook:boolean=false;
     user : User;
+    GId: string;
+    GfirstName: string;
+    GlastName: string;
+    Gemail: string;
+    GuserName: string;
+    changeUsername : boolean;
+    loginWithFacebook:boolean = true;
+    loginWithGoogle:boolean = true;
+
     photoUrl : string;
     isNotRegistered: boolean = false;
     success : boolean = false;
@@ -39,24 +49,17 @@ export class LoginComponent implements OnInit {
     };
     fb.init(initParams);
     console.log('Initialized Facebook');
-
-
-
-    /*this.studentService.isLoggedIn().then((user: Student) => {
-     this.userDataService.updateStudent(user);
-     this.router.navigate(['/dashboard']);
-     })*/
   }
 
-  //Login if the Enter Key is pressed
-/*  @HostListener('window:keyup', ['$event'])
-  keyEvent(event: KeyboardEvent) {
-    if (event.keyCode === 13) {
-      if (this.username && this.password){
-        this.onLogin();
-      }
-    }
-  }*/
+  ngAfterViewInit(): void {
+    gapi.load('auth2', function() {
+      gapi.auth2.init({
+        client_id: environment.googleClient,
+        fetch_basic_profile: true
+      });
+    });
+  }
+
 
 
 
@@ -89,7 +92,6 @@ export class LoginComponent implements OnInit {
               this.isNotRegistered = (count1 == 0);
               if(!this.isNotRegistered){
                 this.user=users[0];
-                this.userDataService.updateUser(this.user);
                 this.pleaseWait = false;
                 this.success = true;
                 this.userService.auth(res.id, 0).subscribe((users: User[]) => {
@@ -112,23 +114,57 @@ export class LoginComponent implements OnInit {
   }
 
 
-  // fbLoginService(){
-  //   this.userService.login(this.fbId,this.fbToken).then((authentication: boolean)=>{
-  //     this.error = null;
-  //     if(authentication){
-  //       this.studentService.isLoggedIn().then((user: Student) => {
-  //         this.userDataService.updateStudent(user);
-  //         this.router.navigate(['/dashboard']);
-  //       })
-  //     }
-  //     else{
-  //       this.router.navigate(['/register']);
-  //     }
-  //
-  //   }).catch( reason => {
-  //     this.error = "Unable to login with Facebook.";
-  //   });
-  // }
+
+  googleSignIn() {
+    console.log('I am passing signIn');
+    var auth2 = gapi.auth2.getAuthInstance();
+    var user = auth2.currentUser.get();
+    var profile = user.getBasicProfile();
+    // Sign the user in, and then retrieve their ID.
+    auth2.signIn().then((res: any) => {
+      var profile = res.getBasicProfile();
+      this.setGoogleVariables(profile.getId(),profile.getGivenName(),profile.getFamilyName(),profile.getImageUrl(),profile.getEmail());
+      this.loginWithGoogle = true;
+      this.loginWithFacebook = false;
+      var count1 = 0;
+      this.userService.apiId(this.GId, 1).subscribe((users: User[]) => {
+        for (let i: number = 0; i < users.length; ++i) {
+          count1 += 1;
+        }
+        this.isNotRegistered = (count1 == 0);
+        if(!this.isNotRegistered){
+          this.user=users[0];
+          this.pleaseWait = false;
+          this.success = true;
+          this.userService.auth(this.GId, 1).subscribe((users: User[]) => {
+            console.log(users[0]);
+            this.userDataService.updateUser(users[0]);
+            console.log("Completed auth");
+            setTimeout(() =>
+              {
+                this.router.navigate(['/dashboard']);
+              },
+              1000);
+          });
+        }
+        this.pleaseWait = false;
+      });
+    });
+      //
+  }
+
+  setGoogleVariables(id:string, name:string, lastname:string , img:string , email:string ){
+    this.loginWithFacebook = false;
+    this.loginWithGoogle = true;
+    this.GId = id;
+    this.GfirstName = name;
+    this.GlastName = lastname;
+    this.Gemail = email;
+    this.photoUrl = img;
+  }
+
+
+
 
   private handleErrorLogin(error) {
     console.error('Error processing FB login', error);
@@ -154,11 +190,5 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  getUsers(){
-      // this.userService.login(this.fbId).subscribe((userArr: User[])=>{
-      //         this.user.push(userArr[0]);
-      //     console.log("USUARIO ES" + this.user);
-      // });
-  }
 
 }

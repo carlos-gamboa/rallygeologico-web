@@ -80,7 +80,6 @@ export class RegisterComponent implements OnInit {
     this.GlastName = lastname;
     this.Gemail = email;
     this.photoUrl = img;
-
   }
 
 
