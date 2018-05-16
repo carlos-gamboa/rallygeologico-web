@@ -6,3 +6,8 @@
 .section-2 h3{
     color: white;
 }
+
+.list{
+    list-style-type:square;
+    margin-left: 35px;
+}
