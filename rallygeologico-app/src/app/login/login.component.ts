@@ -31,8 +31,8 @@ export class LoginComponent implements OnInit {
     Gemail: string;
     GuserName: string;
     changeUsername : boolean;
-    loginWithFacebook:boolean = true;
-    loginWithGoogle:boolean = true;
+    loginWithFacebook:boolean = false;
+    loginWithGoogle:boolean = false;
 
     photoUrl : string;
     isNotRegistered: boolean = false;
@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
     pleaseWait = false;
 
 
-  constructor(private fb: FacebookService, private userService: UserService, private router: Router, private userDataService:DataService){
+  constructor(private fb: FacebookService, private userService: UserService, private router: Router, private userDataService:DataService,private dataService: DataService){
     console.log('Initializing Facebook');
     let initParams: InitParams = {
       appId: environment.facebookKey,
@@ -49,6 +49,17 @@ export class LoginComponent implements OnInit {
     };
     fb.init(initParams);
     console.log('Initialized Facebook');
+
+    this.userService.isLoggedIn().subscribe((users: User) => {
+      if (users[0]) {
+        this.dataService.updateUser(users[0]);
+        this.router.navigate(['/dashboard']);
+      }
+      else{
+        this.loginWithFacebook = true;
+        this.loginWithGoogle = true;
+      }
+    });
   }
 
   ngAfterViewInit(): void {
@@ -64,6 +75,7 @@ export class LoginComponent implements OnInit {
 
 
   loginWithOptions() {
+    this.isNotRegistered=false;
     const loginOptions: LoginOptions = {
       enable_profile_selector: true,
       return_scopes: true,
@@ -85,13 +97,13 @@ export class LoginComponent implements OnInit {
             this.photoUrl = res.picture.data.url;
             console.log("Login got : "+this.fbId +" "+this.firstName +" "+ this.lastName +" "+this.email+" "+this.fbToken);
             var count1 = 0;
-            this.userService.apiId(res.id, 0).subscribe((users: User[]) => {
-              for (let i: number = 0; i < users.length; ++i) {
+            this.userService.apiId(res.id, 0).subscribe((users1: User[]) => {
+              for (let i: number = 0; i < users1.length; ++i) {
                 count1 += 1;
               }
               this.isNotRegistered = (count1 == 0);
               if(!this.isNotRegistered){
-                this.user=users[0];
+                this.user=users1[0];
                 this.pleaseWait = false;
                 this.success = true;
                 this.userService.auth(res.id, 0).subscribe((users: User[]) => {
@@ -116,6 +128,7 @@ export class LoginComponent implements OnInit {
 
 
   googleSignIn() {
+    this.isNotRegistered=false;
     console.log('I am passing signIn');
     var auth2 = gapi.auth2.getAuthInstance();
     var user = auth2.currentUser.get();
@@ -123,17 +136,16 @@ export class LoginComponent implements OnInit {
     // Sign the user in, and then retrieve their ID.
     auth2.signIn().then((res: any) => {
       var profile = res.getBasicProfile();
-      this.setGoogleVariables(profile.getId(),profile.getGivenName(),profile.getFamilyName(),profile.getImageUrl(),profile.getEmail());
       this.loginWithGoogle = true;
       this.loginWithFacebook = false;
       var count1 = 0;
-      this.userService.apiId(this.GId, 1).subscribe((users: User[]) => {
-        for (let i: number = 0; i < users.length; ++i) {
+      this.userService.apiId(profile.getId(), 1).subscribe((users1: User[]) => {
+        for (let i: number = 0; i < users1.length; ++i) {
           count1 += 1;
         }
         this.isNotRegistered = (count1 == 0);
         if(!this.isNotRegistered){
-          this.user=users[0];
+          this.user=users1[0];
           this.pleaseWait = false;
           this.success = true;
           this.userService.auth(this.GId, 1).subscribe((users: User[]) => {
@@ -145,11 +157,11 @@ export class LoginComponent implements OnInit {
                 this.router.navigate(['/dashboard']);
               },
               1000);
-          });
+          })
         }
         this.pleaseWait = false;
       });
-    });
+    }).catch(this.handleErrorProfile);
       //
   }
 
