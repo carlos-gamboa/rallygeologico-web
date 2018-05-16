@@ -23,16 +23,16 @@
             <td><?= $option->has('activity') ? $this->Html->link($option->activity->id, ['controller' => 'Activity', 'action' => 'view', $option->activity->id]) : '' ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Is Correct') ?></th>
-            <td><?= h($option->is_correct) ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('Option Text') ?></th>
             <td><?= h($option->option_text) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($option->id) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Is Correct') ?></th>
+            <td><?= $this->Number->format($option->is_correct) ?></td>
         </tr>
     </table>
 </div>

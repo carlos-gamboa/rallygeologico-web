@@ -8,7 +8,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $activity_id
- * @property string $is_correct
+ * @property int $is_correct
  * @property string $option_text
  *
  * @property \App\Model\Entity\Activity $activity

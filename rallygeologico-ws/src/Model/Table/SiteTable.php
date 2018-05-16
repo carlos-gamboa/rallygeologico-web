@@ -62,9 +62,6 @@ class SiteTable extends Table
             'targetForeignKey' => 'term_id',
             'joinTable' => 'term_site'
         ]);
-        $this->hasMany('CompetitionStatisticsSite', [
-            'foreignKey' => 'site_id'
-        ]);
     }
 
     /**

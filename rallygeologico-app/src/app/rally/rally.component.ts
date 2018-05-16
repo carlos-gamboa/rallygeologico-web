@@ -28,7 +28,7 @@ export class RallyComponent implements OnInit {
               this.rallyService.getRally(this.rallyId).subscribe((rally: Rally)=>{
                 if (rally){
                    this.rally = rally;
-                   console.log("Rally "+JSON.stringify(this.rally));
+                   //console.log("Rally "+JSON.stringify(this.rally));
                 } else {
                    this.router.navigate(['/dashboard']);
                 }

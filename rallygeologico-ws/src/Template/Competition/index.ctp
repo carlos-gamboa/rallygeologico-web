@@ -41,10 +41,10 @@
             <?php foreach ($competition as $competition): ?>
             <tr>
                 <td><?= $this->Number->format($competition->id) ?></td>
-                <td><?= h($competition->is_active) ?></td>
+                <td><?= $this->Number->format($competition->is_active) ?></td>
                 <td><?= h($competition->starting_date) ?></td>
                 <td><?= h($competition->finishing_date) ?></td>
-                <td><?= h($competition->is_public) ?></td>
+                <td><?= $this->Number->format($competition->is_public) ?></td>
                 <td><?= $competition->has('user') ? $this->Html->link($competition->user->id, ['controller' => 'Users', 'action' => 'view', $competition->user->id]) : '' ?></td>
                 <td><?= h($competition->description) ?></td>
                 <td><?= h($competition->name) ?></td>

@@ -45,7 +45,7 @@
                 <td><?= h($user->last_name) ?></td>
                 <td><?= h($user->email) ?></td>
                 <td><?= h($user->photo_url) ?></td>
-                <td><?= h($user->is_admin) ?></td>
+                <td><?= $this->Number->format($user->is_admin) ?></td>
                 <td><?= $this->Number->format($user->login_api) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $user->id]) ?>

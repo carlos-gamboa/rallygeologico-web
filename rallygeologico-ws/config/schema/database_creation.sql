@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS users (
   last_name VARCHAR(15),
   email VARCHAR(30),
   photo_url VARCHAR (200),
-  is_admin BIT DEFAULT 0,
+  is_admin TINYINT DEFAULT 0,
   login_api INT
 );
 
@@ -22,10 +22,10 @@ CREATE TABLE IF NOT EXISTS rally (
 
 CREATE TABLE IF NOT EXISTS competition(
   id INT AUTO_INCREMENT PRIMARY KEY,
-  is_active BIT DEFAULT 1,
+  is_active TINYINT DEFAULT 1,
   starting_date DATETIME DEFAULT CURRENT_TIMESTAMP,
   finishing_date DATETIME,
-  is_public BIT DEFAULT 1,
+  is_public TINYINT DEFAULT 1,
   admin_id INT,
   description varchar(2000),
   name VARCHAR(30) NOT NULL,
@@ -36,8 +36,8 @@ CREATE TABLE IF NOT EXISTS competition(
 
 CREATE TABLE IF NOT EXISTS invitation (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  accepted BIT DEFAULT 0,
-  rejected BIT DEFAULT 0,
+  accepted TINYINT DEFAULT 0,
+  rejected TINYINT DEFAULT 0,
   user_id_send INT NOT NULL,
   user_id_receive INT NOT NULL,
   competition_id INT NOT NULL,
@@ -85,6 +85,7 @@ CREATE TABLE IF NOT EXISTS site (
   latitude FLOAT NOT NULL,
   longitude FLOAT NOT NULL,
   district_id INT NOT NULL,
+  points INT DEFAULT 100,
   FOREIGN KEY (district_id) REFERENCES district(id)
 );
 
@@ -137,7 +138,7 @@ CREATE TABLE IF NOT EXISTS activity(
 CREATE TABLE IF NOT EXISTS options(
   id INT AUTO_INCREMENT PRIMARY KEY,
   activity_id INT,
-  is_correct BIT NOT NULL,
+  is_correct TINYINT NOT NULL,
   option_text VARCHAR(200),
   FOREIGN KEY (activity_id) REFERENCES activity(id)
 );

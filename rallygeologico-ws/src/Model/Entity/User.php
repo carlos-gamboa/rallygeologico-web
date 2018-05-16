@@ -13,7 +13,7 @@ use Cake\ORM\Entity;
  * @property string $last_name
  * @property string $email
  * @property string $photo_url
- * @property string $is_admin
+ * @property int $is_admin
  * @property int $login_api
  *
  * @property \App\Model\Entity\Competition[] $competition

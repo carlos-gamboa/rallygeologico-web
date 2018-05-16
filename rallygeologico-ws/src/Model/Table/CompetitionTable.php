@@ -67,7 +67,6 @@ class CompetitionTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->scalar('is_active')
             ->allowEmpty('is_active');
 
         $validator
@@ -79,7 +78,6 @@ class CompetitionTable extends Table
             ->allowEmpty('finishing_date');
 
         $validator
-            ->scalar('is_public')
             ->allowEmpty('is_public');
 
         $validator

@@ -25,14 +25,6 @@
     <h3><?= h($competition->id) ?></h3>
     <table class="vertical-table">
         <tr>
-            <th scope="row"><?= __('Is Active') ?></th>
-            <td><?= h($competition->is_active) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Is Public') ?></th>
-            <td><?= h($competition->is_public) ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('User') ?></th>
             <td><?= $competition->has('user') ? $this->Html->link($competition->user->id, ['controller' => 'Users', 'action' => 'view', $competition->user->id]) : '' ?></td>
         </tr>
@@ -59,6 +51,14 @@
         <tr>
             <th scope="row"><?= __('Finishing Date') ?></th>
             <td><?= h($competition->finishing_date) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Is Active') ?></th>
+            <td><?= $this->Number->format($competition->is_active) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Is Public') ?></th>
+            <td><?= $this->Number->format($competition->is_public) ?></td>
         </tr>
     </table>
     <div class="related">
