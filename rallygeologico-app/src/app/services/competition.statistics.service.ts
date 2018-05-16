@@ -41,4 +41,8 @@ export class CompetitionStatisticsService {
             { headers: this.headers, withCredentials: true }
         );
     }
+
+    getCurrentCompetitions(userId: number): Observable<CompetitionStatistics[]>{
+        return this.http.get<CompetitionStatistics[]>(this.baseUrl + "competitionStatistics/currentCompetitions/"+ userId +".json",{ headers: this.headers, withCredentials: true });
+    }
 }

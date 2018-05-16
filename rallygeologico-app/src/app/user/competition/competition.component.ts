@@ -116,7 +116,30 @@ export class CompetitionComponent implements OnInit {
     }
 
     sortStatistics(){
-        this.statistics.sort(function(a,b) {return (a.points - b.points)});
+        this.statistics.sort(function(a,b) {return (b.points - a.points)});
+    }
+
+    notOnCompetition(){
+        let result: boolean = true;
+        if (this.invitation){
+            result = false;
+        }
+        for (let stat of this.statistics) {
+            if (stat.user_id == this.user.id) {
+                result = false;
+            }
+        }
+        return result;
+    }
+
+    joinCompetition(){
+        this.competitionStatisticsService.createCompetitionStatistics(this.user.id, this.competitionId).subscribe((stat: CompetitionStatistics)=> {
+           if (stat){
+               this.statistics.push(stat);
+           } else {
+               console.log("Couldn't join")
+           }
+        });
     }
 
     setupData(){
@@ -131,22 +154,22 @@ export class CompetitionComponent implements OnInit {
                             this.userService.getUsersToInvite(this.competitionId).subscribe((users: User[]) => {
                                 this.allUsers = users;
                                 this.reloadUsers(users);
-                            });
-                            this.invitationService.getInvitation(this.user.id, this.competitionId).subscribe((invitation: Invitation[]) => {
-                                if (invitation){
-                                    this.invitation = invitation[0];
-                                } else if (!this.competition.is_public) {
-                                    this.router.navigate(['/dashboard']);
-                                }
-                                this.readyToShow = true;
-                            });
-                            this.competitionStatisticsService.getStatistics(this.competitionId).subscribe((statistics: CompetitionStatistics[])=>{
-                                if (statistics){
-                                    this.statistics = statistics;
-                                    this.sortStatistics();
-                                } else {
-                                    console.log("Couldn't get statistics");
-                                }
+                                this.invitationService.getInvitation(this.user.id, this.competitionId).subscribe((invitation: Invitation[]) => {
+                                    if (invitation){
+                                        this.invitation = invitation[0];
+                                    } else if (!this.competition.is_public) {
+                                        this.router.navigate(['/dashboard']);
+                                    }
+                                    this.competitionStatisticsService.getStatistics(this.competitionId).subscribe((statistics: CompetitionStatistics[])=>{
+                                        if (statistics){
+                                            this.statistics = statistics;
+                                            this.sortStatistics();
+                                            this.readyToShow = true;
+                                        } else {
+                                            console.log("Couldn't get statistics");
+                                        }
+                                    });
+                                });
                             });
                         } else {
                             this.router.navigate(['/dashboard']);
