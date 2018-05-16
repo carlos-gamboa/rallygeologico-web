@@ -52,9 +52,6 @@ class UsersTable extends Table
         $this->hasMany('CompetitionStatistics', [
             'foreignKey' => 'user_id'
         ]);
-        $this->hasMany('CompetitionStatisticsSite', [
-            'foreignKey' => 'user_id'
-        ]);
     }
 
     /**

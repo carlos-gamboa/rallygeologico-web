@@ -24,8 +24,8 @@ export class CompetitionStatisticsService {
 
     /**
      * Service for adding a new competition statistics to the database, creates a post request with the attributes in the body
-     * @param {number} user
-     * @param {number} competition
+     * @param {number} userId
+     * @param {number} competitionId
      * @returns {Observable<Competition>}
      */
     createCompetitionStatistics(userId: number, competitionId: number): Observable<CompetitionStatistics>{

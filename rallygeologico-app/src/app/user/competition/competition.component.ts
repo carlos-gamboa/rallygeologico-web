@@ -7,6 +7,8 @@ import {Invitation} from "../../model/invitation";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {Competition} from "../../model/competition";
 import {CompetitionService} from "../../services/competition.service";
+import {CompetitionStatistics} from "../../model/competition.statistics";
+import {CompetitionStatisticsService} from "../../services/competition.statistics.service";
 
 @Component({
   selector: 'app-competition',
@@ -26,6 +28,8 @@ export class CompetitionComponent implements OnInit {
     competition: Competition;
     competitionId: number;
 
+    statistics: CompetitionStatistics[] = [];
+
     user: User;
     users : User[];
     allUsers: User[] = [];
@@ -34,7 +38,8 @@ export class CompetitionComponent implements OnInit {
 
     constructor(private userService: UserService, private dataService: DataService,
                 private invitationService: InvitationService, private route: ActivatedRoute,
-                private competitionService: CompetitionService, private router: Router) {
+                private competitionService: CompetitionService, private router: Router,
+                private competitionStatisticsService: CompetitionStatisticsService) {
         this.user = this.dataService.getUser();
 
         if (!this.user){
@@ -93,12 +98,25 @@ export class CompetitionComponent implements OnInit {
 
     acceptInvitation(){
         this.invitation.accepted = true;
-        this.invitationService.editInvitation(this.invitation.id, this.invitation.accepted, this.invitation.rejected).subscribe();
+        this.invitationService.editInvitation(this.invitation.id, this.invitation.accepted, this.invitation.rejected).subscribe( (invitation: Invitation) => {
+                this.competitionStatisticsService.createCompetitionStatistics(this.user.id, this.competitionId).subscribe((statistics: CompetitionStatistics) =>{
+                    if (statistics){
+                        this.statistics.push(statistics);
+                        this.sortStatistics();
+                    }  else {
+                        console.log("Couldn't create competition");
+                    }
+                });
+        });
     }
 
     rejectInvitation(){
         this.invitation.rejected = true;
         this.invitationService.editInvitation(this.invitation.id, this.invitation.accepted, this.invitation.rejected).subscribe();
+    }
+
+    sortStatistics(){
+        this.statistics.sort(function(a,b) {return (a.points - b.points)});
     }
 
     setupData(){
@@ -121,7 +139,15 @@ export class CompetitionComponent implements OnInit {
                                     this.router.navigate(['/dashboard']);
                                 }
                                 this.readyToShow = true;
-                            })
+                            });
+                            this.competitionStatisticsService.getStatistics(this.competitionId).subscribe((statistics: CompetitionStatistics[])=>{
+                                if (statistics){
+                                    this.statistics = statistics;
+                                    this.sortStatistics();
+                                } else {
+                                    console.log("Couldn't get statistics");
+                                }
+                            });
                         } else {
                             this.router.navigate(['/dashboard']);
                         }
