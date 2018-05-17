@@ -88,3 +88,19 @@
   background-color: #dd4b39;
   border-color: rgba(0,0,0,0.2);
 }
+
+.margbutton{
+   margin-bottom: 1em !important;
+
+}
+.margbutton i{
+  color:white;
+  width:16px;
+  height:20px;
+}
+
+.facebookcolor{
+  color: #fff;
+  background-color: #3b5998;
+  border-color: #3b5998;
+}

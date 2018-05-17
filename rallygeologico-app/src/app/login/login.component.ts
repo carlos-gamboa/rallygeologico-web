@@ -75,6 +75,8 @@ export class LoginComponent implements OnInit {
 
 
   loginWithOptions() {
+    this.loginWithGoogle = false;
+    this.loginWithFacebook = true;
     this.isNotRegistered=false;
     const loginOptions: LoginOptions = {
       enable_profile_selector: true,
@@ -95,7 +97,6 @@ export class LoginComponent implements OnInit {
             this.email = res.email;
             this.fbToken = this.fb.getAuthResponse().accessToken;
             this.photoUrl = res.picture.data.url;
-            console.log("Login got : "+this.fbId +" "+this.firstName +" "+ this.lastName +" "+this.email+" "+this.fbToken);
             var count1 = 0;
             this.userService.apiId(res.id, 0).subscribe((users1: User[]) => {
               for (let i: number = 0; i < users1.length; ++i) {
@@ -129,8 +130,9 @@ export class LoginComponent implements OnInit {
 
 
   googleSignIn() {
+    this.loginWithGoogle = true;
+    this.loginWithFacebook = false;
     this.isNotRegistered=false;
-    console.log('I am passing signIn');
     var auth2 = gapi.auth2.getAuthInstance();
     var user = auth2.currentUser.get();
     var profile = user.getBasicProfile();
@@ -138,8 +140,6 @@ export class LoginComponent implements OnInit {
     auth2.signIn().then((res: any) => {
       var profile = res.getBasicProfile();
       this.pleaseWait = true;
-      this.loginWithGoogle = true;
-      this.loginWithFacebook = false;
       var count1 = 0;
       this.userService.apiId(profile.getId(), 1).subscribe((users1: User[]) => {
         for (let i: number = 0; i < users1.length; ++i) {
