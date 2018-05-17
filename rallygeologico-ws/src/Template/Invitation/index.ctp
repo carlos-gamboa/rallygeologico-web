@@ -32,8 +32,8 @@
             <?php foreach ($invitation as $invitation): ?>
             <tr>
                 <td><?= $this->Number->format($invitation->id) ?></td>
-                <td><?= h($invitation->accepted) ?></td>
-                <td><?= h($invitation->rejected) ?></td>
+                <td><?= $this->Number->format($invitation->accepted) ?></td>
+                <td><?= $this->Number->format($invitation->rejected) ?></td>
                 <td><?= $invitation->has('user_send') ? $this->Html->link($invitation->user_send->id, ['controller' => 'Users', 'action' => 'view', $invitation->user_send->id]) : '' ?></td>
                 <td><?= $invitation->has('user_receive') ? $this->Html->link($invitation->user_receive->id, ['controller' => 'Users', 'action' => 'view', $invitation->user_receive->id]) : '' ?></td>
                 <td><?= $invitation->has('competition') ? $this->Html->link($invitation->competition->id, ['controller' => 'Competition', 'action' => 'view', $invitation->competition->id]) : '' ?></td>

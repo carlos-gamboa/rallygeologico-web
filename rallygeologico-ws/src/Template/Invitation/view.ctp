@@ -23,14 +23,6 @@
     <h3><?= h($invitation->id) ?></h3>
     <table class="vertical-table">
         <tr>
-            <th scope="row"><?= __('Accepted') ?></th>
-            <td><?= h($invitation->accepted) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Rejected') ?></th>
-            <td><?= h($invitation->rejected) ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('User Send') ?></th>
             <td><?= $invitation->has('user_send') ? $this->Html->link($invitation->user_send->id, ['controller' => 'Users', 'action' => 'view', $invitation->user_send->id]) : '' ?></td>
         </tr>
@@ -45,6 +37,14 @@
         <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($invitation->id) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Accepted') ?></th>
+            <td><?= $this->Number->format($invitation->accepted) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Rejected') ?></th>
+            <td><?= $this->Number->format($invitation->rejected) ?></td>
         </tr>
     </table>
 </div>
