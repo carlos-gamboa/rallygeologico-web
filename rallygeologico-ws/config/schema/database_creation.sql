@@ -121,7 +121,8 @@ CREATE TABLE IF NOT EXISTS term_site(
 CREATE TABLE IF NOT EXISTS multimedia(
   id INT AUTO_INCREMENT PRIMARY KEY,
   media_type INT NOT NULL,
-  media_url VARCHAR(2000)
+  media_url VARCHAR(2000),
+  name VARCHAR(100)
 );
 
 CREATE TABLE IF NOT EXISTS activity(

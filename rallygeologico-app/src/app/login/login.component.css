@@ -71,3 +71,36 @@
   text-transform:none;
   margin-right: 5px;
 }
+
+.btn-social{
+  position: relative;
+  padding-left: 44px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  font-size: 18px;
+}
+
+.btn-google{
+  color: #fff;
+  background-color: #dd4b39;
+  border-color: rgba(0,0,0,0.2);
+}
+
+.margbutton{
+   margin-bottom: 1em !important;
+
+}
+.margbutton i{
+  color:white;
+  width:16px;
+  height:20px;
+}
+
+.facebookcolor{
+  color: #fff;
+  background-color: #3b5998;
+  border-color: #3b5998;
+}

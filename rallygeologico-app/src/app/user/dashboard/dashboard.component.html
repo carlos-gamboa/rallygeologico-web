@@ -47,9 +47,9 @@
                 <tbody>
                 <th>Nombre</th>
                 <th>Link</th>
-                <tr *ngFor="let competition of competitions">
-                  <td><h4>{{competition.name}}</h4></td>
-                  <td><button class="genric-btn circle info text-center medium" routerLink="/competition/{{competition.id}}">Ir a rally</button></td>
+                <tr *ngFor="let statistic of competitionsStatistics">
+                  <td><h4>{{statistic.competition.name}}</h4></td>
+                  <td><button class="genric-btn circle info text-center medium" routerLink="/competition/{{statistic.competition.id}}">Ir a rally</button></td>
                 </tr>
                 </tbody>
               </table>

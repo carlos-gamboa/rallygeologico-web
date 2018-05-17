@@ -9,6 +9,8 @@ import {DataService} from "../../services/data/data.service";
 import {Competition} from "../../model/competition";
 import {RallyService} from "../../services/rally.service";
 import {Rally} from "../../model/rally";
+import {CompetitionStatisticsService} from "../../services/competition.statistics.service";
+import {CompetitionStatistics} from "../../model/competition.statistics";
 
 @Component({
   selector: 'app-dashboard',
@@ -19,7 +21,7 @@ export class DashboardComponent implements OnInit {
 
     user: User;
     invitations: Invitation[] = [];
-    competitions: Competition[] = [];
+    competitionsStatistics: CompetitionStatistics[] = [];
     ralliesToShow: Rally[] = [];
     initialLatitude: number;
     initialLongitude: number;
@@ -28,7 +30,7 @@ export class DashboardComponent implements OnInit {
 
     constructor(private userService: UserService, private dataService: DataService,
                 private invitationService: InvitationService,
-                private competitionService: CompetitionService,
+                private competitionStatisticsService: CompetitionStatisticsService,
                 private rallyService: RallyService, private router: Router) {
 
         this.user = this.dataService.getUser();
@@ -54,8 +56,8 @@ export class DashboardComponent implements OnInit {
         this.invitationService.getInvitations(this.user.id).subscribe((invitations: Invitation[]) =>{
             this.invitations = invitations;
         });
-        this.competitionService.getCurrentCompetitions(this.user.id).subscribe((competitions: Competition[]) =>{
-            this.competitions = competitions;
+        this.competitionStatisticsService.getCurrentCompetitions(this.user.id).subscribe((stats: CompetitionStatistics[]) =>{
+            this.competitionsStatistics = stats;
         });
         this.rallyService.getAllRallies().subscribe((rallies: Rally[]) =>{
             this.ralliesToShow = rallies;

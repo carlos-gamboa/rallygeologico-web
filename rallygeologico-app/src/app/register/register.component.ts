@@ -80,7 +80,6 @@ export class RegisterComponent implements OnInit {
     this.GlastName = lastname;
     this.Gemail = email;
     this.photoUrl = img;
-    
   }
 
 
@@ -94,24 +93,15 @@ export class RegisterComponent implements OnInit {
   registerFb() {
     this.pleaseWait = true;
     var count1 = 0;
-    this.userService.email(this.email).subscribe((users: User[]) => {
-      console.log(users);
-      for (let i: number = 0; i < users.length; ++i) {
-        count1 += 1;
-      }
-      this.emailUsed = (count1 != 0);
+    this.userService.emailExists(this.email).subscribe((users: boolean) => {
+      this.emailUsed = users;
       if (!this.emailUsed) {
         var count2 = 0;
-        this.userService.username(this.userName).subscribe((users: User[]) => {
-          console.log(users);
-          for (let i: number = 0; i < users.length; ++i) {
-            count2 += 1;
-          }
-          this.changeUsername = (count2 != 0);
+        this.userService.usernameExists(this.userName).subscribe((usersTwo: boolean) => {
+          this.changeUsername = usersTwo;
           if (!this.changeUsername) {
             this.userService.register(this.fbId, this.userName, this.firstName, this.lastName, this.email, this.photoUrl, 0).subscribe((users: User[]) => {
               if (users) {
-                console.log(users);
                 this.successful = true;
                 this.pleaseWait = false;
               }else {
@@ -128,24 +118,16 @@ export class RegisterComponent implements OnInit {
   registerGoogle() {
     this.pleaseWait = true;
     var count1 = 0;
-    this.userService.email(this.email).subscribe((users: User[]) => {
-      console.log(users);
-      for (let i: number = 0; i < users.length; ++i) {
-        count1 += 1;
-      }
-      this.emailUsed = (count1 != 0);
+    this.userService.emailExists(this.email).subscribe((users: boolean) => {
+      this.emailUsed = users;
       if (!this.emailUsed) {
         var count2 = 0;
-        this.userService.username(this.userName).subscribe((users: User[]) => {
-          console.log(users);
-          for (let i: number = 0; i < users.length; ++i) {
-            count2 += 1;
-          }
-          this.changeUsername = (count2 != 0);
+        this.userService.usernameExists(this.userName).subscribe((usersTwo: boolean) => {
+          this.changeUsername = usersTwo;
           if (!this.changeUsername) {
-            this.userService.register(this.fbId, this.userName, this.firstName, this.lastName, this.email, this.photoUrl, 0).subscribe((users: User[]) => {
+            this.userService.register(this.GId, this.userName, this.GfirstName, this.GlastName, this.Gemail, this.photoUrl, 1).subscribe((users: User[]) => {
               if (users) {
-                console.log(users);
+                console.log("GOOGLE ID: "+ this.userName);
                 this.successful = true;
                 this.pleaseWait = false;
               }else {

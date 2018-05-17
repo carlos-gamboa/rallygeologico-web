@@ -9,6 +9,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $media_type
  * @property string $media_url
+ * @property string $name
  *
  * @property \App\Model\Entity\Activity[] $activity
  * @property \App\Model\Entity\Term[] $term
@@ -28,6 +29,7 @@ class Multimedia extends Entity
     protected $_accessible = [
         'media_type' => true,
         'media_url' => true,
+        'name' => true,
         'activity' => true,
         'term' => true
     ];
