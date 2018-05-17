@@ -97,7 +97,7 @@ export class CompetitionComponent implements OnInit {
     }
 
     acceptInvitation(){
-        this.invitation.accepted = true;
+        this.invitation.accepted = 1;
         this.invitationService.editInvitation(this.invitation.id, this.invitation.accepted, this.invitation.rejected).subscribe( (invitation: Invitation) => {
                 this.competitionStatisticsService.createCompetitionStatistics(this.user.id, this.competitionId).subscribe((statistics: CompetitionStatistics) =>{
                     if (statistics){
@@ -111,7 +111,7 @@ export class CompetitionComponent implements OnInit {
     }
 
     rejectInvitation(){
-        this.invitation.rejected = true;
+        this.invitation.rejected = 1;
         this.invitationService.editInvitation(this.invitation.id, this.invitation.accepted, this.invitation.rejected).subscribe();
     }
 
@@ -157,7 +157,7 @@ export class CompetitionComponent implements OnInit {
                                 this.invitationService.getInvitation(this.user.id, this.competitionId).subscribe((invitation: Invitation[]) => {
                                     if (invitation){
                                         this.invitation = invitation[0];
-                                    } else if (!this.competition.is_public) {
+                                    } else if (this.competition.is_public == 0) {
                                         this.router.navigate(['/dashboard']);
                                     }
                                     this.competitionStatisticsService.getStatistics(this.competitionId).subscribe((statistics: CompetitionStatistics[])=>{

@@ -38,14 +38,14 @@
           <div>
             <h3>Información</h3> <br>
             <ul>
-              <li><strong>Estado:</strong> <span *ngIf="competition.is_active" >Activo</span><span *ngIf="!competition.is_active" >Inactive</span></li>
+              <li><strong>Estado:</strong> <span *ngIf="competition.is_active == 1" >Activo</span><span *ngIf="competition.is_active == 0" >Inactive</span></li>
               <li><strong>Creado en:</strong> {{competition.starting_date |  date:'MM/dd/yyyy'}}</li>
-              <li><strong *ngIf="competition.is_public">Público</strong><strong *ngIf="!competition.is_public">Privado</strong></li>
+              <li><strong *ngIf="competition.is_public == 1">Público</strong><strong *ngIf="competition.is_public == 0">Privado</strong></li>
               <li><strong>Número actual de jugadores: </strong> {{statistics.length}}</li>
               <li><strong>Jugador con más puntos: </strong> {{statistics[0].user.username}} <i class="fa fa-trophy"></i></li>
             </ul>
             <div class="row mt-3" *ngIf="invitation">
-              <div class="col-md-6 offset-3" *ngIf="invitation.accepted == false && invitation.rejected == false">
+              <div class="col-md-6 offset-3" *ngIf="invitation.accepted == 0 && invitation.rejected == 0">
                 <div class="row">
                   <div class="col-md-6">
                     <button title="Aceptar" (click)="acceptInvitation()" class="genric-btn success circle btn-inv text-center">Aceptar</button>
@@ -92,7 +92,7 @@
     </div>
   </div>
   <hr>
-  <div class="container" *ngIf="competition.user.id == user.id">
+  <div class="container" *ngIf="competition.user.id == user.id && competition.is_active == 1">
     <div class="row">
       <div class="offset-md-2 col-md-8 col-xs-12">
         <h3 class="text-center mb-3">Invitar usuarios a esta competencia</h3>
