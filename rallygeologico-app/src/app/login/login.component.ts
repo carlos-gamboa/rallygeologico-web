@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import {UserService} from "../services/user.service";
 import {FacebookService, InitParams, LoginOptions, LoginResponse, AuthResponse} from 'ngx-facebook';
 import {User} from "../model/user";
@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
     pleaseWait = false;
 
 
-  constructor(private fb: FacebookService, private userService: UserService, private router: Router, private userDataService:DataService,private dataService: DataService){
+  constructor(private _ngZone: NgZone, private fb: FacebookService, private userService: UserService, private router: Router, private userDataService:DataService,private dataService: DataService){
     console.log('Initializing Facebook');
     let initParams: InitParams = {
       appId: environment.facebookKey,
@@ -109,12 +109,13 @@ export class LoginComponent implements OnInit {
                 this.userService.auth(res.id, 0).subscribe((users: User[]) => {
                     console.log(users[0]);
                     this.userDataService.updateUser(users[0]);
-                  console.log("Completed auth");
                   setTimeout(() =>
                     {
-                      this.router.navigate(['/dashboard']);
+                      this._ngZone.run(
+                        () => this.router.navigate(['dashboard'])
+                      );
                     },
-                    1000);
+                    1500);
                 });
               }
               this.pleaseWait = false;
@@ -136,6 +137,7 @@ export class LoginComponent implements OnInit {
     // Sign the user in, and then retrieve their ID.
     auth2.signIn().then((res: any) => {
       var profile = res.getBasicProfile();
+      this.pleaseWait = true;
       this.loginWithGoogle = true;
       this.loginWithFacebook = false;
       var count1 = 0;
@@ -149,14 +151,15 @@ export class LoginComponent implements OnInit {
           this.pleaseWait = false;
           this.success = true;
           this.userService.auth(profile.getId(), 1).subscribe((users: User[]) => {
-            console.log(users[0]);
             this.userDataService.updateUser(users[0]);
             console.log("Completed auth");
             setTimeout(() =>
               {
-                this.router.navigate(['/dashboard']);
+                this._ngZone.run(
+                  () => this.router.navigate(['dashboard'])
+                );
               },
-              1000);
+              1500);
           })
         }
         this.pleaseWait = false;

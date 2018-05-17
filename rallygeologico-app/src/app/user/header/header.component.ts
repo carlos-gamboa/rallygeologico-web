@@ -48,7 +48,7 @@ export class HeaderComponent implements OnInit {
     logout() {
       this.userService.logout().subscribe((user: User)=>{
           console.log(user);
-          //this.dataService.updateUser(null);
+          this.dataService.updateUser(null);
           setTimeout(() =>
               {
                   this.router.navigate(['/landing']);
