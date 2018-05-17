@@ -13,14 +13,13 @@ use Cake\ORM\Entity;
  * @property string $last_name
  * @property string $email
  * @property string $photo_url
- * @property string $is_admin
+ * @property int $is_admin
  * @property int $login_api
  *
  * @property \App\Model\Entity\Competition[] $competition
  * @property \App\Model\Entity\Invitation[] $invitation_send
  * @property \App\Model\Entity\Invitation[] $invitation_receive
  * @property \App\Model\Entity\CompetitionStatistic[] $competition_statistics
- * @property \App\Model\Entity\CompetitionStatisticsSite[] $competition_statistics_site
  */
 class User extends Entity
 {
@@ -46,7 +45,6 @@ class User extends Entity
         'competition' => true,
         'invitation_send' => true,
         'invitation_receive' => true,
-        'competition_statistics' => true,
-        'competition_statistics_site' => true
+        'competition_statistics' => true
     ];
 }

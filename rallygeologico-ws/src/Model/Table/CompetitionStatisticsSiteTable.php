@@ -37,10 +37,6 @@ class CompetitionStatisticsSiteTable extends Table
         $this->setDisplayField('user_id');
         $this->setPrimaryKey(['competition_statistics_id', 'site_id']);
 
-        $this->belongsTo('Users', [
-            'foreignKey' => 'user_id',
-            'joinType' => 'INNER'
-        ]);
         $this->belongsTo('CompetitionStatistics', [
             'foreignKey' => 'competition_statistics_id',
             'joinType' => 'INNER'
@@ -49,6 +45,21 @@ class CompetitionStatisticsSiteTable extends Table
             'foreignKey' => 'site_id',
             'joinType' => 'INNER'
         ]);
+    }
+
+    /**
+     * Default validation rules.
+     *
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
+     */
+    public function validationDefault(Validator $validator)
+    {
+        $validator
+            ->dateTime('visited_date')
+            ->allowEmpty('visited_date');
+
+        return $validator;
     }
 
     /**

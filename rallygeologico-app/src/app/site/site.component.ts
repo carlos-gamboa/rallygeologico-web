@@ -24,7 +24,7 @@ export class SiteComponent implements OnInit {
                   this.siteService.getSite(this.siteId).subscribe((site: Site)=>{
                       if (site){
                           this.site = site;
-                          console.log("Site "+JSON.stringify(this.site));
+                          //console.log("Site "+JSON.stringify(this.site));
                       } else {
                           this.router.navigate(['/dashboard']);
                       }

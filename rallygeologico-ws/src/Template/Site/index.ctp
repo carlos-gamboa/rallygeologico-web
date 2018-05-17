@@ -10,6 +10,8 @@
         <li><?= $this->Html->link(__('New Site'), ['action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List District'), ['controller' => 'District', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New District'), ['controller' => 'District', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Activity'), ['controller' => 'Activity', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Activity'), ['controller' => 'Activity', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Competition Statistics'), ['controller' => 'CompetitionStatistics', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Competition Statistic'), ['controller' => 'CompetitionStatistics', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Rally'), ['controller' => 'Rally', 'action' => 'index']) ?></li>
@@ -31,6 +33,8 @@
                 <th scope="col"><?= $this->Paginator->sort('latitude') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('longitude') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('district_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('points') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('is_easter_egg') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -44,7 +48,9 @@
                 <td><?= h($site->description) ?></td>
                 <td><?= $this->Number->format($site->latitude) ?></td>
                 <td><?= $this->Number->format($site->longitude) ?></td>
-                <td><?= $site->has('district') ? $this->Html->link($site->district->name, ['controller' => 'District', 'action' => 'view', $site->district->name]) : '' ?></td>
+                <td><?= $site->has('district') ? $this->Html->link($site->district->id, ['controller' => 'District', 'action' => 'view', $site->district->id]) : '' ?></td>
+                <td><?= $this->Number->format($site->points) ?></td>
+                <td><?= $this->Number->format($site->is_easter_egg) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $site->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $site->id]) ?>

@@ -7,6 +7,7 @@ export class Site {
     latitude: number;
     longitude: number;
     district_id: string;
+    points: number;
 
     constructor(site: any){
         this.id = site.id;
@@ -17,5 +18,6 @@ export class Site {
         this.latitude = site.latitude;
         this.longitude = site.longitude;
         this.district_id = site.district_id;
+        this.points = site.points;
     }
 }

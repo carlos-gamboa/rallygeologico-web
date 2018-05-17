@@ -3,10 +3,10 @@ import {User} from "./user";
 
 export class Competition {
     id: number;
-    is_active: boolean;
+    is_active: number;
     starting_date: string;
     finishing_date: string;
-    is_public: boolean;
+    is_public: number;
     name:  string;
     rally_id: number;
     admin_id: number;

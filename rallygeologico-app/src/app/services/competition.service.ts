@@ -1,5 +1,5 @@
 import {Configuration} from "./data/constants";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
 import {Competition} from "../model/competition";
@@ -9,6 +9,7 @@ import {Invitation} from "../model/invitation";
 export class CompetitionService {
 
     baseUrl: string;
+    headers: HttpHeaders = new HttpHeaders();
 
     /**
      * Creates a Competition Service
@@ -17,6 +18,7 @@ export class CompetitionService {
      */
     constructor(private http : HttpClient, private _configuration: Configuration){
         this.baseUrl = this._configuration.ServerWithApiUrl;
+        this.headers.append('Content-Type', 'application/json');
     }
 
     /**
@@ -35,7 +37,7 @@ export class CompetitionService {
             'description': description,
             'name': name,
             'rally_id': rallyId
-            }
+            },{ headers: this.headers, withCredentials: true }
         );
     }
 
@@ -45,15 +47,15 @@ export class CompetitionService {
      * @returns {Observable<Competition>}
      */
     findCompetition(competitionId: number) : Observable<Competition>{
-        return this.http.get<Competition>(this.baseUrl + "competition/view/"+ competitionId +".json");
+        return this.http.get<Competition>(this.baseUrl + "competition/view/"+ competitionId +".json",{ headers: this.headers, withCredentials: true });
     }
 
-
     getCurrentCompetitions(userId: number): Observable<Competition[]>{
-        return this.http.get<Competition[]>(this.baseUrl + "competition/currentCompetitions/"+ userId +".json");
+        return this.http.get<Competition[]>(this.baseUrl + "competition/currentCompetitions/"+ userId +".json",{ headers: this.headers, withCredentials: true });
     }
 
     getAllPublicCompetitions(): Observable<Competition[]>{
-        return this.http.get<Competition[]>(this.baseUrl + "competition/getallpubliccompetitions.json")
+        return this.http.get<Competition[]>(this.baseUrl + "competition/getallpubliccompetitions.json",{ headers: this.headers, withCredentials: true })
     }
+
 }

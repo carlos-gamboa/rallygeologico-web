@@ -7,10 +7,10 @@ use Cake\ORM\Entity;
  * Competition Entity
  *
  * @property int $id
- * @property string $is_active
+ * @property int $is_active
  * @property \Cake\I18n\FrozenTime $starting_date
  * @property \Cake\I18n\FrozenTime $finishing_date
- * @property string $is_public
+ * @property int $is_public
  * @property int $admin_id
  * @property string $description
  * @property string $name

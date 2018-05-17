@@ -12,6 +12,7 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\SiteTable|\Cake\ORM\Association\BelongsTo $Site
  * @property \App\Model\Table\OptionsTable|\Cake\ORM\Association\HasMany $Options
  * @property \App\Model\Table\MultimediaTable|\Cake\ORM\Association\BelongsToMany $Multimedia
+ * @property \App\Model\Table\CompetitionStatisticsTable|\Cake\ORM\Association\BelongsToMany $CompetitionStatistics
  *
  * @method \App\Model\Entity\Activity get($primaryKey, $options = [])
  * @method \App\Model\Entity\Activity newEntity($data = null, array $options = [])
@@ -48,6 +49,11 @@ class ActivityTable extends Table
             'foreignKey' => 'activity_id',
             'targetForeignKey' => 'multimedia_id',
             'joinTable' => 'activity_multimedia'
+        ]);
+        $this->belongsToMany('CompetitionStatistics', [
+            'foreignKey' => 'activity_id',
+            'targetForeignKey' => 'competition_statistic_id',
+            'joinTable' => 'competition_statistics_activity'
         ]);
     }
 

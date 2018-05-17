@@ -52,9 +52,6 @@ class UsersTable extends Table
         $this->hasMany('CompetitionStatistics', [
             'foreignKey' => 'user_id'
         ]);
-        $this->hasMany('CompetitionStatisticsSite', [
-            'foreignKey' => 'user_id'
-        ]);
     }
 
     /**
@@ -96,7 +93,6 @@ class UsersTable extends Table
             ->allowEmpty('photo_url');
 
         $validator
-            ->scalar('is_admin')
             ->allowEmpty('is_admin');
 
         $validator

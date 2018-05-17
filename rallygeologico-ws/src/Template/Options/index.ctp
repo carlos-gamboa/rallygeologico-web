@@ -29,7 +29,7 @@
             <tr>
                 <td><?= $this->Number->format($option->id) ?></td>
                 <td><?= $option->has('activity') ? $this->Html->link($option->activity->id, ['controller' => 'Activity', 'action' => 'view', $option->activity->id]) : '' ?></td>
-                <td><?= h($option->is_correct) ?></td>
+                <td><?= $this->Number->format($option->is_correct) ?></td>
                 <td><?= h($option->option_text) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $option->id]) ?>

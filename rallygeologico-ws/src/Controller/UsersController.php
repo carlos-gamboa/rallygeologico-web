@@ -75,6 +75,21 @@ class UsersController extends AppController
         $this->render('/Users/json/template');
     }
 
+    public function usernameexists($Username = null)
+    {
+        $users = $this->Users->find('all', [
+                'conditions' => ['users.username' => $Username]]
+        );
+        $this->set('users', $users);
+        if ($users->isEmpty()){
+            $this->set('users', false);
+        }
+        else{
+            $this->set('users', true);
+        }
+        $this->render('/Users/json/template');
+    }
+
     /**
      * Find an user by it's email
      *
@@ -86,6 +101,21 @@ class UsersController extends AppController
                 'conditions' => ['users.email' => $Email]]
         );
         $this->set('users', $users);
+        $this->render('/Users/json/template');
+    }
+
+    public function emailexists($Email = null)
+    {
+        $users = $this->Users->find('all', [
+                'conditions' => ['users.email' => $Email]]
+        );
+        $this->set('users', $users);
+        if ($users->isEmpty()){
+            $this->set('users', false);
+        }
+        else{
+            $this->set('users', true);
+        }
         $this->render('/Users/json/template');
     }
 
@@ -178,6 +208,7 @@ class UsersController extends AppController
 
         $this->loadModel('Invitation');
         $this->loadModel('Competition');
+        $this->loadModel('CompetitionStatistics');
 
         $users = $this->Users->find('all', [
                 'conditions' => [
@@ -208,9 +239,17 @@ class UsersController extends AppController
                                     ]
                                 ]
                             )
+                        ],
+                        [
+                            'Users.id NOT IN' => $this->CompetitionStatistics->find('all', [
+                                    'fields' => ['CompetitionStatistics.user_id'],
+                                    'conditions' => [
+                                        'CompetitionStatistics.competition_id' => $CompetitionId
+                                    ]
+                                ]
+                            )
                         ]
                     ]
-
                 ]
             ]
         );
