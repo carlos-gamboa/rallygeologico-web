@@ -9,6 +9,7 @@ export class Competition {
     is_public: number;
     name:  string;
     rally_id: number;
+    admin_id: number;
     description: string;
     rally: Rally;
     user: User;
@@ -22,6 +23,7 @@ export class Competition {
         this.is_public = competition.is_public;
         this.name = competition.name;
         this.rally_id = competition.rally_id;
+        this.admin_id = competition.admin_id;
         this.rally = competition.rally;
         this.user = competition.user;
         this.description = competition.description;
