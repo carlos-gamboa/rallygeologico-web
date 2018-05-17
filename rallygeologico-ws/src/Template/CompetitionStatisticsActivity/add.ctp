@@ -19,6 +19,8 @@
     <fieldset>
         <legend><?= __('Add Competition Statistics Activity') ?></legend>
         <?php
+            echo $this->Form->control('resolved_date', ['empty' => true]);
+            echo $this->Form->control('points_obtained');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

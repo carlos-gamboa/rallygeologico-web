@@ -21,6 +21,8 @@
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('competition_statistics_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('activity_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('resolved_date') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('points_obtained') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -29,6 +31,8 @@
             <tr>
                 <td><?= $competitionStatisticsActivity->has('competition_statistic') ? $this->Html->link($competitionStatisticsActivity->competition_statistic->id, ['controller' => 'CompetitionStatistics', 'action' => 'view', $competitionStatisticsActivity->competition_statistic->id]) : '' ?></td>
                 <td><?= $competitionStatisticsActivity->has('activity') ? $this->Html->link($competitionStatisticsActivity->activity->id, ['controller' => 'Activity', 'action' => 'view', $competitionStatisticsActivity->activity->id]) : '' ?></td>
+                <td><?= h($competitionStatisticsActivity->resolved_date) ?></td>
+                <td><?= $this->Number->format($competitionStatisticsActivity->points_obtained) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $competitionStatisticsActivity->competition_statistics_id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $competitionStatisticsActivity->competition_statistics_id]) ?>

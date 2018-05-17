@@ -108,8 +108,11 @@ class SiteTable extends Table
             ->notEmpty('longitude');
 
         $validator
-            ->numeric('points')
+            ->integer('points')
             ->allowEmpty('points');
+
+        $validator
+            ->allowEmpty('is_easter_egg');
 
         return $validator;
     }

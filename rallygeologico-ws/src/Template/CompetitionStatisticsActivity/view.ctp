@@ -28,5 +28,13 @@
             <th scope="row"><?= __('Activity') ?></th>
             <td><?= $competitionStatisticsActivity->has('activity') ? $this->Html->link($competitionStatisticsActivity->activity->id, ['controller' => 'Activity', 'action' => 'view', $competitionStatisticsActivity->activity->id]) : '' ?></td>
         </tr>
+        <tr>
+            <th scope="row"><?= __('Points Obtained') ?></th>
+            <td><?= $this->Number->format($competitionStatisticsActivity->points_obtained) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Resolved Date') ?></th>
+            <td><?= h($competitionStatisticsActivity->resolved_date) ?></td>
+        </tr>
     </table>
 </div>

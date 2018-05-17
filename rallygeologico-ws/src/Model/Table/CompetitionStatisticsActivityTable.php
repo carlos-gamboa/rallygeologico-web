@@ -48,6 +48,25 @@ class CompetitionStatisticsActivityTable extends Table
     }
 
     /**
+     * Default validation rules.
+     *
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
+     */
+    public function validationDefault(Validator $validator)
+    {
+        $validator
+            ->dateTime('resolved_date')
+            ->allowEmpty('resolved_date');
+
+        $validator
+            ->integer('points_obtained')
+            ->allowEmpty('points_obtained');
+
+        return $validator;
+    }
+
+    /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *

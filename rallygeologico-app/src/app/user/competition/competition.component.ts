@@ -177,6 +177,7 @@ export class CompetitionComponent implements OnInit {
                                     this.competitionStatisticsService.getStatistics(this.competitionId).subscribe((statistics: CompetitionStatistics[])=>{
                                         if (statistics){
                                             this.statistics = statistics;
+                                            console.log(this.statistics);
                                             this.sortStatistics();
                                             this.readyToShow = true;
                                         } else {

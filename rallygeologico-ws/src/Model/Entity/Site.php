@@ -15,8 +15,10 @@ use Cake\ORM\Entity;
  * @property float $longitude
  * @property int $district_id
  * @property int $points
+ * @property int $is_easter_egg
  *
  * @property \App\Model\Entity\District $district
+ * @property \App\Model\Entity\Activity[] $activity
  * @property \App\Model\Entity\CompetitionStatistic[] $competition_statistics
  * @property \App\Model\Entity\Rally[] $rally
  * @property \App\Model\Entity\Term[] $term
@@ -41,8 +43,10 @@ class Site extends Entity
         'latitude' => true,
         'longitude' => true,
         'district_id' => true,
-        'district' => true,
         'points' => true,
+        'is_easter_egg' => true,
+        'district' => true,
+        'activity' => true,
         'competition_statistics' => true,
         'rally' => true,
         'term' => true

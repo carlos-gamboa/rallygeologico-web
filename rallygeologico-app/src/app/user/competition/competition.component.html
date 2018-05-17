@@ -101,7 +101,7 @@
                         <tr>
                           <td><h4>{{site.name}}</h4></td>
                           <td><h5>{{site.points}}</h5></td>
-                          <td><h5>{{participant.starting_date |  date:'MM/dd/yyyy'}}</h5></td>
+                          <td><h5>{{site._joinData.visited_date |  date:'MM/dd/yyyy'}}</h5></td>
                         </tr>
                         </tbody>
                       </table>
@@ -113,8 +113,8 @@
                         <tbody *ngFor="let activity of participant.activity">
                         <tr>
                           <td><h4>{{activity.description}}</h4></td>
-                          <td><h5>{{activity.points_awarded}}</h5></td>
-                          <td><h5>{{participant.starting_date |  date:'MM/dd/yyyy'}}</h5></td>
+                          <td><h5>{{activity._joinData.points_obtained}}</h5></td>
+                          <td><h5>{{activity._joinData.resolved_date |  date:'MM/dd/yyyy'}}</h5></td>
                         </tr>
                         </tbody>
                       </table>

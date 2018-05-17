@@ -13,6 +13,8 @@
         <li><?= $this->Html->link(__('New Site'), ['action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List District'), ['controller' => 'District', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New District'), ['controller' => 'District', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Activity'), ['controller' => 'Activity', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Activity'), ['controller' => 'Activity', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Competition Statistics'), ['controller' => 'CompetitionStatistics', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Competition Statistic'), ['controller' => 'CompetitionStatistics', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Rally'), ['controller' => 'Rally', 'action' => 'index']) ?> </li>
@@ -42,7 +44,7 @@
         </tr>
         <tr>
             <th scope="row"><?= __('District') ?></th>
-            <td><?= $site->has('district') ? $this->Html->link($site->district->name, ['controller' => 'District', 'action' => 'view', $site->district->name]) : '' ?></td>
+            <td><?= $site->has('district') ? $this->Html->link($site->district->id, ['controller' => 'District', 'action' => 'view', $site->district->id]) : '' ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Id') ?></th>
@@ -55,6 +57,14 @@
         <tr>
             <th scope="row"><?= __('Longitude') ?></th>
             <td><?= $this->Number->format($site->longitude) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Points') ?></th>
+            <td><?= $this->Number->format($site->points) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Is Easter Egg') ?></th>
+            <td><?= $this->Number->format($site->is_easter_egg) ?></td>
         </tr>
     </table>
     <div class="related">
@@ -79,9 +89,9 @@
                 <td><?= h($competitionStatistics->finishing_date) ?></td>
                 <td><?= h($competitionStatistics->points) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'CompetitionStatistics', 'action' => 'view', $competitionStatistics->user_id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'CompetitionStatistics', 'action' => 'edit', $competitionStatistics->user_id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'CompetitionStatistics', 'action' => 'delete', $competitionStatistics->user_id], ['confirm' => __('Are you sure you want to delete # {0}?', $competitionStatistics->user_id)]) ?>
+                    <?= $this->Html->link(__('View'), ['controller' => 'CompetitionStatistics', 'action' => 'view', $competitionStatistics->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['controller' => 'CompetitionStatistics', 'action' => 'edit', $competitionStatistics->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'CompetitionStatistics', 'action' => 'delete', $competitionStatistics->id], ['confirm' => __('Are you sure you want to delete # {0}?', $competitionStatistics->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>
@@ -140,6 +150,35 @@
                     <?= $this->Html->link(__('View'), ['controller' => 'Term', 'action' => 'view', $term->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['controller' => 'Term', 'action' => 'edit', $term->id]) ?>
                     <?= $this->Form->postLink(__('Delete'), ['controller' => 'Term', 'action' => 'delete', $term->id], ['confirm' => __('Are you sure you want to delete # {0}?', $term->id)]) ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+        <?php endif; ?>
+    </div>
+    <div class="related">
+        <h4><?= __('Related Activity') ?></h4>
+        <?php if (!empty($site->activity)): ?>
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <th scope="col"><?= __('Id') ?></th>
+                <th scope="col"><?= __('Site Id') ?></th>
+                <th scope="col"><?= __('Activity Type') ?></th>
+                <th scope="col"><?= __('Points Awarded') ?></th>
+                <th scope="col"><?= __('Description') ?></th>
+                <th scope="col" class="actions"><?= __('Actions') ?></th>
+            </tr>
+            <?php foreach ($site->activity as $activity): ?>
+            <tr>
+                <td><?= h($activity->id) ?></td>
+                <td><?= h($activity->site_id) ?></td>
+                <td><?= h($activity->activity_type) ?></td>
+                <td><?= h($activity->points_awarded) ?></td>
+                <td><?= h($activity->description) ?></td>
+                <td class="actions">
+                    <?= $this->Html->link(__('View'), ['controller' => 'Activity', 'action' => 'view', $activity->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['controller' => 'Activity', 'action' => 'edit', $activity->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Activity', 'action' => 'delete', $activity->id], ['confirm' => __('Are you sure you want to delete # {0}?', $activity->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

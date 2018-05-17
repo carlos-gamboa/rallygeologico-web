@@ -51,12 +51,14 @@ class CompetitionStatisticsTable extends Table
         $this->belongsToMany('Site', [
             'foreignKey' => 'competition_statistics_id',
             'targetForeignKey' => 'site_id',
-            'joinTable' => 'competition_statistics_site'
+            'joinTable' => 'competition_statistics_site',
+            'through' => 'CompetitionStatisticsSite'
         ]);
         $this->belongsToMany('Activity', [
             'foreignKey' => 'competition_statistics_id',
             'targetForeignKey' => 'activity_id',
-            'joinTable' => 'competition_statistics_activity'
+            'joinTable' => 'competition_statistics_activity',
+            'through' => 'CompetitionStatisticsActivity'
         ]);
     }
 

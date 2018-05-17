@@ -8,8 +8,6 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New Competition Statistics Site'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Competition Statistics'), ['controller' => 'CompetitionStatistics', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Competition Statistic'), ['controller' => 'CompetitionStatistics', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Site'), ['controller' => 'Site', 'action' => 'index']) ?></li>
@@ -23,18 +21,20 @@
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('competition_statistics_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('site_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('visited_date') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($competitionStatisticsSite as $competitionStatisticsSite): ?>
             <tr>
-                <td><?= $this->Number->format($competitionStatisticsSite->competition_statistics_id) ?></td>
+                <td><?= $competitionStatisticsSite->has('competition_statistic') ? $this->Html->link($competitionStatisticsSite->competition_statistic->id, ['controller' => 'CompetitionStatistics', 'action' => 'view', $competitionStatisticsSite->competition_statistic->id]) : '' ?></td>
                 <td><?= $competitionStatisticsSite->has('site') ? $this->Html->link($competitionStatisticsSite->site->name, ['controller' => 'Site', 'action' => 'view', $competitionStatisticsSite->site->id]) : '' ?></td>
+                <td><?= h($competitionStatisticsSite->visited_date) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $competitionStatisticsSite->user_id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $competitionStatisticsSite->user_id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $competitionStatisticsSite->user_id], ['confirm' => __('Are you sure you want to delete # {0}?', $competitionStatisticsSite->user_id)]) ?>
+                    <?= $this->Html->link(__('View'), ['action' => 'view', $competitionStatisticsSite->competition_statistics_id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $competitionStatisticsSite->competition_statistics_id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $competitionStatisticsSite->competition_statistics_id], ['confirm' => __('Are you sure you want to delete # {0}?', $competitionStatisticsSite->competition_statistics_id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>
