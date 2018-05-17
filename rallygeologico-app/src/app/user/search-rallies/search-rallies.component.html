@@ -20,8 +20,8 @@
   <div class="container">
     <div class="row">
       <div class="offset-md-2 col-md-8 col-xs-12">
-        <h3 class="title text-center mb-3">Invitar usuarios a esta competencia</h3>
-        <p class="subtitle text-center">Busque usuarios por nombre de usuario</p>
+        <h3 class="text-center mb-3">Invitar usuarios a esta competencia</h3>
+        <p class="text-center">Busque usuarios por nombre de usuario</p>
         <div class="busqueda" id="searchform">
           <input [(ngModel)]="searchQuery" type="text" title="Digite aquí el nombre del la competencia" id="searchterm" placeholder="Digite el nombre de la competencia" />
           <button type="button" id="search" title="Click aquí para buscar la competencia" (click)="searchCompetition()">Buscar</button>
@@ -42,8 +42,8 @@
                 <td><h5 class="subtitle">{{competition.user.first_name}} {{competition.user.last_name}}</h5></td>
                 <td><h5 class="subtitle">{{competition.name}}</h5></td>
                 <td><h4 class="subtitle">{{competition.rally.name}}</h4></td>
-                <td><h4 class="subtitle">{{competition.starting_date}}</h4></td>
-                <td><button title="Ir a" class="btn btn-default btn-sm btn-block text-center" routerLink="/competition/{{competition.id}}">Ir a</button></td>
+                <td><h4 class="subtitle">{{competition.starting_date |  date:'MM/dd/yyyy'}}</h4></td>
+                <td><button title="Ir a" class="genric-btn circle text-center warning medium" routerLink="/competition/{{competition.id}}">Ir a</button></td>
               </tr>
               </tbody>
             </table>

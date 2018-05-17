@@ -2,10 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {Competition} from "../../model/competition";
 import {User} from "../../model/user";
 import {CompetitionService} from "../../services/competition.service";
-import {RouterLink} from "@angular/router";
-import {RallyService} from "../../services/rally.service";
-import {forEach} from "@angular/router/src/utils/collection";
-import {Rally} from "../../model/rally";
+import {DataService} from "../../services/data/data.service";
+import {Router} from "@angular/router";
 import {UserService} from "../../services/user.service";
 
 @Component({
@@ -15,6 +13,7 @@ import {UserService} from "../../services/user.service";
 })
 export class SearchRalliesComponent implements OnInit {
 
+    user : User;
     competitions : Competition[];
     allCompetitions: Competition[];
     showedCompetitions: Competition[];
@@ -29,12 +28,34 @@ export class SearchRalliesComponent implements OnInit {
 
 
 
-  constructor(competitionService:CompetitionService, rallyService:RallyService, userService:UserService) {
-      competitionService.getAllPublicCompetitions().subscribe((competitions : Competition[]) =>{
+  constructor(private competitionService:CompetitionService,
+              private dataService:DataService,
+              private router: Router,
+              private  userService:UserService) {
+
+      this.user = this.dataService.getUser();
+      if (!this.user){
+          this.userService.isLoggedIn().subscribe((users: User) => {
+              if(users[0]){
+                  this.dataService.updateUser(users[0]);
+                  this.user = users[0];
+                  this.setupData();
+              } else {
+                  this.router.navigate(['/landing']);
+              }
+          });
+      } else {
+          this.setupData();
+      }
+
+  }
+
+  setupData(){
+      this.competitionService.getAllPublicCompetitions(this.user.id).subscribe((competitions : Competition[]) =>{
           this.allCompetitions = competitions;
           this.reloadCompetitions(competitions);
           console.log(this.allCompetitions);
-      })
+      });
   }
 
   ngOnInit() {
