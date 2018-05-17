@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import {Competition} from "../../model/competition";
 import {User} from "../../model/user";
 import {CompetitionService} from "../../services/competition.service";
+import {RouterLink} from "@angular/router";
+import {RallyService} from "../../services/rally.service";
+import {forEach} from "@angular/router/src/utils/collection";
+import {Rally} from "../../model/rally";
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-search-rallies',
@@ -14,36 +19,25 @@ export class SearchRalliesComponent implements OnInit {
     allCompetitions: Competition[];
     showedCompetitions: Competition[];
 
-    currentCompetition: Competition;
-
     pageSize : number = 10;
     currentPage : number = 0;
     totalCompetitions : number = 0;
 
     searchQuery : string = "";
 
-    admin_name: string;
-    competition_name: string;
-    rally: string;
-    start_date: string;
-
-
-    competitionCreated: boolean;
 
 
 
-  constructor(competitionService:CompetitionService) {
+
+  constructor(competitionService:CompetitionService, rallyService:RallyService, userService:UserService) {
       competitionService.getAllPublicCompetitions().subscribe((competitions : Competition[]) =>{
           this.allCompetitions = competitions;
           this.reloadCompetitions(competitions);
+          console.log(this.allCompetitions);
       })
   }
 
   ngOnInit() {
-  }
-
-  searchCompetition(){
-
   }
 
   reloadCompetitions(competitions:Competition[]) {
@@ -59,22 +53,17 @@ export class SearchRalliesComponent implements OnInit {
         }
     }
 
-    searchUser(){
-        let usersToShow = [];
+    searchCompetition(){
+        let competitionsToShow = [];
         if(this.searchQuery.length >= 1) {
             for (let competition of this.allCompetitions) {
                 if (competition.name.toLowerCase().startsWith(this.searchQuery.toLowerCase())) {
-                    usersToShow.push(competition);
+                    competitionsToShow.push(competition);
                 }
             }
-            this.reloadCompetitions(usersToShow);
+            this.reloadCompetitions(competitionsToShow);
         }else{
             this.reloadCompetitions(this.allCompetitions);
         }
     }
-
-    goto(i:number) {
-
-    }
-
 }

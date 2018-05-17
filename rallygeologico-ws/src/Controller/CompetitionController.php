@@ -154,6 +154,11 @@ class CompetitionController extends AppController
 
     public function getAllPublicCompetitions() {
         $competitions = $this->Competition->find('all', [
+            'contains' =>
+                [
+                    'user',
+                    'rally'
+                ],
             'conditions' => [
                     [
                         'competition.is_active' => 1,
