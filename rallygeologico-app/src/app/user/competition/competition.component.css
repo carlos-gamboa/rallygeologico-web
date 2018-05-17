@@ -75,3 +75,7 @@
 .join-button{
     width: 40%;
 }
+
+.cursor-pointer{
+    cursor: pointer;
+}

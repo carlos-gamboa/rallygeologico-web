@@ -17,6 +17,8 @@ import {CompetitionStatisticsService} from "../../services/competition.statistic
 })
 export class CompetitionComponent implements OnInit {
 
+    clickedStatistic: number = -1;
+
     pageSize : number = 10;
     currentPage : number = 0;
     totalUsers : number = 0;
@@ -83,6 +85,18 @@ export class CompetitionComponent implements OnInit {
             this.reloadUsers(usersToShow);
         }else{
             this.reloadUsers(this.allUsers);
+        }
+    }
+
+    isUserStatisticClicked(i: number){
+        return i == this.clickedStatistic;
+    }
+
+    userStatisticClicked(i: number){
+        if (i == this.clickedStatistic){
+            this.clickedStatistic = -1;
+        } else {
+            this.clickedStatistic = i;
         }
     }
 

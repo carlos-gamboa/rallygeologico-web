@@ -72,17 +72,47 @@
             <h4>Tabla de líderes</h4> <br>
             <div>
               <table class="table">
-                <tbody>
                 <th>Usuario</th>
                 <th>Puntos</th>
                 <th>Fecha Inicio</th>
                 <th>Perfil</th>
-                <tr *ngFor="let participant of statistics">
-                  <td><h4>{{participant.user.username}}</h4></td>
-                  <td><p>{{participant.points}}</p></td>
-                  <td><h5>{{participant.starting_date |  date:'MM/dd/yyyy'}}</h5></td>
-                  <td><button title="Ir al perfil de este usuario" class="genric-btn circle info text-center medium">Ir al perfil</button></td>
-                </tr>
+                <tbody *ngFor="let participant of statistics; let i = index">
+                  <tr>
+                    <td (click)="userStatisticClicked(i)" class="cursor-pointer"><h4>{{participant.user.username}}</h4></td>
+                    <td><p>{{participant.points}}</p></td>
+                    <td><h5>{{participant.starting_date |  date:'MM/dd/yyyy'}}</h5></td>
+                    <td><button title="Ir al perfil de este usuario" class="genric-btn circle info text-center medium">Ir al perfil</button></td>
+                  </tr>
+                  <tr *ngIf="isUserStatisticClicked(i)">
+                    <td colspan=4>
+                      <h4 class="mt-3 mb-3">Sitios visitados</h4>
+                      <table class="table">
+                        <th>Sitio</th>
+                        <th>Puntos Obtenidos</th>
+                        <th>Fecha</th>
+                        <tbody *ngFor="let site of participant.site">
+                        <tr>
+                          <td><h4>{{site.name}}</h4></td>
+                          <td><h5>{{site.points}}</h5></td>
+                          <td><h5>{{participant.starting_date |  date:'MM/dd/yyyy'}}</h5></td>
+                        </tr>
+                        </tbody>
+                      </table>
+                      <h4 class="mt-3 mb-3">Actividades completadas</h4>
+                      <table class="table">
+                        <th>Actividad</th>
+                        <th>Puntos Obtenidos</th>
+                        <th>Fecha</th>
+                        <tbody *ngFor="let activity of participant.activity">
+                        <tr>
+                          <td><h4>{{activity.description}}</h4></td>
+                          <td><h5>{{activity.points_awarded}}</h5></td>
+                          <td><h5>{{participant.starting_date |  date:'MM/dd/yyyy'}}</h5></td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>

@@ -14,6 +14,7 @@ use Cake\ORM\Entity;
  * @property float $latitude
  * @property float $longitude
  * @property int $district_id
+ * @property int $points
  *
  * @property \App\Model\Entity\District $district
  * @property \App\Model\Entity\CompetitionStatistic[] $competition_statistics
@@ -41,6 +42,7 @@ class Site extends Entity
         'longitude' => true,
         'district_id' => true,
         'district' => true,
+        'points' => true,
         'competition_statistics' => true,
         'rally' => true,
         'term' => true
