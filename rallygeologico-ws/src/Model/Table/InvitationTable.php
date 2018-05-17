@@ -65,11 +65,9 @@ class InvitationTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->scalar('accepted')
             ->allowEmpty('accepted');
 
         $validator
-            ->scalar('rejected')
             ->allowEmpty('rejected');
 
         $validator

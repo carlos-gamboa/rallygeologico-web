@@ -7,8 +7,8 @@ use Cake\ORM\Entity;
  * Invitation Entity
  *
  * @property int $id
- * @property string $accepted
- * @property string $rejected
+ * @property int $accepted
+ * @property int $rejected
  * @property int $user_id_send
  * @property int $user_id_receive
  * @property int $competition_id
