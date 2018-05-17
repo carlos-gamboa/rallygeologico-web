@@ -52,7 +52,7 @@
         </tr>
         <tr>
             <th scope="row"><?= __('Is Admin') ?></th>
-            <td><?= h($user->is_admin) ?></td>
+            <td><?= $this->Number->format($user->is_admin) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Id') ?></th>

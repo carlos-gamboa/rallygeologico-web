@@ -93,7 +93,6 @@ class UsersTable extends Table
             ->allowEmpty('photo_url');
 
         $validator
-            ->scalar('is_admin')
             ->allowEmpty('is_admin');
 
         $validator

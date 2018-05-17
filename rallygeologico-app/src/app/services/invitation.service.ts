@@ -34,7 +34,7 @@ export class InvitationService {
         },{ headers: this.headers, withCredentials: true });
     }
 
-    editInvitation(id: number, accepted: boolean, rejected: boolean): Observable<Invitation>{
+    editInvitation(id: number, accepted: number, rejected: number): Observable<Invitation>{
         return this.http.post<Invitation>(this.baseUrl + "invitation/edit/"+id+".json",{
             'accepted' : accepted,
             'rejected' : rejected

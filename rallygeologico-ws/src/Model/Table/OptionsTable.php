@@ -54,7 +54,6 @@ class OptionsTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->scalar('is_correct')
             ->requirePresence('is_correct', 'create')
             ->notEmpty('is_correct');
 

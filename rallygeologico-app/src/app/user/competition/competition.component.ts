@@ -17,6 +17,8 @@ import {CompetitionStatisticsService} from "../../services/competition.statistic
 })
 export class CompetitionComponent implements OnInit {
 
+    clickedStatistic: number = -1;
+
     pageSize : number = 10;
     currentPage : number = 0;
     totalUsers : number = 0;
@@ -86,6 +88,18 @@ export class CompetitionComponent implements OnInit {
         }
     }
 
+    isUserStatisticClicked(i: number){
+        return i == this.clickedStatistic;
+    }
+
+    userStatisticClicked(i: number){
+        if (i == this.clickedStatistic){
+            this.clickedStatistic = -1;
+        } else {
+            this.clickedStatistic = i;
+        }
+    }
+
     invite (index: number){
         this.invitationService.sendInvitation(this.competitionId, this.showedUsers[index].id, this.user.id).subscribe((invitation: Invitation[]) => {
             if (invitation){
@@ -97,7 +111,7 @@ export class CompetitionComponent implements OnInit {
     }
 
     acceptInvitation(){
-        this.invitation.accepted = true;
+        this.invitation.accepted = 1;
         this.invitationService.editInvitation(this.invitation.id, this.invitation.accepted, this.invitation.rejected).subscribe( (invitation: Invitation) => {
                 this.competitionStatisticsService.createCompetitionStatistics(this.user.id, this.competitionId).subscribe((statistics: CompetitionStatistics) =>{
                     if (statistics){
@@ -111,7 +125,7 @@ export class CompetitionComponent implements OnInit {
     }
 
     rejectInvitation(){
-        this.invitation.rejected = true;
+        this.invitation.rejected = 1;
         this.invitationService.editInvitation(this.invitation.id, this.invitation.accepted, this.invitation.rejected).subscribe();
     }
 
@@ -157,12 +171,13 @@ export class CompetitionComponent implements OnInit {
                                 this.invitationService.getInvitation(this.user.id, this.competitionId).subscribe((invitation: Invitation[]) => {
                                     if (invitation){
                                         this.invitation = invitation[0];
-                                    } else if (!this.competition.is_public) {
+                                    } else if (this.competition.is_public == 0) {
                                         this.router.navigate(['/dashboard']);
                                     }
                                     this.competitionStatisticsService.getStatistics(this.competitionId).subscribe((statistics: CompetitionStatistics[])=>{
                                         if (statistics){
                                             this.statistics = statistics;
+                                            console.log(this.statistics);
                                             this.sortStatistics();
                                             this.readyToShow = true;
                                         } else {

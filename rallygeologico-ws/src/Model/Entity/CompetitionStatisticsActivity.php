@@ -4,16 +4,17 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Option Entity
+ * CompetitionStatisticsActivity Entity
  *
- * @property int $id
+ * @property int $competition_statistics_id
  * @property int $activity_id
- * @property int $is_correct
- * @property string $option_text
+ * @property \Cake\I18n\FrozenTime $resolved_date
+ * @property int $points_obtained
  *
+ * @property \App\Model\Entity\CompetitionStatistic $competition_statistic
  * @property \App\Model\Entity\Activity $activity
  */
-class Option extends Entity
+class CompetitionStatisticsActivity extends Entity
 {
 
     /**
@@ -26,9 +27,9 @@ class Option extends Entity
      * @var array
      */
     protected $_accessible = [
-        'activity_id' => true,
-        'is_correct' => true,
-        'option_text' => true,
+        'resolved_date' => true,
+        'points_obtained' => true,
+        'competition_statistic' => true,
         'activity' => true
     ];
 }

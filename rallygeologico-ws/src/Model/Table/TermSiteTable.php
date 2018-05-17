@@ -10,7 +10,7 @@ use Cake\Validation\Validator;
  * TermSite Model
  *
  * @property \App\Model\Table\TermTable|\Cake\ORM\Association\BelongsTo $Term
- * @property |\Cake\ORM\Association\BelongsTo $Site
+ * @property \App\Model\Table\SiteTable|\Cake\ORM\Association\BelongsTo $Site
  *
  * @method \App\Model\Entity\TermSite get($primaryKey, $options = [])
  * @method \App\Model\Entity\TermSite newEntity($data = null, array $options = [])

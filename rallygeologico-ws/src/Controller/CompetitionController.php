@@ -122,4 +122,24 @@ class CompetitionController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function getAllPublicCompetitions() {
+        $competitions = $this->Competition->find('all', [
+            'contains' =>
+                [
+                    'user',
+                    'rally'
+                ],
+            'conditions' => [
+                    [
+                        'competition.is_active' => 1,
+                        'competition.is_public' => 1
+                    ]
+            ]
+        ]);
+
+        $this->set('competition', $competitions);
+        $this->render('/Competition/json/template');
+    }
+    
 }
