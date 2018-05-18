@@ -1,5 +1,6 @@
 import {Rally} from "./rally";
 import {User} from "./user";
+import {Invitation} from "./invitation";
 
 export class Competition {
     id: number;
@@ -13,6 +14,7 @@ export class Competition {
     description: string;
     rally: Rally;
     user: User;
+    invitation: Invitation[];
 
 
     constructor(competition: any){
@@ -27,5 +29,6 @@ export class Competition {
         this.rally = competition.rally;
         this.user = competition.user;
         this.description = competition.description;
+        this.invitation = competition.invitation;
     }
 }
