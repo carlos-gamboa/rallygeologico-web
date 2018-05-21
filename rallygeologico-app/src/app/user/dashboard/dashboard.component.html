@@ -67,12 +67,14 @@
             <agm-map class="map" [latitude]="initialLatitude" [longitude]="initialLongitude" [zoom]="zoom">
               <div *ngFor="let rally of ralliesToShow">
                 <agm-marker [latitude]="rally.latitude" [longitude]="rally.longitude">
-                  <agm-snazzy-info-window [maxWidth]="200" [closeWhenOthersOpen]="true">
+                  <agm-snazzy-info-window [maxWidth]="400" [maxHeight]="400"  [closeWhenOthersOpen]="true">
                     <ng-template>
-                      <a routerLink="/rallies/{{rally.id}}">
-                        <h5>{{rally.name}}:</h5>
-                        <p class="mt-1 snaggy-text">{{rally.description.substring(0,50) + "..."}}</p>
-                      </a>
+                      <div class="window">
+                        <a routerLink="/rallies/{{rally.id}}">
+                          <h5 class="text-center title">{{rally.name}}:</h5>
+                          <p class="mt-1 snaggy-text">{{rally.description.substring(0,50) + "..."}}</p>
+                        </a>
+                      </div>
                     </ng-template>
                   </agm-snazzy-info-window>
                 </agm-marker>
