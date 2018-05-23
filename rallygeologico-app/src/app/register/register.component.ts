@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import {FacebookService, InitParams, LoginOptions, LoginResponse, AuthResponse} from 'ngx-facebook';
 import {Router} from "@angular/router";
 import {User} from "../model/user";
@@ -36,7 +36,7 @@ export class RegisterComponent implements OnInit {
   pleaseWait : boolean = false;
   googleClientS : string = environment.googleClientS;
 
-  constructor(private fb: FacebookService, private router: Router,  private userService: UserService) {
+  constructor(private fb: FacebookService, private router: Router,  private userService: UserService, private _ngZone: NgZone) {
     console.log('Initializing Facebook');
     let initParams: InitParams = {
       appId: environment.facebookKey,
@@ -66,10 +66,22 @@ export class RegisterComponent implements OnInit {
     var user = auth2.currentUser.get();
     var profile = user.getBasicProfile();
     // Sign the user in, and then retrieve their ID.
-    auth2.signIn().then((res: any) => {
-      var profile = res.getBasicProfile();
-      this.setGoogleVariables(profile.getId(),profile.getGivenName(),profile.getFamilyName(),profile.getImageUrl(),profile.getEmail());
-    });
+    setTimeout(() =>
+      {
+        this._ngZone.run(
+          () => auth2.signIn().then((res: any) => {
+            var profile = res.getBasicProfile();
+            this.setGoogleVariables(profile.getId(),profile.getGivenName(),profile.getFamilyName(),profile.getImageUrl(),profile.getEmail());
+          })
+        );
+      },
+      1000);
+    this._ngZone.run(
+      () => auth2.signIn().then((res: any) => {
+        var profile = res.getBasicProfile();
+        this.setGoogleVariables(profile.getId(),profile.getGivenName(),profile.getFamilyName(),profile.getImageUrl(),profile.getEmail());
+      })
+    );
   }
 
   setGoogleVariables(id:string, name:string, lastname:string , img:string , email:string ){
