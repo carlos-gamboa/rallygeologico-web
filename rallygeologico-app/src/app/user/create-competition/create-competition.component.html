@@ -58,7 +58,7 @@
           </form>
         </div>
         <div class="mt-50" align="center">
-          <button title="crearCompetencia" class="btn genric-btn success col-lg-6" style="font-size: 16px" (click)="createCompetition()" [disabled]="competitionForm.invalid">Crear Competencia</button>
+          <button title="crearCompetencia" class="btn genric-btn success col-lg-6" style="font-size: 16px" (click)="createCompetition()" [disabled]="competitionForm.invalid" *ngIf="!competitionCreated">Crear Competencia</button>
           <div *ngIf="competitionCreated" class="alert alert-success col-lg-6 mt-10" role="alert">
             La competencia ha sido creada.
           </div>
@@ -91,9 +91,9 @@
               </thead>
               <tbody>
                 <tr *ngFor="let user of showedUsers; let i = index">
-                  <td align="center"><img class="user-image" src="{{user.photo_url}}"></td>
-                  <td><h5 class="subtitle">{{user.username}}</h5></td>
-                  <td><h4 class="subtitle">{{user.first_name}} {{user.last_name}}</h4></td>
+                  <td align="center"><img class="user-image" src="{{user?.photo_url}}"></td>
+                  <td><h5 class="subtitle">{{user?.username}}</h5></td>
+                  <td><h4 class="subtitle">{{user?.first_name}} {{user?.last_name}}</h4></td>
                   <td><button title="Invitar" class="invite-btn btn genric-btn circle warning text-center medium" (click)="invite(i)" [disabled]="!competitionCreated">Invitar</button></td>
                 </tr>
               </tbody>

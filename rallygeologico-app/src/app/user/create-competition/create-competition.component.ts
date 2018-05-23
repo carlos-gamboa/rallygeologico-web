@@ -85,10 +85,14 @@ export class CreateCompetitionComponent implements OnInit {
           }
           console.log(this.ralliesList);
       });
-      this.user = this.dataService.getUser();
+      this.allUsers = [];
       this.userService.getUsers().subscribe((users: User[]) => {
-          this.allUsers = users;
-          this.reloadUsers(users);
+          for (let user of users){
+              if (user.id != this.user.id){
+                  this.allUsers.push(user);
+              }
+          }
+          this.reloadUsers(this.allUsers);
           //console.log(this.allUsers);
       });
   }
@@ -153,7 +157,7 @@ export class CreateCompetitionComponent implements OnInit {
   addOtherCompetition(competitionForm: NgForm){
       this.competitionCreated = false;
       this.invitationSent = false;
-      this.searchQuery = " ";
+      this.searchQuery = "";
       competitionForm.reset();
   }
 
