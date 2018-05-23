@@ -36,6 +36,7 @@ export class CompetitionComponent implements OnInit {
     users : User[];
     allUsers: User[] = [];
     showedUsers: User[];
+    invitedUsers: number[] = [];
     invitation: Invitation;
 
     constructor(private userService: UserService, private dataService: DataService,
@@ -101,9 +102,9 @@ export class CompetitionComponent implements OnInit {
     }
 
     invite (index: number){
-        this.invitationService.sendInvitation(this.competitionId, this.showedUsers[index].id, this.user.id).subscribe((invitation: Invitation[]) => {
+        this.invitationService.sendInvitation(this.user.id, this.showedUsers[index].id, this.competitionId).subscribe((invitation: Invitation) => {
             if (invitation){
-                console.log("Invitation sent");
+                this.invitedUsers.push(invitation.user_id_receive);
             } else {
                 console.log("Couldn't send invitation");
             }
@@ -156,6 +157,14 @@ export class CompetitionComponent implements OnInit {
         });
     }
 
+    updateInvitedUsers(){
+        for (let invite of this.competition.invitation){
+            if (invite.rejected == 0 && invite.accepted == 0){
+                this.invitedUsers.push(invite.user_id_receive);
+            }
+        }
+    }
+
     setupData(){
         this.route.params
             .subscribe(
@@ -165,6 +174,7 @@ export class CompetitionComponent implements OnInit {
                     this.competitionService.findCompetition(this.competitionId).subscribe((competition: Competition) => {
                         if (competition){
                             this.competition = competition;
+                            this.updateInvitedUsers();
                             this.userService.getUsersToInvite(this.competitionId).subscribe((users: User[]) => {
                                 this.allUsers = users;
                                 this.reloadUsers(users);

@@ -95,3 +95,7 @@
 .selected-row-child{
     background: #C2CED7;
 }
+
+.wide-button{
+    width: 100% !important;
+}

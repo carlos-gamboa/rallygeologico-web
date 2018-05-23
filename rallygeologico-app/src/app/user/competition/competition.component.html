@@ -152,7 +152,10 @@
                   <td><img class="user-image" src="{{user.photo_url}}"></td>
                   <td><h5>{{user.username}}</h5></td>
                   <td><h4>{{user.first_name}} {{user.last_name}}</h4></td>
-                  <td><button title="Invitar" class="genric-btn circle text-center warning medium" (click)="invite(i)">Invitar</button></td>
+                  <td>
+                      <button class="genric-btn circle text-center warning-border medium wide-button" [disabled]="true" *ngIf="invitedUsers.includes(user.id)">Invitado</button>
+                      <button title="Invitar" class="genric-btn circle text-center warning medium wide-button" (click)="invite(i)" *ngIf="!invitedUsers.includes(user.id)">Invitar</button>
+                  </td>
                 </tr>
                 </tbody>
               </table>
