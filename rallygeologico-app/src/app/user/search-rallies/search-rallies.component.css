@@ -1,52 +1,18 @@
-.title{
-    color: #FFFFFF;
+.competition-image{
+    border-radius: 70%;
+    width: 200px;
+    height: 200px;
 }
 
-.subtitle{
-    color: #f0f0f0;
+.user-image {
+    border-radius: 70%;
+    width:30%;
+    height: auto;
 }
 
-.booking-right{
-    width: content-box;
+.gap {
+    padding: 10em 0;
 }
-
-.alert{
-    min-height: 40px;
-    height: fit-content;
-    padding-top: 4px;
-    margin-bottom: 0px !important;
-}
-
-p, .alert-message{
-    font-size: 12px;
-    margin: 0px !important;
-    padding-bottom: 0px !important;
-}
-
-.text-input{
-    width: 98%;
-    height: 40px;
-    padding: 10px;
-    color: #555555;
-}
-
-.date-input{
-    width: 96%;
-    height: 40px;
-    padding: 10px;
-    color: #555555;
-}
-
-.select-input{
-    width: 96%;
-    height: 40px;
-    color: #555555;
-}
-
-.text-area{
-    height: 80px;
-}
-
 
 .busqueda {
     display:flex;
@@ -78,17 +44,6 @@ p, .alert-message{
     color:white;
     border:none;
 }
-
-table thead{
-    background-color: #F0F0F0;
-}
-
-.user-image {
-    border-radius: 70%;
-    width:30%;
-    height: auto;
-}
-
 .pagination {
     display: inline-block;
 }
@@ -104,4 +59,39 @@ table thead{
     color: white !important;
     background-color: #fdb727 !important;
     border-color: #fdb727 !important;
+}
+
+.btn-inv{
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+    font-size: inherit !important;
+}
+
+.genric-btn{
+    font-size: inherit !important;
+}
+
+.join-button{
+    width: 40%;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.selected-row{
+    background: #204c6f;
+}
+
+.selected-row td h5{
+    color: white !important;
+}
+
+.selected-row td h4{
+    color: white !important;
+}
+
+.selected-row-child{
+    background: #C2CED7;
 }
