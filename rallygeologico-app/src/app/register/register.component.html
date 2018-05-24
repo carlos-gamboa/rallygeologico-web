@@ -35,30 +35,30 @@
                      #userName_input="ngModel" [class.error-shadow]="userName_input.invalid &&
                        (userName_input.dirty || userName_input.touched)" required>
               <div *ngIf="userName_input.invalid && (userName_input.dirty || userName_input.touched)">
-                <div *ngIf="userName_input.errors.required" class="alert alert-warning" role="alert">
+                <div *ngIf="userName_input.errors.required" class="alert alert-warning text-center" role="alert">
                   Un nombre de usuario es obligatorio.
                 </div>
-                <div *ngIf="userName_input.errors.minlength" class="alert alert-warning" role="alert">
+                <div *ngIf="userName_input.errors.minlength" class="alert alert-warning text-center" role="alert">
                   El nombre de usuario debe ser de más de 6 caracteres.
                 </div>
               </div>
             </div>
-            <div *ngIf="changeUsername" class="alert alert-danger" role="alert">
-              <h4>Ese nombre de usuario ya está en uso, digite otro.</h4>
+            <div *ngIf="changeUsername" class="alert alert-danger text-center" role="alert">
+              Ese nombre de usuario ya está en uso, digite otro.
             </div>
-            <div *ngIf="emailUsed" class="alert alert-danger" role="alert">
-              <h4>Este correo ya está en uso, por favor inicie sesión normalmente.</h4>
+            <div *ngIf="emailUsed" class="alert alert-danger text-center" role="alert">
+              Este correo ya está en uso, por favor inicie sesión normalmente.
               <a class="txt2" routerLink="/login">
                 Iniciar Sesión
               </a>
             </div>
-            <div *ngIf="successful" class="alert alert-success" role="alert">
+            <div *ngIf="successful" class="alert alert-success text-center" role="alert">
               Felicidades, se ha registrado correctamente. Ya puede iniciar sesión.
               <a class="txt2" routerLink="/login">
                 Iniciar Sesión
               </a>
             </div>
-            <div *ngIf="pleaseWait && !emailUsed && !changeUsername" class="alert alert-info" role="alert">
+            <div *ngIf="pleaseWait && !emailUsed && !changeUsername" class="alert alert-info text-center" role="alert">
               Por favor espere.
             </div>
           </div>
@@ -75,19 +75,19 @@
                      #userName_input="ngModel" [class.error-shadow]="userName_input.invalid &&
                        (userName_input.dirty || userName_input.touched)" required>
               <div *ngIf="userName_input.invalid && (userName_input.dirty || userName_input.touched)">
-                <div *ngIf="userName_input.errors.required" class="alert alert-warning" role="alert">
+                <div *ngIf="userName_input.errors.required" class="alert alert-warning text-center" role="alert">
                   Un nombre de usuario es obligatorio.
                 </div>
-                <div *ngIf="userName_input.errors.minlength" class="alert alert-warning" role="alert">
+                <div *ngIf="userName_input.errors.minlength" class="alert alert-warning text-center" role="alert">
                   El nombre de usuario debe ser de más de 6 caracteres.
                 </div>
               </div>
             </div>
             <div *ngIf="changeUsername" class="alert alert-danger text-center" role="alert">
-              <h4>Ese nombre de usuario ya está en uso, digite otro.</h4>
+              Ese nombre de usuario ya está en uso, digite otro.
             </div>
             <div *ngIf="emailUsed" class="alert alert-danger text-center" role="alert">
-              <h4>Este correo ya está en uso, por favor inicie sesión normalmente.</h4>
+              Este correo ya está en uso, por favor inicie sesión normalmente.
               <a class="txt2" routerLink="/login">
                 Iniciar Sesión
               </a>
@@ -98,7 +98,7 @@
                 Iniciar Sesión
               </a>
             </div>
-            <div *ngIf="pleaseWait && !emailUsed && !changeUsername" class="alert alert-info" role="alert">
+            <div *ngIf="pleaseWait && !emailUsed && !changeUsername" class="alert alert-info text-center" role="alert">
               Por favor espere.
             </div>
           </div>
