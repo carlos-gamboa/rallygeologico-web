@@ -94,15 +94,13 @@
                   <td align="center"><img class="user-image" src="{{user?.photo_url}}"></td>
                   <td><h5 class="subtitle">{{user?.username}}</h5></td>
                   <td><h4 class="subtitle">{{user?.first_name}} {{user?.last_name}}</h4></td>
-                  <td><button title="Invitar" class="invite-btn btn genric-btn circle warning text-center medium" (click)="invite(i)" [disabled]="!competitionCreated">Invitar</button></td>
+                  <td>
+                    <button class="invite-btn genric-btn circle text-center warning-border medium wide-button" [disabled]="true" *ngIf="invitedUsers.includes(user.id)">Invitado</button>
+                    <button title="Invitar" class="invite-btn genric-btn circle text-center warning medium wide-button" (click)="invite(i)" *ngIf="!invitedUsers.includes(user.id)">Invitar</button>
+                  </td>
                 </tr>
               </tbody>
             </table>
-          </div>
-          <div align="center">
-            <div *ngIf="invitationSent" class="alert alert-success col-lg-6 mt-10 mb-10" role="alert">
-              Ha enviado una invitación.
-            </div>
           </div>
           <div class="row">
             <div class="col-md-12 mt-10 text-center">

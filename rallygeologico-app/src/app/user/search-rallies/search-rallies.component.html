@@ -6,9 +6,9 @@
     <div class="row d-flex align-items-center justify-content-center">
       <div class="about-content col-lg-12">
         <h1 class="text-white">
-          Buscar Rallies
+          Buscar Competencias
         </h1>
-        <p class="text-white link-nav"><a routerLink="/dashboard">Inicio </a>  <span class="lnr lnr-arrow-right"></span>  <a routerLink="/search-rallies">Buscar Rallies</a></p>
+        <p class="text-white link-nav"><a routerLink="/dashboard">Inicio </a>  <span class="lnr lnr-arrow-right"></span>  <a routerLink="/search-rallies">Buscar Competencias</a></p>
       </div>
     </div>
   </div>
@@ -20,8 +20,6 @@
   <div class="container">
     <div class="row">
       <div class="offset-md-2 col-md-8 col-xs-12">
-        <h3 class="text-center mb-3">Invitar usuarios a esta competencia</h3>
-        <p class="text-center">Busque usuarios por nombre de usuario</p>
         <div class="busqueda" id="searchform">
           <input [(ngModel)]="searchQuery" type="text" title="Digite aquí el nombre del la competencia" id="searchterm" placeholder="Digite el nombre de la competencia" />
           <button type="button" id="search" title="Click aquí para buscar la competencia" (click)="searchCompetition()">Buscar</button>

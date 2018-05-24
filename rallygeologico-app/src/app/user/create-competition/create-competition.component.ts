@@ -41,7 +41,8 @@ export class CreateCompetitionComponent implements OnInit {
     description: string;
 
     competitionCreated: boolean;
-    invitationSent: boolean;
+
+    invitedUsers: number[] = [];
 
     /**
      * Creates a CreateCompetitionComponent, initialize the components
@@ -58,7 +59,6 @@ export class CreateCompetitionComponent implements OnInit {
               private invitationService: InvitationService,
               private competitionStatisticsService: CompetitionStatisticsService,  private router: Router) {
         this.competitionCreated = false;
-        this.invitationSent = false;
         this.user = this.dataService.getUser();
         if (!this.user) {
             this.userService.isLoggedIn().subscribe((users: User) => {
@@ -156,8 +156,8 @@ export class CreateCompetitionComponent implements OnInit {
 
   addOtherCompetition(competitionForm: NgForm){
       this.competitionCreated = false;
-      this.invitationSent = false;
       this.searchQuery = "";
+      this.invitedUsers = [];
       competitionForm.reset();
   }
 
@@ -167,9 +167,9 @@ export class CreateCompetitionComponent implements OnInit {
      */
   invite (index: number){
       if(this.competitionCreated){
-          this.invitationService.sendInvitation( this.user.id, this.showedUsers[index].id, this.currentCompetition.id,).subscribe((invitation: Invitation[]) => {
-              if(invitation){
-                  this.invitationSent = true;
+          this.invitationService.sendInvitation( this.user.id, this.showedUsers[index].id, this.currentCompetition.id,).subscribe((invitation: Invitation) => {
+              if (invitation){
+                  this.invitedUsers.push(invitation.user_id_receive);
                   console.log("Invitation sent");
               } else {
                   console.log("Couldn't send invitation");
