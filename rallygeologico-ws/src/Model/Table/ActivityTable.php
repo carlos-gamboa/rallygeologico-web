@@ -84,6 +84,11 @@ class ActivityTable extends Table
             ->maxLength('description', 1000)
             ->allowEmpty('description');
 
+        $validator
+            ->scalar('name')
+            ->maxLength('name', 100)
+            ->allowEmpty('name');
+
         return $validator;
     }
 

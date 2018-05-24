@@ -11,6 +11,7 @@ use Cake\ORM\Entity;
  * @property int $activity_type
  * @property int $points_awarded
  * @property string $description
+ * @property string $name
  *
  * @property \App\Model\Entity\Site $site
  * @property \App\Model\Entity\Option[] $options
@@ -33,6 +34,7 @@ class Activity extends Entity
         'activity_type' => true,
         'points_awarded' => true,
         'description' => true,
+        'name' => true,
         'site' => true,
         'options' => true,
         'multimedia' => true

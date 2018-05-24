@@ -40,6 +40,7 @@
             <ul>
               <li><strong>Estado:</strong> <span *ngIf="competition.is_active == 1" >Activo</span><span *ngIf="competition.is_active == 0" >Inactive</span></li>
               <li><strong>Creado en:</strong> {{competition.starting_date |  date:'MM/dd/yyyy'}}</li>
+              <li><strong>Finaliza en:</strong> {{competition.finishing_date |  date:'MM/dd/yyyy'}}</li>
               <li><strong *ngIf="competition.is_public == 1">Público</strong><strong *ngIf="competition.is_public == 0">Privado</strong></li>
               <li><strong>Número actual de jugadores: </strong> {{statistics.length}}</li>
               <li><strong>Jugador con más puntos: </strong> {{statistics[0].user.username}} <i class="fa fa-trophy"></i></li>
@@ -112,7 +113,7 @@
                         <th>Fecha</th>
                         <tbody *ngFor="let activity of participant.activity">
                         <tr>
-                          <td><h4>{{activity.description}}</h4></td>
+                          <td><h4>{{activity.name}}</h4></td>
                           <td><h5>{{activity._joinData.points_obtained}}</h5></td>
                           <td><h5>{{activity._joinData.resolved_date |  date:'MM/dd/yyyy'}}</h5></td>
                         </tr>

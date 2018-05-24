@@ -4,7 +4,7 @@ export class Activity {
     activity_type: number;
     points_awarded: number;
     description: string;
-
+    name: string;
 
     constructor(activity: any){
         this.id = activity.id;
@@ -12,5 +12,6 @@ export class Activity {
         this.activity_type = activity.activity_type;
         this.points_awarded = activity.points_awarded;
         this.description = activity.description;
+        this.name = activity.name;
     }
 }

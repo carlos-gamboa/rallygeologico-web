@@ -30,8 +30,8 @@ CREATE TABLE IF NOT EXISTS competition(
   description varchar(2000),
   name VARCHAR(30) NOT NULL,
   rally_id INT NOT NULL,
-  FOREIGN KEY (rally_id) REFERENCES rally(id),
-  FOREIGN KEY (admin_id) REFERENCES users(id)
+  FOREIGN KEY (rally_id) REFERENCES rally(id) ON DELETE CASCADE,
+  FOREIGN KEY (admin_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS invitation (
@@ -41,9 +41,9 @@ CREATE TABLE IF NOT EXISTS invitation (
   user_id_send INT NOT NULL,
   user_id_receive INT NOT NULL,
   competition_id INT NOT NULL,
-  FOREIGN KEY (user_id_send) REFERENCES users(id),
-  FOREIGN KEY (user_id_receive) REFERENCES users(id),
-  FOREIGN KEY (competition_id) REFERENCES competition(id)
+  FOREIGN KEY (user_id_send) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id_receive) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (competition_id) REFERENCES competition(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS competition_statistics(
@@ -53,8 +53,8 @@ CREATE TABLE IF NOT EXISTS competition_statistics(
   starting_date DATETIME DEFAULT CURRENT_TIMESTAMP,
   finishing_date DATETIME,
   points INT DEFAULT 0,
-  FOREIGN KEY (user_id) REFERENCES users(id),
-  FOREIGN KEY (competition_id) REFERENCES competition(id)
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (competition_id) REFERENCES competition(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS province (
@@ -93,8 +93,8 @@ CREATE TABLE IF NOT EXISTS site (
 CREATE TABLE IF NOT EXISTS rally_site(
   rally_id INT NOT NULL,
   site_id INT NOT NULL,
-  FOREIGN KEY (rally_id) REFERENCES rally(id),
-  FOREIGN KEY (site_id) REFERENCES site(id),
+  FOREIGN KEY (rally_id) REFERENCES rally(id) ON DELETE CASCADE,
+  FOREIGN KEY (site_id) REFERENCES site(id) ON DELETE CASCADE,
   PRIMARY KEY (rally_id, site_id)
 );
 
@@ -102,8 +102,8 @@ CREATE TABLE IF NOT EXISTS competition_statistics_site(
   competition_statistics_id INT NOT NULL,
   site_id INT NOT NULL,
   visited_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (competition_statistics_id) REFERENCES competition_statistics(id),
-  FOREIGN KEY (site_id) REFERENCES site(id),
+  FOREIGN KEY (competition_statistics_id) REFERENCES competition_statistics(id) ON DELETE CASCADE,
+  FOREIGN KEY (site_id) REFERENCES site(id) ON DELETE CASCADE,
   PRIMARY KEY (competition_statistics_id, site_id)
 );
 
@@ -116,8 +116,8 @@ CREATE TABLE IF NOT EXISTS term (
 CREATE TABLE IF NOT EXISTS term_site(
   term_id INT NOT NULL,
   site_id INT NOT NULL,
-  FOREIGN KEY (term_id) REFERENCES term(id),
-  FOREIGN KEY (site_id) REFERENCES site(id),
+  FOREIGN KEY (term_id) REFERENCES term(id) ON DELETE CASCADE,
+  FOREIGN KEY (site_id) REFERENCES site(id) ON DELETE CASCADE,
   PRIMARY KEY (term_id, site_id)
 );
 
@@ -134,7 +134,8 @@ CREATE TABLE IF NOT EXISTS activity(
   activity_type INT NOT NULL,
   points_awarded INT NOT NULL,
   description VARCHAR(1000),
-  FOREIGN KEY (site_id) REFERENCES site(id)
+  name VARCHAR(100),
+  FOREIGN KEY (site_id) REFERENCES site(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS options(
@@ -142,22 +143,22 @@ CREATE TABLE IF NOT EXISTS options(
   activity_id INT,
   is_correct TINYINT NOT NULL,
   option_text VARCHAR(200),
-  FOREIGN KEY (activity_id) REFERENCES activity(id)
+  FOREIGN KEY (activity_id) REFERENCES activity(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS activity_multimedia(
   activity_id INT NOT NULL,
   multimedia_id INT NOT NULL,
-  FOREIGN KEY (activity_id) REFERENCES activity(id),
-  FOREIGN KEY (multimedia_id) REFERENCES multimedia(id),
+  FOREIGN KEY (activity_id) REFERENCES activity(id) ON DELETE CASCADE,
+  FOREIGN KEY (multimedia_id) REFERENCES multimedia(id) ON DELETE CASCADE,
   PRIMARY KEY (activity_id, multimedia_id)
 );
 
 CREATE TABLE IF NOT EXISTS term_multimedia(
   term_id INT NOT NULL,
   multimedia_id INT NOT NULL,
-  FOREIGN KEY (term_id) REFERENCES term(id),
-  FOREIGN KEY (multimedia_id) REFERENCES multimedia(id),
+  FOREIGN KEY (term_id) REFERENCES term(id) ON DELETE CASCADE,
+  FOREIGN KEY (multimedia_id) REFERENCES multimedia(id) ON DELETE CASCADE,
   PRIMARY KEY (term_id, multimedia_id)
 );
 
@@ -166,8 +167,8 @@ CREATE TABLE IF NOT EXISTS competition_statistics_activity(
   activity_id INT NOT NULL,
   resolved_date DATETIME DEFAULT CURRENT_TIMESTAMP,
   points_obtained INT DEFAULT 0,
-  FOREIGN KEY (competition_statistics_id) REFERENCES competition_statistics(id),
-  FOREIGN KEY (activity_id) REFERENCES activity(id),
+  FOREIGN KEY (competition_statistics_id) REFERENCES competition_statistics(id) ON DELETE CASCADE,
+  FOREIGN KEY (activity_id) REFERENCES activity(id) ON DELETE CASCADE,
   PRIMARY KEY (competition_statistics_id, activity_id)
 );
 
@@ -304,5 +305,14 @@ BEGIN
 	WHERE id = NEW.competition_statistics_id;
 
 END;
+$$
+DELIMITER ;
+
+-- Create Competition end date
+DELIMITER $$
+CREATE TRIGGER insert_competition
+BEFORE INSERT ON competition FOR EACH ROW
+SET
+  NEW.finishing_date = TIMESTAMPADD(DAY,8,NOW())
 $$
 DELIMITER ;
