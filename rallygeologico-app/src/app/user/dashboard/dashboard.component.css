@@ -10,3 +10,12 @@
 .genric-btn{
     font-size: inherit !important;
 }
+
+.window{
+    width: 300px;
+    height: 100%;
+}
+
+.title{
+    color: #0e90d2;
+}

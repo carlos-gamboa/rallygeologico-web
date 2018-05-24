@@ -58,7 +58,7 @@
           </form>
         </div>
         <div class="mt-50" align="center">
-          <button title="crearCompetencia" class="btn genric-btn success col-lg-6" style="font-size: 16px" (click)="createCompetition()" [disabled]="competitionForm.invalid">Crear Competencia</button>
+          <button title="crearCompetencia" class="btn genric-btn success col-lg-6" style="font-size: 16px" (click)="createCompetition()" [disabled]="competitionForm.invalid" *ngIf="!competitionCreated">Crear Competencia</button>
           <div *ngIf="competitionCreated" class="alert alert-success col-lg-6 mt-10" role="alert">
             La competencia ha sido creada.
           </div>
@@ -70,17 +70,16 @@
 <!-- End form Area -->
 
 <!-- Start list users Area -->
-<section class="contact-page-area section-gap list-users">
+<section class="contact-page-area section-gap list-users" *ngIf="competitionCreated" >
   <div class="container">
     <div class="row">
       <div class="offset-md-2 col-md-8 col-xs-12">
-        <h3 class="title text-center mb-3">Invitar usuarios a esta competencia</h3>
-        <p class="subtitle text-center">Busque usuarios por nombre de usuario</p>
+        <h3 class="title text-center mb-3">Invitar usuarios a {{currentCompetition?.name}}</h3>
         <div class="busqueda" id="searchform">
           <input [(ngModel)]="searchQuery" type="text" title="Digite aquí el nombre del usuario" id="searchterm" placeholder="Digite el nombre de usuario" />
           <button type="button" id="search" title="Click aquí para buscar el usuario" (click)="searchUser()">Buscar</button>
         </div>
-        <div>
+        <div class="text-center">
           <h4 class="title">Resultados</h4> <br>
           <div>
             <table class="table">
@@ -92,10 +91,10 @@
               </thead>
               <tbody>
                 <tr *ngFor="let user of showedUsers; let i = index">
-                  <td align="center"><img class="user-image" src="{{user.photo_url}}"></td>
-                  <td><h5 class="subtitle">{{user.username}}</h5></td>
-                  <td><h4 class="subtitle">{{user.first_name}} {{user.last_name}}</h4></td>
-                  <td><button title="Invitar" class="btn btn-default btn-sm btn-block text-center" (click)="invite(i)">Invitar</button></td>
+                  <td align="center"><img class="user-image" src="{{user?.photo_url}}"></td>
+                  <td><h5 class="subtitle">{{user?.username}}</h5></td>
+                  <td><h4 class="subtitle">{{user?.first_name}} {{user?.last_name}}</h4></td>
+                  <td><button title="Invitar" class="invite-btn btn genric-btn circle warning text-center medium" (click)="invite(i)" [disabled]="!competitionCreated">Invitar</button></td>
                 </tr>
               </tbody>
             </table>
@@ -113,6 +112,9 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="mt-50" align="center">
+          <button title="agregarOtraCompetencia" class="btn genric-btn info col-lg-6 mt-10" style="font-size: 16px" (click)="addOtherCompetition(competitionForm)">Agregar Otra Competencia</button>
         </div>
       </div>
     </div>

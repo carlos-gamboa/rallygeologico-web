@@ -23,18 +23,20 @@
             <div class="col-lg-4">
                 <h4 class="text-center"><b>Descripción:</b></h4>
                 <p class="text-justify mt-4">{{rally?.description}}</p>
-                <h5 class="text-center" style="display: inline"><b>Points: </b></h5>
+                <h5 class="text-center" style="display: inline"><b>Puntos: </b></h5>
                 <p style="display: inline">{{rally?.points_awarded}}</p>
             </div>
             <div class="col-lg-8">
                 <agm-map class="map" [latitude]="rally?.latitude" [longitude]="rally?.longitude" [zoom]="zoom">
                     <agm-marker [latitude]="site?.latitude" [longitude]="site?.longitude" *ngFor="let site of rally?.site;">
-                        <agm-snazzy-info-window [maxWidth]="300" [closeWhenOthersOpen]="true">
-                            <ng-template>
-                                <a routerLink="/sites/{{site.id}}">
-                                    <h5 class="text-center title"><b>{{site.name}}</b></h5>
-                                    <p class="mt-1 snaggy-text text-justify">{{site.description.substring(0,70) + "..."}}</p>
-                                </a>
+                        <agm-snazzy-info-window [maxWidth]="400" [maxHeight]="400" [closeWhenOthersOpen]="true">
+                            <ng-template class="window">
+                                <div class="window">
+                                    <a routerLink="/sites/{{site.id}}">
+                                        <h5 class="text-center title"><b>{{site.name}}</b></h5>
+                                        <p class="mt-1 snaggy-text text-justify">{{site.description.substring(0,70) + "..."}}</p>
+                                    </a>
+                                </div>
                             </ng-template>
                         </agm-snazzy-info-window>
                     </agm-marker>

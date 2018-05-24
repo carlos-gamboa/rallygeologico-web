@@ -10,6 +10,8 @@ import {Invitation} from "../../model/invitation";
 import {Competition} from "../../model/competition";
 import {CompetitionStatisticsService} from "../../services/competition.statistics.service";
 import {CompetitionStatistics} from "../../model/competition.statistics";
+import {Router} from "@angular/router";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-create-competition',
@@ -18,29 +20,28 @@ import {CompetitionStatistics} from "../../model/competition.statistics";
 })
 export class CreateCompetitionComponent implements OnInit {
 
-  ralliesList: Rally[] = [];
+    ralliesList: Rally[] = [];
 
-  user: User;
-  users : User[];
-  allUsers: User[];
-  showedUsers: User[];
+    user: User;
+    users : User[];
+    allUsers: User[];
+    showedUsers: User[];
 
-  currentCompetition: Competition;
+    pageSize : number = 10;
+    currentPage : number = 0;
+    totalUsers : number = 0;
 
-  pageSize : number = 10;
-  currentPage : number = 0;
-  totalUsers : number = 0;
+    searchQuery : string = "";
 
-  searchQuery : string = "";
+    currentCompetition: Competition;
 
-  name: string;
-  is_public: string;
-  is_active: string;
-  rally_id: string;
-  description: string;
+    name: string;
+    is_public: string;
+    rally_id: string;
+    description: string;
 
-  competitionCreated: boolean;
-  invitationSent: boolean;
+    competitionCreated: boolean;
+    invitationSent: boolean;
 
     /**
      * Creates a CreateCompetitionComponent, initialize the components
@@ -50,28 +51,50 @@ export class CreateCompetitionComponent implements OnInit {
      * @param {CompetitionService} competitionService
      * @param {InvitationService} invitationService
      * @param {CompetitionStatisticsService} competitionStatisticsService
+     * @param {Router} router
      */
   constructor(private rallyService: RallyService, private userService: UserService,
               private dataService: DataService, private competitionService: CompetitionService,
               private invitationService: InvitationService,
-              private competitionStatisticsService: CompetitionStatisticsService) {
-      this.rallyService.getNewestRallies().subscribe((rallies: Rally[])=>{
-          for (let i: number = 0; i < rallies.length; ++i){
+              private competitionStatisticsService: CompetitionStatisticsService,  private router: Router) {
+        this.competitionCreated = false;
+        this.invitationSent = false;
+        this.user = this.dataService.getUser();
+        if (!this.user) {
+            this.userService.isLoggedIn().subscribe((users: User) => {
+                if (users[0]) {
+                    this.dataService.updateUser(users[0]);
+                    this.user = users[0];
+                    this.setupData();
+                } else {
+                    this.router.navigate(['/landing']);
+                }
+            });
+        } else {
+            this.setupData();
+        }
+    }
+
+  ngOnInit() {
+  }
+
+  setupData(){
+      this.rallyService.getNewestRallies().subscribe((rallies: Rally[]) => {
+          for (let i: number = 0; i < rallies.length; ++i) {
               this.ralliesList.push(rallies[i]);
           }
           console.log(this.ralliesList);
       });
-      this.user = this.dataService.getUser();
+      this.allUsers = [];
       this.userService.getUsers().subscribe((users: User[]) => {
-          this.allUsers = users;
-          this.reloadUsers(users);
+          for (let user of users){
+              if (user.id != this.user.id){
+                  this.allUsers.push(user);
+              }
+          }
+          this.reloadUsers(this.allUsers);
           //console.log(this.allUsers);
       });
-      this.competitionCreated = false;
-      this.invitationSent = false;
-  }
-
-  ngOnInit() {
   }
 
     /**
@@ -129,6 +152,13 @@ export class CreateCompetitionComponent implements OnInit {
               console.log("Couldn't create competition");
           }
       });
+  }
+
+  addOtherCompetition(competitionForm: NgForm){
+      this.competitionCreated = false;
+      this.invitationSent = false;
+      this.searchQuery = "";
+      competitionForm.reset();
   }
 
     /**
