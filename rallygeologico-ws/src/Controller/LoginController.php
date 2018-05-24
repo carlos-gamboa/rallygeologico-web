@@ -76,7 +76,7 @@ class LoginController extends AppController
             $this->Auth->setUser($users->toArray());
 
             // Generate user Auth token
-            $token =  Security::hash($users->id.$users->facebook_id, 'sha1', true);
+            $token =  Security::hash($users->id.$users->api_id, 'sha1', true);
             // Add user token into Auth session
             $this->getRequest()->getSession()->write('Auth.User.token', $token);
 

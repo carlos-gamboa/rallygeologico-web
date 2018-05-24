@@ -17,6 +17,8 @@ import {CompetitionStatisticsService} from "../../services/competition.statistic
 })
 export class CompetitionComponent implements OnInit {
 
+    clickedStatistic: number = -1;
+
     pageSize : number = 10;
     currentPage : number = 0;
     totalUsers : number = 0;
@@ -34,6 +36,7 @@ export class CompetitionComponent implements OnInit {
     users : User[];
     allUsers: User[] = [];
     showedUsers: User[];
+    invitedUsers: number[] = [];
     invitation: Invitation;
 
     constructor(private userService: UserService, private dataService: DataService,
@@ -86,10 +89,22 @@ export class CompetitionComponent implements OnInit {
         }
     }
 
+    isUserStatisticClicked(i: number){
+        return i == this.clickedStatistic;
+    }
+
+    userStatisticClicked(i: number){
+        if (i == this.clickedStatistic){
+            this.clickedStatistic = -1;
+        } else {
+            this.clickedStatistic = i;
+        }
+    }
+
     invite (index: number){
-        this.invitationService.sendInvitation(this.competitionId, this.showedUsers[index].id, this.user.id).subscribe((invitation: Invitation[]) => {
+        this.invitationService.sendInvitation(this.user.id, this.showedUsers[index].id, this.competitionId).subscribe((invitation: Invitation) => {
             if (invitation){
-                console.log("Invitation sent");
+                this.invitedUsers.push(invitation.user_id_receive);
             } else {
                 console.log("Couldn't send invitation");
             }
@@ -97,7 +112,7 @@ export class CompetitionComponent implements OnInit {
     }
 
     acceptInvitation(){
-        this.invitation.accepted = true;
+        this.invitation.accepted = 1;
         this.invitationService.editInvitation(this.invitation.id, this.invitation.accepted, this.invitation.rejected).subscribe( (invitation: Invitation) => {
                 this.competitionStatisticsService.createCompetitionStatistics(this.user.id, this.competitionId).subscribe((statistics: CompetitionStatistics) =>{
                     if (statistics){
@@ -111,7 +126,7 @@ export class CompetitionComponent implements OnInit {
     }
 
     rejectInvitation(){
-        this.invitation.rejected = true;
+        this.invitation.rejected = 1;
         this.invitationService.editInvitation(this.invitation.id, this.invitation.accepted, this.invitation.rejected).subscribe();
     }
 
@@ -142,6 +157,14 @@ export class CompetitionComponent implements OnInit {
         });
     }
 
+    updateInvitedUsers(){
+        for (let invite of this.competition.invitation){
+            if (invite.rejected == 0 && invite.accepted == 0){
+                this.invitedUsers.push(invite.user_id_receive);
+            }
+        }
+    }
+
     setupData(){
         this.route.params
             .subscribe(
@@ -151,18 +174,20 @@ export class CompetitionComponent implements OnInit {
                     this.competitionService.findCompetition(this.competitionId).subscribe((competition: Competition) => {
                         if (competition){
                             this.competition = competition;
+                            this.updateInvitedUsers();
                             this.userService.getUsersToInvite(this.competitionId).subscribe((users: User[]) => {
                                 this.allUsers = users;
                                 this.reloadUsers(users);
                                 this.invitationService.getInvitation(this.user.id, this.competitionId).subscribe((invitation: Invitation[]) => {
                                     if (invitation){
                                         this.invitation = invitation[0];
-                                    } else if (!this.competition.is_public) {
+                                    } else if (this.competition.is_public == 0) {
                                         this.router.navigate(['/dashboard']);
                                     }
                                     this.competitionStatisticsService.getStatistics(this.competitionId).subscribe((statistics: CompetitionStatistics[])=>{
                                         if (statistics){
                                             this.statistics = statistics;
+                                            console.log(this.statistics);
                                             this.sortStatistics();
                                             this.readyToShow = true;
                                         } else {

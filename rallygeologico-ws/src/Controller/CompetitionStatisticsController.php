@@ -123,7 +123,7 @@ class CompetitionStatisticsController extends AppController
     public function getCompetitionStatistics ($competitionId = null)
     {
         $competitionStatistics = $this->CompetitionStatistics->find('all', [
-            'contain' => ['Users'],
+            'contain' => ['Users', 'Site', 'Activity'],
             'conditions' => ['competitionStatistics.competition_id' => $competitionId]]
         );
         $this->set('competitionStatistics', $competitionStatistics);

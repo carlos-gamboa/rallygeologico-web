@@ -15,8 +15,8 @@ export class InvitationService {
         this.headers.append('Content-Type', 'application/json');
     }
 
-    sendInvitation(userIdSend: number, userIdReceive: number, competitionId: number): Observable<Invitation[]>{
-        return this.http.post<Invitation[]>(this.baseUrl + "invitation/add.json",{
+    sendInvitation(userIdSend: number, userIdReceive: number, competitionId: number): Observable<Invitation>{
+        return this.http.post<Invitation>(this.baseUrl + "invitation/add.json",{
             'user_id_send' : userIdSend,
             'user_id_receive' : userIdReceive,
             'competition_id' : competitionId,
@@ -34,7 +34,7 @@ export class InvitationService {
         },{ headers: this.headers, withCredentials: true });
     }
 
-    editInvitation(id: number, accepted: boolean, rejected: boolean): Observable<Invitation>{
+    editInvitation(id: number, accepted: number, rejected: number): Observable<Invitation>{
         return this.http.post<Invitation>(this.baseUrl + "invitation/edit/"+id+".json",{
             'accepted' : accepted,
             'rejected' : rejected

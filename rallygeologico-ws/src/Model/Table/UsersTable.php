@@ -10,7 +10,9 @@ use Cake\Validation\Validator;
  * Users Model
  *
  * @property \App\Model\Table\CompetitionStatisticsTable|\Cake\ORM\Association\HasMany $CompetitionStatistics
- * @property \App\Model\Table\CompetitionStatisticsSiteTable|\Cake\ORM\Association\HasMany $CompetitionStatisticsSite
+ * @property \App\Model\Table\InvitationTable|\Cake\ORM\Association\HasMany $InvitationSend
+ * @property \App\Model\Table\InvitationTable|\Cake\ORM\Association\HasMany $InvitationReceive
+ * @property \App\Model\Table\CompetitionTable|\Cake\ORM\Association\HasMany $Competition
  *
  * @method \App\Model\Entity\User get($primaryKey, $options = [])
  * @method \App\Model\Entity\User newEntity($data = null, array $options = [])

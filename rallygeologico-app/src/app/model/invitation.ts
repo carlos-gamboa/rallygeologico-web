@@ -3,8 +3,8 @@ import {Competition} from "./competition";
 
 export class Invitation {
     id : number;
-    accepted : boolean;
-    rejected: boolean;
+    accepted : number;
+    rejected: number;
     user_id_send : number;
     user_id_receive : number;
     competition_id : number;

@@ -139,6 +139,28 @@ class UsersController extends AppController
         $this->render('/Users/json/template');
     }
 
+    public function idExists()
+    {
+        $data = $this->getRequest()->getData();
+        $ApiId = $data['api_id'];
+        $LoginApi = $data['login_api'];
+        $users = $this->Users->find('all', [
+                'conditions' => [
+                    'users.api_id' => $ApiId,
+                    'users.login_api' => $LoginApi
+                ]
+            ]
+        );
+        $this->set('users', $users);
+        if ($users->isEmpty()){
+            $this->set('users', false);
+        }
+        else{
+            $this->set('users', true);
+        }
+        $this->render('/Users/json/template');
+    }
+
     /**
      * Add method
      *
@@ -212,47 +234,14 @@ class UsersController extends AppController
 
         $users = $this->Users->find('all', [
                 'conditions' => [
-                    'AND' => [
-                        [
-                            'Users.id NOT IN' => $this->Invitation->find('all', [
-                                    'fields' => ['Invitation.user_id_receive'],
-                                    'conditions' => [
-                                        'Invitation.competition_id' => $CompetitionId
-                                    ]
-                                ]
-                            )
-                        ],
-                        [
-                            'Users.id NOT IN' => $this->Invitation->find('all', [
-                                    'fields' => ['Invitation.user_id_send'],
-                                    'conditions' => [
-                                        'Invitation.competition_id' => $CompetitionId
-                                    ]
-                                ]
-                            )
-                        ],
-                        [
-                            'Users.id NOT IN' => $this->Competition->find('all', [
-                                    'fields' => ['Competition.admin_id'],
-                                    'conditions' => [
-                                        'Competition.id' => $CompetitionId
-                                    ]
-                                ]
-                            )
-                        ],
-                        [
-                            'Users.id NOT IN' => $this->CompetitionStatistics->find('all', [
-                                    'fields' => ['CompetitionStatistics.user_id'],
-                                    'conditions' => [
-                                        'CompetitionStatistics.competition_id' => $CompetitionId
-                                    ]
-                                ]
-                            )
-                        ]
-                    ]
+                    'Users.id NOT IN' => $this->CompetitionStatistics->find('all', [
+                        'fields' => ['CompetitionStatistics.user_id'],
+                            'conditions' => [
+                                'CompetitionStatistics.competition_id' => $CompetitionId
+                            ]
+                        ])
                 ]
-            ]
-        );
+        ]);
 
         $this->set('users', $users->toList());
         $this->render('/Users/json/template');

@@ -21,12 +21,12 @@
         <div class="text-center">
           <img class="competition-image mb-3" src="{{competition.rally.image_url}}">
           <h3 class="mb-3">{{competition.name}}</h3>
-          <div class="offset-md-3 col-md-6 col-xs-12" *ngIf="competition.user.id == user.id">
-            <button title="Modificar rally" class="btn btn-default btn-sm btn-block text-center mb-3">Modificar rally</button>
+          <div *ngIf="competition.user.id == user.id">
+            <button title="Modificar rally" class="genric-btn primary circle text-center info mb-3 medium">Modificar rally</button>
           </div>
           <p class="text-justify">{{competition.description}}</p>
           <h5 class="mb-3">Creado por: {{competition.user.username}}</h5>
-          <div class="offset-md-3 col-md-6 col-xs-12">
+          <div>
             <button title="Ir al perfil del creador" class="genric-btn info circle text-center info mb-3 medium">Ir al perfil</button>
           </div>
         </div>
@@ -38,16 +38,14 @@
           <div>
             <h3>Información</h3> <br>
             <ul>
-              <li><strong>Estado</strong> <span *ngIf="competition.is_active" >Activo</span><span *ngIf="!competition.is_active" >Inactive</span></li>
-              <li><strong>Creado en:</strong> {{competition.starting_date}}</li>
-              <li><strong *ngIf="competition.is_public">Público</strong><strong *ngIf="!competition.is_public">Privado</strong></li>
-              <li><strong>Cantidad de sitios en el rally: </strong> 7</li>
-              <li><strong>Puntos totales del rally: </strong> 215</li>
-              <li><strong>Número actual de jugadores: </strong> 10</li>
-              <li><strong>Jugador con más puntos: </strong> Usuario6352 <i class="fa fa-trophy"></i></li>
+              <li><strong>Estado:</strong> <span *ngIf="competition.is_active == 1" >Activo</span><span *ngIf="competition.is_active == 0" >Inactive</span></li>
+              <li><strong>Creado en:</strong> {{competition.starting_date |  date:'MM/dd/yyyy'}}</li>
+              <li><strong *ngIf="competition.is_public == 1">Público</strong><strong *ngIf="competition.is_public == 0">Privado</strong></li>
+              <li><strong>Número actual de jugadores: </strong> {{statistics.length}}</li>
+              <li><strong>Jugador con más puntos: </strong> {{statistics[0].user.username}} <i class="fa fa-trophy"></i></li>
             </ul>
             <div class="row mt-3" *ngIf="invitation">
-              <div class="col-md-6 offset-3" *ngIf="invitation.accepted == false && invitation.rejected == false">
+              <div class="col-md-6 offset-3" *ngIf="invitation.accepted == 0 && invitation.rejected == 0">
                 <div class="row">
                   <div class="col-md-6">
                     <button title="Aceptar" (click)="acceptInvitation()" class="genric-btn success circle btn-inv text-center">Aceptar</button>
@@ -69,21 +67,59 @@
                 <button title="Ver mapa interactivo de este rally" class="genric-btn circle primary text-center btn-inv join-button" routerLink="/rallies/{{competition.rally_id}}">Mapa interactivo</button>
               </div>
             </div>
+            <hr>
             <h3>Estadísticas</h3> <br>
             <h4>Tabla de líderes</h4> <br>
             <div>
               <table class="table">
-                <tbody>
-                <th>Nombre</th>
                 <th>Usuario</th>
                 <th>Puntos</th>
+                <th>Fecha Inicio</th>
                 <th>Perfil</th>
-                <tr *ngFor="let participant of statistics">
-                  <td><h4>{{participant.user.first_name}} {{participant.user.last_name}}</h4></td>
-                  <td><h5>{{participant.user.username}}</h5></td>
-                  <td><p>{{participant.points}}</p></td>
-                  <td><button title="Ir al perfil de este usuario" class="genric-btn circle info text-center medium">Ir al perfil</button></td>
-                </tr>
+                <tbody *ngFor="let participant of statistics; let i = index">
+                  <tr [class.selected-row] = "isUserStatisticClicked(i)" title="Haz click para ver más detalles">
+                    <td (click)="userStatisticClicked(i)" class="cursor-pointer">
+                      <div class="input-group">
+                        <h4>{{participant.user.username}}</h4>
+                        <span class="input-group-btn ml-2">
+				          <i class="fa fa-angle-down"></i>
+			            </span>
+                      </div>
+                    </td>
+                    <td><h5>{{participant.points}}</h5></td>
+                    <td><h5>{{participant.starting_date |  date:'MM/dd/yyyy'}}</h5></td>
+                    <td><button title="Ir al perfil de este usuario" class="genric-btn circle text-center small" [class.info]="!isUserStatisticClicked(i)" [class.primary-border]="isUserStatisticClicked(i)">Ir al perfil</button></td>
+                  </tr>
+                  <tr *ngIf="isUserStatisticClicked(i)" class="selected-row-child">
+                    <td colspan=4>
+                      <h4 class="mt-3 mb-3">Sitios visitados</h4>
+                      <table class="table">
+                        <th>Sitio</th>
+                        <th>Puntos Obtenidos</th>
+                        <th>Fecha</th>
+                        <tbody *ngFor="let site of participant.site">
+                        <tr>
+                          <td><h4>{{site.name}}</h4></td>
+                          <td><h5>{{site.points}}</h5></td>
+                          <td><h5>{{site._joinData.visited_date |  date:'MM/dd/yyyy'}}</h5></td>
+                        </tr>
+                        </tbody>
+                      </table>
+                      <h4 class="mt-3 mb-3">Actividades completadas</h4>
+                      <table class="table">
+                        <th>Actividad</th>
+                        <th>Puntos Obtenidos</th>
+                        <th>Fecha</th>
+                        <tbody *ngFor="let activity of participant.activity">
+                        <tr>
+                          <td><h4>{{activity.description}}</h4></td>
+                          <td><h5>{{activity._joinData.points_obtained}}</h5></td>
+                          <td><h5>{{activity._joinData.resolved_date |  date:'MM/dd/yyyy'}}</h5></td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -93,7 +129,7 @@
     </div>
   </div>
   <hr>
-  <div class="container" *ngIf="competition.user.id == user.id">
+  <div class="container" *ngIf="competition.user.id == user.id && competition.is_active == 1">
     <div class="row">
       <div class="offset-md-2 col-md-8 col-xs-12">
         <h3 class="text-center mb-3">Invitar usuarios a esta competencia</h3>
@@ -116,7 +152,10 @@
                   <td><img class="user-image" src="{{user.photo_url}}"></td>
                   <td><h5>{{user.username}}</h5></td>
                   <td><h4>{{user.first_name}} {{user.last_name}}</h4></td>
-                  <td><button title="Invitar" class="genric-btn circle text-center warning medium" (click)="invite(i)">Invitar</button></td>
+                  <td>
+                      <button class="genric-btn circle text-center warning-border medium wide-button" [disabled]="true" *ngIf="invitedUsers.includes(user.id)">Invitado</button>
+                      <button title="Invitar" class="genric-btn circle text-center warning medium wide-button" (click)="invite(i)" *ngIf="!invitedUsers.includes(user.id)">Invitar</button>
+                  </td>
                 </tr>
                 </tbody>
               </table>

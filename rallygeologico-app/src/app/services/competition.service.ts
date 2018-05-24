@@ -50,4 +50,12 @@ export class CompetitionService {
         return this.http.get<Competition>(this.baseUrl + "competition/view/"+ competitionId +".json",{ headers: this.headers, withCredentials: true });
     }
 
+    getCurrentCompetitions(userId: number): Observable<Competition[]>{
+        return this.http.get<Competition[]>(this.baseUrl + "competition/currentCompetitions/"+ userId +".json",{ headers: this.headers, withCredentials: true });
+    }
+
+    getAllPublicCompetitions(): Observable<Competition[]>{
+        return this.http.get<Competition[]>(this.baseUrl + "competition/getallpubliccompetitions.json",{ headers: this.headers, withCredentials: true })
+    }
+
 }

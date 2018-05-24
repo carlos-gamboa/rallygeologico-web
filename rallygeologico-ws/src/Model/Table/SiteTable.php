@@ -10,7 +10,7 @@ use Cake\Validation\Validator;
  * Site Model
  *
  * @property \App\Model\Table\DistrictTable|\Cake\ORM\Association\BelongsTo $District
- * @property |\Cake\ORM\Association\HasMany $Activity
+ * @property \App\Model\Table\ActivityTable|\Cake\ORM\Association\HasMany $Activity
  * @property \App\Model\Table\CompetitionStatisticsTable|\Cake\ORM\Association\BelongsToMany $CompetitionStatistics
  * @property \App\Model\Table\RallyTable|\Cake\ORM\Association\BelongsToMany $Rally
  * @property \App\Model\Table\TermTable|\Cake\ORM\Association\BelongsToMany $Term
@@ -106,6 +106,13 @@ class SiteTable extends Table
             ->numeric('longitude')
             ->requirePresence('longitude', 'create')
             ->notEmpty('longitude');
+
+        $validator
+            ->integer('points')
+            ->allowEmpty('points');
+
+        $validator
+            ->allowEmpty('is_easter_egg');
 
         return $validator;
     }
