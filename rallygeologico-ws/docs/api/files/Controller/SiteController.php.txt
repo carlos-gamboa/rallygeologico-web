@@ -17,7 +17,7 @@ class SiteController extends AppController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|void
+     * @return \Cake\Http\Response|void JSON Response.
      */
     public function index()
     {
@@ -30,6 +30,12 @@ class SiteController extends AppController
         $this->set('_serialize', 'site');
     }
 
+    /**
+     * Allows public access to the web services.
+     *
+     * @param Event $event Access event
+     * @return \Cake\Http\Response|null|void No response
+     */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
@@ -47,10 +53,11 @@ class SiteController extends AppController
     public function view($id = null)
     {
         $site = $this->Site->get($id, [
-            'contain' => ['District', 'CompetitionStatistics', 'Rally', 'Term']
+            'contain' => ['District', 'Rally', 'Term']
         ]);
 
         $this->set('site', $site);
+        $this->render('/Site/json/template');
     }
 
     /**

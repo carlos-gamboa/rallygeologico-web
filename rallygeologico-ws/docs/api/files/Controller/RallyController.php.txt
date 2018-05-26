@@ -17,7 +17,7 @@ class RallyController extends AppController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|void
+     * @return \Cake\Http\Response|void JSON Response.
      */
     public function index()
     {
@@ -27,6 +27,12 @@ class RallyController extends AppController
         $this->set('_serialize', 'rally');
     }
 
+    /**
+     * Allows public access to the web services.
+     *
+     * @param Event $event Access event
+     * @return \Cake\Http\Response|null|void No response
+     */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
@@ -48,6 +54,7 @@ class RallyController extends AppController
         ]);
 
         $this->set('rally', $rally);
+        $this->render('/Rally/json/template');
     }
 
     /**
@@ -115,6 +122,9 @@ class RallyController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
+    /**
+     * Gets all the rallies in descendant order.
+     */
     public function newestRallies (){
         $rally = $this->Rally->find('all', [
                 'order' => ['rally.id' => 'DESC']

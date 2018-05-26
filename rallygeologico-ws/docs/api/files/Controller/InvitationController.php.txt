@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
+
 /**
  * Invitation Controller
  *
@@ -16,12 +17,12 @@ class InvitationController extends AppController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|void
+     * @return \Cake\Http\Response|void JSON Response.
      */
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Competition']
+            'contain' => ['Competition', 'UserSend', 'UserReceive']
         ];
         $invitation = $this->paginate($this->Invitation);
 
@@ -29,6 +30,12 @@ class InvitationController extends AppController
         $this->set('_serialize', 'invitation');
     }
 
+    /**
+     * Allows public access to the web services.
+     *
+     * @param Event $event Access event
+     * @return \Cake\Http\Response|null|void No response
+     */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
@@ -46,7 +53,7 @@ class InvitationController extends AppController
     public function view($id = null)
     {
         $invitation = $this->Invitation->get($id, [
-            'contain' => ['Competition']
+            'contain' => ['Competition', 'UserSend', 'UserReceive']
         ]);
 
         $this->set('invitation', $invitation);
@@ -68,7 +75,9 @@ class InvitationController extends AppController
             $this->Flash->error(__('The invitation could not be saved. Please, try again.'));
         }
         $competition = $this->Invitation->Competition->find('list', ['limit' => 200]);
-        $this->set(compact('invitation', 'competition'));
+        $userSend = $this->Invitation->UserSend->find('list', ['limit' => 200]);
+        $userReceive = $this->Invitation->UserReceive->find('list', ['limit' => 200]);
+        $this->set(compact('invitation', 'competition', 'userSend', 'userReceive'));
         $this->render('/Invitation/json/template');
     }
 
@@ -88,13 +97,14 @@ class InvitationController extends AppController
             $invitation = $this->Invitation->patchEntity($invitation, $this->getRequest()->getData());
             if ($this->Invitation->save($invitation)) {
                 $this->Flash->success(__('The invitation has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The invitation could not be saved. Please, try again.'));
         }
         $competition = $this->Invitation->Competition->find('list', ['limit' => 200]);
-        $this->set(compact('invitation', 'competition'));
+        $userSend = $this->Invitation->UserSend->find('list', ['limit' => 200]);
+        $userReceive = $this->Invitation->UserReceive->find('list', ['limit' => 200]);
+        $this->set(compact('invitation', 'competition', 'userSend', 'userReceive'));
+        $this->render('/Invitation/json/template');
     }
 
     /**
@@ -115,6 +125,44 @@ class InvitationController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    /**
+     * Find an invitation by it's receiver id
+     *
+     * @param null $receiveId
+     */
+    public function receive($receiveId = null)
+    {
+        $invitations = $this->Invitation->find('all', [
+                'conditions' => [
+                    'invitation.user_id_receive' => $receiveId,
+                    'invitation.accepted' => 0,
+                    'invitation.rejected' => 0
+                ],
+                'contain' => ['Competition', 'UserSend']
+            ]
+        );
+        $this->set('invitation', $invitations);
+        $this->render('/Invitation/json/template');
+    }
+
+    /**
+     * Gets an invitation based on the receiver user id and the competition id.
+     */
+    public function userCompetitionInvitation() {
+        $data = $this->getRequest()->getData();
+        $UserIdReceive = $data['user_id_receive'];
+        $CompetitionId = $data['competition_id'];
+        $invitation = $this->Invitation->find('all', [
+                'conditions' => [
+                    'invitation.user_id_receive' => $UserIdReceive,
+                    'invitation.competition_id' => $CompetitionId
+                ]
+            ]
+        );
+        $this->set('invitation', $invitation);
+        $this->render('/Invitation/json/template');
     }
 }
 

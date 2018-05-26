@@ -34,8 +34,8 @@ class DistrictTable extends Table
         parent::initialize($config);
 
         $this->setTable('district');
-        $this->setDisplayField('name');
-        $this->setPrimaryKey('name');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         $this->belongsTo('Canton', [
             'foreignKey' => 'canton_id'
@@ -54,9 +54,13 @@ class DistrictTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
+            ->integer('id')
+            ->allowEmpty('id', 'create');
+
+        $validator
             ->scalar('name')
             ->maxLength('name', 40)
-            ->allowEmpty('name', 'create');
+            ->allowEmpty('name');
 
         return $validator;
     }

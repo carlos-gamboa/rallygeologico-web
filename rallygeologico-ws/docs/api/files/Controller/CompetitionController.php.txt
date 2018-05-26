@@ -2,7 +2,9 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use App\Model\Entity\Invitation;
 use Cake\Event\Event;
+use Cake\Utility\Hash;
 
 /**
  * Competition Controller
@@ -17,12 +19,12 @@ class CompetitionController extends AppController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|void
+     * @return \Cake\Http\Response|void JSON Response.
      */
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Rally']
+            'contain' => ['Users', 'Rally']
         ];
         $competition = $this->paginate($this->Competition);
 
@@ -30,6 +32,12 @@ class CompetitionController extends AppController
         $this->set('_serialize', 'competition');
     }
 
+    /**
+     * Allows public access to the web services.
+     *
+     * @param Event $event Access event
+     * @return \Cake\Http\Response|null|void No response
+     */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
@@ -41,13 +49,13 @@ class CompetitionController extends AppController
      * View method
      *
      * @param string|null $id Competition id.
-     * @return \Cake\Http\Response|void
+     * @return \Cake\Http\Response|void JSON Response.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
         $competition = $this->Competition->get($id, [
-            'contain' => ['Rally', 'Users']
+            'contain' => ['Users', 'Rally', 'CompetitionStatistics', 'Invitation']
         ]);
 
         $this->set('competition', $competition);
@@ -57,7 +65,7 @@ class CompetitionController extends AppController
     /**
      * Add method
      *
-     * @return \Cake\Http\Response|integer Redirects on successful add, renders view otherwise.
+     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
     public function add()
     {
@@ -69,8 +77,9 @@ class CompetitionController extends AppController
             }
             $this->Flash->error(__('The competition could not be saved. Please, try again.'));
         }
+        $users = $this->Competition->Users->find('list', ['limit' => 200]);
         $rally = $this->Competition->Rally->find('list', ['limit' => 200]);
-        $this->set(compact('competition', 'rally'));
+        $this->set(compact('competition', 'users', 'rally'));
         $this->render('/Competition/json/template');
     }
 
@@ -95,8 +104,9 @@ class CompetitionController extends AppController
             }
             $this->Flash->error(__('The competition could not be saved. Please, try again.'));
         }
+        $users = $this->Competition->Users->find('list', ['limit' => 200]);
         $rally = $this->Competition->Rally->find('list', ['limit' => 200]);
-        $this->set(compact('competition', 'rally'));
+        $this->set(compact('competition', 'users', 'rally'));
     }
 
     /**
@@ -118,5 +128,37 @@ class CompetitionController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
-}
 
+    /**
+     * Gets all the public competitions in which the user is not participating.
+     *
+     * @param null $user_id User Id
+     */
+    public function getAllPublicCompetitions($user_id = null) {
+        $this->loadModel('CompetitionStatistics');
+        $competitions = $this->Competition->find('all', [
+            'contain' =>
+                [
+                    'Users',
+                    'Rally'
+                ],
+            'conditions' => [
+                    'AND' => [
+                        'competition.is_active' => 1,
+                        'competition.is_public' => 1,
+                        'competition.admin_id !=' =>  $user_id
+                    ],
+                    ['competition.id NOT IN' => $this->CompetitionStatistics->find('all', [
+                        'fields' => ['CompetitionStatistics.competition_id'],
+                        'conditions' => [
+                            'CompetitionStatistics.user_id' => $user_id
+                        ]
+                    ])]
+            ]
+        ]);
+
+        $this->set('competition', $competitions);
+        $this->render('/Competition/json/template');
+    }
+    
+}
