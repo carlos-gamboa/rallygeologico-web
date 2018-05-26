@@ -123,7 +123,8 @@ class CompetitionController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-    public function getAllPublicCompetitions($admin_id = null) {
+    public function getAllPublicCompetitions($user_id = null) {
+        $this->loadModel('CompetitionStatistics');
         $competitions = $this->Competition->find('all', [
             'contain' =>
                 [
@@ -131,11 +132,17 @@ class CompetitionController extends AppController
                     'Rally'
                 ],
             'conditions' => [
-                    [
+                    'AND' => [
                         'competition.is_active' => 1,
                         'competition.is_public' => 1,
-                        'competition.admin_id !=' =>  $admin_id
-                    ]
+                        'competition.admin_id !=' =>  $user_id
+                    ],
+                    ['competition.id NOT IN' => $this->CompetitionStatistics->find('all', [
+                        'fields' => ['CompetitionStatistics.competition_id'],
+                        'conditions' => [
+                            'CompetitionStatistics.user_id' => $user_id
+                        ]
+                    ])]
             ]
         ]);
 
