@@ -17,7 +17,7 @@ class CompetitionStatisticsController extends AppController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|void
+     * @return \Cake\Http\Response|void JSON Response.
      */
     public function index()
     {
@@ -30,6 +30,12 @@ class CompetitionStatisticsController extends AppController
         $this->set('_serialize', 'competitionStatistics');
     }
 
+    /**
+     * Allows public access to the web services.
+     *
+     * @param Event $event Access event
+     * @return \Cake\Http\Response|null|void No response
+     */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
@@ -120,6 +126,11 @@ class CompetitionStatisticsController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
+    /**
+     * Gets the CompetitionStatistics associated with 1 Competition.
+     *
+     * @param null $competitionId Competition Id
+     */
     public function getCompetitionStatistics ($competitionId = null)
     {
         $competitionStatistics = $this->CompetitionStatistics->find('all', [
@@ -130,6 +141,11 @@ class CompetitionStatisticsController extends AppController
         $this->render('/CompetitionStatistics/json/template');
     }
 
+    /**
+     * Gets the Competitions and CompetitionStatistics for the competitions that the user is participating.
+     *
+     * @param null $userId User Id.
+     */
     public function currentCompetitions($userId = null){
 
         $competitionStatistics = $this->CompetitionStatistics->find('all', [

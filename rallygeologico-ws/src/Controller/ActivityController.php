@@ -17,7 +17,7 @@ class ActivityController extends AppController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|void
+     * @return \Cake\Http\Response|void JSON response.
      */
     public function index()
     {
@@ -29,6 +29,12 @@ class ActivityController extends AppController
         $this->set(compact('activity'));
     }
 
+    /**
+     * Allows public access to the web services.
+     *
+     * @param Event $event Access event
+     * @return \Cake\Http\Response|null|void No response
+     */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
@@ -40,7 +46,7 @@ class ActivityController extends AppController
      * View method
      *
      * @param string|null $id Activity id.
-     * @return \Cake\Http\Response|void
+     * @return \Cake\Http\Response|void JSON response.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)

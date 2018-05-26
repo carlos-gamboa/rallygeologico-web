@@ -15,6 +15,10 @@ export class RallyService {
         this.headers.append('Content-Type', 'application/json');
     }
 
+    /**
+     * Service for getting all the rallies in descendant order.
+     * @returns {Observable<Rally[]>}
+     */
     getNewestRallies(): Observable<Rally[]>{
         return this.http.get<Rally[]>(this.baseUrl + "rally/newestRallies.json",{ headers: this.headers, withCredentials: true });
     }
@@ -27,7 +31,11 @@ export class RallyService {
     getRally(id: number): Observable<Rally>{
         return this.http.get<Rally>(this.baseUrl + "rally/view/"+id+".json",{ headers: this.headers, withCredentials: true });
     }
-  
+
+    /**
+     * Service for getting all the rallies
+     * @returns {Observable<Rally[]>}
+     */
     getAllRallies(): Observable<Rally[]>{
         return this.http.get<Rally[]>(this.baseUrl + "rally.json",{ headers: this.headers, withCredentials: true });
     }

@@ -18,7 +18,7 @@ class UsersController extends AppController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|void
+     * @return \Cake\Http\Response|void JSON Response.
      */
     public function index()
     {
@@ -33,10 +33,10 @@ class UsersController extends AppController
     }
 
     /**
-     * Allow not authorized users
+     * Allows public access to the web services.
      *
-     * @param Event $event
-     * @return \Cake\Http\Response|null|void
+     * @param Event $event Access event
+     * @return \Cake\Http\Response|null|void No response
      */
     public function beforeFilter(Event $event)
     {
@@ -59,106 +59,6 @@ class UsersController extends AppController
         ]);
 
         $this->set('user', $user);
-    }
-
-    /**
-     * Find an user by it's username
-     *
-     * @param null $Username
-     */
-    public function username($Username = null)
-    {
-        $users = $this->Users->find('all', [
-                'conditions' => ['users.username' => $Username]]
-        );
-        $this->set('users', $users);
-        $this->render('/Users/json/template');
-    }
-
-    public function usernameexists($Username = null)
-    {
-        $users = $this->Users->find('all', [
-                'conditions' => ['users.username' => $Username]]
-        );
-        $this->set('users', $users);
-        if ($users->isEmpty()){
-            $this->set('users', false);
-        }
-        else{
-            $this->set('users', true);
-        }
-        $this->render('/Users/json/template');
-    }
-
-    /**
-     * Find an user by it's email
-     *
-     * @param null $Email
-     */
-    public function email($Email = null)
-    {
-        $users = $this->Users->find('all', [
-                'conditions' => ['users.email' => $Email]]
-        );
-        $this->set('users', $users);
-        $this->render('/Users/json/template');
-    }
-
-    public function emailexists($Email = null)
-    {
-        $users = $this->Users->find('all', [
-                'conditions' => ['users.email' => $Email]]
-        );
-        $this->set('users', $users);
-        if ($users->isEmpty()){
-            $this->set('users', false);
-        }
-        else{
-            $this->set('users', true);
-        }
-        $this->render('/Users/json/template');
-    }
-
-    /**
-     * Find an user by it's api id
-     *
-     */
-    public function findApiId()
-    {
-        $data = $this->getRequest()->getData();
-        $ApiId = $data['api_id'];
-        $LoginApi = $data['login_api'];
-        $users = $this->Users->find('all', [
-                'conditions' => [
-                    'users.api_id' => $ApiId,
-                    'users.login_api' => $LoginApi
-                ]
-            ]
-        );
-        $this->set('users', $users);
-        $this->render('/Users/json/template');
-    }
-
-    public function idExists()
-    {
-        $data = $this->getRequest()->getData();
-        $ApiId = $data['api_id'];
-        $LoginApi = $data['login_api'];
-        $users = $this->Users->find('all', [
-                'conditions' => [
-                    'users.api_id' => $ApiId,
-                    'users.login_api' => $LoginApi
-                ]
-            ]
-        );
-        $this->set('users', $users);
-        if ($users->isEmpty()){
-            $this->set('users', false);
-        }
-        else{
-            $this->set('users', true);
-        }
-        $this->render('/Users/json/template');
     }
 
     /**
@@ -224,6 +124,9 @@ class UsersController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
+    /**
+     * Gets all the users that aren't participating in a competition.
+     */
     public function usersToInvite(){
         $data = $this->getRequest()->getData();
         $CompetitionId = $data['competition_id'];
@@ -244,6 +147,119 @@ class UsersController extends AppController
         ]);
 
         $this->set('users', $users->toList());
+        $this->render('/Users/json/template');
+    }
+
+    /**
+     * Find an user by it's username
+     *
+     * @param null $Username
+     */
+    public function username($Username = null)
+    {
+        $users = $this->Users->find('all', [
+                'conditions' => ['users.username' => $Username]]
+        );
+        $this->set('users', $users);
+        $this->render('/Users/json/template');
+    }
+
+    /**
+     * Checks if a username is already taken.
+     *
+     * @param null $Username User's username
+     */
+    public function usernameExists($Username = null)
+    {
+        $users = $this->Users->find('all', [
+                'conditions' => ['users.username' => $Username]]
+        );
+        $this->set('users', $users);
+        if ($users->isEmpty()){
+            $this->set('users', false);
+        }
+        else{
+            $this->set('users', true);
+        }
+        $this->render('/Users/json/template');
+    }
+
+    /**
+     * Find an user by it's email
+     *
+     * @param null $Email User's email.
+     */
+    public function email($Email = null)
+    {
+        $users = $this->Users->find('all', [
+                'conditions' => ['users.email' => $Email]]
+        );
+        $this->set('users', $users);
+        $this->render('/Users/json/template');
+    }
+
+    /**
+     * Checks if an email is already taken.
+     *
+     * @param null $Email User's email.
+     */
+    public function emailExists($Email = null)
+    {
+        $users = $this->Users->find('all', [
+                'conditions' => ['users.email' => $Email]]
+        );
+        $this->set('users', $users);
+        if ($users->isEmpty()){
+            $this->set('users', false);
+        }
+        else{
+            $this->set('users', true);
+        }
+        $this->render('/Users/json/template');
+    }
+
+    /**
+     * Find an user by it's api id
+     *
+     */
+    public function findApiId()
+    {
+        $data = $this->getRequest()->getData();
+        $ApiId = $data['api_id'];
+        $LoginApi = $data['login_api'];
+        $users = $this->Users->find('all', [
+                'conditions' => [
+                    'users.api_id' => $ApiId,
+                    'users.login_api' => $LoginApi
+                ]
+            ]
+        );
+        $this->set('users', $users);
+        $this->render('/Users/json/template');
+    }
+
+    /**
+     * Checks if an API ID already exists based on the API.
+     */
+    public function idExists()
+    {
+        $data = $this->getRequest()->getData();
+        $ApiId = $data['api_id'];
+        $LoginApi = $data['login_api'];
+        $users = $this->Users->find('all', [
+                'conditions' => [
+                    'users.api_id' => $ApiId,
+                    'users.login_api' => $LoginApi
+                ]
+            ]
+        );
+        $this->set('users', $users);
+        if ($users->isEmpty()){
+            $this->set('users', false);
+        }
+        else{
+            $this->set('users', true);
+        }
         $this->render('/Users/json/template');
     }
 }

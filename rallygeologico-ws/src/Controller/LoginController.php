@@ -27,10 +27,10 @@ class LoginController extends AppController
 
 
     /**
-     * Allow non authorized users
+     * Allows public access to the web services.
      *
-     * @param Event $event
-     * @return \Cake\Http\Response|null|void
+     * @param Event $event Access event
+     * @return \Cake\Http\Response|null|void No response
      */
     public function beforeFilter(Event $event)
     {

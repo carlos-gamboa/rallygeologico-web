@@ -19,7 +19,7 @@ class CompetitionController extends AppController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|void
+     * @return \Cake\Http\Response|void JSON Response.
      */
     public function index()
     {
@@ -32,6 +32,12 @@ class CompetitionController extends AppController
         $this->set('_serialize', 'competition');
     }
 
+    /**
+     * Allows public access to the web services.
+     *
+     * @param Event $event Access event
+     * @return \Cake\Http\Response|null|void No response
+     */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
@@ -43,7 +49,7 @@ class CompetitionController extends AppController
      * View method
      *
      * @param string|null $id Competition id.
-     * @return \Cake\Http\Response|void
+     * @return \Cake\Http\Response|void JSON Response.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
@@ -123,6 +129,11 @@ class CompetitionController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
+    /**
+     * Gets all the public competitions in which the user is not participating.
+     *
+     * @param null $user_id User Id
+     */
     public function getAllPublicCompetitions($user_id = null) {
         $this->loadModel('CompetitionStatistics');
         $competitions = $this->Competition->find('all', [

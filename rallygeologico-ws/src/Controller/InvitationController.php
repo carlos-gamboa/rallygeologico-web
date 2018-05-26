@@ -17,7 +17,7 @@ class InvitationController extends AppController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|void
+     * @return \Cake\Http\Response|void JSON Response.
      */
     public function index()
     {
@@ -30,6 +30,12 @@ class InvitationController extends AppController
         $this->set('_serialize', 'invitation');
     }
 
+    /**
+     * Allows public access to the web services.
+     *
+     * @param Event $event Access event
+     * @return \Cake\Http\Response|null|void No response
+     */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
@@ -141,6 +147,9 @@ class InvitationController extends AppController
         $this->render('/Invitation/json/template');
     }
 
+    /**
+     * Gets an invitation based on the receiver user id and the competition id.
+     */
     public function userCompetitionInvitation() {
         $data = $this->getRequest()->getData();
         $UserIdReceive = $data['user_id_receive'];

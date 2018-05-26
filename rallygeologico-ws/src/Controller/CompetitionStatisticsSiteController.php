@@ -17,7 +17,7 @@ class CompetitionStatisticsSiteController extends AppController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|void
+     * @return \Cake\Http\Response|void JSON Response.
      */
     public function index()
     {
@@ -30,6 +30,12 @@ class CompetitionStatisticsSiteController extends AppController
         $this->set('_serialize', 'competitionStatisticsSite');
     }
 
+    /**
+     * Allows public access to the web services.
+     *
+     * @param Event $event Access event
+     * @return \Cake\Http\Response|null|void No response
+     */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);

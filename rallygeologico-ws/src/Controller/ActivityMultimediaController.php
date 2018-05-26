@@ -29,6 +29,12 @@ class ActivityMultimediaController extends AppController
         $this->set(compact('activityMultimedia'));
     }
 
+    /**
+     * Allows public access to the web services.
+     *
+     * @param Event $event Access event
+     * @return \Cake\Http\Response|null|void No response
+     */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
@@ -40,7 +46,7 @@ class ActivityMultimediaController extends AppController
      * View method
      *
      * @param string|null $id Activity Multimedia id.
-     * @return \Cake\Http\Response|void
+     * @return \Cake\Http\Response|void JSON Response.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)

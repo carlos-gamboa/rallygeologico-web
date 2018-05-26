@@ -36,12 +36,22 @@ export class CompetitionStatisticsService {
         );
     }
 
+    /**
+     * Service for getting the statistics of a competition
+     * @param {number} competitionId Id of a competition.
+     * @returns {Observable<CompetitionStatistics[]>}
+     */
     getStatistics(competitionId:number): Observable<CompetitionStatistics[]>{
         return this.http.get<CompetitionStatistics[]>(this.baseUrl + "competitionStatistics/getCompetitionStatistics/" + competitionId + ".json",
             { headers: this.headers, withCredentials: true }
         );
     }
 
+    /**
+     * Service for getting the current competitions a user is participating in.
+     * @param {number} userId Id of the user.
+     * @returns {Observable<CompetitionStatistics[]>}
+     */
     getCurrentCompetitions(userId: number): Observable<CompetitionStatistics[]>{
         return this.http.get<CompetitionStatistics[]>(this.baseUrl + "competitionStatistics/currentCompetitions/"+ userId +".json",{ headers: this.headers, withCredentials: true });
     }
