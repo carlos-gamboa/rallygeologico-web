@@ -130,7 +130,7 @@ export class RegisterComponent implements OnInit {
   registerGoogle() {
     this.pleaseWait = true;
     var count1 = 0;
-    this.userService.emailExists(this.email).subscribe((users: boolean) => {
+    this.userService.emailExists(this.Gemail).subscribe((users: boolean) => {
       this.emailUsed = users;
       if (!this.emailUsed) {
         var count2 = 0;
