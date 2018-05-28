@@ -381,7 +381,7 @@ return [
     ],
 
     'Cors' => [
-        'AllowOrigin' => 'https://localhost:4200',
+        'AllowOrigin' => ['https://localhost', 'https://localhost:4200'],
         'AllowCredentials' => true
     ]
 ];
