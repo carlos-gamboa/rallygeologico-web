@@ -156,4 +156,32 @@ class CompetitionStatisticsController extends AppController
         $this->set('competitionStatistics', $competitionStatistics);
         $this->render('/CompetitionStatistics/json/template');
     }
+
+    /**
+     * Gets the statistics associated with a rally.
+     * Cantidad de gente en el rally (distinct) por separado jugando actual y no
+     * Maximo de puntos obtenidos
+     * Gente con el maximo de puntos
+     * Suma total de puntos
+     *
+     *
+     * @param null $rallyId Rally Id
+     */
+    public function getRallyStatistics($rallyId = null){
+        $this->loadModel('Competition');
+
+        $users = $this->CompetitionStatistics->find('all', [
+            'conditions' => [
+                'CompetitionStatistics.competition_id IN' => $this->Competition->find('all', [
+                    'fields' => ['Competition.id'],
+                    'conditions' => [
+                        'Competition.rally_id' => $rallyId
+                    ]
+                ])
+            ]
+        ]);
+
+        $this->set('users', $users->toList());
+        $this->render('/Users/json/template');
+    }
 }
