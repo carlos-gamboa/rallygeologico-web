@@ -11,6 +11,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
 import { CompetitionComponent } from './competition/competition.component';
 import { CreateCompetitionComponent} from "./create-competition/create-competition.component";
+import {AgmSnazzyInfoWindowModule} from "@agm/snazzy-info-window";
+import {AgmCoreModule} from "@agm/core";
+import {environment} from "../../environments/environment";
+import { SearchRalliesComponent } from './search-rallies/search-rallies.component';
 
 @NgModule({
   imports: [
@@ -21,7 +25,11 @@ import { CreateCompetitionComponent} from "./create-competition/create-competiti
       FormsModule,
       NgbModule,
       MatDatepickerModule,
-      MatNativeDateModule
+      MatNativeDateModule,
+      AgmCoreModule.forRoot({
+          apiKey: environment.googleMapsKey
+      }),
+      AgmSnazzyInfoWindowModule
   ],
   declarations: [
       UserComponent,
@@ -30,7 +38,8 @@ import { CreateCompetitionComponent} from "./create-competition/create-competiti
       DashboardComponent,
       ProfileComponent,
       CompetitionComponent,
-      CreateCompetitionComponent
+      CreateCompetitionComponent,
+      SearchRalliesComponent
   ],
     exports: [
         HeaderComponent,

@@ -108,3 +108,11 @@ table thead{
     background-color: #fdb727 !important;
     border-color: #fdb727 !important;
 }
+
+.btn{
+    opacity: 1 !important;
+}
+
+.invite-btn{
+    font-size: 14px !important;
+}

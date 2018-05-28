@@ -9,13 +9,11 @@
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Form->postLink(
                 __('Delete'),
-                ['action' => 'delete', $competitionStatisticsSite->user_id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $competitionStatisticsSite->user_id)]
+                ['action' => 'delete', $competitionStatisticsSite->competition_statistics_id],
+                ['confirm' => __('Are you sure you want to delete # {0}?', $competitionStatisticsSite->competition_statistics_id)]
             )
         ?></li>
         <li><?= $this->Html->link(__('List Competition Statistics Site'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Competition Statistics'), ['controller' => 'CompetitionStatistics', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Competition Statistic'), ['controller' => 'CompetitionStatistics', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Site'), ['controller' => 'Site', 'action' => 'index']) ?></li>
@@ -27,6 +25,7 @@
     <fieldset>
         <legend><?= __('Edit Competition Statistics Site') ?></legend>
         <?php
+            echo $this->Form->control('visited_date', ['empty' => true]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

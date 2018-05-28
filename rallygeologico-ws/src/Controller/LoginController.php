@@ -27,10 +27,10 @@ class LoginController extends AppController
 
 
     /**
-     * Allow non authorized users
+     * Allows public access to the web services.
      *
-     * @param Event $event
-     * @return \Cake\Http\Response|null|void
+     * @param Event $event Access event
+     * @return \Cake\Http\Response|null|void No response
      */
     public function beforeFilter(Event $event)
     {
@@ -42,7 +42,7 @@ class LoginController extends AppController
      * Get the active session user
      */
     public function activeSession(){
-        $this->set('users', $this->Auth->user());
+        $this->set('users', [$this->Auth->user()['0']]);
         $this->render('/Users/json/template');
     }
 
@@ -54,15 +54,20 @@ class LoginController extends AppController
     {
         try {
             $data = $this->getRequest()->getData();
-            if(!isset($data['facebook_id'])){
+            if(!isset($data['api_id'])||!isset($data['login_api'])){
                 throw new UnauthorizedException("Please enter your FacebookId" . print_r($data, true));
             }
 
-            $FacebookId = $data['facebook_id'];
+            $ApiId = $data['api_id'];
+            $LoginApi = $data['login_api'];
 
             // Check for user credentials
             $users = $this->Users->find('all', [
-                'conditions' => ['users.facebook_id' => $FacebookId]]);
+                'conditions' => [
+                    'users.api_id' => $ApiId,
+                    'users.login_api' => $LoginApi
+                ]
+            ]);
             if(!$users) {
                 throw new UnauthorizedException("Invalid login");
             }
@@ -71,12 +76,12 @@ class LoginController extends AppController
             $this->Auth->setUser($users->toArray());
 
             // Generate user Auth token
-            $token =  Security::hash($users->id.$users->facebook_id, 'sha1', true);
+            $token =  Security::hash($users->id.$users->api_id, 'sha1', true);
             // Add user token into Auth session
             $this->getRequest()->getSession()->write('Auth.User.token', $token);
 
             // return Auth token
-            $this->getResponse()->withAddedHeader('Authorization', 'Bearer ' . $token);
+            $this->getResponse()->header('Authorization', 'Bearer ' . $token);
 
         } catch (UnauthorizedException $e) {
             //throw new UnauthorizedException($e->getMessage(),401);

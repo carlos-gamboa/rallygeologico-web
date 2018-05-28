@@ -80,6 +80,16 @@ class RallyTable extends Table
             ->maxLength('description', 5000)
             ->allowEmpty('description');
 
+        $validator
+            ->numeric('latitude')
+            ->requirePresence('latitude', 'create')
+            ->notEmpty('latitude');
+
+        $validator
+            ->numeric('longitude')
+            ->requirePresence('longitude', 'create')
+            ->notEmpty('longitude');
+
         return $validator;
     }
 }

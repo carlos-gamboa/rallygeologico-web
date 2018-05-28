@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import {FacebookService, InitParams, LoginOptions, LoginResponse, AuthResponse} from 'ngx-facebook';
 import {Router} from "@angular/router";
 import {User} from "../model/user";
 import {UserService} from "../services/user.service";
+import {environment} from "../../environments/environment";
+
+declare var gapi: any;
 
 @Component({
   selector: 'app-register',
@@ -12,27 +15,31 @@ import {UserService} from "../services/user.service";
 export class RegisterComponent implements OnInit {
 
 
-  facebookLogin : boolean =false;
   fbId: string;
   firstName: string;
   lastName: string;
   email: string;
   userName: string;
+  GId: string;
+  GfirstName: string;
+  GlastName: string;
+  Gemail: string;
+  GuserName: string;
   changeUsername : boolean;
-  confirmation:boolean;
-  levelId:string = "no";
   error:string;
   registerWithFacebook:boolean = false;
+  registerWithGoogle:boolean = false;
   photoUrl : string ="13241235";
   user : User;
   successful : boolean = false;
   emailUsed : boolean = false;
   pleaseWait : boolean = false;
+  googleClientS : string = environment.googleClientS;
 
-  constructor(private fb: FacebookService, private router: Router,  private userService: UserService) {
+  constructor(private fb: FacebookService, private router: Router,  private userService: UserService, private _ngZone: NgZone) {
     console.log('Initializing Facebook');
     let initParams: InitParams = {
-      appId: '1417631371676772',
+      appId: environment.facebookKey,
       xfbml: true,
       version: 'v2.12'
     };
@@ -44,33 +51,95 @@ export class RegisterComponent implements OnInit {
 
   }
 
+  ngAfterViewInit(): void {
+    gapi.load('auth2', function() {
+      gapi.auth2.init({
+        client_id: environment.googleClient,
+        fetch_basic_profile: true
+      });
+    });
+  }
+
+  googleSignIn() {
+    console.log('I am passing signIn');
+    var auth2 = gapi.auth2.getAuthInstance();
+    var user = auth2.currentUser.get();
+    var profile = user.getBasicProfile();
+    // Sign the user in, and then retrieve their ID.
+    setTimeout(() =>
+      {
+        this._ngZone.run(
+          () => auth2.signIn().then((res: any) => {
+            var profile = res.getBasicProfile();
+            this.setGoogleVariables(profile.getId(),profile.getGivenName(),profile.getFamilyName(),profile.getImageUrl(),profile.getEmail());
+          })
+        );
+      },
+      1000);
+    this._ngZone.run(
+      () => auth2.signIn().then((res: any) => {
+        var profile = res.getBasicProfile();
+        this.setGoogleVariables(profile.getId(),profile.getGivenName(),profile.getFamilyName(),profile.getImageUrl(),profile.getEmail());
+      })
+    );
+  }
+
+  setGoogleVariables(id:string, name:string, lastname:string , img:string , email:string ){
+    this.registerWithFacebook = false;
+    this.registerWithGoogle = true;
+    this.GId = id;
+    this.GfirstName = name;
+    this.GlastName = lastname;
+    this.Gemail = email;
+    this.photoUrl = img;
+  }
+
+
+
   ngOnInit() {
   }
 
   /**
    * Checks that the userName is free to use
    */
-  register() {
+  registerFb() {
     this.pleaseWait = true;
     var count1 = 0;
-    this.userService.email(this.email).subscribe((users: User[]) => {
-      console.log(users);
-      for (let i: number = 0; i < users.length; ++i) {
-        count1 += 1;
-      }
-      this.emailUsed = (count1 != 0);
+    this.userService.emailExists(this.email).subscribe((users: boolean) => {
+      this.emailUsed = users;
       if (!this.emailUsed) {
         var count2 = 0;
-        this.userService.username(this.userName).subscribe((users: User[]) => {
-          console.log(users);
-          for (let i: number = 0; i < users.length; ++i) {
-            count2 += 1;
-          }
-          this.changeUsername = (count2 != 0);
+        this.userService.usernameExists(this.userName).subscribe((usersTwo: boolean) => {
+          this.changeUsername = usersTwo;
           if (!this.changeUsername) {
-            this.userService.register(this.fbId, this.userName, this.firstName, this.lastName, this.email, this.photoUrl).subscribe((users: User[]) => {
+            this.userService.register(this.fbId, this.userName, this.firstName, this.lastName, this.email, this.photoUrl, 0).subscribe((users: User[]) => {
               if (users) {
-                console.log(users);
+                this.successful = true;
+                this.pleaseWait = false;
+              }else {
+                console.log("Couldn't register");
+              }
+            });
+          }
+        });
+      }
+    });
+
+  }
+
+  registerGoogle() {
+    this.pleaseWait = true;
+    var count1 = 0;
+    this.userService.emailExists(this.Gemail).subscribe((users: boolean) => {
+      this.emailUsed = users;
+      if (!this.emailUsed) {
+        var count2 = 0;
+        this.userService.usernameExists(this.userName).subscribe((usersTwo: boolean) => {
+          this.changeUsername = usersTwo;
+          if (!this.changeUsername) {
+            this.userService.register(this.GId, this.userName, this.GfirstName, this.GlastName, this.Gemail, this.photoUrl, 1).subscribe((users: User[]) => {
+              if (users) {
+                console.log("GOOGLE ID: "+ this.userName);
                 this.successful = true;
                 this.pleaseWait = false;
               }else {
@@ -122,6 +191,7 @@ export class RegisterComponent implements OnInit {
         this.photoUrl = res.picture.data.url;
         console.log(this.fbId +" "+this.firstName +" "+ this.lastName +" "+this.email);
         this.registerWithFacebook = true;
+        this.registerWithGoogle = false;
         return res;
       })
       .catch(this.handleErrorProfile);

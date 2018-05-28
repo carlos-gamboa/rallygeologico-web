@@ -6,6 +6,7 @@ use Cake\ORM\Entity;
 /**
  * CompetitionStatistic Entity
  *
+ * @property int $id
  * @property int $user_id
  * @property int $competition_id
  * @property \Cake\I18n\FrozenTime $starting_date
@@ -28,6 +29,8 @@ class CompetitionStatistic extends Entity
      * @var array
      */
     protected $_accessible = [
+        'user_id' => true,
+        'competition_id' => true,
         'starting_date' => true,
         'finishing_date' => true,
         'points' => true,

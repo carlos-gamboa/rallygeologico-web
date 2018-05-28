@@ -10,6 +10,7 @@ use Cake\Validation\Validator;
  * Site Model
  *
  * @property \App\Model\Table\DistrictTable|\Cake\ORM\Association\BelongsTo $District
+ * @property \App\Model\Table\ActivityTable|\Cake\ORM\Association\HasMany $Activity
  * @property \App\Model\Table\CompetitionStatisticsTable|\Cake\ORM\Association\BelongsToMany $CompetitionStatistics
  * @property \App\Model\Table\RallyTable|\Cake\ORM\Association\BelongsToMany $Rally
  * @property \App\Model\Table\TermTable|\Cake\ORM\Association\BelongsToMany $Term
@@ -42,6 +43,9 @@ class SiteTable extends Table
         $this->belongsTo('District', [
             'foreignKey' => 'district_id',
             'joinType' => 'INNER'
+        ]);
+        $this->hasMany('Activity', [
+            'foreignKey' => 'site_id'
         ]);
         $this->belongsToMany('CompetitionStatistics', [
             'foreignKey' => 'site_id',
@@ -79,11 +83,6 @@ class SiteTable extends Table
             ->notEmpty('name');
 
         $validator
-            ->integer('points_awarded')
-            ->requirePresence('points_awarded', 'create')
-            ->notEmpty('points_awarded');
-
-        $validator
             ->scalar('qr_url')
             ->maxLength('qr_url', 200)
             ->allowEmpty('qr_url');
@@ -107,6 +106,13 @@ class SiteTable extends Table
             ->numeric('longitude')
             ->requirePresence('longitude', 'create')
             ->notEmpty('longitude');
+
+        $validator
+            ->integer('points')
+            ->allowEmpty('points');
+
+        $validator
+            ->allowEmpty('is_easter_egg');
 
         return $validator;
     }

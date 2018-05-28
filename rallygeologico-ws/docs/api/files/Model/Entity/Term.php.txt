@@ -7,8 +7,6 @@ use Cake\ORM\Entity;
  * Term Entity
  *
  * @property int $id
- * @property string $image_url
- * @property string $video_url
  * @property string $name
  * @property string $description
  *
@@ -27,8 +25,6 @@ class Term extends Entity
      * @var array
      */
     protected $_accessible = [
-        'image_url' => true,
-        'video_url' => true,
         'name' => true,
         'description' => true,
         'site' => true

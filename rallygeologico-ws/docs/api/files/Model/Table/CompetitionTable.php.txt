@@ -9,10 +9,9 @@ use Cake\Validation\Validator;
 /**
  * Competition Model
  *
- * @property |\Cake\ORM\Association\BelongsTo $Users
+ * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
  * @property \App\Model\Table\RallyTable|\Cake\ORM\Association\BelongsTo $Rally
  * @property \App\Model\Table\CompetitionStatisticsTable|\Cake\ORM\Association\HasMany $CompetitionStatistics
- * @property \App\Model\Table\CompetitionStatisticsSiteTable|\Cake\ORM\Association\HasMany $CompetitionStatisticsSite
  * @property \App\Model\Table\InvitationTable|\Cake\ORM\Association\HasMany $Invitation
  *
  * @method \App\Model\Entity\Competition get($primaryKey, $options = [])
@@ -50,9 +49,6 @@ class CompetitionTable extends Table
         $this->hasMany('CompetitionStatistics', [
             'foreignKey' => 'competition_id'
         ]);
-        $this->hasMany('CompetitionStatisticsSite', [
-            'foreignKey' => 'competition_id'
-        ]);
         $this->hasMany('Invitation', [
             'foreignKey' => 'competition_id'
         ]);
@@ -71,7 +67,6 @@ class CompetitionTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->scalar('is_active')
             ->allowEmpty('is_active');
 
         $validator
@@ -83,7 +78,6 @@ class CompetitionTable extends Table
             ->allowEmpty('finishing_date');
 
         $validator
-            ->scalar('is_public')
             ->allowEmpty('is_public');
 
         $validator

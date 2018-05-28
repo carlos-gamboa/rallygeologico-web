@@ -8,6 +8,10 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New User'), ['action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Competition'), ['controller' => 'Competition', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Competition'), ['controller' => 'Competition', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Invitation Send'), ['controller' => 'Invitation', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Invitation Send'), ['controller' => 'Invitation', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Competition Statistics'), ['controller' => 'CompetitionStatistics', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Competition Statistic'), ['controller' => 'CompetitionStatistics', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Competition Statistics Site'), ['controller' => 'CompetitionStatisticsSite', 'action' => 'index']) ?></li>
@@ -20,13 +24,14 @@
         <thead>
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('facebook_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('api_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('username') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('first_name') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('last_name') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('email') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('photo_url') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('is_admin') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('login_api') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -34,13 +39,14 @@
             <?php foreach ($users as $user): ?>
             <tr>
                 <td><?= $this->Number->format($user->id) ?></td>
-                <td><?= h($user->facebook_id) ?></td>
+                <td><?= h($user->api_id) ?></td>
                 <td><?= h($user->username) ?></td>
                 <td><?= h($user->first_name) ?></td>
                 <td><?= h($user->last_name) ?></td>
                 <td><?= h($user->email) ?></td>
                 <td><?= h($user->photo_url) ?></td>
-                <td><?= h($user->is_admin) ?></td>
+                <td><?= $this->Number->format($user->is_admin) ?></td>
+                <td><?= $this->Number->format($user->login_api) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $user->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id]) ?>

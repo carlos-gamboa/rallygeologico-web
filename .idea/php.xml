@@ -47,6 +47,7 @@
       <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/psy/psysh" />
       <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/umpirsky/twig-php-function" />
       <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/asm89/twig-cache-extension" />
+      <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/ozee31/cakephp-cors" />
     </include_path>
   </component>
 </project>

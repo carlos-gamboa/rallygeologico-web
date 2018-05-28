@@ -8,7 +8,7 @@
         <h1 class="text-white">
           Crear Competencia
         </h1>
-        <p class="text-white link-nav"><a href="/dashboard">Inicio </a>  <span class="lnr lnr-arrow-right"></span>  <a href="/create-competition">Crear Competencia</a></p>
+        <p class="text-white link-nav"><a routerLink="/dashboard">Inicio </a>  <span class="lnr lnr-arrow-right"></span>  <a routerLink="/create-competition">Crear Competencia</a></p>
       </div>
     </div>
   </div>
@@ -42,8 +42,8 @@
                 </div>
               </div>
               <div class="col-lg-6" align="center">
-                <select class="select-input" [(ngModel)]="rally_id" #rallyIdInput="ngModel" name="rally_id" *ngFor="let rally of ralliesList; let i = index" required>
-                  <option value="{{rally.id}}">{{rally.name}}</option>
+                <select class="select-input" [(ngModel)]="rally_id" #rallyIdInput="ngModel" name="rally_id" required>
+                  <option *ngFor="let rally of ralliesList; let i = index" value="{{rally.id}}">{{rally.name}}</option>
                 </select>
                 <div *ngIf="(rallyIdInput?.invalid) && (rallyIdInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
                   <p class="alert-message">Debe seleccionar un rally para la competencia.</p>
@@ -58,7 +58,7 @@
           </form>
         </div>
         <div class="mt-50" align="center">
-          <button title="crearCompetencia" class="btn genric-btn success col-lg-6" style="font-size: 16px" (click)="createCompetition()" [disabled]="competitionForm.invalid">Crear Competencia</button>
+          <button title="crearCompetencia" class="btn genric-btn success col-lg-6" style="font-size: 16px" (click)="createCompetition()" [disabled]="competitionForm.invalid" *ngIf="!competitionCreated">Crear Competencia</button>
           <div *ngIf="competitionCreated" class="alert alert-success col-lg-6 mt-10" role="alert">
             La competencia ha sido creada.
           </div>
@@ -70,17 +70,16 @@
 <!-- End form Area -->
 
 <!-- Start list users Area -->
-<section class="contact-page-area section-gap list-users">
+<section class="contact-page-area section-gap list-users" *ngIf="competitionCreated" >
   <div class="container">
     <div class="row">
       <div class="offset-md-2 col-md-8 col-xs-12">
-        <h3 class="title text-center mb-3">Invitar usuarios a esta competencia</h3>
-        <p class="subtitle text-center">Busque usuarios por nombre de usuario</p>
+        <h3 class="title text-center mb-3">Invitar usuarios a {{currentCompetition?.name}}</h3>
         <div class="busqueda" id="searchform">
           <input [(ngModel)]="searchQuery" type="text" title="Digite aquí el nombre del usuario" id="searchterm" placeholder="Digite el nombre de usuario" />
           <button type="button" id="search" title="Click aquí para buscar el usuario" (click)="searchUser()">Buscar</button>
         </div>
-        <div>
+        <div class="text-center">
           <h4 class="title">Resultados</h4> <br>
           <div>
             <table class="table">
@@ -92,18 +91,16 @@
               </thead>
               <tbody>
                 <tr *ngFor="let user of showedUsers; let i = index">
-                  <td align="center"><img class="user-image" src="{{user.photo_url}}"></td>
-                  <td><h5 class="subtitle">{{user.username}}</h5></td>
-                  <td><h4 class="subtitle">{{user.first_name}} {{user.last_name}}</h4></td>
-                  <td><button title="Invitar" class="btn btn-default btn-sm btn-block text-center" (click)="invite(i)">Invitar</button></td>
+                  <td align="center"><img class="user-image" src="{{user?.photo_url}}"></td>
+                  <td><h5 class="subtitle">{{user?.username}}</h5></td>
+                  <td><h4 class="subtitle">{{user?.first_name}} {{user?.last_name}}</h4></td>
+                  <td>
+                    <button class="invite-btn genric-btn circle text-center warning-border medium wide-button" [disabled]="true" *ngIf="invitedUsers.includes(user.id)">Invitado</button>
+                    <button title="Invitar" class="invite-btn genric-btn circle text-center warning medium wide-button" (click)="invite(i)" *ngIf="!invitedUsers.includes(user.id)">Invitar</button>
+                  </td>
                 </tr>
               </tbody>
             </table>
-          </div>
-          <div align="center">
-            <div *ngIf="invitationSent" class="alert alert-success col-lg-6 mt-10 mb-10" role="alert">
-              Ha enviado una invitación.
-            </div>
           </div>
           <div class="row">
             <div class="col-md-12 mt-10 text-center">
@@ -113,6 +110,9 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="mt-50" align="center">
+          <button title="agregarOtraCompetencia" class="btn genric-btn info col-lg-6 mt-10" style="font-size: 16px" (click)="addOtherCompetition(competitionForm)">Agregar Otra Competencia</button>
         </div>
       </div>
     </div>

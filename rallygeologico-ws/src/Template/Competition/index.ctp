@@ -8,6 +8,8 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New Competition'), ['action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Rally'), ['controller' => 'Rally', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Rally'), ['controller' => 'Rally', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Competition Statistics'), ['controller' => 'CompetitionStatistics', 'action' => 'index']) ?></li>
@@ -30,7 +32,7 @@
                 <th scope="col"><?= $this->Paginator->sort('is_public') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('admin_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('description') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('Name') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('name') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('rally_id') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
@@ -39,13 +41,13 @@
             <?php foreach ($competition as $competition): ?>
             <tr>
                 <td><?= $this->Number->format($competition->id) ?></td>
-                <td><?= h($competition->is_active) ?></td>
+                <td><?= $this->Number->format($competition->is_active) ?></td>
                 <td><?= h($competition->starting_date) ?></td>
                 <td><?= h($competition->finishing_date) ?></td>
-                <td><?= h($competition->is_public) ?></td>
-                <td><?= $this->Number->format($competition->admin_id) ?></td>
+                <td><?= $this->Number->format($competition->is_public) ?></td>
+                <td><?= $competition->has('user') ? $this->Html->link($competition->user->id, ['controller' => 'Users', 'action' => 'view', $competition->user->id]) : '' ?></td>
                 <td><?= h($competition->description) ?></td>
-                <td><?= h($competition->Name) ?></td>
+                <td><?= h($competition->name) ?></td>
                 <td><?= $competition->has('rally') ? $this->Html->link($competition->rally->name, ['controller' => 'Rally', 'action' => 'view', $competition->rally->id]) : '' ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $competition->id]) ?>

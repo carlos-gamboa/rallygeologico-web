@@ -18,6 +18,7 @@
       <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/jdorn/sql-formatter" />
       <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/justinrainbow/json-schema" />
       <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/nikic/php-parser" />
+      <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/ozee31/cakephp-cors" />
       <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/psy/psysh" />
       <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/seld/cli-prompt" />
       <excludeFolder url="file://$MODULE_DIR$/rallygeologico-ws/vendor/seld/jsonlint" />

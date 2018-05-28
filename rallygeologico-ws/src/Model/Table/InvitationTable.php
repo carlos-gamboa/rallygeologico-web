@@ -10,6 +10,8 @@ use Cake\Validation\Validator;
  * Invitation Model
  *
  * @property \App\Model\Table\CompetitionTable|\Cake\ORM\Association\BelongsTo $Competition
+ * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $UserSend
+ * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $UserReceive
  *
  * @method \App\Model\Entity\Invitation get($primaryKey, $options = [])
  * @method \App\Model\Entity\Invitation newEntity($data = null, array $options = [])
@@ -65,8 +67,10 @@ class InvitationTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->scalar('accepted')
             ->allowEmpty('accepted');
+
+        $validator
+            ->allowEmpty('rejected');
 
         $validator
             ->integer('user_id_send')
@@ -77,6 +81,11 @@ class InvitationTable extends Table
             ->integer('user_id_receive')
             ->requirePresence('user_id_receive', 'create')
             ->notEmpty('user_id_receive');
+
+        $validator
+            ->integer('competition_id')
+            ->requirePresence('competition_id', 'create')
+            ->notEmpty('competition_id');
 
         return $validator;
     }

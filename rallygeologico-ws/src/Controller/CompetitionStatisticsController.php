@@ -17,7 +17,7 @@ class CompetitionStatisticsController extends AppController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|void
+     * @return \Cake\Http\Response|void JSON Response.
      */
     public function index()
     {
@@ -30,11 +30,16 @@ class CompetitionStatisticsController extends AppController
         $this->set('_serialize', 'competitionStatistics');
     }
 
+    /**
+     * Allows public access to the web services.
+     *
+     * @param Event $event Access event
+     * @return \Cake\Http\Response|null|void No response
+     */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
         $this->Auth->allow();
-
     }
 
     /**
@@ -46,11 +51,12 @@ class CompetitionStatisticsController extends AppController
      */
     public function view($id = null)
     {
-        $competitionStatistic = $this->CompetitionStatistics->get($id, [
+        $competitionStatistics = $this->CompetitionStatistics->get($id, [
             'contain' => ['Users', 'Competition']
         ]);
 
-        $this->set('competitionStatistic', $competitionStatistic);
+        $this->set('competitionStatistics', $competitionStatistics);
+        $this->render('/CompetitionStatistics/json/template');
     }
 
     /**
@@ -60,17 +66,17 @@ class CompetitionStatisticsController extends AppController
      */
     public function add()
     {
-        $competitionStatistic = $this->CompetitionStatistics->newEntity();
+        $associations = ['Users', 'Competition'];
+        $competitionStatistics = $this->CompetitionStatistics->newEntity();
         if ($this->getRequest()->is('post')) {
-            $competitionStatistic = $this->CompetitionStatistics->patchEntity($competitionStatistic, $this->getRequest()->getData());
-            if ($this->CompetitionStatistics->save($competitionStatistic)) {
+            $competitionStatistics = $this->CompetitionStatistics->patchEntity($competitionStatistics, $this->getRequest()->getData(), ['associated' => $associations]);
+            if ($this->CompetitionStatistics->save($competitionStatistics)) {
+                $competitionStatistics = $this->CompetitionStatistics->loadInto($competitionStatistics, $associations);
                 $this->Flash->success(__('The competition statistic has been saved.'));
             }
             $this->Flash->error(__('The competition statistic could not be saved. Please, try again.'));
         }
-        $users = $this->CompetitionStatistics->Users->find('list', ['limit' => 200]);
-        $competition = $this->CompetitionStatistics->Competition->find('list', ['limit' => 200]);
-        $this->set(compact('competitionStatistic', 'users', 'competition'));
+        $this->set('competitionStatistics', $competitionStatistics);
         $this->render('/CompetitionStatistics/json/template');
     }
 
@@ -83,12 +89,12 @@ class CompetitionStatisticsController extends AppController
      */
     public function edit($id = null)
     {
-        $competitionStatistic = $this->CompetitionStatistics->get($id, [
+        $competitionStatistics = $this->CompetitionStatistics->get($id, [
             'contain' => []
         ]);
         if ($this->getRequest()->is(['patch', 'post', 'put'])) {
-            $competitionStatistic = $this->CompetitionStatistics->patchEntity($competitionStatistic, $this->getRequest()->getData());
-            if ($this->CompetitionStatistics->save($competitionStatistic)) {
+            $competitionStatistics = $this->CompetitionStatistics->patchEntity($competitionStatistics, $this->getRequest()->getData());
+            if ($this->CompetitionStatistics->save($competitionStatistics)) {
                 $this->Flash->success(__('The competition statistic has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
@@ -97,7 +103,7 @@ class CompetitionStatisticsController extends AppController
         }
         $users = $this->CompetitionStatistics->Users->find('list', ['limit' => 200]);
         $competition = $this->CompetitionStatistics->Competition->find('list', ['limit' => 200]);
-        $this->set(compact('competitionStatistic', 'users', 'competition'));
+        $this->set(compact('competitionStatistics', 'users', 'competition'));
     }
 
     /**
@@ -110,13 +116,44 @@ class CompetitionStatisticsController extends AppController
     public function delete($id = null)
     {
         $this->getRequest()->allowMethod(['post', 'delete']);
-        $competitionStatistic = $this->CompetitionStatistics->get($id);
-        if ($this->CompetitionStatistics->delete($competitionStatistic)) {
+        $competitionStatistics = $this->CompetitionStatistics->get($id);
+        if ($this->CompetitionStatistics->delete($competitionStatistics)) {
             $this->Flash->success(__('The competition statistic has been deleted.'));
         } else {
             $this->Flash->error(__('The competition statistic could not be deleted. Please, try again.'));
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    /**
+     * Gets the CompetitionStatistics associated with 1 Competition.
+     *
+     * @param null $competitionId Competition Id
+     */
+    public function getCompetitionStatistics ($competitionId = null)
+    {
+        $competitionStatistics = $this->CompetitionStatistics->find('all', [
+            'contain' => ['Users', 'Site', 'Activity'],
+            'conditions' => ['competitionStatistics.competition_id' => $competitionId]]
+        );
+        $this->set('competitionStatistics', $competitionStatistics);
+        $this->render('/CompetitionStatistics/json/template');
+    }
+
+    /**
+     * Gets the Competitions and CompetitionStatistics for the competitions that the user is participating.
+     *
+     * @param null $userId User Id.
+     */
+    public function currentCompetitions($userId = null){
+
+        $competitionStatistics = $this->CompetitionStatistics->find('all', [
+            'contain' => ['Competition'],
+            'conditions' => ['competitionStatistics.user_id' => $userId]
+        ]);
+
+        $this->set('competitionStatistics', $competitionStatistics);
+        $this->render('/CompetitionStatistics/json/template');
     }
 }

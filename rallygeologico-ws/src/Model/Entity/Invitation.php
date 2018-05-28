@@ -7,12 +7,15 @@ use Cake\ORM\Entity;
  * Invitation Entity
  *
  * @property int $id
- * @property string $accepted
+ * @property int $accepted
+ * @property int $rejected
  * @property int $user_id_send
  * @property int $user_id_receive
  * @property int $competition_id
  *
  * @property \App\Model\Entity\Competition $competition
+ * @property \App\Model\Entity\User $user_send
+ * @property \App\Model\Entity\User $user_receive
  */
 class Invitation extends Entity
 {
@@ -28,9 +31,12 @@ class Invitation extends Entity
      */
     protected $_accessible = [
         'accepted' => true,
+        'rejected' => true,
         'user_id_send' => true,
         'user_id_receive' => true,
         'competition_id' => true,
-        'competition' => true
+        'competition' => true,
+        'user_send' => true,
+        'user_receive' => true
     ];
 }

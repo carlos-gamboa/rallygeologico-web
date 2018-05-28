@@ -6,11 +6,10 @@ use Cake\ORM\Entity;
 /**
  * CompetitionStatisticsSite Entity
  *
- * @property int $user_id
- * @property int $competition_id
+ * @property int $competition_statistics_id
  * @property int $site_id
+ * @property \Cake\I18n\FrozenTime $visited_date
  *
- * @property \App\Model\Entity\User $user
  * @property \App\Model\Entity\CompetitionStatistic $competition_statistic
  * @property \App\Model\Entity\Site $site
  */
@@ -27,7 +26,7 @@ class CompetitionStatisticsSite extends Entity
      * @var array
      */
     protected $_accessible = [
-        'user' => true,
+        'visited_date' => true,
         'competition_statistic' => true,
         'site' => true
     ];

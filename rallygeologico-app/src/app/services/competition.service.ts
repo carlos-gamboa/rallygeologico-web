@@ -1,13 +1,15 @@
 import {Configuration} from "./data/constants";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
 import {Competition} from "../model/competition";
+import {Invitation} from "../model/invitation";
 
 @Injectable()
 export class CompetitionService {
 
     baseUrl: string;
+    headers: HttpHeaders = new HttpHeaders();
 
     /**
      * Creates a Competition Service
@@ -16,6 +18,7 @@ export class CompetitionService {
      */
     constructor(private http : HttpClient, private _configuration: Configuration){
         this.baseUrl = this._configuration.ServerWithApiUrl;
+        this.headers.append('Content-Type', 'application/json');
     }
 
     /**
@@ -34,16 +37,35 @@ export class CompetitionService {
             'description': description,
             'name': name,
             'rally_id': rallyId
-            }
+            },{ headers: this.headers, withCredentials: true }
         );
     }
 
     /**
      * Service for getting a competition from the database, using the id in the url as a parameter
-     * @param {number} competitionId
+     * @param {number} competitionId Competition Id
      * @returns {Observable<Competition>}
      */
     findCompetition(competitionId: number) : Observable<Competition>{
-        return this.http.get<Competition>(this.baseUrl + "competition/view/"+ competitionId +".json");
+        return this.http.get<Competition>(this.baseUrl + "competition/view/"+ competitionId +".json",{ headers: this.headers, withCredentials: true });
     }
+
+    /**
+     * Service for getting the current competition.
+     * @param {number} userId
+     * @returns {Observable<Competition[]>}
+     */
+    getCurrentCompetitions(userId: number): Observable<Competition[]>{
+        return this.http.get<Competition[]>(this.baseUrl + "competition/currentCompetitions/"+ userId +".json",{ headers: this.headers, withCredentials: true });
+    }
+
+    /**
+     * Service for getting all the public competitions that the user is not participating in already.
+     * @param {number} user_id User's id.
+     * @returns {Observable<Competition[]>}
+     */
+    getAllPublicCompetitions(user_id:number): Observable<Competition[]>{
+        return this.http.get<Competition[]>(this.baseUrl + "competition/getallpubliccompetitions/"+user_id+".json",{ headers: this.headers, withCredentials: true })
+    }
+
 }

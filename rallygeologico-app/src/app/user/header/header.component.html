@@ -12,13 +12,13 @@
             <ul>
               <li [class.menu-active]="isActive(2)"><a routerLink="/instructions" (click)="changeActive(2)">¿Qué es un rally geológico?</a></li>
               <li [class.menu-active]="isActive(2)"><a routerLink="/create-competition" (click)="changeActive(2)">Crear una competencia</a></li>
-              <li [class.menu-active]="isActive(2)"><a routerLink="/search_rallies" (click)="changeActive(2)">Buscar rallies</a></li>
+              <li [class.menu-active]="isActive(2)"><a routerLink="/search-rallies" (click)="changeActive(2)">Buscar Competencias</a></li>
             </ul>
           </li>
           <li [class.menu-active]="isActive(3)"><a routerLink="/search-users" (click)="changeActive(3)">Exploradores</a></li>
           <li [class.menu-active]="isActive(4)"><a routerLink="/glossary" (click)="changeActive(4)">Glosario</a></li>
           <li [class.menu-active]="isActive(5)"><a routerLink="/about_us" (click)="changeActive(5)">Acerca de nosotros</a></li>
-          <li><a >Cerrar Sesión</a></li>
+          <li [class.menu-active]="isActive(6)"><a routerLink="" (click)="logout(); changeActive(6)">Cerrar Sesión</a></li>
         </ul>
       </nav><!-- #nav-menu-container -->
     </div>
