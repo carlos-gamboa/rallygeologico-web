@@ -1,0 +1,62 @@
+<app-public-header></app-public-header>
+<div class="login-background">
+  <div class="wrap-login">
+    <div class="row">
+      <div class="col-sm-12 center">
+        <h2 class="mb-60 text-center login-title">Iniciar Sesión</h2>
+        <img class="mb-60 center login-icon" src="../../assets/images/login-icon.png" alt="Icono de Usuario">
+        <div class="center text-center">
+
+          <div class="btn-group margbutton" *ngIf="loginWithFacebook && !isNotRegistered" (click)="loginWithOptions()">
+            <span class='btn facebookcolor disabled'><i class="fa fa-facebook"></i></span>
+            <span class='btn facebookcolor ' href='' style="width:12em"> Sign in with Facebook</span>
+          </div>
+
+          <div class="btn-group margbutton" *ngIf="loginWithGoogle && !isNotRegistered" (click)="googleSignIn()">
+            <span class='btn btn-danger disabled'><i class="fa fa-google" style="color:white; width:16px; height:20px"></i></span>
+            <span class='btn btn-danger' href='' style="width:12em;"> Sign in with Google</span>
+          </div>
+
+          <!--<button *ngIf="loginWithFacebook && !isNotRegistered" (click)="loginWithOptions()" class="btn-group margbutton">-->
+            <!--<span class='btn facebookcolor disabled'><i class="fa fa-facebook"></i></span>-->
+            <!--<span class='btn facebookcolor ' href='' style="width:12em"> Sign in with Facebook</span>-->
+          <!--</button>-->
+          <!--<button *ngIf="loginWithGoogle && !isNotRegistered" (click)="googleSignIn()" class="btn-group margbutton" >-->
+            <!--<span class='btn btn-danger disabled'><i class="fa fa-google" style="color:white; width:16px; height:20px"></i></span>-->
+            <!--<span class='btn btn-danger' href='' style="width:12em;"> Sign in with Google</span>-->
+          <!--</button>-->
+
+          <!--<button *ngIf="loginWithFacebook && !isNotRegistered" (click)="loginWithOptions()" class="mb-40 center genric-btn facebook">
+            <span class="mr-20 fa fa-facebook text-rigth"></span> <span class="text-center">Login with Facebook</span>
+          </button>
+          <button *ngIf="loginWithGoogle && !isNotRegistered" (click)="googleSignIn()" class="mb-40 genric-btn btn-social btn-google center" >
+            <span class="mr-20 fa fa-google" ></span><span class="text-center">Login with Google</span>
+          </button>-->
+
+
+        </div>
+        <div *ngIf="isNotRegistered == true" class="alert alert-warning" role="alert">
+          Usted no está registrado, por favor registrese.
+          <a class="txt2" routerLink="/register">
+          Registrarse
+        </a>
+        </div>
+        <div *ngIf="pleaseWait" class="alert alert-info text-center" role="alert">
+          Por favor espere.
+        </div>
+        <div *ngIf="success" class="alert alert-success text-center" role="alert">
+          Ha iniciado sesión con éxito.
+        </div>
+        <div class="center text-center">
+            <span class="txt1">
+                ¿No tiene cuenta?
+            </span>
+          <a class="txt2" routerLink="/register">
+              Registrarse
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-public-footer></app-public-footer>
