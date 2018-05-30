@@ -7,7 +7,8 @@ CREATE TABLE IF NOT EXISTS users (
   email VARCHAR(30),
   photo_url VARCHAR (200),
   is_admin TINYINT DEFAULT 0,
-  login_api INT
+  login_api INT,
+  UNIQUE(api_id, login_api)
 );
 
 CREATE TABLE IF NOT EXISTS rally (
@@ -26,7 +27,7 @@ CREATE TABLE IF NOT EXISTS competition(
   starting_date DATETIME DEFAULT CURRENT_TIMESTAMP,
   finishing_date DATETIME,
   is_public TINYINT DEFAULT 1,
-  admin_id INT,
+  admin_id INT NOT NULL,
   description varchar(2000),
   name VARCHAR(30) NOT NULL,
   rally_id INT NOT NULL,
@@ -66,14 +67,14 @@ CREATE TABLE IF NOT EXISTS canton (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR (40),
   province_id INT NOT NULL,
-  FOREIGN KEY (province_id) REFERENCES province(id)
+  FOREIGN KEY (province_id) REFERENCES province(id) ON DELETE NO ACTION
 );
 
 CREATE TABLE IF NOT EXISTS district (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR (40),
   canton_id INT,
-  FOREIGN KEY (canton_id) REFERENCES canton(id)
+  FOREIGN KEY (canton_id) REFERENCES canton(id) ON DELETE NO ACTION
 );
 
 CREATE TABLE IF NOT EXISTS site (
@@ -81,13 +82,13 @@ CREATE TABLE IF NOT EXISTS site (
   name VARCHAR(30) NOT NULL,
   qr_url VARCHAR(200),
   details VARCHAR(2000),
-  description VARCHAR(2000),
+  description VARCHAR(5000),
   latitude FLOAT NOT NULL,
   longitude FLOAT NOT NULL,
   district_id INT NOT NULL,
   points INT DEFAULT 100,
   is_easter_egg TINYINT DEFAULT 0,
-  FOREIGN KEY (district_id) REFERENCES district(id)
+  FOREIGN KEY (district_id) REFERENCES district(id) ON DELETE NO ACTION
 );
 
 CREATE TABLE IF NOT EXISTS rally_site(
@@ -110,7 +111,7 @@ CREATE TABLE IF NOT EXISTS competition_statistics_site(
 CREATE TABLE IF NOT EXISTS term (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR (40) NOT NULL,
-  description VARCHAR(2000)
+  description VARCHAR(5000)
 );
 
 CREATE TABLE IF NOT EXISTS term_site(
@@ -130,19 +131,19 @@ CREATE TABLE IF NOT EXISTS multimedia(
 
 CREATE TABLE IF NOT EXISTS activity(
   id INT AUTO_INCREMENT PRIMARY KEY,
-  site_id INT,
-  activity_type INT NOT NULL,
-  points_awarded INT NOT NULL,
-  description VARCHAR(1000),
+  site_id INT NOT NULL,
+  activity_type INT DEFAULT 0,
+  points_awarded INT DEFAULT 100,
+  description VARCHAR(5000),
   name VARCHAR(100),
   FOREIGN KEY (site_id) REFERENCES site(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS options(
   id INT AUTO_INCREMENT PRIMARY KEY,
-  activity_id INT,
-  is_correct TINYINT NOT NULL,
-  option_text VARCHAR(200),
+  activity_id INT NOT NULL,
+  is_correct TINYINT DEFAULT 0,
+  option_text VARCHAR(2000),
   FOREIGN KEY (activity_id) REFERENCES activity(id) ON DELETE CASCADE
 );
 
