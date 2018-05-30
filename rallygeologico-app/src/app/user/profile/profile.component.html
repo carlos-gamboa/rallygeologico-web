@@ -61,19 +61,20 @@
                 <th>Puntos</th>
                 <th>Link</th>
                 <!-- Empiezan las row -->
-                <tbody *ngFor="let participant of statistics; let i = index">
+                <tbody *ngFor="let competition of showedStatistics; let i = index">
                 <tr [class.selected-row] = "isUserStatisticClicked(i)" title="Haz click para ver más detalles">
                   <td (click)="userStatisticClicked(i)" class="cursor-pointer">
                     <div class="input-group">
-                      <h4>{{participant.user.username}}</h4>
+                    <h4>{{competition.competition.name}}</h4>
                       <span class="input-group-btn ml-2">
 				          <i class="fa fa-angle-down"></i>
 			            </span>
                     </div>
                   </td>
-                  <td><h5>{{participant.points}}</h5></td>
-                  <td><h5>{{participant.starting_date |  date:'MM/dd/yyyy'}}</h5></td>
-                  <td><button title="Ir al perfil de este usuario" class="genric-btn circle text-center small" [class.info]="!isUserStatisticClicked(i)" [class.primary-border]="isUserStatisticClicked(i)">Ir al perfil</button></td>
+                  <td *ngIf="competition.competition.is_active == 1; else second"><h5>Activa</h5></td>
+                  <ng-template #second><td><h5>Inactiva</h5></td></ng-template>
+                  <td><h5>{{competition.points}}</h5></td>
+                  <td><button title="Ir al perfil de esta competencia" class="genric-btn circle text-center small" [class.info]="!isUserStatisticClicked(i)" [class.primary-border]="isUserStatisticClicked(i)">Ir a la Competencia</button></td>
                 </tr>
                 <!-- Empieza el Dropdown de una row -->
                 <tr *ngIf="isUserStatisticClicked(i)" class="selected-row-child">
@@ -83,7 +84,7 @@
                       <th>Sitio</th>
                       <th>Puntos Obtenidos</th>
                       <th>Fecha</th>
-                      <tbody *ngFor="let site of participant.site">
+                      <tbody *ngFor="let site of competition.site">
                       <tr>
                         <td><h4>{{site.name}}</h4></td>
                         <td><h5>{{site.points}}</h5></td>
@@ -96,7 +97,7 @@
                       <th>Actividad</th>
                       <th>Puntos Obtenidos</th>
                       <th>Fecha</th>
-                      <tbody *ngFor="let activity of participant.activity">
+                      <tbody *ngFor="let activity of competition.activity">
                       <tr>
                         <td><h4>{{activity.name}}</h4></td>
                         <td><h5>{{activity._joinData.points_obtained}}</h5></td>
@@ -110,6 +111,14 @@
                 </tbody>
                 <!-- Termina una row -->
               </table>
+            </div>
+            <div class="row">
+              <div class="col-md-12 mt-10 text-center">
+                <div class="d-inline-block">
+                  <ngb-pagination [collectionSize]="totalCompetitions" [(page)]="currentPage" [maxSize]="5" [pageSize]="pageSize" [rotate]="true"
+                                  [ellipses]="true" [boundaryLinks]="false" (pageChange)="pageChange($event)"></ngb-pagination>
+                </div>
+              </div>
             </div>
           </div>
         </div>
