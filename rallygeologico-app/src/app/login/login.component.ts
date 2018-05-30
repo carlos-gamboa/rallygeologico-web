@@ -39,8 +39,11 @@ export class LoginComponent implements OnInit {
     success : boolean = false;
     pleaseWait = false;
 
+    assetsUrl: string;
+
 
   constructor(private _ngZone: NgZone, private fb: FacebookService, private userService: UserService, private router: Router, private userDataService:DataService,private dataService: DataService){
+    this.assetsUrl = environment.assetsUrl;
     console.log('Initializing Facebook');
     let initParams: InitParams = {
       appId: environment.facebookKey,
