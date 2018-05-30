@@ -262,4 +262,30 @@ class CompetitionStatisticsController extends AppController
         $this->set('competitionStatistics', $competitionStatistics->toList());
         $this->render('/CompetitionStatistics/json/template');
     }
+
+    /**
+     * Gets the statistics associated with a site.
+     *
+     * @param null $siteId Id of the site.
+     */
+    public function getSiteStatistics($siteId = null){
+        $this->loadModel('CompetitionStatisticsSite');
+
+        $competitionStatistics = $this->CompetitionStatistics->find('all', [
+            'fields' => [
+                'totalUsers' => 'COUNT( DISTINCT CompetitionStatistics.user_id)',
+            ],
+            'conditions' => [
+                'CompetitionStatistics.id IN' => $this->CompetitionStatisticsSite->find('all', [
+                    'fields' => ['CompetitionStatisticsSite.competition_statistics_id'],
+                    'conditions' => [
+                        'CompetitionStatisticsSite.site_id' => $siteId
+                    ]
+                ]),
+            ]
+        ]);
+
+        $this->set('competitionStatistics', $competitionStatistics->toList());
+        $this->render('/CompetitionStatistics/json/template');
+    }
 }
