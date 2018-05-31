@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS rally (
 CREATE TABLE IF NOT EXISTS competition(
   id INT AUTO_INCREMENT PRIMARY KEY,
   is_active TINYINT DEFAULT 1,
-  starting_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-  finishing_date DATETIME,
+  starting_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  finishing_date TIMESTAMP,
   is_public TINYINT DEFAULT 1,
   admin_id INT NOT NULL,
   description varchar(2000),
@@ -51,8 +51,8 @@ CREATE TABLE IF NOT EXISTS competition_statistics(
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
   competition_id INT NOT NULL,
-  starting_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-  finishing_date DATETIME,
+  starting_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  finishing_date TIMESTAMP,
   points INT DEFAULT 0,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
   FOREIGN KEY (competition_id) REFERENCES competition(id) ON DELETE CASCADE
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS rally_site(
 CREATE TABLE IF NOT EXISTS competition_statistics_site(
   competition_statistics_id INT NOT NULL,
   site_id INT NOT NULL,
-  visited_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+  visited_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (competition_statistics_id) REFERENCES competition_statistics(id) ON DELETE CASCADE,
   FOREIGN KEY (site_id) REFERENCES site(id) ON DELETE CASCADE,
   PRIMARY KEY (competition_statistics_id, site_id)
@@ -166,7 +166,7 @@ CREATE TABLE IF NOT EXISTS term_multimedia(
 CREATE TABLE IF NOT EXISTS competition_statistics_activity(
   competition_statistics_id INT NOT NULL,
   activity_id INT NOT NULL,
-  resolved_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+  resolved_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   points_obtained INT DEFAULT 0,
   FOREIGN KEY (competition_statistics_id) REFERENCES competition_statistics(id) ON DELETE CASCADE,
   FOREIGN KEY (activity_id) REFERENCES activity(id) ON DELETE CASCADE,
