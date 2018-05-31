@@ -15,9 +15,10 @@ import {Competition} from "../../model/competition";
 })
 export class ProfileComponent implements OnInit {
 
-  user : User;
+  currentUser : User;
   userId: number;
 
+  targetUser : User;
   pageSize : number = 3;
   currentPage : number = 0;
   totalCompetitions : number = 0;
@@ -32,12 +33,12 @@ export class ProfileComponent implements OnInit {
               private statisticsService : CompetitionStatisticsService,
               private route: ActivatedRoute,
               private router: Router) {
-      this.user = this.dataService.getUser();
-      if (!this.user) {
+      this.currentUser = this.dataService.getUser();
+      if (!this.currentUser) {
           this.userService.isLoggedIn().subscribe((users: User) => {
               if (users[0]) {
                   this.dataService.updateUser(users[0]);
-                  this.user = users[0];
+                  this.currentUser = users[0];
                   this.setupData();
               } else {
                   this.router.navigate(['/landing']);
@@ -67,10 +68,25 @@ export class ProfileComponent implements OnInit {
   }
 
   setupData(){
-      this.statisticsService.getCurrentCompetitions(this.user.id).subscribe((stats : CompetitionStatistics[]) => {
-          this.statistics = stats;
-          this.reloadCompetitions(stats);
-      });
+
+      this.route.params
+          .subscribe(
+              (params: Params) => {
+                  this.userId = this.route.snapshot.params['userId'];
+                  this.userService.findById(this.userId).subscribe((user: User) => {
+                      this.targetUser = user;
+                      if (user) {
+                          this.statisticsService.getCurrentCompetitions(this.targetUser.id).subscribe((stats : CompetitionStatistics[]) => {
+                              this.statistics = stats;
+                              this.reloadCompetitions(stats);
+                          });
+                      }else{
+                          this.router.navigate(['/dashboard']);
+                      }
+                  });
+              }
+          );
+
   }
 
 

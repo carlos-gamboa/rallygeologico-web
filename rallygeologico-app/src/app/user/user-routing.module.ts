@@ -13,7 +13,7 @@ const routes : Routes = [
                 path : 'dashboard', component: DashboardComponent,
             },
             {
-                path : 'profile', component: ProfileComponent
+                path : 'profile/:userId', component: ProfileComponent
             },
             {
                 path : 'competition/:competitionId', component: CompetitionComponent

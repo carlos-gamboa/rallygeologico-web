@@ -120,4 +120,8 @@ export class UserService {
         },{ headers: this.headers, withCredentials: true });
     }
 
+    findById(id: number) : Observable<User> {
+        return this.http.get<User>(this.baseUrl + "users/view/"+ id + ".json", { headers: this.headers, withCredentials: true });
+    }
+
 }
