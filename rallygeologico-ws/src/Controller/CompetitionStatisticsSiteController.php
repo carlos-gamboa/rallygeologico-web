@@ -22,7 +22,7 @@ class CompetitionStatisticsSiteController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Users', 'CompetitionStatistics', 'Site']
+            'contain' => ['CompetitionStatistics', 'Site']
         ];
         $competitionStatisticsSite = $this->paginate($this->CompetitionStatisticsSite);
 
@@ -53,7 +53,7 @@ class CompetitionStatisticsSiteController extends AppController
     public function view($id = null)
     {
         $competitionStatisticsSite = $this->CompetitionStatisticsSite->get($id, [
-            'contain' => ['Users', 'CompetitionStatistics', 'Site']
+            'contain' => ['CompetitionStatistics', 'Site']
         ]);
 
         $this->set('competitionStatisticsSite', $competitionStatisticsSite);
@@ -74,10 +74,9 @@ class CompetitionStatisticsSiteController extends AppController
             }
             $this->Flash->error(__('The competition statistics site could not be saved. Please, try again.'));
         }
-        $users = $this->CompetitionStatisticsSite->Users->find('list', ['limit' => 200]);
         $competitionStatistics = $this->CompetitionStatisticsSite->CompetitionStatistics->find('list', ['limit' => 200]);
         $site = $this->CompetitionStatisticsSite->Site->find('list', ['limit' => 200]);
-        $this->set(compact('competitionStatisticsSite', 'users', 'competitionStatistics', 'site'));
+        $this->set(compact('competitionStatisticsSite', 'competitionStatistics', 'site'));
         $this->render('/CompetitionStatisticsSite/json/template');
     }
 
@@ -102,10 +101,9 @@ class CompetitionStatisticsSiteController extends AppController
             }
             $this->Flash->error(__('The competition statistics site could not be saved. Please, try again.'));
         }
-        $users = $this->CompetitionStatisticsSite->Users->find('list', ['limit' => 200]);
         $competitionStatistics = $this->CompetitionStatisticsSite->CompetitionStatistics->find('list', ['limit' => 200]);
         $site = $this->CompetitionStatisticsSite->Site->find('list', ['limit' => 200]);
-        $this->set(compact('competitionStatisticsSite', 'users', 'competitionStatistics', 'site'));
+        $this->set(compact('competitionStatisticsSite', 'competitionStatistics', 'site'));
     }
 
     /**
@@ -126,5 +124,31 @@ class CompetitionStatisticsSiteController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    /**
+     * Gets the number of visited sites by an user.
+     *
+     * @param null $userId User Id.
+     */
+    public function getVisitedSites($userId = null){
+        $this->loadModel('CompetitionStatistics');
+
+        $competitionStatisticsSite = $this->CompetitionStatisticsSite->find('all', [
+            'fields' => [
+                'totalVisited' => 'COUNT( DISTINCT CompetitionStatisticsSite.site_id)',
+            ],
+            'conditions' => [
+                'CompetitionStatisticsSite.competition_statistics_id IN' => $this->CompetitionStatistics->find('all', [
+                    'fields' => ['CompetitionStatistics.id'],
+                    'conditions' => [
+                        'CompetitionStatistics.user_id' => $userId
+                    ]
+                ]),
+            ]
+        ]);
+
+        $this->set('competitionStatisticsSite', $competitionStatisticsSite->toList());
+        $this->render('/CompetitionStatisticsSite/json/template');
     }
 }
