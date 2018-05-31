@@ -17,7 +17,7 @@ import {InstructionsComponent} from "./instructions/instructions.component";
 import {RalliesComponent} from "./rallies/rallies.component";
 import {RallyComponent} from "./rally/rally.component";
 import {PublicHeaderComponent} from "./public-header/public-header.component";
-import {PublicFooterComponent} from "./public-footer/public-footer.component";
+import {PublicFooterComponent} from "./admin/public-footer/public-footer.component";
 import {FacebookModule} from 'ngx-facebook';
 import {DataService} from "./services/data/data.service";
 import {UserService} from "./services/user.service";
@@ -32,7 +32,7 @@ import {SiteComponent} from './site/site.component';
 import {SiteService} from "./services/site.service";
 import {environment} from "../environments/environment";
 import {CompetitionStatisticsService} from "./services/competition.statistics.service";
-import { AdminComponent } from './admin/admin.component';
+import {AdminModule} from "./admin/admin.module";
 
 
 @NgModule({
@@ -48,9 +48,7 @@ import { AdminComponent } from './admin/admin.component';
       RalliesComponent,
       RallyComponent,
       PublicHeaderComponent,
-      PublicFooterComponent,
       SiteComponent,
-      AdminComponent
   ],
   imports: [
       BrowserModule,
@@ -61,6 +59,7 @@ import { AdminComponent } from './admin/admin.component';
       NgbModule.forRoot(),
       NgbModule,
       UserModule,
+      AdminModule,
       FacebookModule.forRoot(),
       HttpClientModule,
       AgmCoreModule.forRoot({
@@ -72,7 +71,4 @@ import { AdminComponent } from './admin/admin.component';
   bootstrap: [AppComponent]
 })
 export class AppModule {
-    /*constructor(private backendWs : BackendEndpointsService){
-        this.backendWs.updatePrefix('http://localhost:7070');
-    }*/
 }

@@ -1,11 +1,11 @@
 import {Component, NgZone, OnInit} from '@angular/core';
-import {UserService} from "../services/user.service";
+import {UserService} from "../../services/user.service";
 import {FacebookService, InitParams, LoginOptions, LoginResponse, AuthResponse} from 'ngx-facebook';
-import {User} from "../model/user";
-import {Rally} from "../model/rally";
+import {User} from "../../model/user";
+import {Rally} from "../../model/rally";
 import {Router} from "@angular/router";
-import {DataService} from "../services/data/data.service";
-import {environment} from "../../environments/environment";
+import {DataService} from "../../services/data/data.service";
+import {environment} from "../../../environments/environment";
 
 declare var gapi: any;
 
@@ -98,7 +98,7 @@ export class LoginComponent implements OnInit {
             this.fbToken = this.fb.getAuthResponse().accessToken;
             this.photoUrl = res.picture.data.url;
             var count1 = 0;
-            this.userService.apiId(res.id, 0).subscribe((users1: User[]) => {
+            this.userService.adminApiId(res.id, 0).subscribe((users1: User[]) => {
               for (let i: number = 0; i < users1.length; ++i) {
                 count1 += 1;
               }
@@ -141,7 +141,7 @@ export class LoginComponent implements OnInit {
       var profile = res.getBasicProfile();
       this.pleaseWait = true;
       var count1 = 0;
-      this.userService.apiId(profile.getId(), 1).subscribe((users1: User[]) => {
+      this.userService.adminApiId(profile.getId(), 1).subscribe((users1: User[]) => {
         for (let i: number = 0; i < users1.length; ++i) {
           count1 += 1;
         }

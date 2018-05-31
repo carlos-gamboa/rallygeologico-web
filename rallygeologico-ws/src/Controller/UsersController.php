@@ -276,7 +276,7 @@ class UsersController extends AppController
                 'conditions' => [
                     'users.api_id' => $ApiId,
                     'users.login_api' => $LoginApi,
-                    'users.is_admin' => 0
+                    'users.is_admin' => 1
                 ]
             ]
         );
