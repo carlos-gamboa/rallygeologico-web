@@ -32,6 +32,7 @@ import {SiteComponent} from './site/site.component';
 import {SiteService} from "./services/site.service";
 import {environment} from "../environments/environment";
 import {CompetitionStatisticsService} from "./services/competition.statistics.service";
+import { AdminComponent } from './admin/admin.component';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import {CompetitionStatisticsService} from "./services/competition.statistics.se
       RallyComponent,
       PublicHeaderComponent,
       PublicFooterComponent,
-      SiteComponent
+      SiteComponent,
+      AdminComponent
   ],
   imports: [
       BrowserModule,
