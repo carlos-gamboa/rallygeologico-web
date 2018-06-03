@@ -5,13 +5,12 @@ import {LoginComponent} from "./login/login.component";
 import {EditCompetitionComponent} from "./edit-competition/edit-competition.component";
 
 const routes : Routes = [
-    { path: '', component: AdminComponent, children: [
+    { path: 'admin', component: AdminComponent, children: [
         {
-            path : 'admin', component: LoginComponent, children: [
-                {
-                    path: 'competition', component: EditCompetitionComponent
-                }
-            ]
+            path : '', component: LoginComponent
+        },
+        {
+            path: 'competition', component: EditCompetitionComponent
         }
     ]},
 ];

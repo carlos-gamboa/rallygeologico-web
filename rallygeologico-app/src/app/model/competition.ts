@@ -18,17 +18,19 @@ export class Competition {
 
 
     constructor(competition: any){
-        this.id = competition.id;
-        this.is_active = competition.is_active;
-        this.starting_date = competition.starting_date;
-        this.finishing_date = competition.finishing_date;
-        this.is_public = competition.is_public;
-        this.name = competition.name;
-        this.rally_id = competition.rally_id;
-        this.admin_id = competition.admin_id;
-        this.rally = competition.rally;
-        this.user = competition.user;
-        this.description = competition.description;
-        this.invitation = competition.invitation;
+        if (competition){
+            this.id = competition.id;
+            this.is_active = competition.is_active;
+            this.starting_date = competition.starting_date;
+            this.finishing_date = competition.finishing_date;
+            this.is_public = competition.is_public;
+            this.name = competition.name;
+            this.rally_id = competition.rally_id;
+            this.admin_id = competition.admin_id;
+            this.rally = competition.rally;
+            this.user = competition.user;
+            this.description = competition.description;
+            this.invitation = competition.invitation;
+        }
     }
 }

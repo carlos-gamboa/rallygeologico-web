@@ -18,6 +18,17 @@
   <div class="container">
     <div class="row">
       <div class="offset-md-2 col-md-8 col-xs-12">
+        <h3 class="text-center mb-3">Selecciona la competencia que deseas editar</h3>
+      </div>
+      <div class="offset-md-2 col-md-8 col-xs-12 mb-4" align="center">
+        <form>
+          <select class="select-input" [(ngModel)]="currentCompetitionIndex" id="currentCompetitionIndex" name="currentCompetitionIndex" required (change)="editCompetitionChange()">
+            <option value="0" selected>Crear nueva competencia</option>
+            <option *ngFor="let competition of competitionList; let i = index" value="{{i + 1}}">{{competition.name}}</option>
+          </select>
+        </form>
+      </div>
+      <div *ngIf="currentCompetitionIndex != -1" class="offset-md-2 col-md-8 col-xs-12">
         <h3 class="text-center mb-3">Detalles de la competencia</h3>
         <div class="booking-right mt-50" align="center">
           <form #competitionForm="ngForm">
@@ -30,8 +41,43 @@
               </div>
             </div>
             <div class="row mb-10">
+              <div class="col-lg-6 mb-3">
+                <label for="is_active">Estado</label>
+                <select class="select-input" [(ngModel)]="is_active" #isActiveInput="ngModel" name="is_active" id="is_active" required>
+                  <option value="1" selected>Activo</option>
+                  <option value="0">Inactivo</option>
+                </select>
+                <div *ngIf="(isActiveInput?.invalid) && (isActiveInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
+                  <p class="alert-message">Debe seleccionar el estado de la competencia.</p>
+                </div>
+              </div>
+              <div class="col-lg-6 mb-3">
+                <label for="admin_id">Administrador</label>
+                <select class="select-input" [(ngModel)]="admin_id" #AdminIdInput="ngModel" name="admin_id" id="admin_id" required>
+                  <option value="1" selected>Activo</option>
+                  <option value="0">Inactivo</option>
+                </select>
+                <div *ngIf="(AdminIdInput?.invalid) && (AdminIdInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
+                  <p class="alert-message">Debe seleccionar el administrador de la competencia.</p>
+                </div>
+              </div>
+              <div class="col-lg-6 mb-3">
+                <label for="starting_date">Fecha de Inicio</label>
+                <input class="date-input" type="datetime-local" [(ngModel)]="starting_date" #startingDateInput="ngModel" name="starting_date" id="starting_date" required><br>
+                <div *ngIf="(startingDateInput?.invalid) && (startingDateInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
+                  <p class="alert-message">Debe escoger una fecha de inicio para la competencia.</p>
+                </div>
+              </div>
+              <div class="col-lg-6 mb-3">
+                <label for="finishing_date">Fecha de Finalización</label>
+                <input class="date-input" type="datetime-local" [(ngModel)]="finishing_date" #finishingDateInput="ngModel" id="finishing_date" name="finishing_date"  required><br>
+                <div *ngIf="(finishingDateInput?.invalid) && (finishingDateInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
+                  <p class="alert-message">Debe escoger una fecha de finalización para la competencia.</p>
+                </div>
+              </div>
               <div class="col-lg-6" align="center">
-                <select class="select-input" [(ngModel)]="is_public" #isPubliceInput="ngModel" name="is_public" required>
+                <label for="is_public">Privacidad</label>
+                <select class="select-input" [(ngModel)]="is_public" #isPubliceInput="ngModel" name="is_public" id="is_public" required>
                   <option value="1" selected>Público</option>
                   <option value="0">Privado</option>
                 </select>
@@ -40,7 +86,8 @@
                 </div>
               </div>
               <div class="col-lg-6" align="center">
-                <select class="select-input" [(ngModel)]="rally_id" #rallyIdInput="ngModel" name="rally_id" required>
+                <label for="rally_id">Rally asociado</label>
+                <select class="select-input" [(ngModel)]="rally_id" #rallyIdInput="ngModel" name="rally_id" id="rally_id" required>
                   <option *ngFor="let rally of ralliesList; let i = index" value="{{rally.id}}">{{rally.name}}</option>
                 </select>
                 <div *ngIf="(rallyIdInput?.invalid) && (rallyIdInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
@@ -56,9 +103,9 @@
           </form>
         </div>
         <div class="mt-50" align="center">
-          <button title="crearCompetencia" class="btn genric-btn success col-lg-6" style="font-size: 16px" (click)="createCompetition()" [disabled]="competitionForm.invalid" *ngIf="!competitionCreated">Crear Competencia</button>
-          <div *ngIf="competitionCreated" class="alert alert-success col-lg-6 mt-10" role="alert">
-            La competencia ha sido creada.
+          <button title="crearCompetencia" class="btn genric-btn success col-lg-6" style="font-size: 16px" (click)="saveChanges()" [disabled]="competitionForm.invalid" *ngIf="!competitionCreated">Guardar cambios</button>
+          <div *ngIf="changesSaved" class="alert alert-success col-lg-6 mt-10" role="alert">
+            Los cambios han sido guardados.
           </div>
         </div>
       </div>
@@ -68,11 +115,11 @@
 <!-- End form Area -->
 
 <!-- Start list users Area -->
-<section class="contact-page-area section-gap list-users" *ngIf="competitionCreated" >
+<section class="contact-page-area section-gap list-users" >
   <div class="container">
     <div class="row">
       <div class="offset-md-2 col-md-8 col-xs-12">
-        <h3 class="title text-center mb-3">Invitar usuarios a {{currentCompetition?.name}}</h3>
+        <h3 class="title text-center mb-3">Usuarios participantes</h3>
         <div class="busqueda" id="searchform">
           <input [(ngModel)]="searchQuery" type="text" title="Digite aquí el nombre del usuario" id="searchterm" placeholder="Digite el nombre de usuario" />
           <button type="button" id="search" title="Click aquí para buscar el usuario" (click)="searchUser()">Buscar</button>
@@ -108,9 +155,6 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="mt-50" align="center">
-          <button title="agregarOtraCompetencia" class="btn genric-btn info col-lg-6 mt-10" style="font-size: 16px" (click)="addOtherCompetition(competitionForm)">Agregar Otra Competencia</button>
         </div>
       </div>
     </div>
