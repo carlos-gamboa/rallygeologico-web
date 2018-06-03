@@ -55,4 +55,20 @@ export class CompetitionStatisticsService {
     getCurrentCompetitions(userId: number): Observable<CompetitionStatistics[]>{
         return this.http.get<CompetitionStatistics[]>(this.baseUrl + "competitionStatistics/currentCompetitions/"+ userId +".json",{ headers: this.headers, withCredentials: true });
     }
+
+    getVisitedSites(userId: number) : Observable<number> {
+        return this.http.get<number>(this.baseUrl + "competitionStatisticsSite/getVisitedSites/"+ userId +".json",{ headers: this.headers, withCredentials: true } );
+    }
+
+    getTotalSites() : Observable<number> {
+        return this.http.get<number>(this.baseUrl + "site/getTotalSites.json",{ headers: this.headers, withCredentials: true } );
+    }
+
+    getActiveCompetitions(userId: number) : Observable<number> {
+        return this.http.get<number>(this.baseUrl + "competitionStatistics/getActiveUserStatistics/"+ userId +".json",{ headers: this.headers, withCredentials: true } );
+    }
+
+    getTotalCompetitions(userId: number) : Observable<number> {
+        return this.http.get<number>(this.baseUrl + "competitionStatistics/getUserStatistics/"+ userId +".json",{ headers: this.headers, withCredentials: true } );
+    }
 }

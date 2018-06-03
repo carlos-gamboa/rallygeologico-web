@@ -23,6 +23,11 @@ export class ProfileComponent implements OnInit {
   currentPage : number = 0;
   totalCompetitions : number = 0;
 
+  visitedSites: number = 0;
+  totalSites: number = 0;
+  totalPoints:number = 0;
+  totalRallies:number = 0;
+  currentRallies:number = 0;
 
   statistics: CompetitionStatistics[] = [];
   showedStatistics: CompetitionStatistics[];
@@ -80,6 +85,23 @@ export class ProfileComponent implements OnInit {
                               this.statistics = stats;
                               this.reloadCompetitions(stats);
                           });
+                            //TODO CAMBIAR ESTO
+                          this.statisticsService.getActiveCompetitions(this.targetUser.id).subscribe((total : Object) => {
+                              this.currentRallies;
+                          });
+                          this.statisticsService.getTotalCompetitions(this.targetUser.id).subscribe((total :Object) => {
+                              this.totalRallies;
+                          });
+                          this.statisticsService.getVisitedSites(this.targetUser.id).subscribe((total : number) => {
+                              this.visitedSites = total;
+                          });
+                          this.statisticsService.getTotalSites().subscribe((total : number) => {
+                              this.totalSites = total;
+                          });
+
+                          for (let statistic of this.statistics) {
+                              this.totalPoints += statistic.points;
+                          }
                       }else{
                           this.router.navigate(['/dashboard']);
                       }
