@@ -67,6 +67,9 @@
   <!-- Start tab Area -->
   <section class="whole-wrap section-gap pb-0" *ngIf="competitionSelected">
     <div class="container">
+      <div class="text-center">
+        <button title="Volver a seleccioanr" class="invite-btn genric-btn text-center medium info mb-4" (click)="goBack()">Cambiar de competencia</button>
+      </div>
       <div class="row">
         <div class="col-md-4">
           <button title="Detalles" class="invite-btn genric-btn text-center medium wide-button" [class.primary]="activeTab == 0" [class.primary-border]="activeTab != 0" (click)="changeTab(0)">Detalles de la competencia</button>
@@ -113,8 +116,7 @@
                 <div class="col-lg-6 mb-3">
                   <label for="admin_id">Administrador</label>
                   <select class="select-input" [(ngModel)]="admin_id" #AdminIdInput="ngModel" name="admin_id" id="admin_id" required>
-                    <option value="1" selected>Activo</option>
-                    <option value="0">Inactivo</option>
+                    <option *ngFor="let user of allUsers" value="{{user.id}}">{{user.username}}</option>
                   </select>
                   <div *ngIf="(AdminIdInput?.invalid) && (AdminIdInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
                     <p class="alert-message">Debe seleccionar el administrador de la competencia.</p>
@@ -147,7 +149,7 @@
                 <div class="col-lg-6" align="center">
                   <label for="rally_id">Rally asociado</label>
                   <select class="select-input" [(ngModel)]="rally_id" #rallyIdInput="ngModel" name="rally_id" id="rally_id" required>
-                    <option *ngFor="let rally of ralliesList; let i = index" value="{{rally.id}}">{{rally.name}}</option>
+                    <option *ngFor="let rally of ralliesList" value="{{rally.id}}">{{rally.name}}</option>
                   </select>
                   <div *ngIf="(rallyIdInput?.invalid) && (rallyIdInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
                     <p class="alert-message">Debe seleccionar un rally para la competencia.</p>
@@ -163,9 +165,13 @@
             </form>
           </div>
           <div class="mt-50" align="center">
-            <button title="crearCompetencia" class="btn genric-btn success col-lg-6" style="font-size: 16px" (click)="saveChanges()" [disabled]="competitionForm.invalid" *ngIf="!competitionCreated">Guardar cambios</button>
+            <button title="Crear Competencia" class="btn genric-btn success col-lg-6" style="font-size: 16px" (click)="saveChanges()" [disabled]="competitionForm.invalid" *ngIf="!competitionCreated">Guardar cambios</button>
             <div *ngIf="changesSaved" class="alert alert-success col-lg-6 mt-10" role="alert">
               Los cambios han sido guardados.
+            </div>
+            <button title="Eliminar Competencia" class="btn genric-btn danger col-lg-6 mt-4" style="font-size: 16px" (click)="deleteCompetition()" *ngIf="!competitionCreated">Eliminar competencia</button>
+            <div *ngIf="deleted" class="alert alert-success col-lg-6 mt-10" role="alert">
+              La competencia ha sido eliminada.
             </div>
           </div>
         </div>
@@ -173,6 +179,77 @@
     </div>
   </section>
   <!-- End form Area -->
+
+  <!-- Start statistics Area -->
+  <section class="whole-wrap section-gap pt-5" *ngIf="competitionSelected && activeTab == 1">
+    <div class="container">
+      <div class="row">
+        <div class="offset-md-2 col-md-8 col-xs-12">
+          <h3 class="text-center mb-3">Detalles de los participantes</h3>
+          <div align="center">
+            <div>
+              <table class="table">
+                <th>Usuario</th>
+                <th>Puntos</th>
+                <th>Fecha Inicio</th>
+                <th>Eliminar</th>
+                <tbody *ngFor="let participant of statistics; let i = index">
+                <tr [class.selected-row] = "isUserStatisticClicked(i)" title="Haz click para ver más detalles">
+                  <td (click)="userStatisticClicked(i)" class="cursor-pointer">
+                    <div class="input-group">
+                      <h4>{{participant.user.username}}</h4>
+                      <span class="input-group-btn ml-2">
+				          <i class="fa fa-angle-down"></i>
+			            </span>
+                    </div>
+                  </td>
+                  <td><h5>{{participant.points}}</h5></td>
+                  <td><h5>{{participant.starting_date |  date:'MM/dd/yyyy'}}</h5></td>
+                  <td><button title="Eliminar de la competencia" class="genric-btn circle text-center small" [class.danger]="!isUserStatisticClicked(i)" [class.danger-border]="isUserStatisticClicked(i)">Eliminar</button></td>
+                </tr>
+                <tr *ngIf="isUserStatisticClicked(i)" class="selected-row-child">
+                  <td colspan=4>
+                    <h4 class="mt-3 mb-3">Sitios visitados</h4>
+                    <table class="table">
+                      <th>Sitio</th>
+                      <th>Puntos</th>
+                      <th>Fecha</th>
+                      <th>Eliminar</th>
+                      <tbody *ngFor="let site of participant.site">
+                      <tr>
+                        <td><h4>{{site.name}}</h4></td>
+                        <td><h5>{{site.points}}</h5></td>
+                        <td><h5>{{site._joinData.visited_date |  date:'MM/dd/yyyy'}}</h5></td>
+                        <td><button title="Eliminar estadística" class="genric-btn circle text-center small danger">Eliminar</button></td>
+                      </tr>
+                      </tbody>
+                    </table>
+                    <h4 class="mt-3 mb-3">Actividades completadas</h4>
+                    <table class="table">
+                      <th>Actividad</th>
+                      <th>Puntos</th>
+                      <th>Fecha</th>
+                      <th>Eliminar</th>
+                      <tbody *ngFor="let activity of participant.activity">
+                      <tr>
+                        <td><h4>{{activity.name}}</h4></td>
+                        <td><h5>{{activity._joinData.points_obtained}}</h5></td>
+                        <td><h5>{{activity._joinData.resolved_date |  date:'MM/dd/yyyy'}}</h5></td>
+                        <td><button title="Eliminar estadística" class="genric-btn circle text-center small danger">Eliminar</button></td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+  <!-- End statistics Area -->
 
   <!-- Start list users Area
   <section class="contact-page-area section-gap list-users" >

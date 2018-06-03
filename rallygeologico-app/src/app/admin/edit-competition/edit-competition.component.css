@@ -120,3 +120,19 @@ table thead{
 .wide-button{
     width: 100% !important;
 }
+
+.selected-row{
+    background: #204c6f;
+}
+
+.selected-row td h5{
+    color: white !important;
+}
+
+.selected-row td h4{
+    color: white !important;
+}
+
+.selected-row-child{
+    background: #C2CED7;
+}

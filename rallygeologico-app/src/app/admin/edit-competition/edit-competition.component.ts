@@ -10,6 +10,7 @@ import {UserService} from "../../services/user.service";
 import {RallyService} from "../../services/rally.service";
 import {Router} from "@angular/router";
 import {DataService} from "../../services/data/data.service";
+import {CompetitionStatistics} from "../../model/competition.statistics";
 
 @Component({
     selector: 'app-edit-competition',
@@ -35,11 +36,14 @@ export class EditCompetitionComponent implements OnInit {
     totalUsers : number = 0;
     totalCompetitions : number = 0;
     currentPageCompetition: number = 0;
+    clickedStatistic: number = -1;
 
     searchQuery : string = "";
 
     currentCompetition: Competition;
     currentCompetitionIndex: number;
+
+    statistics: CompetitionStatistics[];
 
     name: string;
     is_active: string;
@@ -52,6 +56,7 @@ export class EditCompetitionComponent implements OnInit {
 
     newCompetition: boolean;
     changesSaved: boolean;
+    deleted: boolean;
     competitionSelected: boolean;
     readyToShow: boolean;
     activeTab: number;
@@ -85,30 +90,19 @@ export class EditCompetitionComponent implements OnInit {
 
     setupData(){
         this.rallyService.getAllRallies().subscribe((rallies: Rally[]) => {
-            for (let i: number = 0; i < rallies.length; ++i) {
-                this.ralliesList.push(rallies[i]);
-            }
-            this.allCompetitions = [];
+            this.ralliesList = rallies;
             this.competitionService.getAllCompetitions().subscribe((competitions: Competition[]) => {
-                for (let i: number = 0; i < competitions.length; ++i) {
-                    this.allCompetitions.push(competitions[i]);
-                }
+                this.allCompetitions = competitions;
                 this.reloadCompetitions(this.allCompetitions);
                 this.allUsers = [];
                 this.userService.getUsers().subscribe((users: User[]) => {
-                    for (let user of users){
-                        if (user.id != this.user.id){
-                            this.allUsers.push(user);
-                        }
-                    }
+                    this.allUsers = users;
                     this.reloadUsers(this.allUsers);
                     this.competitionSelected = false;
                     this.readyToShow = true;
                 });
             });
         });
-
-
     }
 
     /**
@@ -186,15 +180,29 @@ export class EditCompetitionComponent implements OnInit {
     }
 
     saveChanges(){
-        if (this.currentCompetitionIndex == 0){
+        if (!this.currentCompetition){
             this.competitionService.adminAddCompetition(this.name, this.is_active, this.is_public, this.description,
                 this.starting_date.replace("T", " "),
-                this.finishing_date.replace("T", " "), this.rally_id, this.admin_id);
+                this.finishing_date.replace("T", " "), this.rally_id, this.admin_id).subscribe((competition: Competition) => {
+                if (competition){
+                    this.currentCompetition = competition;
+                } else {
+                    console.log("Couldn't create competition");
+                }
+            });
         } else {
             this.competitionService.editCompetition(this.currentCompetition.id, this.name, this.is_active,
                 this.is_public, this.description, this.starting_date.replace("T", " "),
                 this.finishing_date.replace("T", " "), this.rally_id,
-                this.admin_id);
+                this.admin_id).subscribe((competition: Competition) => {
+                if (competition){
+                    this.currentCompetition = competition;
+                    this.allCompetitions[this.currentCompetitionIndex] = this.currentCompetition;
+                    this.changesSaved = true;
+                } else {
+                    console.log("Couldn't create competition");
+                }
+            });
         }
     }
 
@@ -203,34 +211,75 @@ export class EditCompetitionComponent implements OnInit {
             this.name = "";
             this.is_active = "1";
             this.is_public = "1";
-            this.rally_id = "1";
+            this.rally_id = "";
             this.description = "";
             this.starting_date = "";
             this.finishing_date = "";
+            this.admin_id = "";
         } else {
             this.name = this.currentCompetition.name;
             this.is_active = this.currentCompetition.is_active.toString();
             this.is_public = this.currentCompetition.is_public.toString();
             this.rally_id = this.currentCompetition.rally_id.toString();
+            this.admin_id = this.currentCompetition.admin_id.toString();
             this.description = this.currentCompetition.description;
             this.starting_date = this.dataPipe.transform(this.currentCompetition.starting_date, 'yyyy-MM-ddThh:mm');
             this.finishing_date = this.dataPipe.transform(this.currentCompetition.finishing_date, 'yyyy-MM-ddThh:mm');
         }
     }
 
+    sortStatistics(){
+        this.statistics.sort(function(a,b) {return (b.points - a.points)});
+    }
+
     edit(i: number){
         this.activeTab = 0;
         this.competitionSelected = true;
         if (i == -1){
+            this.newCompetition = true;
             this.currentCompetition = null;
         } else {
             this.currentCompetition = this.showedCompetitions[i];
+            this.currentCompetitionIndex = ((this.currentPageCompetition - 1) * this.pageSize) + i;
+            this.competitionStatisticsService.getStatistics(this.currentCompetition.id).subscribe((statistics: CompetitionStatistics[])=>{
+                if (statistics){
+                    this.statistics = statistics;
+                    this.sortStatistics();
+                    this.readyToShow = true;
+                } else {
+                    console.log("Couldn't get statistics");
+                }
+            });
         }
         this.editCompetitionChange();
     }
 
     changeTab(i: number){
         this.activeTab = i;
+        this.changesSaved = false;
+        this.deleted = false;
+    }
+
+    isUserStatisticClicked(i: number){
+        return i == this.clickedStatistic;
+    }
+
+    userStatisticClicked(i: number){
+        if (i == this.clickedStatistic){
+            this.clickedStatistic = -1;
+        } else {
+            this.clickedStatistic = i;
+        }
+    }
+
+    goBack(){
+        this.competitionSelected = false;
+        this.currentCompetition = null;
+        this.reloadUsers(this.allUsers);
+    }
+
+    deleteCompetition(){
+        this.deleted = true;
     }
 
 }
