@@ -69,10 +69,12 @@ class CompetitionController extends AppController
      */
     public function add()
     {
+        $associations = ['Users'];
         $competition = $this->Competition->newEntity();
         if ($this->getRequest()->is('post')) {
             $competition = $this->Competition->patchEntity($competition, $this->getRequest()->getData());
             if ($this->Competition->save($competition)) {
+                $competition = $this->Competition->loadInto($competition, $associations);
                 $this->Flash->success(__('The competition has been saved.'));
             }
             $this->Flash->error(__('The competition could not be saved. Please, try again.'));

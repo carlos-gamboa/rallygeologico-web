@@ -16,6 +16,7 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\Site $site
  * @property \App\Model\Entity\Option[] $options
  * @property \App\Model\Entity\Multimedia[] $multimedia
+ * @property \App\Model\Entity\CompetitionStatistic[] $competition_statistics
  */
 class Activity extends Entity
 {
@@ -37,6 +38,7 @@ class Activity extends Entity
         'name' => true,
         'site' => true,
         'options' => true,
-        'multimedia' => true
+        'multimedia' => true,
+        'competition_statistics' => true
     ];
 }

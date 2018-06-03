@@ -1,19 +1,18 @@
-<div *ngIf="readyToShow">
-  <!-- Start banner Area -->
-  <section class="banner-area relative" id="home">
-    <div class="overlay overlay-bg"></div>
-    <div class="container">
-      <div class="row d-flex align-items-center justify-content-center">
-        <div class="about-content col-lg-12">
-          <h1 class="text-white">
-            Administrar Competencias
-          </h1>
-        </div>
+<!-- Start banner Area -->
+<section class="banner-area relative" id="home">
+  <div class="overlay overlay-bg"></div>
+  <div class="container">
+    <div class="row d-flex align-items-center justify-content-center">
+      <div class="about-content col-lg-12">
+        <h1 class="text-white">
+          Administrar Competencias
+        </h1>
       </div>
     </div>
-  </section>
+  </div>
+</section>
   <!-- End banner Area -->
-
+<div *ngIf="readyToShow">
   <!-- Start choosing Area -->
   <section class="whole-wrap section-gap" *ngIf="!competitionSelected">
     <div class="container">
@@ -205,7 +204,7 @@
                   </td>
                   <td><h5>{{participant.points}}</h5></td>
                   <td><h5>{{participant.starting_date |  date:'MM/dd/yyyy'}}</h5></td>
-                  <td><button title="Eliminar de la competencia" class="genric-btn circle text-center small" [class.danger]="!isUserStatisticClicked(i)" [class.danger-border]="isUserStatisticClicked(i)">Eliminar</button></td>
+                  <td><button title="Eliminar de la competencia" class="genric-btn circle text-center small" [class.danger]="!isUserStatisticClicked(i)" [class.danger-border]="isUserStatisticClicked(i)" (click)="deleteStatistic(participant.id)">Eliminar</button></td>
                 </tr>
                 <tr *ngIf="isUserStatisticClicked(i)" class="selected-row-child">
                   <td colspan=4>
@@ -220,7 +219,7 @@
                         <td><h4>{{site.name}}</h4></td>
                         <td><h5>{{site.points}}</h5></td>
                         <td><h5>{{site._joinData.visited_date |  date:'MM/dd/yyyy'}}</h5></td>
-                        <td><button title="Eliminar estadística" class="genric-btn circle text-center small danger">Eliminar</button></td>
+                        <td><button title="Eliminar estadística" class="genric-btn circle text-center small danger" (click)="deleteStatisticSite(site._joinData.id)">Eliminar</button></td>
                       </tr>
                       </tbody>
                     </table>
@@ -235,7 +234,7 @@
                         <td><h4>{{activity.name}}</h4></td>
                         <td><h5>{{activity._joinData.points_obtained}}</h5></td>
                         <td><h5>{{activity._joinData.resolved_date |  date:'MM/dd/yyyy'}}</h5></td>
-                        <td><button title="Eliminar estadística" class="genric-btn circle text-center small danger">Eliminar</button></td>
+                        <td><button title="Eliminar estadística" class="genric-btn circle text-center small danger" (click)="deleteStatisticActivity(activity._joinData.id)">Eliminar</button></td>
                       </tr>
                       </tbody>
                     </table>
@@ -243,6 +242,9 @@
                 </tr>
                 </tbody>
               </table>
+              <div *ngIf="deleted" class="alert col-lg-6 mt-10" role="alert" [class.alert-success]="messageType" [class.alert-danger]="!messageType">
+                {{alertMessage}}
+              </div>
           </div>
         </div>
       </div>

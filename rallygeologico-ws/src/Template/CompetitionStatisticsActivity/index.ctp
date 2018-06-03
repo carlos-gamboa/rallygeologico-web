@@ -19,6 +19,7 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
+                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('competition_statistics_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('activity_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('resolved_date') ?></th>
@@ -29,6 +30,7 @@
         <tbody>
             <?php foreach ($competitionStatisticsActivity as $competitionStatisticsActivity): ?>
             <tr>
+                <td><?= $this->Number->format($competitionStatisticsActivity->id) ?></td>
                 <td><?= $competitionStatisticsActivity->has('competition_statistic') ? $this->Html->link($competitionStatisticsActivity->competition_statistic->id, ['controller' => 'CompetitionStatistics', 'action' => 'view', $competitionStatisticsActivity->competition_statistic->id]) : '' ?></td>
                 <td><?= $competitionStatisticsActivity->has('activity') ? $this->Html->link($competitionStatisticsActivity->activity->id, ['controller' => 'Activity', 'action' => 'view', $competitionStatisticsActivity->activity->id]) : '' ?></td>
                 <td><?= h($competitionStatisticsActivity->resolved_date) ?></td>

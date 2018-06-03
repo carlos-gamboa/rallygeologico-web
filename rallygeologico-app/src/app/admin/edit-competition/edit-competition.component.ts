@@ -248,6 +248,7 @@ export class EditCompetitionComponent implements OnInit {
     }
 
     edit(i: number){
+        this.readyToShow = false;
         this.activeTab = 0;
         this.competitionSelected = true;
         this.changesSaved = false;
@@ -258,17 +259,22 @@ export class EditCompetitionComponent implements OnInit {
         } else {
             this.currentCompetition = this.showedCompetitions[i];
             this.currentCompetitionIndex = ((this.currentPageCompetition - 1) * this.pageSize) + i;
-            this.competitionStatisticsService.getStatistics(this.currentCompetition.id).subscribe((statistics: CompetitionStatistics[])=>{
-                if (statistics){
-                    this.statistics = statistics;
-                    this.sortStatistics();
-                    this.readyToShow = true;
-                } else {
-                    console.log("Couldn't get statistics");
-                }
-            });
+            this.updateStatistics();
         }
         this.editCompetitionChange();
+    }
+
+    updateStatistics(){
+        this.competitionStatisticsService.getStatistics(this.currentCompetition.id).subscribe((statistics: CompetitionStatistics[])=>{
+            if (statistics){
+                this.statistics = statistics;
+                this.sortStatistics();
+                this.readyToShow = true;
+            } else {
+                console.log("Couldn't get statistics");
+            }
+        });
+        this.clickedStatistic = -1;
     }
 
     changeTab(i: number){
@@ -312,4 +318,48 @@ export class EditCompetitionComponent implements OnInit {
         });
     }
 
+    deleteStatistic(id: number){
+        this.deleted = false;
+        this.competitionStatisticsService.deleteStatistic(id).subscribe((deleted: boolean) => {
+            this.deleted = true;
+            if (deleted){
+                this.updateStatistics();
+                this.messageType = true;
+                this.alertMessage = "Se han eliminado las estadísticas del jugador.";
+            } else {
+                this.messageType = false;
+                this.alertMessage = "No se pudo eliminar las estadística del jugador.";
+            }
+        });
+    }
+
+    deleteStatisticSite(id: number){
+        this.deleted = false;
+        this.competitionStatisticsService.deleteStatisticSite(id).subscribe((deleted: boolean) => {
+            this.deleted = true;
+            if (deleted){
+                this.updateStatistics();
+                this.messageType = true;
+                this.alertMessage = "Se ha eliminado la estadística del sitio.";
+            } else {
+                this.messageType = false;
+                this.alertMessage = "No se pudo eliminar la estadística del sitio.";
+            }
+        });
+    }
+
+    deleteStatisticActivity(id: number){
+        this.deleted = false;
+        this.competitionStatisticsService.deleteStatisticActivity(id).subscribe((deleted: boolean) => {
+            this.deleted = true;
+            if (deleted){
+                this.updateStatistics();
+                this.messageType = true;
+                this.alertMessage = "Se ha eliminado la estadística de la actividad.";
+            } else {
+                this.messageType = false;
+                this.alertMessage = "No se pudo eliminar la estadística de la actividad.";
+            }
+        });
+    }
 }

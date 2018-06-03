@@ -28,5 +28,9 @@
             <th scope="row"><?= __('Multimedia') ?></th>
             <td><?= $termMultimedia->has('multimedia') ? $this->Html->link($termMultimedia->multimedia->id, ['controller' => 'Multimedia', 'action' => 'view', $termMultimedia->multimedia->id]) : '' ?></td>
         </tr>
+        <tr>
+            <th scope="row"><?= __('Id') ?></th>
+            <td><?= $this->Number->format($termMultimedia->id) ?></td>
+        </tr>
     </table>
 </div>

@@ -55,4 +55,34 @@ export class CompetitionStatisticsService {
     getCurrentCompetitions(userId: number): Observable<CompetitionStatistics[]>{
         return this.http.get<CompetitionStatistics[]>(this.baseUrl + "competitionStatistics/currentCompetitions/"+ userId +".json",{ headers: this.headers, withCredentials: true });
     }
+
+    /**
+     * Service for deleting a competition statistic
+     *
+     * @param {number} id
+     * @returns {Observable<boolean>}
+     */
+    deleteStatistic(id: number): Observable<boolean>{
+        return this.http.delete<boolean>(this.baseUrl + "competitionStatistics/delete/"+id+".json");
+    }
+
+    /**
+     * Service for deleting a competition statistic site
+     *
+     * @param {number} id
+     * @returns {Observable<boolean>}
+     */
+    deleteStatisticSite(id: number): Observable<boolean>{
+        return this.http.delete<boolean>(this.baseUrl + "competitionStatisticsSite/delete/"+id+".json");
+    }
+
+    /**
+     * Service for deleting a competition statistic activity
+     *
+     * @param {number} id
+     * @returns {Observable<boolean>}
+     */
+    deleteStatisticActivity(id: number): Observable<boolean>{
+        return this.http.delete<boolean>(this.baseUrl + "competitionStatisticsActivity/delete/"+id+".json");
+    }
 }
