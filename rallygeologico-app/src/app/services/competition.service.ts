@@ -100,14 +100,13 @@ export class CompetitionService {
             'name': name,
             'rally_id': rallyId,
             'starting_date': startingDate,
-            'finishingDate': finishingDate
+            'finishing_date': finishingDate
         },{ headers: this.headers, withCredentials: true })
     }
 
     /**
-     * Service for editing a competition
+     * Service for creating a competition
      *
-     * @param {number} id
      * @param {string} name
      * @param {string} isActive
      * @param {string} isPublic
@@ -126,9 +125,18 @@ export class CompetitionService {
             'description': description,
             'name': name,
             'rally_id': rallyId,
-            'starting_date': startingDate,
-            'finishingDate': finishingDate
+            'starting_date': startingDate
         },{ headers: this.headers, withCredentials: true })
+    }
+
+    /**
+     * Service for deleting a competition
+     *
+     * @param {number} id
+     * @returns {Observable<boolean>}
+     */
+    deleteCompetition(id: number): Observable<boolean>{
+        return this.http.delete<boolean>(this.baseUrl + "competition/delete/"+id+".json");
     }
 
 }

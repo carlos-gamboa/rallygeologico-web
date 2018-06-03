@@ -54,9 +54,12 @@ export class EditCompetitionComponent implements OnInit {
     finishing_date: string;
     admin_id: string;
 
-    newCompetition: boolean;
     changesSaved: boolean;
     deleted: boolean;
+    alertMessage: string;
+    messageType: boolean;
+
+    newCompetition: boolean;
     competitionSelected: boolean;
     readyToShow: boolean;
     activeTab: number;
@@ -180,14 +183,22 @@ export class EditCompetitionComponent implements OnInit {
     }
 
     saveChanges(){
+        this.changesSaved = false;
+        this.deleted = false;
         if (!this.currentCompetition){
             this.competitionService.adminAddCompetition(this.name, this.is_active, this.is_public, this.description,
                 this.starting_date.replace("T", " "),
                 this.finishing_date.replace("T", " "), this.rally_id, this.admin_id).subscribe((competition: Competition) => {
                 if (competition){
                     this.currentCompetition = competition;
+                    this.allCompetitions.push(this.currentCompetition);
+                    this.changesSaved = true;
+                    this.messageType = true;
+                    this.newCompetition = false;
+                    this.alertMessage = "La competencia ha sido creada.";
                 } else {
-                    console.log("Couldn't create competition");
+                    this.messageType = false;
+                    this.alertMessage = "No se pudo crear la competencia.";
                 }
             });
         } else {
@@ -195,12 +206,16 @@ export class EditCompetitionComponent implements OnInit {
                 this.is_public, this.description, this.starting_date.replace("T", " "),
                 this.finishing_date.replace("T", " "), this.rally_id,
                 this.admin_id).subscribe((competition: Competition) => {
+                this.changesSaved = true;
                 if (competition){
                     this.currentCompetition = competition;
                     this.allCompetitions[this.currentCompetitionIndex] = this.currentCompetition;
-                    this.changesSaved = true;
+                    this.messageType = true;
+                    this.alertMessage = "Se han guardado los cambios.";
                 } else {
-                    console.log("Couldn't create competition");
+                    this.alertMessage = "No se pudo guardar los cambios.";
+                    this.messageType = false;
+
                 }
             });
         }
@@ -235,6 +250,8 @@ export class EditCompetitionComponent implements OnInit {
     edit(i: number){
         this.activeTab = 0;
         this.competitionSelected = true;
+        this.changesSaved = false;
+        this.deleted = false;
         if (i == -1){
             this.newCompetition = true;
             this.currentCompetition = null;
@@ -275,11 +292,24 @@ export class EditCompetitionComponent implements OnInit {
     goBack(){
         this.competitionSelected = false;
         this.currentCompetition = null;
-        this.reloadUsers(this.allUsers);
+        this.reloadCompetitions(this.allCompetitions);
     }
 
     deleteCompetition(){
-        this.deleted = true;
+        this.deleted = false;
+        this.changesSaved = false;
+        this.competitionService.deleteCompetition(this.currentCompetition.id).subscribe((deleted: boolean) => {
+            this.deleted = true;
+            if (deleted){
+                this.currentCompetition = null;
+                this.allCompetitions.splice(this.currentCompetitionIndex, 1);
+                this.messageType = true;
+                this.alertMessage = "Se ha eliminado la competencia.";
+            } else {
+                this.messageType = false;
+                this.alertMessage = "No se pudo eliminar la competencia.";
+            }
+        });
     }
 
 }
