@@ -116,3 +116,7 @@ table thead{
 .invite-btn{
     font-size: 14px !important;
 }
+
+.wide-button{
+    width: 100% !important;
+}
