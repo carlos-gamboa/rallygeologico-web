@@ -14,6 +14,7 @@ import {Competition} from "../../model/competition";
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+    readyToShow: boolean = false;
 
   currentUser : User;
   userId: number;
@@ -30,6 +31,7 @@ export class ProfileComponent implements OnInit {
   currentRallies:number = 0;
 
   statistics: CompetitionStatistics[] = [];
+  allStatistics: CompetitionStatistics[][];
   showedStatistics: CompetitionStatistics[];
   clickedStatistic: number = -1;
 
@@ -82,33 +84,49 @@ export class ProfileComponent implements OnInit {
                       this.targetUser = user;
                       if (user) {
                           this.statisticsService.getCurrentCompetitions(this.targetUser.id).subscribe((stats : CompetitionStatistics[]) => {
+                              console.log(stats);
                               this.statistics = stats;
                               this.reloadCompetitions(stats);
                           });
-                            //TODO CAMBIAR ESTO
-                          this.statisticsService.getActiveCompetitions(this.targetUser.id).subscribe((total : Object) => {
-                              this.currentRallies;
-                          });
-                          this.statisticsService.getTotalCompetitions(this.targetUser.id).subscribe((total :Object) => {
-                              this.totalRallies;
-                          });
-                          this.statisticsService.getVisitedSites(this.targetUser.id).subscribe((total : number) => {
-                              this.visitedSites = total;
-                          });
-                          this.statisticsService.getTotalSites().subscribe((total : number) => {
-                              this.totalSites = total;
-                          });
+                          this.statisticsService.getActiveCompetitions(this.targetUser.id).subscribe((total : any) => {
 
-                          for (let statistic of this.statistics) {
-                              this.totalPoints += statistic.points;
+                              this.currentRallies = total[0].totalActiveCompetitions;
+                          });
+                          this.statisticsService.getTotalCompetitions(this.targetUser.id).subscribe((total :any) => {
+                              console.log(total);
+                              this.totalRallies = total[0].totalCompetitions;
+                              this.totalPoints = total[0].totalPoints;
+                          });
+                          this.statisticsService.getVisitedSites(this.targetUser.id).subscribe((total : any) => {
+                              this.visitedSites = total[0].totalVisited;
+                          });
+                          this.statisticsService.getTotalSites().subscribe((total : any) => {
+                              this.totalSites = total[0].totalSites;
+                          });
+                          let i = 0;
+                          for (let competition of this.statistics) {
+
+                              this.statisticsService.getStatistics(competition.id).subscribe((statistics: CompetitionStatistics[])=>{
+                                  if (statistics){
+                                      this.allStatistics[i] = statistics;
+                                      console.log(this.statistics);
+                                      this.sortStatistics();
+                                      this.readyToShow = true;
+                                  } else {
+                                      console.log("Couldn't get statistics");
+                                  }
+                              });
+                              i++;
                           }
+
+
                       }else{
                           this.router.navigate(['/dashboard']);
                       }
                   });
               }
           );
-
+        this.readyToShow = true;
   }
 
 
@@ -130,6 +148,10 @@ export class ProfileComponent implements OnInit {
         } else {
             this.clickedStatistic = i;
         }
+    }
+
+    sortStatistics(){
+        this.statistics.sort(function(a,b) {return (b.points - a.points)});
     }
 
     pageChange() : void{

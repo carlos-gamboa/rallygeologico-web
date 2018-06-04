@@ -299,7 +299,7 @@ class CompetitionStatisticsController extends AppController
 
         $competitionStatistics = $this->CompetitionStatistics->find('all', [
             'fields' => [
-                'totalCompetitions' => 'COUNT( DISTINCT CompetitionStatistics.competition_id)',
+                'totalActiveCompetitions' => 'COUNT( DISTINCT CompetitionStatistics.competition_id)',
             ],
             'conditions' => [
                 'CompetitionStatistics.competition_id IN' => $this->Competition->find('all', [
