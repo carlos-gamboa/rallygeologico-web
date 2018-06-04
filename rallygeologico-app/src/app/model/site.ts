@@ -1,3 +1,5 @@
+import {Term} from "./term";
+
 export class Site {
     id: number;
     name:  string;
@@ -8,6 +10,7 @@ export class Site {
     longitude: number;
     district_id: string;
     points: number;
+    terms: Term[];
 
     constructor(site: any){
         this.id = site.id;

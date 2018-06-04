@@ -1,0 +1,121 @@
+
+<!-- Start banner Area -->
+<!--<section class="banner-area relative" id="home">
+  <div class="overlay overlay-bg"></div>
+  <div class="container">
+    <div class="row d-flex align-items-center justify-content-center">
+      <div class="about-content col-lg-12">
+        <h1 class="text-white">
+          Crear Competencia
+        </h1>
+        <p class="text-white link-nav"><a routerLink="/dashboard">Inicio </a>  <span class="lnr lnr-arrow-right"></span>  <a routerLink="/create-competition">Crear Competencia</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+&lt;!&ndash; End banner Area &ndash;&gt;
+
+&lt;!&ndash; Start form Area &ndash;&gt;
+<section class="whole-wrap section-gap">
+  <div class="container">
+    <div class="row">
+      <div class="offset-md-2 col-md-8 col-xs-12">
+        <h3 class="text-center mb-3">Detalles de la competencia</h3>
+        <div class="booking-right mt-50" align="center">
+          <form #competitionForm="ngForm">
+            <div class="row mt-10 mb-10">
+              <div class="col-lg-12">
+                <input class="text-input" type="text" [(ngModel)]="name" #nameInput="ngModel" name="name" placeholder="Nombre de la competencia" required>
+                <div *ngIf="(nameInput?.invalid) && (nameInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
+                  <p class="alert-message">Debe introducir un nombre para la competencia.</p>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-10">
+              <div class="col-lg-6" align="center">
+                <select class="select-input" [(ngModel)]="is_public" #isPubliceInput="ngModel" name="is_public" required>
+                  <option value="1" selected>Público</option>
+                  <option value="0">Privado</option>
+                </select>
+                <div *ngIf="(isPubliceInput?.invalid) && (isPubliceInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
+                  <p class="alert-message">Debe seleccionar la privacidad de la competencia.</p>
+                </div>
+              </div>
+              <div class="col-lg-6" align="center">
+                <select class="select-input" [(ngModel)]="rally_id" #rallyIdInput="ngModel" name="rally_id" required>
+                  <option *ngFor="let rally of ralliesList; let i = index" value="{{rally.id}}">{{rally.name}}</option>
+                </select>
+                <div *ngIf="(rallyIdInput?.invalid) && (rallyIdInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
+                  <p class="alert-message">Debe seleccionar un rally para la competencia.</p>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-10">
+              <div class="col-lg-12" align="center">
+                <textarea class="text-input text-area" [(ngModel)]="description" #descriptionInput="ngModel" name="description" placeholder="Descripción de la competencia"> </textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="mt-50" align="center">
+          <button title="crearCompetencia" class="btn genric-btn success col-lg-6" style="font-size: 16px" (click)="createCompetition()" [disabled]="competitionForm.invalid" *ngIf="!competitionCreated">Crear Competencia</button>
+          <div *ngIf="competitionCreated" class="alert alert-success col-lg-6 mt-10" role="alert">
+            La competencia ha sido creada.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+&lt;!&ndash; End form Area &ndash;&gt;
+
+&lt;!&ndash; Start list users Area &ndash;&gt;
+<section class="contact-page-area section-gap list-users" *ngIf="competitionCreated" >
+  <div class="container">
+    <div class="row">
+      <div class="offset-md-2 col-md-8 col-xs-12">
+        <h3 class="title text-center mb-3">Invitar usuarios a {{currentCompetition?.name}}</h3>
+        <div class="busqueda" id="searchform">
+          <input [(ngModel)]="searchQuery" type="text" title="Digite aquí el nombre del usuario" id="searchterm" placeholder="Digite el nombre de usuario" />
+          <button type="button" id="search" title="Click aquí para buscar el usuario" (click)="searchUser()">Buscar</button>
+        </div>
+        <div class="text-center">
+          <h4 class="title">Resultados</h4> <br>
+          <div>
+            <table class="table">
+              <thead>
+              <th><h5 class="text-center">Foto</h5></th>
+              <th><h5 class="text-center">Usuario</h5></th>
+              <th><h5 class="text-center">Nombre</h5></th>
+              <th><h5 class="text-center">Invitar</h5></th>
+              </thead>
+              <tbody>
+              <tr *ngFor="let user of showedUsers; let i = index">
+                <td align="center"><img class="user-image" src="{{user?.photo_url}}"></td>
+                <td><h5 class="subtitle">{{user?.username}}</h5></td>
+                <td><h4 class="subtitle">{{user?.first_name}} {{user?.last_name}}</h4></td>
+                <td>
+                  <button class="invite-btn genric-btn circle text-center warning-border medium wide-button" [disabled]="true" *ngIf="invitedUsers.includes(user.id)">Invitado</button>
+                  <button title="Invitar" class="invite-btn genric-btn circle text-center warning medium wide-button" (click)="invite(i)" *ngIf="!invitedUsers.includes(user.id)">Invitar</button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="row">
+            <div class="col-md-12 mt-10 text-center">
+              <div class="d-inline-block">
+                <ngb-pagination [collectionSize]="totalUsers" [(page)]="currentPage" [maxSize]="5" [pageSize]="pageSize" [rotate]="true"
+                                [ellipses]="true" [boundaryLinks]="false" (pageChange)="pageChange($event)"></ngb-pagination>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-50" align="center">
+          <button title="agregarOtraCompetencia" class="btn genric-btn info col-lg-6 mt-10" style="font-size: 16px" (click)="addOtherCompetition(competitionForm)">Agregar Otra Competencia</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>-->
+<!-- End list users Area -->
