@@ -149,7 +149,7 @@ class CompetitionStatisticsController extends AppController
     public function currentCompetitions($userId = null){
 
         $competitionStatistics = $this->CompetitionStatistics->find('all', [
-            'contain' => ['Competition'],
+            'contain' => ['Competition', 'Site', 'Activity'],
             'conditions' => ['competitionStatistics.user_id' => $userId]
         ]);
 
@@ -331,10 +331,7 @@ class CompetitionStatisticsController extends AppController
             ],
             'conditions' => [
                 'CompetitionStatistics.competition_id IN' => $this->Competition->find('all', [
-                    'fields' => ['Competition.id'],
-                    'conditions' => [
-                        'Competition.is_active' => 1
-                    ]
+                    'fields' => ['Competition.id']
                 ]),
                 'CompetitionStatistics.user_id' => $userId
             ]
