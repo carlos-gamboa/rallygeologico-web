@@ -1,11 +1,11 @@
-import {Media} from "./multimedia";
+import {Multimedia} from "./multimedia";
 import {Site} from "./site";
 
 export class Term {
   id : number;
   name : string;
   description: string;
-  media : Media[];
+  media : Multimedia[];
   sites : Site[];
 
   constructor(term: any){

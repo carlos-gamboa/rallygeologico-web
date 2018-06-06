@@ -50,16 +50,31 @@ export class LoginComponent implements OnInit {
     fb.init(initParams);
     console.log('Initialized Facebook');
 
+
     this.userService.isLoggedIn().subscribe((users: User) => {
-      if (users[0]) {
+      if (users[0] && users[0].is_admin == 1) {
         this.dataService.updateUser(users[0]);
         this.router.navigate(['/admin/competition']);
+      }else if(users[0] && users[0].is_admin != 1){
+        this.logout();
       }
       else{
         this.loginWithFacebook = true;
         this.loginWithGoogle = true;
       }
     });
+  }
+
+  logout() {
+    this.userService.logout().subscribe((user: User)=>{
+      console.log(user);
+      this.dataService.updateUser(null);
+      setTimeout(() =>
+        {
+          this.router.navigate(['/landing']);
+        },
+        1000);
+    } );
   }
 
   ngAfterViewInit(): void {

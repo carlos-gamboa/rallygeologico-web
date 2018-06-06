@@ -33,6 +33,8 @@ import {SiteService} from "./services/site.service";
 import {environment} from "../environments/environment";
 import {CompetitionStatisticsService} from "./services/competition.statistics.service";
 import {AdminModule} from "./admin/admin.module";
+import {TermService} from "./services/term.service";
+import {MultimediaService} from "./services/multimedia.service";
 
 
 @NgModule({
@@ -67,7 +69,7 @@ import {AdminModule} from "./admin/admin.module";
       }),
       AgmSnazzyInfoWindowModule
   ],
-  providers: [DataService, UserService, Configuration, RallyService, InvitationService, CompetitionService, SiteService, CompetitionStatisticsService],
+  providers: [DataService, UserService, Configuration, RallyService, InvitationService, CompetitionService, SiteService, CompetitionStatisticsService, TermService, MultimediaService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

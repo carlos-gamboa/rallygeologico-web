@@ -6,9 +6,10 @@ import {Site} from "../model/site";
 import {Invitation} from "../model/invitation";
 import {User} from "../model/user";
 import {Term} from "../model/term";
+import {Multimedia} from "../model/multimedia";
 
 @Injectable()
-export class TermService {
+export class MultimediaService {
 
   baseUrl: string;
   headers: HttpHeaders = new HttpHeaders();
@@ -18,27 +19,29 @@ export class TermService {
     this.headers.append('Content-Type', 'application/json');
   }
 
-  addTerm(name : string, description : string) : Observable<Term[]>{
-    return this.http.post<Term[]>(this.baseUrl + "term/add.json", {
+  addMultimedia(name : string, media_type : number, media_url : string) : Observable<Multimedia[]>{
+    return this.http.post<Multimedia[]>(this.baseUrl + "multimedia/add.json", {
       'name':name,
-      'description':description,
+      'media_type':media_type,
+      'media_url':media_url
     },{ headers: this.headers, withCredentials: true });
   }
 
-  editTerm(id: number, name: string, description: string): Observable<Term>{
-    return this.http.post<Term>(this.baseUrl + "term/edit/"+id+".json",{
+  editMultimedia(id: number, name : string, media_type : number, media_url : string): Observable<Multimedia>{
+    return this.http.post<Multimedia>(this.baseUrl + "multimedia/edit/"+id+".json",{
       'name' : name,
-      'description' : description
+      'media_type':media_type,
+      'media_url':media_url
     },{ headers: this.headers, withCredentials: true });
   }
 
-  deleteTerm(id: number) : Observable<Term[]>{
-    return this.http.post<Term[]>(this.baseUrl + "term/delete/"+id+".json", {
+  deleteMultimedia(id: number) : Observable<Multimedia[]>{
+    return this.http.post<Multimedia[]>(this.baseUrl + "multimedia/delete"+id+".json", {
     },{ headers: this.headers, withCredentials: true });
   }
 
-  getTerms() : Observable<Term[]>{
-    return this.http.get<Term[]>(this.baseUrl + "term.json");
+  getMultimedia() : Observable<Multimedia[]>{
+    return this.http.get<Multimedia[]>(this.baseUrl + "multimedia.json");
   }
 
 }

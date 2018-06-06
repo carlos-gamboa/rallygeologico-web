@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
 import {Site} from "../model/site";
+import {Term} from "../model/term";
 
 @Injectable()
 export class SiteService {
@@ -20,5 +21,9 @@ export class SiteService {
      */
     getSite(id: number): Observable<Site>{
         return this.http.get<Site>(this.baseUrl + "site/view/"+id+".json");
+    }
+
+    getSites() : Observable<Site[]>{
+      return this.http.get<Site[]>(this.baseUrl + "site.json");
     }
 }
