@@ -14,7 +14,7 @@
   <!-- End banner Area -->
 <div *ngIf="readyToShow">
   <!-- Start choosing Area -->
-  <section class="whole-wrap section-gap" *ngIf="!competitionSelected">
+  <section class="whole-wrap section-gap" *ngIf="!siteSelected">
     <div class="container">
       <div class="row">
         <div class="offset-md-2 col-md-8 col-xs-12">
@@ -44,7 +44,7 @@
                     <button title="Editar" class="invite-btn genric-btn circle text-center warning medium wide-button" (click)="edit(i)">Editar</button>
                   </td>
                   <td>
-                    <button title="Eliminar" class="invite-btn genric-btn circle text-center danger medium wide-button" (click)="edit(i)">Eliminar</button>
+                    <button title="Eliminar" class="invite-btn genric-btn circle text-center danger medium wide-button" (click)="deleteSite(site.id, i)">Eliminar</button>
                   </td>
                 </tr>
                 </tbody>
@@ -57,6 +57,11 @@
                                   [ellipses]="true" [boundaryLinks]="false" (pageChange)="sitePageChange($event)"></ngb-pagination>
                 </div>
               </div>
+            </div>
+          </div>
+          <div align="center">
+            <div *ngIf="deleted" class="alert col-lg-6 mt-10 text-center" role="alert" [class.alert-success]="messageType" [class.alert-danger]="!messageType">
+              {{alertMessage}}
             </div>
           </div>
         </div>
@@ -158,10 +163,6 @@
           <div class="mt-50" align="center">
             <button title="Crear Competencia" class="btn genric-btn success col-lg-6" style="font-size: 16px" (click)="saveChanges()" [disabled]="competitionForm.invalid" *ngIf="newSite || currentSite">Guardar cambios</button>
             <div *ngIf="changesSaved" class="alert col-lg-6 mt-10" role="alert" [class.alert-success]="messageType" [class.alert-danger]="!messageType">
-              {{alertMessage}}
-            </div>
-            <button title="Eliminar Competencia" class="btn genric-btn danger col-lg-6 mt-4" style="font-size: 16px" (click)="deleteSite(1)" *ngIf="currentSite">Eliminar sitio</button>
-            <div *ngIf="deleted" class="alert col-lg-6 mt-10" role="alert" [class.alert-success]="messageType" [class.alert-danger]="!messageType">
               {{alertMessage}}
             </div>
           </div>

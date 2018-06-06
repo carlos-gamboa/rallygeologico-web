@@ -264,16 +264,17 @@ export class EditSiteComponent implements OnInit {
         this.reloadSites(this.allSites);
     }
 
-    deleteSite(i: number){
+    deleteSite(id: number, i: number){
         this.deleted = false;
         this.changesSaved = false;
-        this.siteService.deleteSite(i).subscribe((deleted: boolean) => {
+        this.siteService.deleteSite(id).subscribe((deleted: boolean) => {
             this.deleted = true;
             if (deleted){
                 this.currentSite = null;
-                this.allSites.splice(this.currentSiteIndex, 1);
+                this.allSites.splice(((this.currentPageSite - 1) * this.pageSize) + i, 1);
                 this.messageType = true;
                 this.alertMessage = "Se ha eliminado la competencia.";
+                this.reloadSites(this.allSites);
             } else {
                 this.messageType = false;
                 this.alertMessage = "No se pudo eliminar la competencia.";
