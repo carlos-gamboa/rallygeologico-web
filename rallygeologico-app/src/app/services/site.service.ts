@@ -1,16 +1,19 @@
 import {Configuration} from "./data/constants";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
 import {Site} from "../model/site";
+import {District} from "../model/district";
 
 @Injectable()
 export class SiteService {
 
     baseUrl: string;
+    headers: HttpHeaders = new HttpHeaders();
 
     constructor(private http : HttpClient, private _configuration: Configuration){
         this.baseUrl = this._configuration.ServerWithApiUrl;
+        this.headers.append('Content-Type', 'application/json');
     }
 
     /**
@@ -19,6 +22,82 @@ export class SiteService {
      * @returns {Observable<Site>}
      */
     getSite(id: number): Observable<Site>{
-        return this.http.get<Site>(this.baseUrl + "site/view/"+id+".json");
+        return this.http.get<Site>(this.baseUrl + "site/view/"+id+".json",{ headers: this.headers, withCredentials: true });
+    }
+
+    /**
+     * Service for getting all the sites
+     *
+     * @returns {Observable<Site[]>}
+     */
+    getAllSites(): Observable<Site[]>{
+        return this.http.get<Site[]>(this.baseUrl + "site.json",{ headers: this.headers, withCredentials: true })
+    }
+
+    /**
+     * Service for adding a site
+     *
+     * @param {string} name
+     * @param {string} qrUrl
+     * @param {string} details
+     * @param {string} description
+     * @param {string} latitude
+     * @param {string} longitude
+     * @param {string} districtId
+     * @param {string} points
+     * @param {string} isEasterEgg
+     * @returns {Observable<Site>}
+     */
+    addSite(name: string, qrUrl: string, details: string, description: string, latitude: string, longitude: string, districtId: string, points: string, isEasterEgg: string): Observable<Site>{
+        return this.http.post<Site>(this.baseUrl + "site/add.json",{
+            'name': name,
+            'qr_url': qrUrl,
+            'details': details,
+            'description': description,
+            'latitude': latitude,
+            'longitude': longitude,
+            'district_id': districtId,
+            'points': points,
+            'is_easter_egg': isEasterEgg
+        },{ headers: this.headers, withCredentials: true })
+    }
+
+    /**
+     * Service for editing a site
+     *
+     * @param {number} id
+     * @param {string} name
+     * @param {string} qrUrl
+     * @param {string} details
+     * @param {string} description
+     * @param {string} latitude
+     * @param {string} longitude
+     * @param {string} districtId
+     * @param {string} points
+     * @param {string} isEasterEgg
+     * @returns {Observable<Site>}
+     */
+    editSite(id: number, name: string, qrUrl: string, details: string, description: string, latitude: string, longitude: string, districtId: string, points: string, isEasterEgg: string): Observable<Site>{
+        return this.http.post<Site>(this.baseUrl + "site/edit/" + id + ".json", {
+            'name': name,
+            'qr_url': qrUrl,
+            'details': details,
+            'description': description,
+            'latitude': latitude,
+            'longitude': longitude,
+            'district_id': districtId,
+            'points': points,
+            'is_easter_egg': isEasterEgg
+        },{ headers: this.headers, withCredentials: true })
+    }
+
+    /**
+     * Service for deleting a site
+     *
+     * @param {number} id
+     * @returns {Observable<boolean>}
+     */
+    deleteSite(id: number): Observable<boolean>{
+        return this.http.delete<boolean>(this.baseUrl + "site/delete/"+id+".json");
     }
 }

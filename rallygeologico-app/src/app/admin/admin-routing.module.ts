@@ -3,6 +3,7 @@ import {NgModule} from "@angular/core";
 import {AdminComponent} from "./admin.component";
 import {LoginComponent} from "./login/login.component";
 import {EditCompetitionComponent} from "./edit-competition/edit-competition.component";
+import {EditSiteComponent} from "./edit-site/edit-site.component";
 
 const routes : Routes = [
     { path: 'admin', component: AdminComponent, children: [
@@ -11,6 +12,9 @@ const routes : Routes = [
         },
         {
             path: 'competition', component: EditCompetitionComponent
+        },
+        {
+            path: 'site', component: EditSiteComponent
         }
     ]},
 ];

@@ -8,6 +8,7 @@ import {AdminComponent} from "./admin.component";
 import {FormsModule} from "@angular/forms";
 import {MatDatepickerModule, MatGridListModule, MatNativeDateModule} from "@angular/material";
 import {NgbModule, NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
+import {EditSiteComponent} from "./edit-site/edit-site.component";
 
 @NgModule({
     imports: [
@@ -24,7 +25,9 @@ import {NgbModule, NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
         LoginComponent,
         EditCompetitionComponent,
         PublicFooterComponent,
-        AdminComponent],
+        AdminComponent,
+        EditSiteComponent
+    ],
     exports: [
         PublicFooterComponent
     ]
