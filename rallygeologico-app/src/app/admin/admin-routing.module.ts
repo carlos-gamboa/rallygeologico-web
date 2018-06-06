@@ -2,14 +2,17 @@ import {RouterModule, Routes} from "@angular/router";
 import {NgModule} from "@angular/core";
 import {AdminComponent} from "./admin.component";
 import {LoginComponent} from "./login/login.component";
+import {EditCompetitionComponent} from "./edit-competition/edit-competition.component";
 
 const routes : Routes = [
-  { path: '', component: AdminComponent, children: [
-      {
-        path : 'admin',component: LoginComponent
-      }
-    ]
-  },
+    { path: 'admin', component: AdminComponent, children: [
+        {
+            path : '', component: LoginComponent
+        },
+        {
+            path: 'competition', component: EditCompetitionComponent
+        }
+    ]},
 ];
 
 @NgModule({

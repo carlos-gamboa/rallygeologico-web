@@ -25,6 +25,7 @@
     <fieldset>
         <legend><?= __('Edit Activity Multimedia') ?></legend>
         <?php
+            echo $this->Form->control('id');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

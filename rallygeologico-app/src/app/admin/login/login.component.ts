@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
     this.userService.isLoggedIn().subscribe((users: User) => {
       if (users[0]) {
         this.dataService.updateUser(users[0]);
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/admin/competition']);
       }
       else{
         this.loginWithFacebook = true;
@@ -113,7 +113,7 @@ export class LoginComponent implements OnInit {
                   setTimeout(() =>
                     {
                       this._ngZone.run(
-                        () => this.router.navigate(['dashboard'])
+                        () => this.router.navigate(['/admin/competition'])
                       );
                     },
                     1500);

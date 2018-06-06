@@ -28,5 +28,9 @@
             <th scope="row"><?= __('Site') ?></th>
             <td><?= $rallySite->has('site') ? $this->Html->link($rallySite->site->name, ['controller' => 'Site', 'action' => 'view', $rallySite->site->id]) : '' ?></td>
         </tr>
+        <tr>
+            <th scope="row"><?= __('Id') ?></th>
+            <td><?= $this->Number->format($rallySite->id) ?></td>
+        </tr>
     </table>
 </div>

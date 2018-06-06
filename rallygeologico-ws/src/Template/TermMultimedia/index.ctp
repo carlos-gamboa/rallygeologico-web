@@ -19,6 +19,7 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
+                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('term_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('multimedia_id') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -27,6 +28,7 @@
         <tbody>
             <?php foreach ($termMultimedia as $termMultimedia): ?>
             <tr>
+                <td><?= $this->Number->format($termMultimedia->id) ?></td>
                 <td><?= $termMultimedia->has('term') ? $this->Html->link($termMultimedia->term->name, ['controller' => 'Term', 'action' => 'view', $termMultimedia->term->id]) : '' ?></td>
                 <td><?= $termMultimedia->has('multimedia') ? $this->Html->link($termMultimedia->multimedia->id, ['controller' => 'Multimedia', 'action' => 'view', $termMultimedia->multimedia->id]) : '' ?></td>
                 <td class="actions">

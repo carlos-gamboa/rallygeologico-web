@@ -25,6 +25,7 @@
     <fieldset>
         <legend><?= __('Edit Rally Site') ?></legend>
         <?php
+            echo $this->Form->control('id');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

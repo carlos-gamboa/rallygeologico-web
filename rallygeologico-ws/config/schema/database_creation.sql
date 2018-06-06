@@ -92,20 +92,22 @@ CREATE TABLE IF NOT EXISTS site (
 );
 
 CREATE TABLE IF NOT EXISTS rally_site(
+  id INT AUTO_INCREMENT PRIMARY KEY,
   rally_id INT NOT NULL,
   site_id INT NOT NULL,
   FOREIGN KEY (rally_id) REFERENCES rally(id) ON DELETE CASCADE,
   FOREIGN KEY (site_id) REFERENCES site(id) ON DELETE CASCADE,
-  PRIMARY KEY (rally_id, site_id)
+  UNIQUE (rally_id, site_id)
 );
 
 CREATE TABLE IF NOT EXISTS competition_statistics_site(
+  id INT AUTO_INCREMENT PRIMARY KEY,
   competition_statistics_id INT NOT NULL,
   site_id INT NOT NULL,
   visited_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (competition_statistics_id) REFERENCES competition_statistics(id) ON DELETE CASCADE,
   FOREIGN KEY (site_id) REFERENCES site(id) ON DELETE CASCADE,
-  PRIMARY KEY (competition_statistics_id, site_id)
+  UNIQUE (competition_statistics_id, site_id)
 );
 
 CREATE TABLE IF NOT EXISTS term (
@@ -115,11 +117,12 @@ CREATE TABLE IF NOT EXISTS term (
 );
 
 CREATE TABLE IF NOT EXISTS term_site(
+  id INT AUTO_INCREMENT PRIMARY KEY,
   term_id INT NOT NULL,
   site_id INT NOT NULL,
   FOREIGN KEY (term_id) REFERENCES term(id) ON DELETE CASCADE,
   FOREIGN KEY (site_id) REFERENCES site(id) ON DELETE CASCADE,
-  PRIMARY KEY (term_id, site_id)
+  UNIQUE (term_id, site_id)
 );
 
 CREATE TABLE IF NOT EXISTS multimedia(
@@ -148,29 +151,32 @@ CREATE TABLE IF NOT EXISTS options(
 );
 
 CREATE TABLE IF NOT EXISTS activity_multimedia(
+  id INT AUTO_INCREMENT PRIMARY KEY,
   activity_id INT NOT NULL,
   multimedia_id INT NOT NULL,
   FOREIGN KEY (activity_id) REFERENCES activity(id) ON DELETE CASCADE,
   FOREIGN KEY (multimedia_id) REFERENCES multimedia(id) ON DELETE CASCADE,
-  PRIMARY KEY (activity_id, multimedia_id)
+  UNIQUE (activity_id, multimedia_id)
 );
 
 CREATE TABLE IF NOT EXISTS term_multimedia(
+  id INT AUTO_INCREMENT PRIMARY KEY,
   term_id INT NOT NULL,
   multimedia_id INT NOT NULL,
   FOREIGN KEY (term_id) REFERENCES term(id) ON DELETE CASCADE,
   FOREIGN KEY (multimedia_id) REFERENCES multimedia(id) ON DELETE CASCADE,
-  PRIMARY KEY (term_id, multimedia_id)
+  UNIQUE (term_id, multimedia_id)
 );
 
 CREATE TABLE IF NOT EXISTS competition_statistics_activity(
+  id INT AUTO_INCREMENT PRIMARY KEY,
   competition_statistics_id INT NOT NULL,
   activity_id INT NOT NULL,
   resolved_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   points_obtained INT DEFAULT 0,
   FOREIGN KEY (competition_statistics_id) REFERENCES competition_statistics(id) ON DELETE CASCADE,
   FOREIGN KEY (activity_id) REFERENCES activity(id) ON DELETE CASCADE,
-  PRIMARY KEY (competition_statistics_id, activity_id)
+  UNIQUE (competition_statistics_id, activity_id)
 );
 
 -- Insert CompetitionStatisticsSite

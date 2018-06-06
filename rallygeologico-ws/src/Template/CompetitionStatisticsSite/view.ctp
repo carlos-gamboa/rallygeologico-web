@@ -18,7 +18,7 @@
     </ul>
 </nav>
 <div class="competitionStatisticsSite view large-9 medium-8 columns content">
-    <h3><?= h($competitionStatisticsSite->user_id) ?></h3>
+    <h3><?= h($competitionStatisticsSite->competition_statistics_id) ?></h3>
     <table class="vertical-table">
         <tr>
             <th scope="row"><?= __('Competition Statistic') ?></th>
@@ -27,6 +27,10 @@
         <tr>
             <th scope="row"><?= __('Site') ?></th>
             <td><?= $competitionStatisticsSite->has('site') ? $this->Html->link($competitionStatisticsSite->site->name, ['controller' => 'Site', 'action' => 'view', $competitionStatisticsSite->site->id]) : '' ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Id') ?></th>
+            <td><?= $this->Number->format($competitionStatisticsSite->id) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Visited Date') ?></th>

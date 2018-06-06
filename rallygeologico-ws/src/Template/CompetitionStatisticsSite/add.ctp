@@ -19,7 +19,8 @@
     <fieldset>
         <legend><?= __('Add Competition Statistics Site') ?></legend>
         <?php
-            echo $this->Form->control('visited_date', ['empty' => true]);
+            echo $this->Form->control('id');
+            echo $this->Form->control('visited_date');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

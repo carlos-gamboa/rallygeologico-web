@@ -59,7 +59,7 @@ class OptionsTable extends Table
 
         $validator
             ->scalar('option_text')
-            ->maxLength('option_text', 200)
+            ->maxLength('option_text', 2000)
             ->allowEmpty('option_text');
 
         return $validator;
