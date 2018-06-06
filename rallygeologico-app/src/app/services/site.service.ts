@@ -30,4 +30,13 @@ export class SiteService {
     getOtherSites(rallyId: number):Observable<Site[]>{
         return this.http.get<Site[]>(this.baseUrl + "site/getOtherSites/"+rallyId+".json");
     }
+
+    /**
+     * Service for getting all the sites those are part of the specified rally
+     * @param {number} rallyId
+     * @returns {Observable<Site[]>}
+     */
+    getAssociatedSites(rallyId: number): Observable<Site[]>{
+        return this.http.get<Site[]>(this.baseUrl + "site/getAssociatedSites/"+rallyId+".json");
+    }
 }

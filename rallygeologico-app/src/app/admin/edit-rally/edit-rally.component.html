@@ -23,7 +23,7 @@
                 <div class="offset-md-2 col-md-8 col-xs-12">
                     <h3 class="text-center mb-3">Seleccione el rally que desea editar</h3>
                     <div class="busqueda" id="searchFormEdit">
-                        <input [(ngModel)]="searchQuery" type="text" title="Digite aquí el nombre del rally" id="searchTermEdit" placeholder="Digite el nombre del rally" />
+                        <input [(ngModel)]="searchRallyQuery" type="text" title="Digite aquí el nombre del rally" id="searchTermEdit" placeholder="Digite el nombre del rally" />
                         <button type="button" id="searchEdit" title="Click aquí para buscar el rally" (click)="searchRally()">Buscar</button>
                     </div>
                     <div class="text-center">
@@ -59,8 +59,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div *ngIf="rallyDeleted" class="alert col-lg-6 mt-10" role="alert" [class.alert-success]="messageType" [class.alert-danger]="!messageType">
-                            {{alertMessage}}
+                        <div align="center">
+                            <div *ngIf="rallyDeleted" class="alert col-lg-6 mt-10" role="alert" [class.alert-success]="messageType" [class.alert-danger]="!messageType">
+                                {{alertMessage}}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -156,40 +158,57 @@
     <!-- Start sites Area -->
     <section class="whole-wrap section-gap pt-5" *ngIf="rallySelected && activeTab == 1">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-6 offset-2">
-                    <label for="siteSelect">Escoja el sitio que desea agregar</label>
-                    <select class="select-input" [(ngModel)]="newSiteId" #newSiteIdInput="ngModel" id="siteSelect" name="newSiteId" required>
-                        <option *ngFor="let site of otherSites; let i = index" value="{{site.id}}">{{site.name}}</option>
-                    </select>
-                </div>
-                <div class="col-lg-4 mt-10 add-btn">
-                    <button title="Agregar" class="invite-btn table-button genric-btn circle text-center info medium" (click)="addSite()">Agregar</button>
-                </div>
-            </div>
             <div class="row mt-30">
                 <div class="offset-md-2 col-md-8 col-xs-12">
-                    <h3 class="text-center mb-3">Detalles de los sitios del rally</h3>
+                    <h3 class="text-center mb-3">Seleccione el sitio que desea administrar</h3>
+                    <div class="busqueda" id="searchSiteForm">
+                        <input [(ngModel)]="searchSiteQuery" type="text" title="Digite aquí el nombre del sitio" id="searchSiteInput" placeholder="Digite el nombre del sitio" />
+                        <button type="button" id="searchSite" title="Click aquí para buscar el sitio" (click)="searchSite()">Buscar</button>
+                    </div>
+                    <h3 class="text-center mb-3">Resultados</h3>
                     <div align="center">
                         <div class="mt-10 mb-10">
                             <table class="table">
                                 <thead>
                                 <th><h5 class="text-center">Sitio</h5></th>
-                                <th><h5 class="text-center">Editar</h5></th>
-                                <th><h5 class="text-center">Eliminar</h5></th>
+                                <th><h5 class="text-center">Distrito</h5></th>
+                                <th><h5 class="text-center">Agregar/Eliminar</h5></th>
                                 </thead>
                                 <tbody>
-                                <tr *ngFor="let site of currentRally.site; let i = index">
+                                <tr *ngFor="let site of allSites; let i = index">
                                     <td><h5 >{{site?.name}}</h5></td>
-                                    <td>
-                                        <button title="Editar" class="invite-btn table-button genric-btn circle text-center warning medium" (click)="editSite(site)">Editar</button>
-                                    </td>
-                                    <td>
+                                    <td><h5 ></h5></td>
+                                    <td align="center">
                                         <button title="Eliminar" class="invite-btn table-button genric-btn circle text-center danger medium" (click)="deleteRallySite(site)">Eliminar</button>
                                     </td>
+                                    <td align="center">
+                                        <button title="Agregar" class="invite-btn table-button genric-btn circle text-center info medium" (click)="addRallySite(site)">Agregar</button>
+                                    </td>
                                 </tr>
+                                <!--<tr *ngFor="let site of otherSites; let i = index">-->
+                                    <!--<td><h5 >{{site?.name}}</h5></td>-->
+                                    <!--<td><h5 ></h5></td>-->
+                                    <!--<td align="center">-->
+                                        <!--<button title="Eliminar" class="invite-btn table-button genric-btn circle text-center danger medium" (click)="deleteRallySite(site)">Eliminar</button>-->
+                                    <!--</td>-->
+                                <!--</tr>-->
+                                <!--<tr *ngFor="let site of currentSites; let i = index">-->
+                                    <!--<td><h5 >{{site?.name}}</h5></td>-->
+                                    <!--<td><h5 ></h5></td>-->
+                                    <!--<td align="center">-->
+                                        <!--<button title="Agregar" class="invite-btn table-button genric-btn circle text-center info medium" (click)="addRallySite(site)">Agregar</button>-->
+                                    <!--</td>-->
+                                <!--</tr>-->
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mt-10 text-center">
+                            <div class="d-inline-block">
+                                <ngb-pagination [collectionSize]="totalSites" [(page)]="currentPageSite" [maxSize]="5" [pageSize]="pageSiteSize" [rotate]="true"
+                                                [ellipses]="true" [boundaryLinks]="false" (pageChange)="sitePageChange()"></ngb-pagination>
+                            </div>
                         </div>
                     </div>
                 </div>

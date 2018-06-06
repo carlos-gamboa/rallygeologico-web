@@ -51,7 +51,7 @@ export class RallyService {
      * @param {string} description
      * @returns {Observable<Rally>}
      */
-    adminAddRally(name: string, points: number, latitude: number, longitude: number, imageUrl: string, description: string): Observable<Rally>{
+    addRally(name: string, points: number, latitude: number, longitude: number, imageUrl: string, description: string): Observable<Rally>{
         return this.http.post<Rally>(this.baseUrl + "rally/add.json", {
             'name': name,
             'points_awarded': points,

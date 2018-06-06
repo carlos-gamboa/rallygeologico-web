@@ -22,7 +22,7 @@ class SiteController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['District']
+            'contain' => ['District', 'Rally']
         ];
         $site = $this->paginate($this->Site);
 
@@ -141,6 +141,26 @@ class SiteController extends AppController
         $sites = $this->Site->find('all', [
             'conditions' => [
                 'site.id NOT IN ' => $this->RallySite->find('all', [
+                    'fields' => ['RallySite.site_id'],
+                    'conditions' => ['RallySite.rally_id' => $rallyId
+                    ]
+                ])
+            ]
+        ]);
+        $this->set('site', $sites);
+        $this->render('/Site/json/template');
+    }
+
+    /**
+     * Gets all sites those are part of the specified rally
+     *
+     * @param null $rallyId
+     */
+    public function getAssociatedSites($rallyId = null){
+        $this->loadModel('RallySite');
+        $sites = $this->Site->find('all', [
+            'conditions' => [
+                'site.id IN ' => $this->RallySite->find('all', [
                     'fields' => ['RallySite.site_id'],
                     'conditions' => ['RallySite.rally_id' => $rallyId
                     ]

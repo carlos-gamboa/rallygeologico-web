@@ -21,7 +21,7 @@ export class EditRallyComponent implements OnInit {
   rallySelected: boolean;
   rallyCreated: boolean;
 
-  searchQuery: string;
+  searchRallyQuery: string;
   ralliesList: Rally[];
   allRallies: Rally[];
   showedRallies: Rally[];
@@ -32,7 +32,15 @@ export class EditRallyComponent implements OnInit {
   currentRallyIndex: number;
 
   otherSites: Site[];
-  newSiteId: number;
+  currentSites: Site[];
+  allSites: Site[];
+  searchSiteQuery: string;
+  searchedSites: Site[];
+  showedSites: Site[];
+
+  totalSites: number;
+  currentPageSite: number;
+  pageSiteSize: number;
 
   name: string;
   points: number;
@@ -56,10 +64,14 @@ export class EditRallyComponent implements OnInit {
     this.totalRallies = 0;
     this.currentPageRally = 0;
     this.pageSize = 10;
+    this.totalSites = 0;
+    this.currentPageSite = 0;
+    this.pageSiteSize = 10;
     this.newRally = false;
     this.changesSaved = false;
     this.messageType = false;
     this.rallyDeleted = false;
+    this.allSites = [];
     this.user = this.dataService.getUser();
     if (!this.user) {
        this.userService.isLoggedIn().subscribe((users: User) => {
@@ -104,9 +116,9 @@ export class EditRallyComponent implements OnInit {
 
   searchRally(){
       let ralliesToShow = [];
-      if(this.searchQuery.length >= 1) {
+      if(this.searchRallyQuery.length >= 1) {
           for (let rally of this.allRallies) {
-              if (rally.name.toLowerCase().startsWith(this.searchQuery.toLowerCase())) {
+              if (rally.name.toLowerCase().startsWith(this.searchRallyQuery.toLowerCase())) {
                   ralliesToShow.push(rally);
               }
           }
@@ -135,6 +147,16 @@ export class EditRallyComponent implements OnInit {
       if (i == 1){
           this.siteService.getOtherSites(this.currentRally.id).subscribe((sites: Site[]) => {
               this.otherSites = sites;
+              this.siteService.getAssociatedSites(this.currentRally.id).subscribe((sites: Site[]) => {
+                  this.currentSites = sites;
+                  for(let site of this.otherSites){
+                      this.allSites.push(site);
+                  }
+                  for(let site of this.currentSites){
+                      this.allSites.push(site);
+                  }
+                  this.reloadSites(this.allSites);
+              });
           });
       }
   }
@@ -189,7 +211,7 @@ export class EditRallyComponent implements OnInit {
           });
       }
       else {
-          this.rallyService.adminAddRally(this.name, this.points, this.latitude, this.longitude, this.imageUrl, this.description).subscribe((rally: Rally) => {
+          this.rallyService.addRally(this.name, this.points, this.latitude, this.longitude, this.imageUrl, this.description).subscribe((rally: Rally) => {
               if (rally){
                   this.currentRally = rally;
                   this.allRallies.push(this.currentRally);
@@ -227,8 +249,35 @@ export class EditRallyComponent implements OnInit {
       });
   }
 
-  addSite(){
-      this.rallyService.addRallySite(this.currentRally.id, this.newSiteId).subscribe((site: Site) =>{
+    reloadSites(sites: Site[]){
+        this.searchedSites = sites;
+        this.totalSites =  sites.length;
+        this.showedSites = sites.slice(0, this.pageSiteSize);
+        this.currentPageSite = 0;
+    }
+
+    sitePageChange(){
+        if(this.searchedSites) {
+            this.showedSites = this.searchedSites.slice((this.currentPageSite - 1) * this.pageSiteSize, ((this.currentPageSite) * this.pageSiteSize));
+        }
+    }
+
+    searchSite(){
+        let sitesToShow = [];
+        if(this.searchSiteQuery.length >= 1) {
+            for (let site of this.allSites) {
+                if (site.name.toLowerCase().startsWith(this.searchSiteQuery.toLowerCase())) {
+                    sitesToShow.push(site);
+                }
+            }
+            this.reloadSites(sitesToShow);
+        }else{
+            this.reloadSites(this.allSites);
+        }
+    }
+
+  addRallySite(site: Site){
+      this.rallyService.addRallySite(this.currentRally.id, site.id).subscribe((site: Site) =>{
          if(site){
              this.messageType = true;
              this.alertMessage = "Se ha agregado el sitio al rally.";
@@ -238,11 +287,6 @@ export class EditRallyComponent implements OnInit {
              this.alertMessage = "No se pudo eliminar el sitio del rally.";
          }
       });
-  }
-
-  editSite(site: Site){
-      this.router.navigate(['/edit-site/'+site.id]);
-
   }
 
   deleteRallySite(site: Site){
