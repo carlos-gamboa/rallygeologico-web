@@ -31,7 +31,6 @@ export class ProfileComponent implements OnInit {
   currentRallies:number = 0;
 
   statistics: CompetitionStatistics[] = [];
-  allStatistics: CompetitionStatistics[][];
   showedStatistics: CompetitionStatistics[];
   clickedStatistic: number = -1;
 
@@ -57,21 +56,6 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-      // this.route.params
-      //     .subscribe(
-      //         (params: Params) => {
-      //             this.userId = this.route.snapshot.params['userId'];
-      //             console.log("Rally Id = " + this.userId);
-      //             this.userService.get(this.userId).subscribe((rally: Rally) => {
-      //                 if (rally) {
-      //                     this.rally = rally;
-      //                     //console.log("Rally "+JSON.stringify(this.rally));
-      //                 } else {
-      //                     this.router.navigate(['/dashboard']);
-      //                 }
-      //             });
-      //         }
-      //     );
   }
 
   setupData(){
@@ -103,22 +87,6 @@ export class ProfileComponent implements OnInit {
                           this.statisticsService.getTotalSites().subscribe((total : any) => {
                               this.totalSites = total[0].totalSites;
                           });
-                          let i = 0;
-                          for (let competition of this.statistics) {
-
-                              this.statisticsService.getStatistics(competition.id).subscribe((statistics: CompetitionStatistics[])=>{
-                                  if (statistics){
-                                      this.allStatistics[i] = statistics;
-                                      console.log(this.statistics);
-                                      this.sortStatistics();
-                                      this.readyToShow = true;
-                                  } else {
-                                      console.log("Couldn't get statistics");
-                                  }
-                              });
-                              i++;
-                          }
-
 
                       }else{
                           this.router.navigate(['/dashboard']);
@@ -157,6 +125,7 @@ export class ProfileComponent implements OnInit {
     pageChange() : void{
         if(this.statistics) {
             this.showedStatistics = this.statistics.slice((this.currentPage - 1) * this.pageSize, ((this.currentPage) * this.pageSize));
+            this.clickedStatistic = -1;
         }
     }
 }
