@@ -42,10 +42,10 @@
                                 <tr *ngFor="let rally of showedRallies; let i = index">
                                     <td><h5 >{{rally?.name}}</h5></td>
                                     <td>
-                                        <button title="Editar" class="invite-btn genric-btn circle text-center warning medium wide-button" (click)="edit(i)">Editar</button>
+                                        <button title="Editar" class="invite-btn table-button genric-btn circle text-center warning medium" (click)="edit(i)">Editar</button>
                                     </td>
                                     <td>
-                                        <button title="Eliminar" class="invite-btn genric-btn circle text-center danger medium wide-button" (click)="deleteRally(i)">Eliminar</button>
+                                        <button title="Eliminar" class="invite-btn table-button genric-btn circle text-center danger medium" (click)="deleteRally(i)">Eliminar</button>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -69,8 +69,26 @@
     </section>
     <!-- End choosing Area -->
 
+    <!-- Start tab Area -->
+    <section class="whole-wrap section-gap pb-0" *ngIf="rallySelected">
+        <div class="container">
+            <div class="text-center">
+                <button title="Volver a seleccionar" class="invite-btn genric-btn text-center medium info mb-4" (click)="goBack()">Cambiar de rally</button>
+            </div>
+            <div class="row">
+                <div class="col-md-4 offset-2">
+                    <button title="Detalles" class="invite-btn genric-btn text-center medium wide-button" [class.primary]="activeTab == 0" [class.primary-border]="activeTab != 0" (click)="changeTab(0)">Detalles del  rally</button>
+                </div>
+                <div class="col-md-4">
+                    <button title="Sitios" class="invite-btn genric-btn text-center medium wide-button" [class.primary]="activeTab == 1" [class.primary-border]="activeTab != 1" (click)="changeTab(1)">Administrar sitios</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End tab Area -->
+
     <!-- Start form Area -->
-    <section class="whole-wrap section-gap" *ngIf="rallySelected">
+    <section class="whole-wrap section-gap" *ngIf="rallySelected && activeTab == 0">
         <div class="container">
             <div class="row">
                 <div class="offset-md-2 col-md-8 col-xs-12">
@@ -79,15 +97,15 @@
                         <form #rallyForm="ngForm">
                             <div class="row mt-10 mb-10 mr-0 ml-0">
                                 <div class="col-lg-6" align="center">
-                                    <label for="name" *ngIf="currentRally">Nombre</label>
-                                    <input class="text-input" type="text" [(ngModel)]="name" #nameInput="ngModel" id="name" name="name" placeholder="Nombre del rally" required>
+                                    <label for="name">Nombre</label>
+                                    <input class="text-input" type="text" [(ngModel)]="name" #nameInput="ngModel" id="name" name="name" required>
                                     <div *ngIf="(nameInput?.invalid) && (nameInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
                                         <p class="alert-message">Debe introducir un nombre para el rally.</p>
                                     </div>
                                 </div>
                                 <div class="col-lg-6" align="center">
-                                    <label for="points" *ngIf="currentRally">Puntos</label>
-                                    <input class="text-input" type="number" [(ngModel)]="points" #pointsInput="ngModel" id="points" name="points" placeholder="Puntos" required>
+                                    <label for="points">Puntos</label>
+                                    <input class="text-input" type="number" [(ngModel)]="points" #pointsInput="ngModel" id="points" name="points" required>
                                     <div *ngIf="(pointsInput?.invalid) && (pointsInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
                                         <p class="alert-message">Debe introducir los puntos que vale el rally.</p>
                                     </div>
@@ -95,15 +113,15 @@
                             </div>
                             <div class="row mt-10 mb-10 mr-0 ml-0">
                                 <div class="col-lg-6" align="center">
-                                    <label for="latitude" *ngIf="currentRally">Latitud</label>
-                                    <input class="text-input" type="number" [(ngModel)]="latitude" #latitudeInput="ngModel" id="latitude" name="latitude" placeholder="Latitud del rally" required>
+                                    <label for="latitude">Latitud</label>
+                                    <input class="text-input" type="number" [(ngModel)]="latitude" #latitudeInput="ngModel" id="latitude" name="latitude" required>
                                     <div *ngIf="(latitudeInput?.invalid) && (latitudeInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
                                         <p class="alert-message">Debe introducir una latitud para el rally.</p>
                                     </div>
                                 </div>
                                 <div class="col-lg-6" align="center">
-                                    <label for="longitude" *ngIf="currentRally">Longitud</label>
-                                    <input class="text-input" type="number" [(ngModel)]="longitude" #longitudeInput="ngModel" id="longitude" name="longitude" placeholder="Longitud del rally" required>
+                                    <label for="longitude">Longitud</label>
+                                    <input class="text-input" type="number" [(ngModel)]="longitude" #longitudeInput="ngModel" id="longitude" name="longitude" required>
                                     <div *ngIf="(longitudeInput?.invalid) && (longitudeInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
                                         <p class="alert-message">Debe introducir una longitud para el rally.</p>
                                     </div>
@@ -111,37 +129,17 @@
                             </div>
                             <div class="row mt-10 mb-10 mr-0 ml-0">
                                 <div class="col-lg-12">
-                                    <label for="imageUrl" *ngIf="currentRally">Url de la imagen</label>
-                                    <input class="text-input" type="text" [(ngModel)]="imageUrl" #imageUrlInput="ngModel" id="imageUrl" name="imageUrl" placeholder="URL de la imagen del rally">
+                                    <label for="imageUrl">Url de la imagen</label>
+                                    <input class="text-input" type="text" [(ngModel)]="imageUrl" #imageUrlInput="ngModel" id="imageUrl" name="imageUrl">
                                 </div>
                             </div>
                             <div class="row mb-10 mr-0 ml-0">
                                 <div class="col-lg-12" align="center">
-                                    <label for="description" *ngIf="currentRally">Descripción</label>
-                                    <textarea class="text-input text-area" [(ngModel)]="description" #descriptionInput="ngModel" id="description" name="description" placeholder="Descripción de la competencia"> </textarea>
+                                    <label for="description">Descripción</label>
+                                    <textarea class="text-input text-area" [(ngModel)]="description" #descriptionInput="ngModel" id="description" name="description"> </textarea>
                                 </div>
                             </div>
                         </form>
-                    </div>
-                    <div class="mt-10 mb-10">
-                        <table class="table">
-                            <thead>
-                            <th><h5 class="text-center">Sitio</h5></th>
-                            <th><h5 class="text-center">Editar</h5></th>
-                            <th><h5 class="text-center">Eliminar</h5></th>
-                            </thead>
-                            <tbody>
-                            <tr *ngFor="let site of rallySites; let i = index">
-                                <td><h5 >{{site?.name}}</h5></td>
-                                <td>
-                                    <button title="Editar" class="invite-btn genric-btn circle text-center warning medium wide-button" (click)="editSite(i)">Editar</button>
-                                </td>
-                                <td>
-                                    <button title="Eliminar" class="invite-btn genric-btn circle text-center danger medium wide-button" (click)="deleteSite(i)">Eliminar</button>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
                     </div>
                     <div class="mt-50" align="center">
                         <button title="Actualizar Rally" class="btn genric-btn success col-lg-6" style="font-size: 16px" (click)="saveChanges()" [disabled]="rallyForm.invalid" *ngIf="newRally || currentRally">Guardar cambios</button>
@@ -154,5 +152,50 @@
         </div>
     </section>
     <!-- End form Area -->
+
+    <!-- Start sites Area -->
+    <section class="whole-wrap section-gap pt-5" *ngIf="rallySelected && activeTab == 1">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 offset-2">
+                    <label for="siteSelect">Escoja el sitio que desea agregar</label>
+                    <select class="select-input" [(ngModel)]="newSiteId" #newSiteIdInput="ngModel" id="siteSelect" name="newSiteId" required>
+                        <option *ngFor="let site of otherSites; let i = index" value="{{site.id}}">{{site.name}}</option>
+                    </select>
+                </div>
+                <div class="col-lg-4 mt-10 add-btn">
+                    <button title="Agregar" class="invite-btn table-button genric-btn circle text-center info medium" (click)="addSite()">Agregar</button>
+                </div>
+            </div>
+            <div class="row mt-30">
+                <div class="offset-md-2 col-md-8 col-xs-12">
+                    <h3 class="text-center mb-3">Detalles de los sitios del rally</h3>
+                    <div align="center">
+                        <div class="mt-10 mb-10">
+                            <table class="table">
+                                <thead>
+                                <th><h5 class="text-center">Sitio</h5></th>
+                                <th><h5 class="text-center">Editar</h5></th>
+                                <th><h5 class="text-center">Eliminar</h5></th>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let site of currentRally.site; let i = index">
+                                    <td><h5 >{{site?.name}}</h5></td>
+                                    <td>
+                                        <button title="Editar" class="invite-btn table-button genric-btn circle text-center warning medium" (click)="editSite(site)">Editar</button>
+                                    </td>
+                                    <td>
+                                        <button title="Eliminar" class="invite-btn table-button genric-btn circle text-center danger medium" (click)="deleteRallySite(site)">Eliminar</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End sites Area -->
 
 </div>

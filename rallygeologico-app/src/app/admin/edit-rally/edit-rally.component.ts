@@ -6,6 +6,7 @@ import {RallyService} from "../../services/rally.service";
 import {Router} from "@angular/router";
 import {User} from "../../model/user";
 import {Site} from "../../model/site";
+import {SiteService} from "../../services/site.service";
 
 @Component({
   selector: 'app-edit-rally',
@@ -16,6 +17,7 @@ export class EditRallyComponent implements OnInit {
 
   readyToShow: boolean;
   user: User;
+  activeTab: number;
   rallySelected: boolean;
   rallyCreated: boolean;
 
@@ -29,6 +31,9 @@ export class EditRallyComponent implements OnInit {
   pageSize: number;
   currentRallyIndex: number;
 
+  otherSites: Site[];
+  newSiteId: number;
+
   name: string;
   points: number;
   imageUrl: string;
@@ -37,17 +42,17 @@ export class EditRallyComponent implements OnInit {
   longitude: number;
 
   currentRally: Rally;
-  rallySites: Site[];
   newRally: boolean;
   changesSaved: boolean;
   messageType: boolean;
   alertMessage: string;
   rallyDeleted: boolean;
 
-  constructor(private rallyService: RallyService, private userService: UserService,
+  constructor(private rallyService: RallyService, private siteService: SiteService, private userService: UserService,
               private dataService: DataService, private router: Router) {
     this.readyToShow = false;
     this.rallySelected = false;
+    this.activeTab = -1;
     this.totalRallies = 0;
     this.currentPageRally = 0;
     this.pageSize = 10;
@@ -80,6 +85,7 @@ export class EditRallyComponent implements OnInit {
           this.allRallies = rallies;
           this.reloadRallies(this.allRallies);
           this.readyToShow = true;
+          this.rallySelected = false;
       });
   }
 
@@ -110,8 +116,32 @@ export class EditRallyComponent implements OnInit {
       }
   }
 
+  goBack(){
+      this.rallySelected = false;
+      this.currentRally = null;
+      this.reloadRallies(this.allRallies);
+      this.name = "";
+      this.points = 0;
+      this.latitude = 0;
+      this.longitude = 0;
+      this.imageUrl = "";
+      this.description = "";
+  }
+
+  changeTab(i: number){
+      this.activeTab = i;
+      this.changesSaved = false;
+      this.rallyDeleted = false;
+      if (i == 1){
+          this.siteService.getOtherSites(this.currentRally.id).subscribe((sites: Site[]) => {
+              this.otherSites = sites;
+          });
+      }
+  }
+
   edit(i: number){
-      this.readyToShow = true;
+      this.readyToShow = false;
+      this.activeTab = 0;
       this.rallySelected = true;
       this.changesSaved = false;
       this.rallyDeleted = false;
@@ -119,14 +149,14 @@ export class EditRallyComponent implements OnInit {
           this.newRally = true;
           this.currentRally = null;
       } else {
-          this.currentRally = this.showedRallies[i];
-          console.log("Current rally: " + JSON.stringify(this.currentRally));
-          this.rallySites = this.currentRally.site;
-          console.log("Sites: " + this.rallySites);
-          this.currentRallyIndex = ((this.currentPageRally - 1) * this.pageSize) + i;
+          this.rallyService.getRally(this.showedRallies[i].id).subscribe((rally: Rally) => {
+              this.currentRally = rally;
+              this.currentRallyIndex = ((this.currentPageRally - 1) * this.pageSize) + i;
+              this.editRallyChange();
+          });
           //this.updateStatistics();
       }
-      this.editRallyChange();
+      this.readyToShow = true;
   }
 
   editRallyChange(){
@@ -145,13 +175,12 @@ export class EditRallyComponent implements OnInit {
       this.rallyDeleted = false;
       if (this.currentRally) {
           this.rallyService.editRally(this.currentRally.id, this.name, this.points, this.latitude, this.longitude, this.imageUrl, this.description).subscribe((rally: Rally) => {
-              this.changesSaved = true;
               if (rally) {
                   this.currentRally = rally;
                   this.allRallies[this.currentRallyIndex] = this.currentRally;
+                  this.changesSaved = true;
                   this.messageType = true;
                   this.alertMessage = "Se han guardado los cambios.";
-                  this.rallySelected = false;
               } else {
                   this.alertMessage = "No se pudo guardar los cambios.";
                   this.messageType = false;
@@ -166,8 +195,8 @@ export class EditRallyComponent implements OnInit {
                   this.allRallies.push(this.currentRally);
                   this.rallyCreated = true;
                   this.changesSaved = true;
-                  this.messageType = true;
                   this.newRally = false;
+                  this.messageType = true;
                   this.alertMessage = "El rally ha sido creado.";
               } else {
                   this.messageType = false;
@@ -178,33 +207,55 @@ export class EditRallyComponent implements OnInit {
   }
 
   deleteRally(i: number){
-      this.currentRally = this.showedRallies[i];
-      this.currentRallyIndex = ((this.currentPageRally - 1) * this.pageSize) + i;
       this.rallyDeleted = false;
       this.changesSaved = false;
-      this.rallyService.deleteRally(this.currentRally.id).subscribe((deleted: boolean) => {
-          this.rallyDeleted = deleted;
-          if (deleted){
-              this.currentRally = null;
-              this.allRallies.splice(this.currentRallyIndex, 1);
-              this.messageType = true;
-              this.alertMessage = "Se ha eliminado el rally.";
-          } else {
-              this.messageType = false;
-              this.alertMessage = "No se pudo eliminar el rally.";
-          }
+      this.rallyService.getRally(this.showedRallies[i].id).subscribe((rally: Rally) => {
+          this.currentRally = rally;
+          this.currentRallyIndex = ((this.currentPageRally - 1) * this.pageSize) + i;
+          this.rallyService.deleteRally(this.currentRally.id).subscribe((deleted: boolean) => {
+              this.rallyDeleted = deleted;
+              if (deleted){
+                  this.currentRally = null;
+                  this.allRallies.splice(this.currentRallyIndex, 1);
+                  this.messageType = true;
+                  this.alertMessage = "Se ha eliminado el rally.";
+              } else {
+                  this.messageType = false;
+                  this.alertMessage = "No se pudo eliminar el rally.";
+              }
+          });
       });
   }
 
-  addSite(i: number){
+  addSite(){
+      this.rallyService.addRallySite(this.currentRally.id, this.newSiteId).subscribe((site: Site) =>{
+         if(site){
+             this.messageType = true;
+             this.alertMessage = "Se ha agregado el sitio al rally.";
+         }
+         else {
+             this.messageType = false;
+             this.alertMessage = "No se pudo eliminar el sitio del rally.";
+         }
+      });
+  }
+
+  editSite(site: Site){
+      this.router.navigate(['/edit-site/'+site.id]);
 
   }
 
-  editSite(i: number){
-
-  }
-
-  deleteSite(i: number){
-
+  deleteRallySite(site: Site){
+      this.rallyService.getRallySite(this.currentRally.id, site.id).subscribe((id: number) => {
+          this.rallyService.deleteRallySite(id).subscribe((deleted: boolean) => {
+              if (deleted){
+                  this.messageType = true;
+                  this.alertMessage = "Se ha eliminado el sitio.";
+              } else {
+                  this.messageType = false;
+                  this.alertMessage = "No se pudo eliminar el sitio.";
+              }
+          });
+      });
   }
 }

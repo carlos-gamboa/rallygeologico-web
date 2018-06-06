@@ -130,4 +130,24 @@ class SiteController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    /**
+     * Gets all sites those aren't part of the specified rally
+     *
+     * @param null $rallyId
+     */
+    public function getOtherSites($rallyId = null){
+        $this->loadModel('RallySite');
+        $sites = $this->Site->find('all', [
+            'conditions' => [
+                'site.id NOT IN ' => $this->RallySite->find('all', [
+                    'fields' => ['RallySite.site_id'],
+                    'conditions' => ['RallySite.rally_id' => $rallyId
+                    ]
+                ])
+            ]
+        ]);
+        $this->set('site', $sites);
+        $this->render('/Site/json/template');
+    }
 }

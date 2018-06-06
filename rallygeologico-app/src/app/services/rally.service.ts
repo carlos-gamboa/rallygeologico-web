@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Rally} from "../model/rally";
 import {Observable} from "rxjs/Observable";
+import {Site} from "../model/site";
 
 @Injectable()
 export class RallyService {
@@ -92,5 +93,38 @@ export class RallyService {
      */
     deleteRally(id: number): Observable<boolean>{
         return this.http.delete<boolean>(this.baseUrl + "rally/delete/"+id+".json");
+    }
+
+    /**
+     * Service for obtaining the rallySiteId
+     *
+     * @param {number} rallyId
+     * @param {number} siteId
+     * @returns {Observable<number>}
+     */
+    getRallySite(rallyId: number, siteId: number): Observable<number>{
+        return this.http.get<number>(this.baseUrl + "rallySite/getRallySite/"+rallyId+"/"+siteId+".json");
+    }
+
+    /**
+     * Service for adding a rallySite relation
+     * @param {number} rallyId
+     * @param {number} siteId
+     * @returns {Observable<Site>}
+     */
+    addRallySite(rallyId: number, siteId: number): Observable<Site>{
+        return this.http.post<Site>(this.baseUrl + "rallySite/add.json", {
+            'rally_id': rallyId,
+            'site_id': siteId
+    },{ headers: this.headers, withCredentials: true })
+}
+
+    /**
+     * Service for deleting the rallySite relation
+     * @param {number} id
+     * @returns {Observable<boolean>}
+     */
+    deleteRallySite(id: number): Observable<boolean>{
+        return this.http.delete<boolean>(this.baseUrl + "rallySite/delete/"+id+".json");
     }
 }
