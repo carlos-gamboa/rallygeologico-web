@@ -5,13 +5,13 @@
     <div class="row d-flex align-items-center justify-content-center">
       <div class="about-content col-lg-12">
         <h1 class="text-white">
-          Administrar Competencias
+          Administrar Distritos
         </h1>
       </div>
     </div>
   </div>
 </section>
-  <!-- End banner Area -->
+<!-- End banner Area -->
 <div *ngIf="readyToShow">
   <!-- Start choosing Area -->
   <section class="whole-wrap section-gap" *ngIf="!competitionSelected">
@@ -20,8 +20,8 @@
         <div class="offset-md-2 col-md-8 col-xs-12">
           <h3 class="text-center mb-3">Seleccione la competencia que desea editar</h3>
           <div class="busqueda" id="searchFormEdit">
-            <input [(ngModel)]="searchQuery" type="text" title="Digite aquí el nombre de la competencia" id="searchTermEdit" placeholder="Digite el nombre de la competencia" />
-            <button type="button" id="searchEdit" title="Click aquí para buscar la competencia" (click)="searchCompetition()">Buscar</button>
+            <input [(ngModel)]="searchQuery" type="text" title="Digite aquí el nombre del usuario" id="searchTermEdit" placeholder="Digite el nombre de usuario" />
+            <button type="button" id="searchEdit" title="Click aquí para buscar el usuario" (click)="searchUser()">Buscar</button>
           </div>
           <div class="text-center">
             <h4 class="mt-4 mb-0">Resultados</h4>
@@ -242,11 +242,59 @@
               <div *ngIf="deleted" class="alert col-lg-6 mt-10" role="alert" [class.alert-success]="messageType" [class.alert-danger]="!messageType">
                 {{alertMessage}}
               </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
   <!-- End statistics Area -->
+
+  <!-- Start list users Area
+  <section class="contact-page-area section-gap list-users" >
+    <div class="container">
+      <div class="row">
+        <div class="offset-md-2 col-md-8 col-xs-12">
+          <h3 class="title text-center mb-3">Usuarios participantes</h3>
+          <div class="busqueda" id="searchform">
+            <input [(ngModel)]="searchQuery" type="text" title="Digite aquí el nombre del usuario" id="searchterm" placeholder="Digite el nombre de usuario" />
+            <button type="button" id="search" title="Click aquí para buscar el usuario" (click)="searchUser()">Buscar</button>
+          </div>
+          <div class="text-center">
+            <h4 class="title">Resultados</h4> <br>
+            <div>
+              <table class="table">
+                <thead>
+                <th><h5 class="text-center">Foto</h5></th>
+                <th><h5 class="text-center">Usuario</h5></th>
+                <th><h5 class="text-center">Nombre</h5></th>
+                <th><h5 class="text-center">Invitar</h5></th>
+                </thead>
+                <tbody>
+                <tr *ngFor="let user of showedUsers; let i = index">
+                  <td align="center"><img class="user-image" src="{{user?.photo_url}}"></td>
+                  <td><h5 class="subtitle">{{user?.username}}</h5></td>
+                  <td><h4 class="subtitle">{{user?.first_name}} {{user?.last_name}}</h4></td>
+                  <td>
+                    <button class="invite-btn genric-btn circle text-center warning-border medium wide-button" [disabled]="true" *ngIf="invitedUsers.includes(user.id)">Invitado</button>
+                    <button title="Invitar" class="invite-btn genric-btn circle text-center warning medium wide-button" (click)="invite(i)" *ngIf="!invitedUsers.includes(user.id)">Invitar</button>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="row">
+              <div class="col-md-12 mt-10 text-center">
+                <div class="d-inline-block">
+                  <ngb-pagination [collectionSize]="totalUsers" [(page)]="currentPageUser" [maxSize]="5" [pageSize]="pageSize" [rotate]="true"
+                                  [ellipses]="true" [boundaryLinks]="false" (pageChange)="userPageChange($event)"></ngb-pagination>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End list users Area -->
 </div>

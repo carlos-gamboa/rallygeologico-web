@@ -1,24 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { DatePipe } from '@angular/common';
-import {Rally} from "../../model/rally";
-import {User} from "../../model/user";
-import {Competition} from "../../model/competition";
-import {CompetitionStatisticsService} from "../../services/competition.statistics.service";
+import {UserService} from "../../services/user.service";
+import {DatePipe} from "@angular/common";
+import {CompetitionStatistics} from "../../model/competition.statistics";
+import {RallyService} from "../../services/rally.service";
 import {CompetitionService} from "../../services/competition.service";
 import {InvitationService} from "../../services/invitation.service";
-import {UserService} from "../../services/user.service";
-import {RallyService} from "../../services/rally.service";
-import {Router} from "@angular/router";
+import {Rally} from "../../model/rally";
+import {User} from "../../model/user";
+import {CompetitionStatisticsService} from "../../services/competition.statistics.service";
+import {Competition} from "../../model/competition";
 import {DataService} from "../../services/data/data.service";
-import {CompetitionStatistics} from "../../model/competition.statistics";
+import {Router} from "@angular/router";
 
 @Component({
-    selector: 'app-edit-competition',
-    templateUrl: './edit-competition.component.html',
-    styleUrls: ['./edit-competition.component.css'],
-    providers: [ DatePipe ]
+  selector: 'app-edit-canton',
+  templateUrl: './edit-canton.component.html',
+  styleUrls: ['./edit-canton.component.css']
 })
-export class EditCompetitionComponent implements OnInit {
+export class EditCantonComponent implements OnInit {
 
     ralliesList: Rally[] = [];
 
@@ -32,6 +31,8 @@ export class EditCompetitionComponent implements OnInit {
     showedUsers: User[];
 
     pageSize : number = 10;
+    currentPageUser : number = 0;
+    totalUsers : number = 0;
     totalCompetitions : number = 0;
     currentPageCompetition: number = 0;
     clickedStatistic: number = -1;
@@ -61,6 +62,8 @@ export class EditCompetitionComponent implements OnInit {
     competitionSelected: boolean;
     readyToShow: boolean;
     activeTab: number;
+
+    invitedUsers: number[] = [];
 
     constructor(private rallyService: RallyService, private userService: UserService,
                 private dataService: DataService, private competitionService: CompetitionService,
@@ -96,11 +99,49 @@ export class EditCompetitionComponent implements OnInit {
                 this.allUsers = [];
                 this.userService.getUsers().subscribe((users: User[]) => {
                     this.allUsers = users;
+                    this.reloadUsers(this.allUsers);
                     this.competitionSelected = false;
                     this.readyToShow = true;
                 });
             });
         });
+    }
+
+    /**
+     * Reloads the corresponding users in the table
+     * @param {User[]} users
+     */
+    reloadUsers(users : User[]) : void{
+        this.users = users;
+        this.totalUsers = users.length;
+        this.showedUsers = users.slice(0, this.pageSize);
+        this.currentPageUser = 0;
+    }
+
+    /**
+     * Selects the number of users' pages
+     */
+    userPageChange() : void{
+        if(this.users) {
+            this.showedUsers = this.users.slice((this.currentPageUser - 1) * this.pageSize, ((this.currentPageUser) * this.pageSize));
+        }
+    }
+
+    /**
+     * Searches a specified user
+     */
+    searchUser(){
+        let usersToShow = [];
+        if(this.searchQuery.length >= 1) {
+            for (let user of this.allUsers) {
+                if (user.username.toLowerCase().startsWith(this.searchQuery.toLowerCase())) {
+                    usersToShow.push(user);
+                }
+            }
+            this.reloadUsers(usersToShow);
+        }else{
+            this.reloadUsers(this.allUsers);
+        }
     }
 
     /**
@@ -118,25 +159,25 @@ export class EditCompetitionComponent implements OnInit {
      * Selects the number of users' pages
      */
     competitionPageChange() : void{
-        if(this.competitions) {
-            this.showedCompetitions = this.competitions.slice((this.currentPageCompetition - 1) * this.pageSize, ((this.currentPageCompetition) * this.pageSize));
+        if(this.users) {
+            this.showedUsers = this.users.slice((this.currentPageCompetition - 1) * this.pageSize, ((this.currentPageCompetition) * this.pageSize));
         }
     }
 
     /**
-     * Searches a specified competition
+     * Searches a specified user
      */
     searchCompetition(){
-        let competitionToShow = [];
+        let usersToShow = [];
         if(this.searchQuery.length >= 1) {
-            for (let competition of this.allCompetitions) {
-                if (competition.name.toLowerCase().startsWith(this.searchQuery.toLowerCase())) {
-                    competitionToShow.push(competition);
+            for (let user of this.allUsers) {
+                if (user.username.toLowerCase().startsWith(this.searchQuery.toLowerCase())) {
+                    usersToShow.push(user);
                 }
             }
-            this.reloadCompetitions(competitionToShow);
+            this.reloadUsers(usersToShow);
         }else{
-            this.reloadCompetitions(this.allCompetitions);
+            this.reloadUsers(this.allUsers);
         }
     }
 

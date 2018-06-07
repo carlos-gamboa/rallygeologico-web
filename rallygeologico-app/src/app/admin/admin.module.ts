@@ -9,6 +9,9 @@ import {FormsModule} from "@angular/forms";
 import {MatDatepickerModule, MatGridListModule, MatNativeDateModule} from "@angular/material";
 import {NgbModule, NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
 import { EditRallyComponent } from './edit-rally/edit-rally.component';
+import {EditSiteComponent} from "./edit-site/edit-site.component";
+import { EditCantonComponent } from './edit-canton/edit-canton.component';
+import { EditDistrictComponent } from './edit-district/edit-district.component';
 
 @NgModule({
     imports: [
@@ -26,7 +29,11 @@ import { EditRallyComponent } from './edit-rally/edit-rally.component';
         EditCompetitionComponent,
         PublicFooterComponent,
         AdminComponent,
-        EditRallyComponent],
+        EditRallyComponent,
+        EditSiteComponent,
+        EditCantonComponent,
+        EditDistrictComponent
+    ],
     exports: [
         PublicFooterComponent
     ]

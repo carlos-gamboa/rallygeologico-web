@@ -136,7 +136,3 @@ table thead{
 .selected-row-child{
     background: #C2CED7;
 }
-
-.cursor-pointer{
-    cursor: pointer;
-}

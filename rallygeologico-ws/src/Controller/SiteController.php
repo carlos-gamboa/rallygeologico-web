@@ -75,11 +75,7 @@ class SiteController extends AppController
             }
             $this->Flash->error(__('The site could not be saved. Please, try again.'));
         }
-        $district = $this->Site->District->find('list', ['limit' => 200]);
-        $competitionStatistics = $this->Site->CompetitionStatistics->find('list', ['limit' => 200]);
-        $rally = $this->Site->Rally->find('list', ['limit' => 200]);
-        $term = $this->Site->Term->find('list', ['limit' => 200]);
-        $this->set(compact('site', 'district', 'competitionStatistics', 'rally', 'term'));
+        $this->set('site', $site);
         $this->render('/Site/json/template');
     }
 
@@ -99,8 +95,6 @@ class SiteController extends AppController
             $site = $this->Site->patchEntity($site, $this->getRequest()->getData());
             if ($this->Site->save($site)) {
                 $this->Flash->success(__('The site has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The site could not be saved. Please, try again.'));
         }
@@ -109,6 +103,7 @@ class SiteController extends AppController
         $rally = $this->Site->Rally->find('list', ['limit' => 200]);
         $term = $this->Site->Term->find('list', ['limit' => 200]);
         $this->set(compact('site', 'district', 'competitionStatistics', 'rally', 'term'));
+        $this->render('/Site/json/template');
     }
 
     /**
@@ -124,11 +119,13 @@ class SiteController extends AppController
         $site = $this->Site->get($id);
         if ($this->Site->delete($site)) {
             $this->Flash->success(__('The site has been deleted.'));
+            $this->set('site', true);
         } else {
             $this->Flash->error(__('The site could not be deleted. Please, try again.'));
+            $this->set('site', false);
         }
 
-        return $this->redirect(['action' => 'index']);
+        $this->render('/Site/json/template');
     }
 
     /**

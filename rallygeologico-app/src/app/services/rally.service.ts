@@ -42,6 +42,7 @@ export class RallyService {
     }
 
     /**
+
      * Service for creating a Rally
      * @param {string} name
      * @param {number} points
@@ -116,8 +117,8 @@ export class RallyService {
         return this.http.post<Site>(this.baseUrl + "rallySite/add.json", {
             'rally_id': rallyId,
             'site_id': siteId
-    },{ headers: this.headers, withCredentials: true })
-}
+        },{ headers: this.headers, withCredentials: true });
+    }
 
     /**
      * Service for deleting the rallySite relation
@@ -126,5 +127,22 @@ export class RallyService {
      */
     deleteRallySite(id: number): Observable<boolean>{
         return this.http.delete<boolean>(this.baseUrl + "rallySite/delete/"+id+".json");
+    }
+  
+     * Service for getting all the rallies those aren't part of the specified site
+     * @param {number} siteId
+     * @returns {Observable<Rally[]>}
+     */
+    getOtherRallies(siteId: number):Observable<Rally[]>{
+        return this.http.get<Rally[]>(this.baseUrl + "rally/getOtherRallies/"+siteId+".json");
+    }
+
+    /**
+     * Service for getting all the rallies those are part of the specified site
+     * @param {number} siteId
+     * @returns {Observable<Rally[]>}
+     */
+    getAssociatedRallies(siteId: number): Observable<Rally[]>{
+        return this.http.get<Rally[]>(this.baseUrl + "rally/getAssociatedRallies/"+siteId+".json");
     }
 }
