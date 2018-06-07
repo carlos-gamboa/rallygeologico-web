@@ -44,7 +44,7 @@ p, .alert-message{
 }
 
 .text-area{
-    height: 80px;
+    height: 100px;
 }
 
 .list-users{
@@ -118,7 +118,16 @@ table thead{
 }
 
 .wide-button{
-    width: 100% !important;
+    width: 100%;
+}
+
+.table-button{
+    width: 130px !important;
+}
+
+.add-btn{
+    padding-top: 22px;
+    padding-left: 0px !important;
 }
 
 .selected-row{
@@ -135,8 +144,4 @@ table thead{
 
 .selected-row-child{
     background: #C2CED7;
-}
-
-.cursor-pointer{
-    cursor: pointer;
 }

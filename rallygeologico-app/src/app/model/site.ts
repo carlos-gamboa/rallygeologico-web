@@ -1,5 +1,7 @@
 import {Term} from "./term";
 
+import {District} from "./district";
+
 export class Site {
     id: number;
     name:  string;
@@ -11,6 +13,8 @@ export class Site {
     district_id: string;
     points: number;
     terms: Term[];
+    is_easter_egg: string;
+    district: District;
 
     constructor(site: any){
         this.id = site.id;
@@ -22,5 +26,7 @@ export class Site {
         this.longitude = site.longitude;
         this.district_id = site.district_id;
         this.points = site.points;
+        this.is_easter_egg = site.is_easter_egg;
+        this.district = site.district;
     }
 }

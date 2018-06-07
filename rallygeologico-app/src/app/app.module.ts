@@ -35,6 +35,7 @@ import {CompetitionStatisticsService} from "./services/competition.statistics.se
 import {AdminModule} from "./admin/admin.module";
 import {TermService} from "./services/term.service";
 import {MultimediaService} from "./services/multimedia.service";
+import {DistrictService} from "./services/district.service";
 
 
 @NgModule({
@@ -69,7 +70,7 @@ import {MultimediaService} from "./services/multimedia.service";
       }),
       AgmSnazzyInfoWindowModule
   ],
-  providers: [DataService, UserService, Configuration, RallyService, InvitationService, CompetitionService, SiteService, CompetitionStatisticsService, TermService, MultimediaService],
+  providers: [DataService, UserService, Configuration, RallyService, InvitationService, CompetitionService, SiteService, CompetitionStatisticsService, TermService, MultimediaService, DistrictService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
