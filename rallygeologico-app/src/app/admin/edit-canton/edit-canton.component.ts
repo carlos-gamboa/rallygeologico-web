@@ -1,16 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from "../../services/user.service";
-import {DatePipe} from "@angular/common";
 import {CompetitionStatistics} from "../../model/competition.statistics";
-import {RallyService} from "../../services/rally.service";
-import {CompetitionService} from "../../services/competition.service";
-import {InvitationService} from "../../services/invitation.service";
-import {Rally} from "../../model/rally";
 import {User} from "../../model/user";
-import {CompetitionStatisticsService} from "../../services/competition.statistics.service";
 import {Competition} from "../../model/competition";
 import {DataService} from "../../services/data/data.service";
 import {Router} from "@angular/router";
+import {CantonService} from "../../services/canton.service";
+import {Canton} from "../../model/canton";
+import {Province} from "../../model/province";
+import {ProvinceService} from "../../services/province.service";
 
 @Component({
   selector: 'app-edit-canton',
@@ -18,20 +16,18 @@ import {Router} from "@angular/router";
   styleUrls: ['./edit-canton.component.css']
 })
 export class EditCantonComponent implements OnInit {
+    
+    cantons: Canton[];
+    allCantons: Canton[];
+    showedCantons: Canton[];
 
-    ralliesList: Rally[] = [];
-
-    competitions: Competition[];
-    allCompetitions: Competition[];
-    showedCompetitions: Competition[];
+    allProvinces: Province[];
 
     user: User;
-    users : User[];
-    allUsers: User[];
-    showedUsers: User[];
+
 
     pageSize : number = 10;
-    currentPageUser : number = 0;
+    currentPageCanton : number = 0;
     totalUsers : number = 0;
     totalCompetitions : number = 0;
     currentPageCompetition: number = 0;
@@ -59,17 +55,17 @@ export class EditCantonComponent implements OnInit {
     messageType: boolean;
 
     newCompetition: boolean;
-    competitionSelected: boolean;
+    cantonSelected: boolean;
     readyToShow: boolean;
     activeTab: number;
 
     invitedUsers: number[] = [];
 
-    constructor(private rallyService: RallyService, private userService: UserService,
-                private dataService: DataService, private competitionService: CompetitionService,
-                private invitationService: InvitationService,
-                private competitionStatisticsService: CompetitionStatisticsService,  private router: Router,
-                private dataPipe: DatePipe) {
+    constructor(private cantonService:CantonService,
+                private userService: UserService,
+                private provinceService: ProvinceService,
+                private dataService: DataService,
+                private router:Router) {
         this.readyToShow = false;
         this.user = this.dataService.getUser();
         if (!this.user) {
@@ -91,56 +87,50 @@ export class EditCantonComponent implements OnInit {
     }
 
     setupData(){
-        this.rallyService.getAllRallies().subscribe((rallies: Rally[]) => {
-            this.ralliesList = rallies;
-            this.competitionService.getAllCompetitions().subscribe((competitions: Competition[]) => {
-                this.allCompetitions = competitions;
-                this.reloadCompetitions(this.allCompetitions);
-                this.allUsers = [];
-                this.userService.getUsers().subscribe((users: User[]) => {
-                    this.allUsers = users;
-                    this.reloadUsers(this.allUsers);
-                    this.competitionSelected = false;
-                    this.readyToShow = true;
-                });
-            });
+        this.cantonService.selectallCantons().subscribe((cantons: Canton[]) => {
+            this.allCantons = cantons;
+            this.reloadCantons(this.allCantons);
         });
+
+
+        this.cantonSelected = false;
+        this.readyToShow = true;
     }
 
     /**
      * Reloads the corresponding users in the table
      * @param {User[]} users
      */
-    reloadUsers(users : User[]) : void{
-        this.users = users;
-        this.totalUsers = users.length;
-        this.showedUsers = users.slice(0, this.pageSize);
-        this.currentPageUser = 0;
+    reloadCantons(cantons : Canton[]) : void{
+        this.cantons = cantons;
+        this.totalUsers = cantons.length;
+        this.showedCantons = cantons.slice(0, this.pageSize);
+        this.currentPageCanton = 0;
     }
 
     /**
      * Selects the number of users' pages
      */
-    userPageChange() : void{
-        if(this.users) {
-            this.showedUsers = this.users.slice((this.currentPageUser - 1) * this.pageSize, ((this.currentPageUser) * this.pageSize));
+    cantonPageChange() : void{
+        if(this.cantons) {
+            this.showedCantons = this.cantons.slice((this.currentPageCanton - 1) * this.pageSize, ((this.currentPageCanton) * this.pageSize));
         }
     }
 
     /**
      * Searches a specified user
      */
-    searchUser(){
+    searchCanton(){
         let usersToShow = [];
         if(this.searchQuery.length >= 1) {
-            for (let user of this.allUsers) {
-                if (user.username.toLowerCase().startsWith(this.searchQuery.toLowerCase())) {
-                    usersToShow.push(user);
+            for (let canton of this.allCantons) {
+                if (canton.name.toLowerCase().startsWith(this.searchQuery.toLowerCase())) {
+                    usersToShow.push(canton);
                 }
             }
-            this.reloadUsers(usersToShow);
+            this.reloadCantons(usersToShow);
         }else{
-            this.reloadUsers(this.allUsers);
+            this.reloadCantons(this.allCantons);
         }
     }
 
@@ -148,44 +138,44 @@ export class EditCantonComponent implements OnInit {
      * Reloads the corresponding users in the table
      * @param {User[]} users
      */
-    reloadCompetitions(competitions : Competition[]) : void{
-        this.competitions = competitions;
-        this.totalCompetitions = competitions.length;
-        this.showedCompetitions = competitions.slice(0, this.pageSize);
-        this.currentPageCompetition = 0;
-    }
-
-    /**
-     * Selects the number of users' pages
-     */
-    competitionPageChange() : void{
-        if(this.users) {
-            this.showedUsers = this.users.slice((this.currentPageCompetition - 1) * this.pageSize, ((this.currentPageCompetition) * this.pageSize));
-        }
-    }
-
-    /**
-     * Searches a specified user
-     */
-    searchCompetition(){
-        let usersToShow = [];
-        if(this.searchQuery.length >= 1) {
-            for (let user of this.allUsers) {
-                if (user.username.toLowerCase().startsWith(this.searchQuery.toLowerCase())) {
-                    usersToShow.push(user);
-                }
-            }
-            this.reloadUsers(usersToShow);
-        }else{
-            this.reloadUsers(this.allUsers);
-        }
-    }
+    // reloadCompetitions(competitions : Competition[]) : void{
+    //     this.competitions = competitions;
+    //     this.totalCompetitions = competitions.length;
+    //     this.showedCompetitions = competitions.slice(0, this.pageSize);
+    //     this.currentPageCompetition = 0;
+    // }
+    //
+    // /**
+    //  * Selects the number of users' pages
+    //  */
+    // competitionPageChange() : void{
+    //     if(this.users) {
+    //         this.showedUsers = this.users.slice((this.currentPageCompetition - 1) * this.pageSize, ((this.currentPageCompetition) * this.pageSize));
+    //     }
+    // }
+    //
+    // /**
+    //  * Searches a specified user
+    //  */
+    // searchCompetition(){
+    //     let usersToShow = [];
+    //     if(this.searchQuery.length >= 1) {
+    //         for (let user of this.allUsers) {
+    //             if (user.username.toLowerCase().startsWith(this.searchQuery.toLowerCase())) {
+    //                 usersToShow.push(user);
+    //             }
+    //         }
+    //         this.reloadUsers(usersToShow);
+    //     }else{
+    //         this.reloadUsers(this.allUsers);
+    //     }
+    // }
 
     saveChanges(){
         this.changesSaved = false;
         this.deleted = false;
         if (!this.currentCompetition){
-            this.competitionService.adminAddCompetition(this.name, this.is_active, this.is_public, this.description,
+            this.cantonService.adminAddCompetition(this.name, this.is_active, this.is_public, this.description,
                 this.starting_date.replace("T", " "),
                 this.finishing_date.replace("T", " "), this.rally_id, this.admin_id).subscribe((competition: Competition) => {
                 if (competition){
@@ -201,7 +191,7 @@ export class EditCantonComponent implements OnInit {
                 }
             });
         } else {
-            this.competitionService.editCompetition(this.currentCompetition.id, this.name, this.is_active,
+            this.cantonService.editCompetition(this.currentCompetition.id, this.name, this.is_active,
                 this.is_public, this.description, this.starting_date.replace("T", " "),
                 this.finishing_date.replace("T", " "), this.rally_id,
                 this.admin_id).subscribe((competition: Competition) => {
@@ -249,14 +239,14 @@ export class EditCantonComponent implements OnInit {
     edit(i: number){
         this.readyToShow = false;
         this.activeTab = 0;
-        this.competitionSelected = true;
+        this.cantonSelected = true;
         this.changesSaved = false;
         this.deleted = false;
         if (i == -1){
             this.newCompetition = true;
             this.currentCompetition = null;
         } else {
-            this.currentCompetition = this.showedCompetitions[i];
+            this.currentCompetition = this.showedCantons[i];
             this.currentCompetitionIndex = ((this.currentPageCompetition - 1) * this.pageSize) + i;
             this.updateStatistics();
         }
