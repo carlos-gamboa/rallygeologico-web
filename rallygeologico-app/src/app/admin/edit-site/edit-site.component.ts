@@ -36,12 +36,17 @@ export class EditSiteComponent implements OnInit {
     allRallies: Rally[];
     showedRallies: Rally[];
 
+    currentRallies: Rally[];
+    otherRallies: Rally[];
+
     pageSize : number = 10;
     currentPageSite : number = 0;
     totalSite : number = 0;
     totalRallies : number = 0;
     currentPageRallies: number = 0;
-    searchQuery : string = "";
+
+    searchSiteQuery : string = "";
+    searchRallyQuery : string = "";
 
     currentSite: Site;
     currentSiteIndex: number;
@@ -126,9 +131,9 @@ export class EditSiteComponent implements OnInit {
      */
     searchRally(){
         let ralliesToShow = [];
-        if(this.searchQuery.length >= 1) {
+        if(this.searchRallyQuery.length >= 1) {
             for (let rally of this.allRallies) {
-                if (rally.name.toLowerCase().startsWith(this.searchQuery.toLowerCase())) {
+                if (rally.name.toLowerCase().startsWith(this.searchRallyQuery.toLowerCase())) {
                     ralliesToShow.push(rally);
                 }
             }
@@ -163,9 +168,9 @@ export class EditSiteComponent implements OnInit {
      */
     searchSite(){
         let sitesToShow = [];
-        if(this.searchQuery.length >= 1) {
+        if(this.searchSiteQuery.length >= 1) {
             for (let site of this.allSites) {
-                if (site.name.toLowerCase().startsWith(this.searchQuery.toLowerCase())) {
+                if (site.name.toLowerCase().startsWith(this.searchSiteQuery.toLowerCase())) {
                     sitesToShow.push(site);
                 }
             }
@@ -256,6 +261,9 @@ export class EditSiteComponent implements OnInit {
         this.activeTab = i;
         this.changesSaved = false;
         this.deleted = false;
+        if (i == 1){
+            this.updateRallies();
+        }
     }
 
     goBack(){
@@ -279,6 +287,71 @@ export class EditSiteComponent implements OnInit {
                 this.messageType = false;
                 this.alertMessage = "No se pudo eliminar la competencia.";
             }
+        });
+    }
+
+    /**
+     * Loads all sites'information
+     */
+    updateRallies(){
+        this.allSites = [];
+        this.rallyService.getOtherRallies(this.currentSite.id).subscribe((otherRallies: Rally[]) => {
+            this.otherRallies = otherRallies;
+            this.rallyService.getAssociatedRallies(this.currentSite.id).subscribe((currentRallies: Rally[]) => {
+                this.currentRallies = currentRallies;
+                for(let rally of this.otherRallies){
+                    this.allRallies.push(rally);
+                }
+                for(let rally of this.currentRallies){
+                    this.allRallies.push(rally);
+                }
+                this.reloadRallies(this.allRallies);
+            });
+        });
+    }
+
+    /**
+     * Returns if the specified site is actually part of the current rally
+     *
+     * @param {Rally} rally
+     * @returns {boolean}
+     */
+    belongsTo(rally: Rally): boolean{
+        for(let currentRally of this.currentRallies){
+            if (rally.name == currentRally.name){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Adds a rallySite relation between the current rally and the site on the specified position
+     *
+     * @param {number} i
+     */
+    addRallySite(i : number){
+        this.rallyService.addRallySite(i, this.currentSite.id).subscribe((site: Site) =>{
+            if(site){
+                this.updateRallies();
+                this.reloadRallies(this.allRallies);
+            }
+        });
+    }
+
+    /**
+     * Deletes the rallySite relation between the current rally and the site on the specified position
+     *
+     * @param {number} i
+     */
+    deleteRallySite(i: number){
+        this.rallyService.getRallySite(i, this.currentSite.id).subscribe((id: number) => {
+            this.rallyService.deleteRallySite(id).subscribe((deleted: boolean) => {
+                if (deleted) {
+                    this.updateRallies();
+                    this.reloadRallies(this.allRallies);
+                }
+            });
         });
     }
 

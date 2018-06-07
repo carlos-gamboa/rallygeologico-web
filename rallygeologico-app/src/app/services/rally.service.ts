@@ -39,4 +39,22 @@ export class RallyService {
     getAllRallies(): Observable<Rally[]>{
         return this.http.get<Rally[]>(this.baseUrl + "rally.json",{ headers: this.headers, withCredentials: true });
     }
+
+    /**
+     * Service for getting all the rallies those aren't part of the specified site
+     * @param {number} siteId
+     * @returns {Observable<Rally[]>}
+     */
+    getOtherRallies(siteId: number):Observable<Rally[]>{
+        return this.http.get<Rally[]>(this.baseUrl + "rally/getOtherRallies/"+siteId+".json");
+    }
+
+    /**
+     * Service for getting all the rallies those are part of the specified site
+     * @param {number} siteId
+     * @returns {Observable<Rally[]>}
+     */
+    getAssociatedRallies(siteId: number): Observable<Rally[]>{
+        return this.http.get<Rally[]>(this.baseUrl + "rally/getAssociatedRallies/"+siteId+".json");
+    }
 }
