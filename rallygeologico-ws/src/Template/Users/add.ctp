@@ -14,8 +14,6 @@
         <li><?= $this->Html->link(__('New Invitation Send'), ['controller' => 'Invitation', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Competition Statistics'), ['controller' => 'CompetitionStatistics', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Competition Statistic'), ['controller' => 'CompetitionStatistics', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Competition Statistics Site'), ['controller' => 'CompetitionStatisticsSite', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Competition Statistics Site'), ['controller' => 'CompetitionStatisticsSite', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="users form large-9 medium-8 columns content">
@@ -31,6 +29,7 @@
             echo $this->Form->control('photo_url');
             echo $this->Form->control('is_admin');
             echo $this->Form->control('login_api');
+            echo $this->Form->control('password_needs_change');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

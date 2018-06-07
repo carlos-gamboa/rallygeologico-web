@@ -19,8 +19,6 @@
         <li><?= $this->Html->link(__('New Invitation Receive'), ['controller' => 'Invitation', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Competition Statistics'), ['controller' => 'CompetitionStatistics', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Competition Statistic'), ['controller' => 'CompetitionStatistics', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Competition Statistics Site'), ['controller' => 'CompetitionStatisticsSite', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Competition Statistics Site'), ['controller' => 'CompetitionStatisticsSite', 'action' => 'add']) ?> </li>
     </ul>
 </nav>
 <div class="users view large-9 medium-8 columns content">
@@ -51,16 +49,20 @@
             <td><?= h($user->photo_url) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Is Admin') ?></th>
-            <td><?= $this->Number->format($user->is_admin) ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($user->id) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Is Admin') ?></th>
+            <td><?= $this->Number->format($user->is_admin) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Login Api') ?></th>
             <td><?= $this->Number->format($user->login_api) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Password Needs Change') ?></th>
+            <td><?= $this->Number->format($user->password_needs_change) ?></td>
         </tr>
     </table>
     <div class="related">
@@ -184,32 +186,9 @@
                 <td><?= h($competitionStatistics->finishing_date) ?></td>
                 <td><?= h($competitionStatistics->points) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'CompetitionStatistics', 'action' => 'view', $competitionStatistics->user_id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'CompetitionStatistics', 'action' => 'edit', $competitionStatistics->user_id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'CompetitionStatistics', 'action' => 'delete', $competitionStatistics->user_id], ['confirm' => __('Are you sure you want to delete # {0}?', $competitionStatistics->user_id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
-        <?php endif; ?>
-    </div>
-    <div class="related">
-        <h4><?= __('Related Competition Statistics Site') ?></h4>
-        <?php if (!empty($user->competition_statistics_site)): ?>
-        <table cellpadding="0" cellspacing="0">
-            <tr>
-                <th scope="col"><?= __('Competition Statistics Id') ?></th>
-                <th scope="col"><?= __('Site Id') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-            <?php foreach ($user->competition_statistics_site as $competitionStatisticsSite): ?>
-            <tr>
-                <td><?= h($competitionStatisticsSite->competition_statistics_id) ?></td>
-                <td><?= h($competitionStatisticsSite->site_id) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'CompetitionStatisticsSite', 'action' => 'view', $competitionStatisticsSite->user_id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'CompetitionStatisticsSite', 'action' => 'edit', $competitionStatisticsSite->user_id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'CompetitionStatisticsSite', 'action' => 'delete', $competitionStatisticsSite->user_id], ['confirm' => __('Are you sure you want to delete # {0}?', $competitionStatisticsSite->user_id)]) ?>
+                    <?= $this->Html->link(__('View'), ['controller' => 'CompetitionStatistics', 'action' => 'view', $competitionStatistics->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['controller' => 'CompetitionStatistics', 'action' => 'edit', $competitionStatistics->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'CompetitionStatistics', 'action' => 'delete', $competitionStatistics->id], ['confirm' => __('Are you sure you want to delete # {0}?', $competitionStatistics->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>
