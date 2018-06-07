@@ -39,171 +39,192 @@ export class LoginComponent implements OnInit {
     success : boolean = false;
     pleaseWait = false;
 
+    messageType: number;
+    showMessage: boolean;
+    alertMessage: string;
 
-  constructor(private _ngZone: NgZone, private fb: FacebookService, private userService: UserService, private router: Router, private userDataService:DataService,private dataService: DataService){
-    console.log('Initializing Facebook');
-    let initParams: InitParams = {
-      appId: environment.facebookKey,
-      xfbml: true,
-      version: 'v2.12'
-    };
-    fb.init(initParams);
-    console.log('Initialized Facebook');
 
-    this.userService.isLoggedIn().subscribe((users: User) => {
-      if (users[0]) {
-        this.dataService.updateUser(users[0]);
-        this.router.navigate(['/dashboard']);
-      }
-      else{
+    constructor(private _ngZone: NgZone, private fb: FacebookService, private userService: UserService, private router: Router, private userDataService:DataService,private dataService: DataService){
+        console.log('Initializing Facebook');
+        let initParams: InitParams = {
+            appId: environment.facebookKey,
+            xfbml: true,
+            version: 'v2.12'
+        };
+        fb.init(initParams);
+        console.log('Initialized Facebook');
+
+        this.userService.isLoggedIn().subscribe((users: User) => {
+            if (users[0]) {
+                this.dataService.updateUser(users[0]);
+                this.router.navigate(['/dashboard']);
+            }
+            else{
+                this.loginWithFacebook = true;
+                this.loginWithGoogle = true;
+            }
+        });
+    }
+
+    ngAfterViewInit(): void {
+        gapi.load('auth2', function() {
+            gapi.auth2.init({
+                client_id: environment.googleClient,
+                fetch_basic_profile: true
+            });
+        });
+    }
+
+    loginWithOptions() {
+        /* this.loginWithGoogle = false;
         this.loginWithFacebook = true;
-        this.loginWithGoogle = true;
+        this.isNotRegistered=false;
+        const loginOptions: LoginOptions = {
+            enable_profile_selector: true,
+            return_scopes: true,
+            scope: 'public_profile,email'
+        };
+        this.fb.login(loginOptions)
+            .then((res: LoginResponse) => {
+            this.pleaseWait = true;
+            this.loginWithFacebook = true;
+            console.log('Logged in', res);
+            this.fb.api('me?fields=id,first_name,last_name,email,picture.width(150).height(150)')
+                .then((res: any) => {
+                console.log('Got the users profile information'+ res);
+                this.fbId = res.id;
+                this.firstName = res.first_name;
+                this.lastName = res.last_name;
+                this.email = res.email;
+                this.fbToken = this.fb.getAuthResponse().accessToken;
+                this.photoUrl = res.picture.data.url;
+                var count1 = 0;
+                this.userService.apiId(res.id, 0).subscribe((users1: User[]) => {
+                    for (let i: number = 0; i < users1.length; ++i) {
+                        count1 += 1;
+                    }
+                    this.isNotRegistered = (count1 == 0);
+                    if(!this.isNotRegistered){
+                    this.user=users1[0];
+                    this.pleaseWait = false;
+                    this.success = true;
+                    this.userService.auth(res.id, 0).subscribe((users: User[]) => {
+                        console.log(users[0]);
+                        this.userDataService.updateUser(users[0]);
+                    setTimeout(() =>
+                        {
+                          this._ngZone.run(
+                            () => this.router.navigate(['dashboard'])
+                          );
+                        },
+                        1500);
+                    });
+                  }
+                  this.pleaseWait = false;
+                });
+              })
+              .catch(this.handleErrorProfile);
+          })
+          .catch(this.handleErrorLogin); */
       }
-    });
-  }
-
-  ngAfterViewInit(): void {
-    gapi.load('auth2', function() {
-      gapi.auth2.init({
-        client_id: environment.googleClient,
-        fetch_basic_profile: true
-      });
-    });
-  }
 
 
 
-
-  loginWithOptions() {
-    this.loginWithGoogle = false;
-    this.loginWithFacebook = true;
-    this.isNotRegistered=false;
-    const loginOptions: LoginOptions = {
-      enable_profile_selector: true,
-      return_scopes: true,
-      scope: 'public_profile,email'
-    };
-    this.fb.login(loginOptions)
-      .then((res: LoginResponse) => {
-        this.pleaseWait = true;
-        this.loginWithFacebook = true;
-        console.log('Logged in', res);
-        this.fb.api('me?fields=id,first_name,last_name,email,picture.width(150).height(150)')
-          .then((res: any) => {
-            console.log('Got the users profile information'+ res);
-            this.fbId = res.id;
-            this.firstName = res.first_name;
-            this.lastName = res.last_name;
-            this.email = res.email;
-            this.fbToken = this.fb.getAuthResponse().accessToken;
-            this.photoUrl = res.picture.data.url;
+    googleSignIn() {
+        /*this.loginWithGoogle = true;
+        this.loginWithFacebook = false;
+        this.isNotRegistered=false;
+        var auth2 = gapi.auth2.getAuthInstance();
+        var user = auth2.currentUser.get();
+        var profile = user.getBasicProfile();
+        // Sign the user in, and then retrieve their ID.
+        auth2.signIn().then((res: any) => {
+            var profile = res.getBasicProfile();
+            this.pleaseWait = true;
             var count1 = 0;
-            this.userService.apiId(res.id, 0).subscribe((users1: User[]) => {
-              for (let i: number = 0; i < users1.length; ++i) {
-                count1 += 1;
-              }
-              this.isNotRegistered = (count1 == 0);
-              if(!this.isNotRegistered){
-                this.user=users1[0];
-                this.pleaseWait = false;
-                this.success = true;
-                this.userService.auth(res.id, 0).subscribe((users: User[]) => {
-                    console.log(users[0]);
-                    this.userDataService.updateUser(users[0]);
-                  setTimeout(() =>
+            this.userService.apiId(profile.getId(), 1).subscribe((users1: User[]) => {
+                for (let i: number = 0; i < users1.length; ++i) {
+                    count1 += 1;
+                }
+                this.isNotRegistered = (count1 == 0);
+                if(!this.isNotRegistered){
+                    this.user=users1[0];
+                    this.pleaseWait = false;
+                    this.success = true;
+                    this.userService.auth(profile.getId(), 1).subscribe((users: User[]) => {
+                        this.userDataService.updateUser(users[0]);
+                        console.log("Completed auth");
+                        setTimeout(() =>
+                        {
+                            this._ngZone.run(
+                            () => this.router.navigate(['dashboard'])
+                            );
+                        },
+                  1500);
+                    })
+                }
+            this.pleaseWait = false;
+            });
+        }).catch(this.handleErrorProfile);
+      */
+    }
+
+    setGoogleVariables(id:string, name:string, lastname:string , img:string , email:string ){
+        this.loginWithFacebook = false;
+        this.loginWithGoogle = true;
+        this.GId = id;
+        this.GfirstName = name;
+        this.GlastName = lastname;
+        this.Gemail = email;
+        this.photoUrl = img;
+    }
+
+    passwordLogin(){
+        this.alertMessage = "Por favor espere.";
+        this.showMessage = true;
+        this.messageType = 2;
+        this.userService.loginWithPassword(this.username, this.password).subscribe((user: User) => {
+            if (user){
+                this.alertMessage = "Ha iniciado sesión con éxito";
+                this.messageType = 0;
+                this.userDataService.updateUser(user);
+                setTimeout(() =>
                     {
-                      this._ngZone.run(
-                        () => this.router.navigate(['dashboard'])
-                      );
+                        this._ngZone.run(
+                            () => this.router.navigate(['dashboard'])
+                        );
                     },
                     1500);
-                });
-              }
-              this.pleaseWait = false;
-            });
-          })
-          .catch(this.handleErrorProfile);
-      })
-      .catch(this.handleErrorLogin);
-  }
+            } else {
+                this.alertMessage = "El usuario o la contraseña son incorrectos.";
+                this.messageType = 1;
+            }
+        });
+    }
 
+    private handleErrorLogin(error) {
+        console.error('Error processing FB login', error);
+    }
 
+    /**
+    * Obtains the user's information from his facebook profile and stores it.
+    */
+    getProfile() {
 
-  googleSignIn() {
-    this.loginWithGoogle = true;
-    this.loginWithFacebook = false;
-    this.isNotRegistered=false;
-    var auth2 = gapi.auth2.getAuthInstance();
-    var user = auth2.currentUser.get();
-    var profile = user.getBasicProfile();
-    // Sign the user in, and then retrieve their ID.
-    auth2.signIn().then((res: any) => {
-      var profile = res.getBasicProfile();
-      this.pleaseWait = true;
-      var count1 = 0;
-      this.userService.apiId(profile.getId(), 1).subscribe((users1: User[]) => {
-        for (let i: number = 0; i < users1.length; ++i) {
-          count1 += 1;
-        }
-        this.isNotRegistered = (count1 == 0);
-        if(!this.isNotRegistered){
-          this.user=users1[0];
-          this.pleaseWait = false;
-          this.success = true;
-          this.userService.auth(profile.getId(), 1).subscribe((users: User[]) => {
-            this.userDataService.updateUser(users[0]);
-            console.log("Completed auth");
-            setTimeout(() =>
-              {
-                this._ngZone.run(
-                  () => this.router.navigate(['dashboard'])
-                );
-              },
-              1500);
-          })
-        }
-        this.pleaseWait = false;
-      });
-    }).catch(this.handleErrorProfile);
-      //
-  }
+    }
 
-  setGoogleVariables(id:string, name:string, lastname:string , img:string , email:string ){
-    this.loginWithFacebook = false;
-    this.loginWithGoogle = true;
-    this.GId = id;
-    this.GfirstName = name;
-    this.GlastName = lastname;
-    this.Gemail = email;
-    this.photoUrl = img;
-  }
+    private handleErrorProfile(error) {
+        console.error('Error processing FB profile', error);
+    }
 
+    getLoginStatus() {
+        this.fb.getLoginStatus()
+            .then(console.log.bind(console))
+            .catch(console.error.bind(console));
+    }
 
-
-
-  private handleErrorLogin(error) {
-    console.error('Error processing FB login', error);
-  }
-
-  /**
-   * Obtains the user's information from his facebook profile and stores it.
-   */
-  getProfile() {
-
-  }
-
-  private handleErrorProfile(error) {
-    console.error('Error processing FB profile', error);
-  }
-
-  getLoginStatus() {
-    this.fb.getLoginStatus()
-      .then(console.log.bind(console))
-      .catch(console.error.bind(console));
-  }
-
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
 
 }

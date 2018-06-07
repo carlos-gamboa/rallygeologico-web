@@ -133,6 +133,12 @@ export class UserService {
       });
     }
 
-
+    loginWithPassword(username: string, password: string): Observable<User>{
+        return this.http.post<User>(this.baseUrl + "login.json", {
+            'username':username,
+            'password':password,
+            'login_api':3
+        },{ headers: this.headers, withCredentials: true });
+    }
 
 }
