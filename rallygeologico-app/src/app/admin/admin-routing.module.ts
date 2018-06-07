@@ -4,6 +4,8 @@ import {AdminComponent} from "./admin.component";
 import {LoginComponent} from "./login/login.component";
 import {EditCompetitionComponent} from "./edit-competition/edit-competition.component";
 import {EditSiteComponent} from "./edit-site/edit-site.component";
+import {EditCantonComponent} from "./edit-canton/edit-canton.component";
+import {EditDistrictComponent} from "./edit-district/edit-district.component";
 
 const routes : Routes = [
     { path: 'admin', component: AdminComponent, children: [
@@ -15,6 +17,12 @@ const routes : Routes = [
         },
         {
             path: 'site', component: EditSiteComponent
+        },
+        {
+            path: 'district', component: EditDistrictComponent
+        },
+        {
+            path: 'canton', component: EditCantonComponent
         }
     ]},
 ];
