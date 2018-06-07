@@ -58,4 +58,25 @@
     </div>
   </section>
   <!-- End choosing Area -->
+
+  <!-- Start tab Area -->
+  <section class="whole-wrap section-gap pb-0" *ngIf="termSelected">
+    <div class="container">
+      <div class="text-center">
+        <button title="Volver a seleccionar" class="invite-btn genric-btn text-center medium info mb-4" (click)="goBack()">Cambiar de termino</button>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <button title="Detalles" class="invite-btn genric-btn text-center medium wide-button" [class.primary]="activeTab == 0" [class.primary-border]="activeTab != 0 && activeTab != 2" (click)="changeTab(0)">Detalles del termino</button>
+        </div>
+        <div class="col-md-4">
+          <button title="Sitios" class="invite-btn genric-btn text-center medium wide-button" [class.primary]="activeTab == 1" [class.primary-border]="activeTab != 1 && activeTab != 2" (click)="changeTab(1)">Administrar sitios asociados</button>
+        </div>
+        <div class="col-md-4">
+          <button title="Multimedia" class="invite-btn genric-btn text-center medium wide-button" [class.primary]="activeTab == 2" [class.primary-border]="activeTab != 0 && activeTab != 1" (click)="changeTab(1)">Administrar multimedia asociada</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End tab Area -->
 </div>

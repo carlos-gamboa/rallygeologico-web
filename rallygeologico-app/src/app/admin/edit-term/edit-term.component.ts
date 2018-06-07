@@ -22,25 +22,46 @@ export class EditTermComponent implements OnInit {
 
   readyToShow : boolean;
   termSelected : boolean;
+  changesSaved: boolean;
+  deleted: boolean;
+  newTerm: boolean;
 
   searchQuery : string = "";
 
   user: User;
   pageSize : number = 10;
+  activeTab : number;
 
   terms : Term[];
   allTerms : Term[];
   showedTerms : Term[];
   totalTerms : number;
   currentPageTerm : number;
+  currentPageSite : number;
+  currentPageMultimedia : number;
 
-  media : Multimedia[];
-  allMedia : Multimedia[];
-  totalMedia : number;
+  multimedia : Multimedia[];
+  allMultimedia : Multimedia[];
+  totalMultimedia : number;
+  otherMultimedia: Multimedia[];
+  currentMultimedia : Multimedia[];
+  showedMultimedia : Multimedia[];
+
+
+  currentTerm : Term;
+  currentTermIndex: number;
+
+  name: string;
+  description: string;
+
+
 
   sites : Site[];
   allSites : Site[];
+  showedSites : Site[];
   totalSites : number;
+  otherSites : Site[];
+  currentSites : Site[];
 
   constructor(private dataService: DataService,
               private termService: TermService,
@@ -72,9 +93,9 @@ export class EditTermComponent implements OnInit {
     this.termService.getTerms().subscribe((terms: Term[]) => {
       this.allTerms = terms;
       this.reloadTerms(this.allTerms);
-      this.allMedia = [];
+      this.allMultimedia = [];
       this.multimediaService.getMultimedia().subscribe((multimedia: Multimedia[]) => {
-        this.allMedia = multimedia;
+        this.allMultimedia = multimedia;
         this.siteService.getSites().subscribe((sites: Site[]) => {
           this.allSites = sites;
           this.termSelected = false;
@@ -90,6 +111,20 @@ export class EditTermComponent implements OnInit {
     this.totalTerms = terms.length;
     this.showedTerms = terms.slice(0, this.pageSize);
     this.currentPageTerm = 0;
+  }
+
+  reloadSites(sites : Site[]) : void{
+    this.sites = sites;
+    this.totalSites = Site.length;
+    this.showedSites = sites.slice(0, this.pageSize);
+    this.currentPageSite = 0;
+  }
+
+  reloadMultimedia(multimedia : Multimedia[]) : void{
+    this.multimedia = multimedia;
+    this.totalMultimedia = Site.length;
+    this.showedMultimedia = multimedia.slice(0, this.pageSize);
+    this.currentPageMultimedia = 0;
   }
 
   searchTerm(){
@@ -111,6 +146,87 @@ export class EditTermComponent implements OnInit {
       this.showedTerms = this.terms.slice((this.currentPageTerm - 1) * this.pageSize, ((this.currentPageTerm) * this.pageSize));
     }
   }
+
+  edit(i: number){
+    this.readyToShow = false;
+    this.activeTab = 0;
+    this.termSelected = true;
+    this.changesSaved = false;
+    this.deleted = false;
+    if (i == -1){
+      this.newTerm = true;
+      this.currentTerm = null;
+    } else {
+      this.currentTerm = this.showedTerms[i];
+      this.currentTermIndex = ((this.currentPageTerm - 1) * this.pageSize) + i;
+    }
+    this.editTermChange();
+  }
+
+  editTermChange(){
+    if (!this.currentTerm){
+      this.name = "";
+      this.description = "";
+    } else {
+      this.name = this.currentTerm.name;
+      this.description = this.currentTerm.description;
+    }
+    this.readyToShow = true;
+  }
+
+  goBack(){
+    this.termSelected = false;
+    this.currentTerm = null;
+    this.reloadTerms(this.allTerms);
+  }
+
+  changeTab(i: number){
+    this.activeTab = i;
+    this.changesSaved = false;
+    this.deleted = false;
+    if (i == 1){
+      this.updateSites();
+    }
+    else if (i == 2){
+      this.updateMultimedia();
+    }
+  }
+
+  updateSites(){
+    this.allSites = [];
+    this.siteService.getOtherSites(this.currentTerm.id).subscribe((otherSites: Site[]) => { //TODO Change this services because the use rallyId, not termId
+      this.otherSites = otherSites;
+      this.siteService.getAssociatedSites(this.currentTerm.id).subscribe((currentSites: Site[]) => { //TODO Change this services because the use rallyId, not termId
+        this.currentSites = currentSites;
+        for(let site of this.otherSites){
+          this.allSites.push(site);
+        }
+        for(let site of this.currentSites){
+          this.allSites.push(site);
+        }
+        this.reloadSites(this.allSites);
+      });
+    });
+  }
+
+  updateMultimedia(){
+    this.allMultimedia = [];
+    this.multimediaService.getOtherMultimedia(this.currentTerm.id).subscribe((otherMultimedia: Multimedia[]) => {
+      this.otherMultimedia = otherMultimedia;
+      this.multimediaService.getAssociatedMultimedia(this.currentTerm.id).subscribe((currentMultimedia: Multimedia[]) => {
+        this.currentMultimedia = currentMultimedia;
+        for(let multimedia of this.otherMultimedia){
+          this.allMultimedia.push(multimedia);
+        }
+        for(let multimedia of this.currentMultimedia){
+          this.allMultimedia.push(multimedia);
+        }
+        this.reloadMultimedia(this.allMultimedia);
+      });
+    });
+  }
+
+
 
 
 }
