@@ -100,4 +100,22 @@ export class SiteService {
     deleteSite(id: number): Observable<boolean>{
         return this.http.delete<boolean>(this.baseUrl + "site/delete/"+id+".json");
     }
+
+    /**
+     * Service for getting all the sites those aren't part of the specified rally
+     * @param {number} rallyId
+     * @returns {Observable<Site>}
+     */
+    getOtherSites(rallyId: number):Observable<Site[]>{
+        return this.http.get<Site[]>(this.baseUrl + "site/getOtherSites/"+rallyId+".json");
+    }
+
+    /**
+     * Service for getting all the sites those are part of the specified rally
+     * @param {number} rallyId
+     * @returns {Observable<Site[]>}
+     */
+    getAssociatedSites(rallyId: number): Observable<Site[]>{
+        return this.http.get<Site[]>(this.baseUrl + "site/getAssociatedSites/"+rallyId+".json");
+    }
 }
