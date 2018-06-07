@@ -128,7 +128,8 @@ export class RallyService {
     deleteRallySite(id: number): Observable<boolean>{
         return this.http.delete<boolean>(this.baseUrl + "rallySite/delete/"+id+".json");
     }
-  
+
+    /**
      * Service for getting all the rallies those aren't part of the specified site
      * @param {number} siteId
      * @returns {Observable<Rally[]>}

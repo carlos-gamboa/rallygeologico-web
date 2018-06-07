@@ -294,7 +294,7 @@ export class EditSiteComponent implements OnInit {
      * Loads all sites'information
      */
     updateRallies(){
-        this.allSites = [];
+        this.allRallies = [];
         this.rallyService.getOtherRallies(this.currentSite.id).subscribe((otherRallies: Rally[]) => {
             this.otherRallies = otherRallies;
             this.rallyService.getAssociatedRallies(this.currentSite.id).subscribe((currentRallies: Rally[]) => {
@@ -331,10 +331,17 @@ export class EditSiteComponent implements OnInit {
      * @param {number} i
      */
     addRallySite(i : number){
+        this.changesSaved = false;
         this.rallyService.addRallySite(i, this.currentSite.id).subscribe((site: Site) =>{
+            this.changesSaved = true;
             if(site){
                 this.updateRallies();
                 this.reloadRallies(this.allRallies);
+                this.messageType = true;
+                this.alertMessage = "Se ha agregado el sitio al rally seleccionado."
+            } else {
+                this.messageType = false;
+                this.alertMessage = "No se pudo agregar el sitio al rally seleccionado."
             }
         });
     }
@@ -345,11 +352,18 @@ export class EditSiteComponent implements OnInit {
      * @param {number} i
      */
     deleteRallySite(i: number){
+        this.changesSaved = false;
         this.rallyService.getRallySite(i, this.currentSite.id).subscribe((id: number) => {
             this.rallyService.deleteRallySite(id).subscribe((deleted: boolean) => {
+                this.changesSaved = true;
                 if (deleted) {
                     this.updateRallies();
                     this.reloadRallies(this.allRallies);
+                    this.messageType = true;
+                    this.alertMessage = "Se ha eliminado el sitio del rally seleccionado."
+                } else {
+                    this.messageType = false;
+                    this.alertMessage = "No se pudo eliminal el sitio del rally seleccionado."
                 }
             });
         });

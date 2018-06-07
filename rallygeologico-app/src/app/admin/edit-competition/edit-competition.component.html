@@ -35,6 +35,7 @@
                 <th><h5 class="text-center">Fecha de Inicio</h5></th>
                 <th><h5 class="text-center">Administrador</h5></th>
                 <th><h5 class="text-center">Editar</h5></th>
+                <th><h5 class="text-center">Eliminar</h5></th>
                 </thead>
                 <tbody>
                 <tr *ngFor="let competition of showedCompetitions; let i = index">
@@ -43,6 +44,9 @@
                   <td><h4 >{{competition?.user.username}}</h4></td>
                   <td>
                     <button title="Editar" class="invite-btn genric-btn circle text-center warning medium wide-button" (click)="edit(i)">Editar</button>
+                  </td>
+                  <td>
+                    <button title="Eliminar" class="invite-btn genric-btn circle text-center danger medium wide-button" (click)="deleteCompetition(competition.id)">Eliminar</button>
                   </td>
                 </tr>
                 </tbody>
@@ -54,6 +58,11 @@
                   <ngb-pagination [collectionSize]="totalCompetitions" [(page)]="currentPageCompetition" [maxSize]="5" [pageSize]="pageSize" [rotate]="true"
                                   [ellipses]="true" [boundaryLinks]="false" (pageChange)="competitionPageChange($event)"></ngb-pagination>
                 </div>
+              </div>
+            </div>
+            <div align="center">
+              <div *ngIf="deleted" class="alert col-lg-6 mt-10 text-center" role="alert" [class.alert-success]="messageType" [class.alert-danger]="!messageType">
+                {{alertMessage}}
               </div>
             </div>
           </div>
@@ -163,10 +172,6 @@
           <div class="mt-50" align="center">
             <button title="Crear Competencia" class="btn genric-btn success col-lg-6" style="font-size: 16px" (click)="saveChanges()" [disabled]="competitionForm.invalid" *ngIf="newCompetition || currentCompetition">Guardar cambios</button>
             <div *ngIf="changesSaved" class="alert col-lg-6 mt-10" role="alert" [class.alert-success]="messageType" [class.alert-danger]="!messageType">
-              {{alertMessage}}
-            </div>
-            <button title="Eliminar Competencia" class="btn genric-btn danger col-lg-6 mt-4" style="font-size: 16px" (click)="deleteCompetition()" *ngIf="currentCompetition">Eliminar competencia</button>
-            <div *ngIf="deleted" class="alert col-lg-6 mt-10" role="alert" [class.alert-success]="messageType" [class.alert-danger]="!messageType">
               {{alertMessage}}
             </div>
           </div>

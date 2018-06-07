@@ -210,6 +210,11 @@
               </div>
             </div>
           </div>
+          <div class="mt-5" align="center">
+              <div *ngIf="changesSaved" class="alert col-lg-6 mt-10" role="alert" [class.alert-success]="messageType" [class.alert-danger]="!messageType">
+                  {{alertMessage}}
+              </div>
+          </div>
         </div>
       </div>
     </div>
