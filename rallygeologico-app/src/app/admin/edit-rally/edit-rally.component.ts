@@ -312,8 +312,10 @@ export class EditRallyComponent implements OnInit {
         this.allSites = [];
         this.siteService.getOtherSites(this.currentRally.id).subscribe((otherSites: Site[]) => {
             this.otherSites = otherSites;
+            console.log(this.otherSites);
             this.siteService.getAssociatedSites(this.currentRally.id).subscribe((currentSites: Site[]) => {
                 this.currentSites = currentSites;
+                console.log(this.currentSites);
                 for(let site of this.otherSites){
                     this.allSites.push(site);
                 }

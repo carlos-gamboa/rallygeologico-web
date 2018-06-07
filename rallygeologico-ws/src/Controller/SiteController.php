@@ -142,7 +142,8 @@ class SiteController extends AppController
                     'conditions' => ['RallySite.rally_id' => $rallyId
                     ]
                 ])
-            ]
+            ],
+            'contain' => ['District']
         ]);
         $this->set('site', $sites);
         $this->render('/Site/json/template');
@@ -162,7 +163,8 @@ class SiteController extends AppController
                     'conditions' => ['RallySite.rally_id' => $rallyId
                     ]
                 ])
-            ]
+            ],
+            'contain' => ['District']
         ]);
         $this->set('site', $sites);
         $this->render('/Site/json/template');
