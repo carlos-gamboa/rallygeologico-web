@@ -77,7 +77,8 @@ class UsersTable extends Table
             ->add('username', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
-            ->requirePresence('password', 'create')
+            ->scalar('password')
+            ->maxLength('password', 255)
             ->notEmpty('password');
 
         $validator
@@ -107,8 +108,10 @@ class UsersTable extends Table
             ->allowEmpty('login_api');
 
         $validator
-            ->integer('password_needs_change')
             ->allowEmpty('password_needs_change');
+
+        $validator
+            ->allowEmpty('is_active');
 
         return $validator;
     }

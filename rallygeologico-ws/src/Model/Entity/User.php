@@ -18,6 +18,7 @@ use Cake\Auth\DefaultPasswordHasher;
  * @property int $is_admin
  * @property int $login_api
  * @property int $password_needs_change
+ * @property int $is_active
  *
  * @property \App\Model\Entity\Competition[] $competition
  * @property \App\Model\Entity\Invitation[] $invitation_send
@@ -47,6 +48,7 @@ class User extends Entity
         'is_admin' => true,
         'login_api' => true,
         'password_needs_change' => true,
+        'is_active' => true,
         'competition' => true,
         'invitation_send' => true,
         'invitation_receive' => true,

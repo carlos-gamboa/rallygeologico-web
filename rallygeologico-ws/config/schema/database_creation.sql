@@ -9,7 +9,8 @@ CREATE TABLE IF NOT EXISTS users (
   photo_url VARCHAR (200),
   is_admin TINYINT DEFAULT 0,
   login_api INT,
-  password_needs_change INT DEFAULT 0,
+  password_needs_change TINYINT DEFAULT 0,
+  is_active TINYINT DEFAULT 0,
   UNIQUE(api_id, login_api)
 );
 

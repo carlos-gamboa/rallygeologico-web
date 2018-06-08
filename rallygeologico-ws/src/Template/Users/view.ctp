@@ -33,6 +33,10 @@
             <td><?= h($user->username) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Password') ?></th>
+            <td><?= h($user->password) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('First Name') ?></th>
             <td><?= h($user->first_name) ?></td>
         </tr>
@@ -63,6 +67,10 @@
         <tr>
             <th scope="row"><?= __('Password Needs Change') ?></th>
             <td><?= $this->Number->format($user->password_needs_change) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Is Active') ?></th>
+            <td><?= $this->Number->format($user->is_active) ?></td>
         </tr>
     </table>
     <div class="related">

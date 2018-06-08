@@ -32,13 +32,11 @@ export class LoginComponent implements OnInit {
     GuserName: string;
     changeUsername : boolean;
     loginWithFacebook:boolean = false;
+    loginWithPassword:boolean = true;
     loginWithGoogle:boolean = false;
 
     photoUrl : string;
     isNotRegistered: boolean = false;
-    success : boolean = false;
-    pleaseWait = false;
-
     messageType: number;
     showMessage: boolean;
     alertMessage: string;
@@ -76,9 +74,10 @@ export class LoginComponent implements OnInit {
     }
 
     loginWithOptions() {
-        /* this.loginWithGoogle = false;
+        /* this.showMessage = false;
+        this.loginWithGoogle = false;
         this.loginWithFacebook = true;
-        this.isNotRegistered=false;
+        this.loginWithPassword = false;
         const loginOptions: LoginOptions = {
             enable_profile_selector: true,
             return_scopes: true,
@@ -86,71 +85,67 @@ export class LoginComponent implements OnInit {
         };
         this.fb.login(loginOptions)
             .then((res: LoginResponse) => {
-            this.pleaseWait = true;
-            this.loginWithFacebook = true;
-            console.log('Logged in', res);
-            this.fb.api('me?fields=id,first_name,last_name,email,picture.width(150).height(150)')
-                .then((res: any) => {
-                console.log('Got the users profile information'+ res);
-                this.fbId = res.id;
-                this.firstName = res.first_name;
-                this.lastName = res.last_name;
-                this.email = res.email;
-                this.fbToken = this.fb.getAuthResponse().accessToken;
-                this.photoUrl = res.picture.data.url;
-                var count1 = 0;
-                this.userService.apiId(res.id, 0).subscribe((users1: User[]) => {
-                    for (let i: number = 0; i < users1.length; ++i) {
-                        count1 += 1;
-                    }
-                    this.isNotRegistered = (count1 == 0);
-                    if(!this.isNotRegistered){
-                    this.user=users1[0];
-                    this.pleaseWait = false;
-                    this.success = true;
-                    this.userService.auth(res.id, 0).subscribe((users: User[]) => {
-                        console.log(users[0]);
-                        this.userDataService.updateUser(users[0]);
-                    setTimeout(() =>
-                        {
-                          this._ngZone.run(
-                            () => this.router.navigate(['dashboard'])
-                          );
-                        },
-                        1500);
-                    });
-                  }
-                  this.pleaseWait = false;
-                });
-              })
-              .catch(this.handleErrorProfile);
-          })
-          .catch(this.handleErrorLogin); */
-      }
-
-
+                this.showMessage = true;
+                this.alertMessage = "Por favor espere.";
+                this.messageType = 2;
+                this.loginWithFacebook = true;
+                console.log('Logged in', res);
+                this.fb.api('me?fields=id,first_name,last_name,email,picture.width(150).height(150)')
+                    .then((res: any) => {
+                        console.log('Got the users profile information'+ res);
+                        this.fbId = res.id;
+                        this.firstName = res.first_name;
+                        this.lastName = res.last_name;
+                        this.email = res.email;
+                        this.fbToken = this.fb.getAuthResponse().accessToken;
+                        this.photoUrl = res.picture.data.url;
+                        this.userService.apiId(res.id, 0).subscribe((users1: User[]) => {
+                            console.log("hola");
+                            if(users1.length != 0){
+                                console.log("hola1");
+                                this.user=users1[0];
+                                this.alertMessage = "Ha iniciado sesión con éxito.";
+                                this.messageType = 0;
+                                this.userService.auth(res.id, 0).subscribe((users: User[]) => {
+                                    console.log(users[0]);
+                                    this.userDataService.updateUser(users[0]);
+                                    setTimeout(() =>
+                                    {
+                                        this._ngZone.run(
+                                        () => this.router.navigate(['dashboard'])
+                                        );
+                                    },
+                                    1500);
+                                });
+                            } else {
+                                this.alertMessage = "Usted no está registrado, por favor registrese.";
+                                this.isNotRegistered = true;
+                                this.messageType = 1;
+                            }
+                        });
+                    }).catch(this.handleErrorProfile);
+            }).catch(this.handleErrorLogin); */
+    }
 
     googleSignIn() {
-        /*this.loginWithGoogle = true;
+        /* this.loginWithGoogle = true;
         this.loginWithFacebook = false;
-        this.isNotRegistered=false;
+        this.loginWithPassword = false;
+        this.showMessage = false;
         var auth2 = gapi.auth2.getAuthInstance();
         var user = auth2.currentUser.get();
         var profile = user.getBasicProfile();
         // Sign the user in, and then retrieve their ID.
         auth2.signIn().then((res: any) => {
             var profile = res.getBasicProfile();
-            this.pleaseWait = true;
-            var count1 = 0;
+            this.showMessage = true;
+            this.alertMessage = "Por favor espere.";
+            this.messageType = 2;
             this.userService.apiId(profile.getId(), 1).subscribe((users1: User[]) => {
-                for (let i: number = 0; i < users1.length; ++i) {
-                    count1 += 1;
-                }
-                this.isNotRegistered = (count1 == 0);
-                if(!this.isNotRegistered){
+                if(users1.length != 0){
                     this.user=users1[0];
-                    this.pleaseWait = false;
-                    this.success = true;
+                    this.alertMessage = "Ha iniciado sesión con éxito.";
+                    this.messageType = 0;
                     this.userService.auth(profile.getId(), 1).subscribe((users: User[]) => {
                         this.userDataService.updateUser(users[0]);
                         console.log("Completed auth");
@@ -162,11 +157,13 @@ export class LoginComponent implements OnInit {
                         },
                   1500);
                     })
+                } else {
+                    this.alertMessage = "Usted no está registrado, por favor registrese.";
+                    this.isNotRegistered = true;
+                    this.messageType = 1;
                 }
-            this.pleaseWait = false;
             });
-        }).catch(this.handleErrorProfile);
-      */
+        }).catch(this.handleErrorProfile); */
     }
 
     setGoogleVariables(id:string, name:string, lastname:string , img:string , email:string ){

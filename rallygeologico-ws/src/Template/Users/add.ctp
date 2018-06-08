@@ -23,6 +23,7 @@
         <?php
             echo $this->Form->control('api_id');
             echo $this->Form->control('username');
+            echo $this->Form->control('password');
             echo $this->Form->control('first_name');
             echo $this->Form->control('last_name');
             echo $this->Form->control('email');
@@ -30,6 +31,7 @@
             echo $this->Form->control('is_admin');
             echo $this->Form->control('login_api');
             echo $this->Form->control('password_needs_change');
+            echo $this->Form->control('is_active');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
