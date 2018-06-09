@@ -9,29 +9,31 @@
 
           <div class="btn-group margbutton" *ngIf="loginWithFacebook && !isNotRegistered" (click)="loginWithOptions()">
             <span class='btn facebookcolor disabled'><i class="fa fa-facebook"></i></span>
-            <span class='btn facebookcolor ' href='' style="width:12em"> Sign in with Facebook</span>
+            <span class='btn facebookcolor ' href='' style="width:14em"> Iniciar sesión con Facebook</span>
           </div>
 
           <div class="btn-group margbutton" *ngIf="loginWithGoogle && !isNotRegistered" (click)="googleSignIn()">
             <span class='btn btn-danger disabled'><i class="fa fa-google" style="color:white; width:16px; height:20px"></i></span>
-            <span class='btn btn-danger' href='' style="width:12em;"> Sign in with Google</span>
+            <span class='btn btn-danger' href='' style="width:14em;"> Iniciar sesión con Google</span>
           </div>
 
-          <form #loginForm="ngForm" *ngIf="loginWithPassword && !isNotRegistered">
-            <div class="row mt-10 mb-10">
-              <div class="col-lg-12">
-                <label for="username">Nombre de usuario</label>
-                <input class="text-input" type="text" [(ngModel)]="username" #nameInput="ngModel" id="username" name="username" placeholder="Nombre de usuario" required>
-                <label for="password" class="mt-2">Contraseña</label>
-                <input class="text-input" type="password" [(ngModel)]="password" #nameInput="ngModel" id="password" name="password" placeholder="Contraseña" required>
+          <div *ngIf="loginWithPassword && !isNotRegistered">
+            <form #loginForm="ngForm">
+              <div class="row mt-10 mb-10">
+                <div class="col-lg-12">
+                  <label for="username">Nombre de usuario</label>
+                  <input class="text-input" type="text" [(ngModel)]="username" #nameInput="ngModel" id="username" name="username" placeholder="Nombre de usuario" required>
+                  <label for="password" class="mt-2">Contraseña</label>
+                  <input class="text-input" type="password" [(ngModel)]="password" #nameInput="ngModel" id="password" name="password" placeholder="Contraseña" required>
+                </div>
               </div>
-            </div>
-          </form>
+            </form>
 
-          <div class="mt-3" align="center">
-            <button title="Iniciar Sesión" class="btn genric-btn primary col-lg-8 text-center" style="font-size: 16px" (click)="passwordLogin()" [disabled]="loginForm.invalid">Iniciar sesión</button>
-            <div *ngIf="showMessage" class="alert col-lg-10 mt-10 text-center" role="alert" [class.alert-success]="messageType == 0" [class.alert-danger]="messageType == 1" [class.alert-info]="messageType == 2">
-              {{alertMessage}}
+            <div class="mt-3" align="center">
+              <button title="Iniciar Sesión" class="btn genric-btn primary col-lg-8 text-center" style="font-size: 16px" (click)="passwordLogin()" [disabled]="loginForm.invalid">Iniciar sesión</button>
+              <div *ngIf="showMessage" class="alert col-lg-10 mt-10 text-center" role="alert" [class.alert-success]="messageType == 0" [class.alert-danger]="messageType == 1" [class.alert-info]="messageType == 2">
+                {{alertMessage}}
+              </div>
             </div>
           </div>
 

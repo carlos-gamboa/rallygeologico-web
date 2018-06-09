@@ -104,3 +104,14 @@
   background-color: #3b5998;
   border-color: #3b5998;
 }
+
+.text-input{
+  width: 98%;
+  height: 40px;
+  padding: 10px;
+  color: #555555;
+}
+
+label{
+  margin-top: 8px;
+}

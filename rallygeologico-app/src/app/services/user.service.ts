@@ -51,25 +51,43 @@ export class UserService {
 
     /**
      * Service for inserting a user into the database
-     * @param {string} ApiId API id.
-     * @param {string} Username User's username.
-     * @param {string} FirstName User's first name.
-     * @param {string} LastName User's last name.
-     * @param {string} Email User's email.
-     * @param {string} PhotoUrl User's photo url.
-     * @param {number} LoginApi User's login API.
+     * @param {string} apiId API id.
+     * @param {string} username User's username.
+     * @param {string} firstName User's first name.
+     * @param {string} lastName User's last name.
+     * @param {string} email User's email.
+     * @param {string} photoUrl User's photo url.
+     * @param {number} loginApi User's login API.
+     * @param {string} password User's password.
+     * @param {number} isActive If the user is confirmed.
      * @returns {Observable<User[]>}
      */
-    register(ApiId : string, Username : string, FirstName : string, LastName : string, Email : string, PhotoUrl : string, LoginApi: number) : Observable<User[]>{
-        return this.http.post<User[]>(this.baseUrl + "users/add.json", {
-            'api_id':ApiId,
-            'username':Username,
-            'first_name':FirstName,
-            'last_name':LastName,
-            'email':Email,
-            'photo_url':PhotoUrl,
-            'login_api':LoginApi
-      });
+    register(apiId : string, username : string, firstName : string, lastName : string, email : string, photoUrl : string, loginApi: number, password: string, isActive: number) : Observable<User[]>{
+        if (password){
+            return this.http.post<User[]>(this.baseUrl + "users/add.json", {
+                'api_id':apiId,
+                'username':username,
+                'first_name':firstName,
+                'last_name':lastName,
+                'email':email,
+                'photo_url':photoUrl,
+                'login_api':loginApi,
+                'is_active':isActive,
+                'password':password
+            });
+        } else {
+            return this.http.post<User[]>(this.baseUrl + "users/add.json", {
+                'api_id':apiId,
+                'username':username,
+                'first_name':firstName,
+                'last_name':lastName,
+                'email':email,
+                'photo_url':photoUrl,
+                'login_api':loginApi,
+                'is_active':isActive
+            });
+        }
+
     }
 
     /**
