@@ -59,11 +59,6 @@ export class RegisterComponent implements OnInit {
         } else {
             this.facebookText = "Pronto con Facebook";
         }
-        this.username = "";
-        this.showMessage = false;
-    }
-
-    ngAfterViewInit(): void {
         if (this.googleWorking){
             gapi.load('auth2', function() {
                 gapi.auth2.init({
@@ -75,6 +70,8 @@ export class RegisterComponent implements OnInit {
         } else {
             this.googleText = "Pronto con Google";
         }
+        this.username = "";
+        this.showMessage = false;
     }
 
     googleSignIn() {

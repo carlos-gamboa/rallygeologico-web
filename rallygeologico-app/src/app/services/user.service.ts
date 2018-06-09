@@ -24,7 +24,7 @@ export class UserService {
      * @returns {Observable<boolean>}
      */
     emailExists(Email : string) : Observable<boolean>{
-        return this.http.get<boolean>(this.baseUrl + "users/emailExists/"+Email+".json");
+        return this.http.get<boolean>(this.baseUrl + "users/emailExists/"+Email+".json",{ headers: this.headers, withCredentials: true });
     }
 
     /**
@@ -33,7 +33,7 @@ export class UserService {
      * @returns {Observable<boolean>}
      */
     usernameExists(Username : string) : Observable<boolean>{
-      return this.http.get<boolean>(this.baseUrl + "users/usernameExists/"+Username+".json");
+      return this.http.get<boolean>(this.baseUrl + "users/usernameExists/"+Username+".json",{ headers: this.headers, withCredentials: true });
     }
 
     /**
@@ -46,7 +46,7 @@ export class UserService {
       return this.http.post<User[]>(this.baseUrl + "users/findApiId.json",{
           'api_id':ApiId,
           'login_api':LoginApi
-      });
+      },{ headers: this.headers, withCredentials: true });
     }
 
     /**
@@ -74,7 +74,7 @@ export class UserService {
                 'login_api':loginApi,
                 'is_active':isActive,
                 'password':password
-            });
+            },{ headers: this.headers, withCredentials: true });
         } else {
             return this.http.post<User[]>(this.baseUrl + "users/add.json", {
                 'api_id':apiId,
@@ -85,7 +85,7 @@ export class UserService {
                 'photo_url':photoUrl,
                 'login_api':loginApi,
                 'is_active':isActive
-            });
+            },{ headers: this.headers, withCredentials: true });
         }
 
     }
@@ -124,7 +124,7 @@ export class UserService {
      * @returns {Observable<User[]>}
      */
     getUsers() : Observable<User[]>{
-        return this.http.get<User[]>(this.baseUrl + "users.json");
+        return this.http.get<User[]>(this.baseUrl + "users.json",{ headers: this.headers, withCredentials: true });
     }
 
     /**
@@ -152,7 +152,7 @@ export class UserService {
       return this.http.post<User[]>(this.baseUrl + "users/findApiIdAdmin.json",{
         'api_id':ApiId,
         'login_api':LoginApi
-      });
+      },{ headers: this.headers, withCredentials: true });
     }
 
     loginWithPassword(username: string, password: string): Observable<User>{

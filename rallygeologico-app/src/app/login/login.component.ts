@@ -62,15 +62,6 @@ export class LoginComponent implements OnInit {
         } else {
             this.facebookText = "Pronto con Facebook";
         }
-        this.userService.isLoggedIn().subscribe((users: User) => {
-            if (users[0]) {
-                this.dataService.updateUser(users[0]);
-                this.router.navigate(['/dashboard']);
-            }
-        });
-    }
-
-    ngAfterViewInit(): void {
         if (this.googleWorking) {
             gapi.load('auth2', function () {
                 gapi.auth2.init({
@@ -82,6 +73,12 @@ export class LoginComponent implements OnInit {
         } else {
             this.googleText = "Pronto con Google";
         }
+        this.userService.isLoggedIn().subscribe((users: User) => {
+            if (users[0]) {
+                this.dataService.updateUser(users[0]);
+                this.router.navigate(['/dashboard']);
+            }
+        });
     }
 
     loginWithOptions() {
@@ -101,7 +98,6 @@ export class LoginComponent implements OnInit {
                     this.alertMessage = "Por favor espere.";
                     this.messageType = 2;
                     this.loginWithFacebook = true;
-                    console.log('Logged in', res);
                     this.fb.api('me?fields=id,first_name,last_name,email,picture.width(150).height(150)')
                         .then((res: any) => {
                             console.log('Got the users profile information'+ res);
@@ -112,14 +108,11 @@ export class LoginComponent implements OnInit {
                             this.fbToken = this.fb.getAuthResponse().accessToken;
                             this.photoUrl = res.picture.data.url;
                             this.userService.apiId(res.id, 0).subscribe((users1: User[]) => {
-                                console.log("hola");
                                 if(users1.length != 0){
-                                    console.log("hola1");
                                     this.user=users1[0];
                                     this.alertMessage = "Ha iniciado sesión con éxito.";
                                     this.messageType = 0;
                                     this.userService.auth(res.id, 0).subscribe((users: User[]) => {
-                                        console.log(users[0]);
                                         this.userDataService.updateUser(users[0]);
                                         setTimeout(() =>
                                         {
@@ -152,9 +145,13 @@ export class LoginComponent implements OnInit {
             // Sign the user in, and then retrieve their ID.
             auth2.signIn().then((res: any) => {
                 var profile = res.getBasicProfile();
-                this.showMessage = true;
-                this.alertMessage = "Por favor espere.";
-                this.messageType = 2;
+                this._ngZone.run(
+                    () => {
+                        this.showMessage = true;
+                        this.alertMessage = "Por favor espere.";
+                        this.messageType = 2;
+                    }
+                );
                 this.userService.apiId(profile.getId(), 1).subscribe((users1: User[]) => {
                     if(users1.length != 0){
                         this.user=users1[0];

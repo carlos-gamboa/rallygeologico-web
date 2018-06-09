@@ -105,4 +105,14 @@
   border-color: #3b5998;
 }
 
+.text-input{
+  width: 98%;
+  height: 40px;
+  padding: 10px;
+  color: #555555;
+}
 
+.disabled-color{
+  opacity: 0.75;
+  cursor: not-allowed !important;
+}
