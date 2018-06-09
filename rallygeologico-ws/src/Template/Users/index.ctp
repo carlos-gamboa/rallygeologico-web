@@ -14,8 +14,6 @@
         <li><?= $this->Html->link(__('New Invitation Send'), ['controller' => 'Invitation', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Competition Statistics'), ['controller' => 'CompetitionStatistics', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Competition Statistic'), ['controller' => 'CompetitionStatistics', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Competition Statistics Site'), ['controller' => 'CompetitionStatisticsSite', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Competition Statistics Site'), ['controller' => 'CompetitionStatisticsSite', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="users index large-9 medium-8 columns content">
@@ -32,6 +30,7 @@
                 <th scope="col"><?= $this->Paginator->sort('photo_url') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('is_admin') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('login_api') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('password_needs_change') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -47,6 +46,7 @@
                 <td><?= h($user->photo_url) ?></td>
                 <td><?= $this->Number->format($user->is_admin) ?></td>
                 <td><?= $this->Number->format($user->login_api) ?></td>
+                <td><?= $this->Number->format($user->password_needs_change) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $user->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id]) ?>

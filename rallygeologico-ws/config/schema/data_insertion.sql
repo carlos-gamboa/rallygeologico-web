@@ -80,9 +80,9 @@ INSERT INTO `rally_site` (`rally_id`, `site_id`) VALUES ('3', '18');
 INSERT INTO `rally_site` (`rally_id`, `site_id`) VALUES ('3', '19');
 INSERT INTO `rally_site` (`rally_id`, `site_id`) VALUES ('3', '20');
 
-INSERT INTO `users` (`id`, `api_id`, `username`, `first_name`, `last_name`, `email`, `photo_url`, `is_admin`, `login_api`) VALUES (NULL, '123456789123456', 'alan', 'Alan', 'Calderón', 'alan.calderon@ucr.ac.cr', NULL, b'0', 0);
-INSERT INTO `users` (`id`, `api_id`, `username`, `first_name`, `last_name`, `email`, `photo_url`, `is_admin`, `login_api`) VALUES (NULL, '654321987654321', 'pablo', 'Juan Pablo', 'Solano', 'juan.solano@ucr.ac.cr', NULL, b'1', 0);
-INSERT INTO `users` (`id`, `api_id`, `username`, `first_name`, `last_name`, `email`, `photo_url`, `is_admin`, `login_api`) VALUES (NULL, '654321987654321', 'carlos', 'Carlos', '', 'cali1997gv@gmail.com', 'https://lh3.googleusercontent.com/-BFuU7_kXjT8/AAAAAAAAAAI/AAAAAAAAAMA/uFZ_w9azCKI/s96-c/photo.jpg', b'1', 1);
+-- INSERT INTO `users` (`id`, `api_id`, `username`, `first_name`, `last_name`, `email`, `photo_url`, `is_admin`, `login_api`) VALUES (NULL, '123456789123456', 'alan', 'Alan', 'Calderón', 'alan.calderon@ucr.ac.cr', NULL, b'0', 0);
+-- INSERT INTO `users` (`id`, `api_id`, `username`, `first_name`, `last_name`, `email`, `photo_url`, `is_admin`, `login_api`) VALUES (NULL, '654321987654321', 'pablo', 'Juan Pablo', 'Solano', 'juan.solano@ucr.ac.cr', NULL, b'1', 0);
+-- INSERT INTO `users` (`id`, `api_id`, `username`, `first_name`, `last_name`, `email`, `photo_url`, `is_admin`, `login_api`) VALUES (NULL, '654321987654321', 'carlos', 'Carlos', '', 'cali1997gv@gmail.com', 'https://lh3.googleusercontent.com/-BFuU7_kXjT8/AAAAAAAAAAI/AAAAAAAAAMA/uFZ_w9azCKI/s96-c/photo.jpg', b'1', 1);
 
 INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Círculo Graduado', ''); -- 1
 INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Azimuth', ''); -- 2

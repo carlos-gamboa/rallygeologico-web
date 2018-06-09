@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\Utility\Hash;
+use Cake\Auth\DefaultPasswordHasher;
 
 /**
  * Users Controller

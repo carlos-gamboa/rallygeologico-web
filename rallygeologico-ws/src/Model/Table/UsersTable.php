@@ -5,6 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\Auth\DefaultPasswordHasher;
 
 /**
  * Users Model
@@ -76,6 +77,11 @@ class UsersTable extends Table
             ->add('username', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
+            ->scalar('password')
+            ->maxLength('password', 255)
+            ->notEmpty('password');
+
+        $validator
             ->scalar('first_name')
             ->maxLength('first_name', 15)
             ->allowEmpty('first_name');
@@ -100,6 +106,12 @@ class UsersTable extends Table
         $validator
             ->integer('login_api')
             ->allowEmpty('login_api');
+
+        $validator
+            ->allowEmpty('password_needs_change');
+
+        $validator
+            ->allowEmpty('is_active');
 
         return $validator;
     }
