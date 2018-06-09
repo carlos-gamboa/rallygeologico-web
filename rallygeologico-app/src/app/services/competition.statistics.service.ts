@@ -56,6 +56,22 @@ export class CompetitionStatisticsService {
         return this.http.get<CompetitionStatistics[]>(this.baseUrl + "competitionStatistics/currentCompetitions/"+ userId +".json",{ headers: this.headers, withCredentials: true });
     }
 
+    getVisitedSites(userId: number) : Observable<any> {
+        return this.http.get<any>(this.baseUrl + "competitionStatisticsSite/getVisitedSites/"+ userId +".json",{ headers: this.headers, withCredentials: true } );
+    }
+
+    getTotalSites() : Observable<any> {
+        return this.http.get<any>(this.baseUrl + "site/getTotalSites.json",{ headers: this.headers, withCredentials: true } );
+    }
+
+    getActiveCompetitions(userId: number) : Observable<any> {
+        return this.http.get<any>(this.baseUrl + "competitionStatistics/getActiveUserStatistics/"+ userId +".json",{ headers: this.headers, withCredentials: true } );
+    }
+
+    getTotalCompetitions(userId: number) : Observable<any> {
+        return this.http.get<any>(this.baseUrl + "competitionStatistics/getUserStatistics/"+ userId +".json",{ headers: this.headers, withCredentials: true } );
+    }
+    
     /**
      * Service for deleting a competition statistic
      *

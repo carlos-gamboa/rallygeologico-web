@@ -27,7 +27,7 @@
           <p class="text-justify">{{competition.description}}</p>
           <h5 class="mb-3">Creado por: {{competition.user.username}}</h5>
           <div>
-            <button title="Ir al perfil del creador" class="genric-btn info circle text-center info mb-3 medium">Ir al perfil</button>
+            <button routerLink="/profile/{{competition.user.id}}" title="Ir al perfil del creador" class="genric-btn info circle text-center info mb-3 medium">Ir al perfil</button>
           </div>
         </div>
       </div>
@@ -89,7 +89,7 @@
                     </td>
                     <td><h5>{{participant.points}}</h5></td>
                     <td><h5>{{participant.starting_date |  date:'MM/dd/yyyy'}}</h5></td>
-                    <td><button title="Ir al perfil de este usuario" class="genric-btn circle text-center small" [class.info]="!isUserStatisticClicked(i)" [class.primary-border]="isUserStatisticClicked(i)">Ir al perfil</button></td>
+                    <td><button routerLink="/profile/{{participant.user_id}}" title="Ir al perfil de este usuario" class="genric-btn circle text-center small" [class.info]="!isUserStatisticClicked(i)" [class.primary-border]="isUserStatisticClicked(i)">Ir al perfil</button></td>
                   </tr>
                   <tr *ngIf="isUserStatisticClicked(i)" class="selected-row-child">
                     <td colspan=4>

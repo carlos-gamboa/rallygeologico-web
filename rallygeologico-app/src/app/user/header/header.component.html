@@ -1,4 +1,5 @@
-<header id="header">
+<div *ngIf="readyToShow"><!-- start banner Area -->
+  <header id="header">
   <div class="ucr-banner">
     <img src="../../../assets/images/ucr/firma-horizontal-una-linea-reverso.png" class="signature">
   </div>
@@ -7,7 +8,7 @@
       <nav id="nav-menu-container">
         <ul class="nav-menu">
           <li [class.menu-active]="isActive(0)"><a routerLink="/dashboard" (click)="changeActive(0)">Inicio</a></li>
-          <li [class.menu-active]="isActive(1)"><a routerLink="/profile" (click)="changeActive(1)">Mi Perfil</a></li>
+          <li [class.menu-active]="isActive(1)"><a routerLink="/profile/{{user.id}}" (click)="changeActive(1)">Mi Perfil</a></li>
           <li class="menu-has-children" [class.menu-active]="isActive(2)"><a routerLink="/rallies" (click)="changeActive(2)">Rallies</a>
             <ul>
               <li [class.menu-active]="isActive(2)"><a routerLink="/instructions" (click)="changeActive(2)">¿Qué es un rally geológico?</a></li>
@@ -24,3 +25,4 @@
     </div>
   </div>
 </header><!-- #header -->
+</div>
