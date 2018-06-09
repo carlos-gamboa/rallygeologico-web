@@ -251,9 +251,9 @@ return [
              * the following line and set the port accordingly
              */
             //'port' => 'non_standard_port_number',
-            'username' => 'root',
-            'password' => '',
-            'database' => 'rallygeologico',
+            'username' => env('DATABASE_USERNAME', 'root'),
+            'password' => env('DATABASE_PASSWD', ''),
+            'database' => env('DATABASE_DB', 'rallygeologico'),
             /*
              * You do not need to set this flag to use full utf-8 encoding (internal default since CakePHP 3.6).
              */
@@ -381,7 +381,7 @@ return [
     ],
 
     'Cors' => [
-        'AllowOrigin' => ['https://localhost', 'https://localhost:4200'],
+        'AllowOrigin' => ['https://localhost', 'https://localhost:4200', 'http://rallygeologico.ucr.ac.cr'],
         'AllowCredentials' => true
     ]
 ];

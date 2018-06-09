@@ -42,12 +42,15 @@ export class LoginComponent implements OnInit {
     showMessage: boolean;
     alertMessage: string;
 
+    assetsUrl: string;
+
     facebookWorking: boolean = environment.facebookWorking;
     googleWorking: boolean = environment.googleWorking;
     facebookText: string;
     googleText: string;
 
     constructor(private _ngZone: NgZone, private fb: FacebookService, private userService: UserService, private router: Router, private userDataService:DataService,private dataService: DataService){
+        this.assetsUrl = environment.assetsUrl;
         if (this.facebookWorking) {
             let initParams: InitParams = {
                 appId: environment.facebookKey,

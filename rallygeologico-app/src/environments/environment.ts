@@ -11,6 +11,7 @@ export const environment = {
     googleClientS: 'CTaoCHlssqekMMVcMcCgpOnn',
     server: 'http://localhost/',
     apiUrl: 'rallygeologico/rallygeologico-ws/',
+    assetsUrl: '../../',
     googleWorking: false,
     facebookWorking: false
 };

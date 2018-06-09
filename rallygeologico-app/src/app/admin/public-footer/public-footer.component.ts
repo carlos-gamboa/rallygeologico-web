@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-public-footer',
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PublicFooterComponent implements OnInit {
 
-  constructor() { }
+    assetsUrl: string;
+
+  constructor() {
+      this.assetsUrl = environment.assetsUrl;
+  }
 
   ngOnInit() {
   }
