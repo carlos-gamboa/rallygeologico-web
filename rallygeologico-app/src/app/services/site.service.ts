@@ -120,6 +120,24 @@ export class SiteService {
         return this.http.get<Site[]>(this.baseUrl + "site/getAssociatedSites/"+rallyId+".json");
     }
 
+    /**
+     * Service for getting all the sites those aren't part of the specified term
+     * @param {number} termId
+     * @returns {Observable<Site>}
+     */
+    getOtherSitesFromTerm(termId: number):Observable<Site[]>{
+        return this.http.get<Site[]>(this.baseUrl + "site/getOtherSitesFromTerm/"+termId+".json");
+    }
+
+    /**
+     * Service for getting all the sites those are part of the specified term
+     * @param {number} termId
+     * @returns {Observable<Site[]>}
+     */
+    getAssociatedSitesFromTerm(termId: number): Observable<Site[]>{
+        return this.http.get<Site[]>(this.baseUrl + "site/getAssociatedSitesFromTerm/"+termId+".json");
+    }
+
     getSites() : Observable<Site[]>{
       return this.http.get<Site[]>(this.baseUrl + "site.json");
     }

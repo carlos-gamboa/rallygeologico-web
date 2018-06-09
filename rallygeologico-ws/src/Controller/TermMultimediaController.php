@@ -124,4 +124,13 @@ class TermMultimediaController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function getTermMultimedia($termId = null, $multimediaId = null){
+        $termSite = $this->TermMultimedia->find('all', [
+                'conditions' => ['termMultimedia.term_id' => $termId,
+                    'termMultimedia.multimedia_id' => $multimediaId]]
+        );
+        $this->set('rallySite', $termSite->extract('id'));
+        $this->render('/TermMultimedia/json/template');
+    }
 }

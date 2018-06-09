@@ -123,4 +123,13 @@ class TermSiteController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function getTermSite($termId = null, $siteId = null){
+        $termSite = $this->TermSite->find('all', [
+                'conditions' => ['termSite.term_id' => $termId,
+                    'termSite.site_id' => $siteId]]
+        );
+        $this->set('rallySite', $termSite->extract('id'));
+        $this->render('/TermSite/json/template');
+    }
 }

@@ -18,8 +18,8 @@ export class TermService {
     this.headers.append('Content-Type', 'application/json');
   }
 
-  addTerm(name : string, description : string) : Observable<Term[]>{
-    return this.http.post<Term[]>(this.baseUrl + "term/add.json", {
+  addTerm(name : string, description : string) : Observable<Term>{
+    return this.http.post<Term>(this.baseUrl + "term/add.json", {
       'name':name,
       'description':description,
     },{ headers: this.headers, withCredentials: true });
@@ -32,13 +32,79 @@ export class TermService {
     },{ headers: this.headers, withCredentials: true });
   }
 
-  deleteTerm(id: number) : Observable<Term[]>{
-    return this.http.post<Term[]>(this.baseUrl + "term/delete/"+id+".json", {
+  deleteTerm(id: number) : Observable<Term>{
+    return this.http.post<Term>(this.baseUrl + "term/delete/"+id+".json", {
     },{ headers: this.headers, withCredentials: true });
   }
 
   getTerms() : Observable<Term[]>{
     return this.http.get<Term[]>(this.baseUrl + "term.json");
+  }
+
+  /**
+   * Service for obtaining the termSiteId
+   *
+   * @param {number} termId
+   * @param {number} siteId
+   * @returns {Observable<number>}
+   */
+  getTermSite(termId: number, siteId: number): Observable<number>{
+    return this.http.get<number>(this.baseUrl + "termSite/getTermSite/"+termId+"/"+siteId+".json");
+  }
+
+  /**
+   * Service for adding a termSite relation
+   * @param {number} termId
+   * @param {number} siteId
+   * @returns {Observable<Site>}
+   */
+  addTermSite(termId: number, siteId: number): Observable<Term>{
+    return this.http.post<Term>(this.baseUrl + "termSite/add.json", {
+      'term_id': termId,
+      'site_id': siteId
+    },{ headers: this.headers, withCredentials: true });
+  }
+
+  /**
+   * Service for deleting the termSite relation
+   * @param {number} id
+   * @returns {Observable<boolean>}
+   */
+  deleteTermSite(id: number): Observable<boolean>{
+    return this.http.delete<boolean>(this.baseUrl + "termSite/delete/"+id+".json");
+  }
+
+  /**
+   * Service for obtaining the termSiteId
+   *
+   * @param {number} termId
+   * @param {number} multimediaId
+   * @returns {Observable<number>}
+   */
+  getTermMultimedia(termId: number, multimediaId: number): Observable<number>{
+    return this.http.get<number>(this.baseUrl + "termMultimedia/getTermSite/"+termId+"/"+multimediaId+".json");
+  }
+
+  /**
+   * Service for adding a termSite relation
+   * @param {number} termId
+   * @param {number} multimediaId
+   * @returns {Observable<Site>}
+   */
+  addTermMultimedia(termId: number, multimediaId: number): Observable<Term>{
+    return this.http.post<Term>(this.baseUrl + "termMultimedia/add.json", {
+      'term_id': termId,
+      'multimedia_id': multimediaId
+    },{ headers: this.headers, withCredentials: true });
+  }
+
+  /**
+   * Service for deleting the termSite relation
+   * @param {number} id
+   * @returns {Observable<boolean>}
+   */
+  deleteTermMultimedia(id: number): Observable<boolean>{
+    return this.http.delete<boolean>(this.baseUrl + "termMultimedia/delete/"+id+".json");
   }
 
 }

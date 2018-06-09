@@ -25,8 +25,12 @@ export class EditTermComponent implements OnInit {
   changesSaved: boolean;
   deleted: boolean;
   newTerm: boolean;
+  messageType : boolean;
 
   searchQuery : string = "";
+  searchSiteQuery : string = "";
+  alertMessage : string = "";
+  searchMultimediaQuery = "";
 
   user: User;
   pageSize : number = 10;
@@ -42,7 +46,7 @@ export class EditTermComponent implements OnInit {
 
   multimedia : Multimedia[];
   allMultimedia : Multimedia[];
-  totalMultimedia : number;
+  totalMultimedia : number = 0;
   otherMultimedia: Multimedia[];
   currentMultimedia : Multimedia[];
   showedMultimedia : Multimedia[];
@@ -59,7 +63,7 @@ export class EditTermComponent implements OnInit {
   sites : Site[];
   allSites : Site[];
   showedSites : Site[];
-  totalSites : number;
+  totalSites : number = 0;
   otherSites : Site[];
   currentSites : Site[];
 
@@ -147,6 +151,50 @@ export class EditTermComponent implements OnInit {
     }
   }
 
+  sitePageChange() : void{
+    if(this.sites) {
+        this.showedSites = this.sites.slice((this.currentPageSite - 1) * this.pageSize, ((this.currentPageSite) * this.pageSize));
+    }
+  }
+
+  multimediaPageChange() : void{
+    if(this.multimedia) {
+        this.showedMultimedia = this.multimedia.slice((this.currentPageMultimedia - 1) * this.pageSize, ((this.currentPageMultimedia) * this.pageSize));
+    }
+}
+
+  searchSite(){
+    let sitesToShow = [];
+    if(this.searchSiteQuery.length >= 1) {
+      for (let site of this.allSites) {
+        if (site.name.toLowerCase().startsWith(this.searchSiteQuery.toLowerCase())) {
+          sitesToShow.push(site);
+        }
+      }
+      this.reloadSites(sitesToShow);
+    }else{
+      this.reloadSites(this.allSites);
+    }
+  }
+
+  searchMultimedia(){
+    let multimediaToShow = [];
+    if(this.searchMultimediaQuery.length >= 1) {
+        for (let multimedia of this.allMultimedia) {
+            if (multimedia.name.toLowerCase().startsWith(this.searchSiteQuery.toLowerCase())) {
+                multimediaToShow.push(multimedia);
+            }
+        }
+        this.reloadMultimedia(multimediaToShow);
+    }else{
+        this.reloadMultimedia(this.allMultimedia);
+    }
+}
+
+
+
+
+
   edit(i: number){
     this.readyToShow = false;
     this.activeTab = 0;
@@ -194,9 +242,9 @@ export class EditTermComponent implements OnInit {
 
   updateSites(){
     this.allSites = [];
-    this.siteService.getOtherSites(this.currentTerm.id).subscribe((otherSites: Site[]) => { //TODO Change this services because the use rallyId, not termId
+    this.siteService.getOtherSitesFromTerm(this.currentTerm.id).subscribe((otherSites: Site[]) => { //TODO Change this services because the use rallyId, not termId
       this.otherSites = otherSites;
-      this.siteService.getAssociatedSites(this.currentTerm.id).subscribe((currentSites: Site[]) => { //TODO Change this services because the use rallyId, not termId
+      this.siteService.getAssociatedSitesFromTerm(this.currentTerm.id).subscribe((currentSites: Site[]) => { //TODO Change this services because the use rallyId, not termId
         this.currentSites = currentSites;
         for(let site of this.otherSites){
           this.allSites.push(site);
@@ -225,6 +273,157 @@ export class EditTermComponent implements OnInit {
       });
     });
   }
+
+  saveChanges(){
+    this.changesSaved = false;
+    this.deleted = false;
+    if (!this.currentTerm){
+      this.termService.addTerm(this.name, this.description).subscribe((term: Term) => {
+        if (term){
+          this.currentTerm = term;
+          this.allTerms.push(this.currentTerm);
+          this.changesSaved = true;
+          this.messageType = true;
+          this.newTerm = false;
+          this.alertMessage = "La competencia ha sido creada.";
+        } else {
+          this.messageType = false;
+          this.alertMessage = "No se pudo crear la competencia.";
+        }
+      });
+    } else {
+      this.termService.editTerm(this.currentTerm.id, this.name, this.description).subscribe((term: Term) => {
+        this.changesSaved = true;
+        if (term){
+          this.currentTerm = term;
+          this.allTerms[this.currentTermIndex] = this.currentTerm;
+          this.messageType = true;
+          this.alertMessage = "Se han guardado los cambios.";
+        } else {
+          this.alertMessage = "No se pudo guardar los cambios.";
+          this.messageType = false;
+        }
+      });
+    }
+  }
+
+  /**
+   * Returns if the specified site is actually part of the current term
+   *
+   * @param {Site} site
+   * @returns {boolean}
+   */
+  belongsTo(site: Site): boolean{
+    for(let currentSite of this.currentSites){
+      if (site.name == currentSite.name){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Adds a termSite relation between the current term and the site on the specified position
+   *
+   * @param {number} i
+   */
+  addTermSite(i : number){
+    this.changesSaved = false;
+    this.termService.addTermSite(i, this.currentTerm.id).subscribe((term: Term) =>{
+      this.changesSaved = true;
+      if(term){
+        this.updateSites();
+        this.reloadSites(this.allSites);
+        this.messageType = true;
+        this.alertMessage = "Se ha agregado el sitio al rally seleccionado."
+      } else {
+        this.messageType = false;
+        this.alertMessage = "No se pudo agregar el sitio al rally seleccionado."
+      }
+    });
+  }
+
+  /**
+   * Deletes the rallySite relation between the current rally and the site on the specified position
+   *
+   * @param {number} i
+   */
+  deleteTermSite(i: number){
+    this.changesSaved = false;
+    this.termService.getTermSite(this.currentTerm.id, i).subscribe((id: number) => {
+      this.termService.deleteTermSite(id).subscribe((deleted: boolean) => {
+        this.changesSaved = true;
+        if (deleted) {
+          this.updateSites();
+          this.reloadSites(this.allSites);
+          this.messageType = true;
+          this.alertMessage = "Se ha eliminado el sitio del rally seleccionado."
+        } else {
+          this.messageType = false;
+          this.alertMessage = "No se pudo eliminal el sitio del rally seleccionado."
+        }
+      });
+    });
+  }
+
+    /**
+     * Returns if the specified site is actually part of the current term
+     *
+     * @param {Multimedia} multimedia
+     * @returns {boolean}
+     */
+    multimediaBelongsTo(multimedia: Multimedia): boolean{
+        for(let currentMultimedia of this.currentMultimedia){
+            if (multimedia.name == currentMultimedia.name){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Adds a termMultimedia relation between the current term and the site on the specified position
+     *
+     * @param {number} i
+     */
+    addTermMultimedia(i : number){
+        this.changesSaved = false;
+        this.termService.addTermMultimedia(i, this.currentTerm.id).subscribe((term: Term) =>{
+            this.changesSaved = true;
+            if(term){
+                this.updateMultimedia();
+                this.reloadMultimedia(this.allMultimedia);
+                this.messageType = true;
+                this.alertMessage = "Se ha agregado el sitio al rally seleccionado."
+            } else {
+                this.messageType = false;
+                this.alertMessage = "No se pudo agregar el sitio al rally seleccionado."
+            }
+        });
+    }
+
+    /**
+     * Deletes the termMultimedia relation between the current rally and the site on the specified position
+     *
+     * @param {number} i
+     */
+    deleteTermMultimedia(i: number){
+        this.changesSaved = false;
+        this.termService.getTermMultimedia(this.currentTerm.id, i).subscribe((id: number) => {
+            this.termService.deleteTermMultimedia(id).subscribe((deleted: boolean) => {
+                this.changesSaved = true;
+                if (deleted) {
+                    this.updateMultimedia();
+                    this.reloadMultimedia(this.allMultimedia);
+                    this.messageType = true;
+                    this.alertMessage = "Se ha eliminado el sitio del rally seleccionado."
+                } else {
+                    this.messageType = false;
+                    this.alertMessage = "No se pudo eliminal el sitio del rally seleccionado."
+                }
+            });
+        });
+    }
 
 
 

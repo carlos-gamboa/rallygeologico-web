@@ -167,4 +167,44 @@ class SiteController extends AppController
         $this->set('site', $sites);
         $this->render('/Site/json/template');
     }
+
+    /**
+     * Gets all sites those aren't part of the specified term
+     *
+     * @param null $rallyId
+     */
+    public function getOtherSitesFromTerm($termId = null){
+        $this->loadModel('TermSite');
+        $sites = $this->Site->find('all', [
+            'conditions' => [
+                'site.id NOT IN ' => $this->TermSite->find('all', [
+                    'fields' => ['TermSite.site_id'],
+                    'conditions' => ['TermSite.term_id' => $termId
+                    ]
+                ])
+            ]
+        ]);
+        $this->set('site', $sites);
+        $this->render('/Site/json/template');
+    }
+
+    /**
+     * Gets all sites those are part of the specified term
+     *
+     * @param null $termId
+     */
+    public function getAssociatedSitesFromTerm($termId = null){
+        $this->loadModel('TermSite');
+        $sites = $this->Site->find('all', [
+            'conditions' => [
+                'site.id IN ' => $this->TermSite->find('all', [
+                    'fields' => ['TermSite.site_id'],
+                    'conditions' => ['TermSite.term_id' => $termId
+                    ]
+                ])
+            ]
+        ]);
+        $this->set('site', $sites);
+        $this->render('/Site/json/template');
+    }
 }
