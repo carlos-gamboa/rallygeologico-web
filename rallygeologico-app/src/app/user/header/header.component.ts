@@ -34,6 +34,7 @@ export class HeaderComponent implements OnInit {
               }
           });
       } else {
+          this.readyToShow = true;
       }
   }
 
