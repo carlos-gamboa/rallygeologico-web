@@ -6,5 +6,7 @@ export const environment = {
     googleClientS: 'CTaoCHlssqekMMVcMcCgpOnn',
     server: 'http://rallygeologico.ucr.ac.cr/',
     apiUrl: 'rallygeologico/rallygeologico-ws/',
-    assetsUrl: '/'
+    assetsUrl: '/',
+    googleWorking: false,
+    facebookWorking: false
 };

@@ -381,7 +381,7 @@ return [
     ],
 
     'Cors' => [
-        'AllowOrigin' => ['https://localhost', 'https://localhost:4200', 'http://rallygeologico.ucr.ac.cr'],
+        'AllowOrigin' => ['https://localhost', 'https://localhost:4200', 'http://localhost', 'http://localhost:4200', 'http://rallygeologico.ucr.ac.cr'],
         'AllowCredentials' => true
     ]
 ];
