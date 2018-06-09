@@ -10,12 +10,12 @@
 
           <div *ngIf="!successful && !emailUsed" class="btn-group margbutton" (click)="loginWithOptions()">
             <span class='btn facebookcolor disabled'><i class="fa fa-facebook"></i></span>
-            <span class='btn facebookcolor ' href='' style="width:14em"> Registrarse con Facebook</span>
+            <span class='btn facebookcolor' [class.disabled-color]="!facebookWorking"  style="width:14em"> {{facebookText}}</span>
           </div>
 
           <div *ngIf="!successful && !emailUsed" class="btn-group margbutton" (click)="googleSignIn()">
             <span class='btn btn-danger disabled'><i class="fa fa-google" style="color:white; width:16px; height:20px"></i></span>
-            <span class='btn btn-danger' href='' style="width:14em;"> Registrarse con Google</span>
+            <span class='btn btn-danger' [class.disabled-color]="!googleWorking"  style="width:14em;"> {{googleText}}</span>
           </div>
 
         </div>

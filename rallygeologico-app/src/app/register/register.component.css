@@ -115,3 +115,8 @@
 label{
   margin-top: 8px;
 }
+
+.disabled-color{
+  opacity: 0.75;
+  cursor: not-allowed !important;
+}

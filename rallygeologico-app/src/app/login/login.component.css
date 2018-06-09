@@ -111,3 +111,8 @@
   padding: 10px;
   color: #555555;
 }
+
+.disabled-color{
+  opacity: 0.75;
+  cursor: not-allowed !important;
+}
