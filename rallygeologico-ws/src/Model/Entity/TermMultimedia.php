@@ -6,6 +6,7 @@ use Cake\ORM\Entity;
 /**
  * TermMultimedia Entity
  *
+ * @property int $id
  * @property int $term_id
  * @property int $multimedia_id
  *
@@ -25,6 +26,8 @@ class TermMultimedia extends Entity
      * @var array
      */
     protected $_accessible = [
+        'term_id' => true,
+        'multimedia_id' => true,
         'term' => true,
         'multimedia' => true
     ];

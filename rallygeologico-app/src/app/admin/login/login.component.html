@@ -1,0 +1,36 @@
+<div class="login-background">
+  <div class="wrap-login">
+    <div class="row">
+      <div class="col-sm-12 center">
+        <h2 class="mb-60 text-center login-title">Iniciar Sesión Como Administrador</h2>
+        <img class="mb-60 center login-icon" src="../../assets/images/login-icon.png" alt="Icono de Usuario">
+        <div class="center text-center">
+
+          <div class="btn-group margbutton" *ngIf="loginWithFacebook && !isNotRegistered" (click)="loginWithOptions()">
+            <span class='btn facebookcolor disabled'><i class="fa fa-facebook"></i></span>
+            <span class='btn facebookcolor ' href='' style="width:12em"> Sign in with Facebook</span>
+          </div>
+
+          <div class="btn-group margbutton" *ngIf="loginWithGoogle && !isNotRegistered" (click)="googleSignIn()">
+            <span class='btn btn-danger disabled'><i class="fa fa-google" style="color:white; width:16px; height:20px"></i></span>
+            <span class='btn btn-danger' href='' style="width:12em;"> Sign in with Google</span>
+          </div>
+
+        </div>
+        <div *ngIf="isNotRegistered == true" class="alert alert-warning" role="alert">
+          Usted no está registrado como administrador.
+          <a class="txt2" routerLink="/login">
+            Dirijase al login de usuarios.
+          </a>
+        </div>
+        <div *ngIf="pleaseWait" class="alert alert-info text-center" role="alert">
+          Por favor espere.
+        </div>
+        <div *ngIf="success" class="alert alert-success text-center" role="alert">
+          Ha iniciado sesión con éxito.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-public-footer></app-public-footer>

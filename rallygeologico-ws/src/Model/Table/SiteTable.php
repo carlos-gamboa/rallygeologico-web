@@ -94,7 +94,7 @@ class SiteTable extends Table
 
         $validator
             ->scalar('description')
-            ->maxLength('description', 2000)
+            ->maxLength('description', 5000)
             ->allowEmpty('description');
 
         $validator

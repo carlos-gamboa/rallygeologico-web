@@ -92,13 +92,12 @@ class TermController extends AppController
             $term = $this->Term->patchEntity($term, $this->getRequest()->getData());
             if ($this->Term->save($term)) {
                 $this->Flash->success(__('The term has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The term could not be saved. Please, try again.'));
         }
         $site = $this->Term->Site->find('list', ['limit' => 200]);
         $this->set(compact('term', 'site'));
+        $this->render('/Term/json/template');
     }
 
     /**

@@ -43,8 +43,7 @@ import { SearchRalliesComponent } from './search-rallies/search-rallies.componen
   ],
     exports: [
         HeaderComponent,
-        FooterComponent,
-        CreateCompetitionComponent
+        FooterComponent
     ]
 })
 export class UserModule { }

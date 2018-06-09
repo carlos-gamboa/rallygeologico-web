@@ -14,6 +14,8 @@
         <li><?= $this->Html->link(__('New Option'), ['controller' => 'Options', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Multimedia'), ['controller' => 'Multimedia', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Multimedia'), ['controller' => 'Multimedia', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Competition Statistics'), ['controller' => 'CompetitionStatistics', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Competition Statistic'), ['controller' => 'CompetitionStatistics', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="activity index large-9 medium-8 columns content">
@@ -26,6 +28,7 @@
                 <th scope="col"><?= $this->Paginator->sort('activity_type') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('points_awarded') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('description') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('name') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -37,6 +40,7 @@
                 <td><?= $this->Number->format($activity->activity_type) ?></td>
                 <td><?= $this->Number->format($activity->points_awarded) ?></td>
                 <td><?= h($activity->description) ?></td>
+                <td><?= h($activity->name) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $activity->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $activity->id]) ?>

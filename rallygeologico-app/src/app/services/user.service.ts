@@ -120,4 +120,19 @@ export class UserService {
         },{ headers: this.headers, withCredentials: true });
     }
 
+  /**
+   * Service for searching an administrator based on the api id and type.
+   * @param {string} ApiId User's API Id.
+   * @param {number} LoginApi User's Login API.
+   * @returns {Observable<User[]>}
+   */
+    adminApiId(ApiId : string, LoginApi: number) : Observable<User[]>{
+      return this.http.post<User[]>(this.baseUrl + "users/findApiIdAdmin.json",{
+        'api_id':ApiId,
+        'login_api':LoginApi
+      });
+    }
+
+
+
 }

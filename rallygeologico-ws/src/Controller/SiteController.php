@@ -22,7 +22,7 @@ class SiteController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['District']
+            'contain' => ['District', 'Rally']
         ];
         $site = $this->paginate($this->Site);
 
@@ -75,11 +75,7 @@ class SiteController extends AppController
             }
             $this->Flash->error(__('The site could not be saved. Please, try again.'));
         }
-        $district = $this->Site->District->find('list', ['limit' => 200]);
-        $competitionStatistics = $this->Site->CompetitionStatistics->find('list', ['limit' => 200]);
-        $rally = $this->Site->Rally->find('list', ['limit' => 200]);
-        $term = $this->Site->Term->find('list', ['limit' => 200]);
-        $this->set(compact('site', 'district', 'competitionStatistics', 'rally', 'term'));
+        $this->set('site', $site);
         $this->render('/Site/json/template');
     }
 
@@ -99,8 +95,6 @@ class SiteController extends AppController
             $site = $this->Site->patchEntity($site, $this->getRequest()->getData());
             if ($this->Site->save($site)) {
                 $this->Flash->success(__('The site has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The site could not be saved. Please, try again.'));
         }
@@ -109,6 +103,7 @@ class SiteController extends AppController
         $rally = $this->Site->Rally->find('list', ['limit' => 200]);
         $term = $this->Site->Term->find('list', ['limit' => 200]);
         $this->set(compact('site', 'district', 'competitionStatistics', 'rally', 'term'));
+        $this->render('/Site/json/template');
     }
 
     /**
@@ -124,10 +119,54 @@ class SiteController extends AppController
         $site = $this->Site->get($id);
         if ($this->Site->delete($site)) {
             $this->Flash->success(__('The site has been deleted.'));
+            $this->set('site', true);
         } else {
             $this->Flash->error(__('The site could not be deleted. Please, try again.'));
+            $this->set('site', false);
         }
 
-        return $this->redirect(['action' => 'index']);
+        $this->render('/Site/json/template');
+    }
+
+    /**
+     * Gets all sites those aren't part of the specified rally
+     *
+     * @param null $rallyId
+     */
+    public function getOtherSites($rallyId = null){
+        $this->loadModel('RallySite');
+        $sites = $this->Site->find('all', [
+            'conditions' => [
+                'site.id NOT IN ' => $this->RallySite->find('all', [
+                    'fields' => ['RallySite.site_id'],
+                    'conditions' => ['RallySite.rally_id' => $rallyId
+                    ]
+                ])
+            ],
+            'contain' => ['District']
+        ]);
+        $this->set('site', $sites);
+        $this->render('/Site/json/template');
+    }
+
+    /**
+     * Gets all sites those are part of the specified rally
+     *
+     * @param null $rallyId
+     */
+    public function getAssociatedSites($rallyId = null){
+        $this->loadModel('RallySite');
+        $sites = $this->Site->find('all', [
+            'conditions' => [
+                'site.id IN ' => $this->RallySite->find('all', [
+                    'fields' => ['RallySite.site_id'],
+                    'conditions' => ['RallySite.rally_id' => $rallyId
+                    ]
+                ])
+            ],
+            'contain' => ['District']
+        ]);
+        $this->set('site', $sites);
+        $this->render('/Site/json/template');
     }
 }
