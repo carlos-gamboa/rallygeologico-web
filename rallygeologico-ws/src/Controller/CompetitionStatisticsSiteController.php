@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
+use Cake\Datasource\ConnectionManager;
 
 /**
  * CompetitionStatisticsSite Controller
@@ -66,17 +67,17 @@ class CompetitionStatisticsSiteController extends AppController
      */
     public function add()
     {
+        $associations = ['CompetitionStatistics', 'Site'];
         $competitionStatisticsSite = $this->CompetitionStatisticsSite->newEntity();
         if ($this->getRequest()->is('post')) {
             $competitionStatisticsSite = $this->CompetitionStatisticsSite->patchEntity($competitionStatisticsSite, $this->getRequest()->getData());
             if ($this->CompetitionStatisticsSite->save($competitionStatisticsSite)) {
+                $competitionStatisticsSite = $this->CompetitionStatisticsSite->loadInto($competitionStatisticsSite, $associations);
                 $this->Flash->success(__('The competition statistics site has been saved.'));
             }
             $this->Flash->error(__('The competition statistics site could not be saved. Please, try again.'));
         }
-        $competitionStatistics = $this->CompetitionStatisticsSite->CompetitionStatistics->find('list', ['limit' => 200]);
-        $site = $this->CompetitionStatisticsSite->Site->find('list', ['limit' => 200]);
-        $this->set(compact('competitionStatisticsSite', 'competitionStatistics', 'site'));
+        $this->set('competitionStatisticsSite', $competitionStatisticsSite);
         $this->render('/CompetitionStatisticsSite/json/template');
     }
 
@@ -119,11 +120,13 @@ class CompetitionStatisticsSiteController extends AppController
         $competitionStatisticsSite = $this->CompetitionStatisticsSite->get($id);
         if ($this->CompetitionStatisticsSite->delete($competitionStatisticsSite)) {
             $this->Flash->success(__('The competition statistics site has been deleted.'));
+            $this->set('competitionStatisticsSite', true);
         } else {
             $this->Flash->error(__('The competition statistics site could not be deleted. Please, try again.'));
+            $this->set('competitionStatisticsSite', true);
         }
 
-        return $this->redirect(['action' => 'index']);
+        $this->render('/CompetitionStatisticsSite/json/template');
     }
 
     /**

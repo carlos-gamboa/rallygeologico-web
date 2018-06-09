@@ -119,11 +119,13 @@ class CompetitionStatisticsController extends AppController
         $competitionStatistics = $this->CompetitionStatistics->get($id);
         if ($this->CompetitionStatistics->delete($competitionStatistics)) {
             $this->Flash->success(__('The competition statistic has been deleted.'));
+            $this->set('competitionStatistics', true);
         } else {
             $this->Flash->error(__('The competition statistic could not be deleted. Please, try again.'));
+            $this->set('competitionStatistics', false);
         }
 
-        return $this->redirect(['action' => 'index']);
+        $this->render('/CompetitionStatistics/json/template');
     }
 
     /**

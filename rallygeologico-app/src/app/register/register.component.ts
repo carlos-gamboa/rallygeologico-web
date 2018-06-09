@@ -14,198 +14,260 @@ declare var gapi: any;
 })
 export class RegisterComponent implements OnInit {
 
+    fbId: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    username: string;
+    password: string;
 
-  fbId: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  userName: string;
-  GId: string;
-  GfirstName: string;
-  GlastName: string;
-  Gemail: string;
-  GuserName: string;
-  changeUsername : boolean;
-  error:string;
-  registerWithFacebook:boolean = false;
-  registerWithGoogle:boolean = false;
-  photoUrl : string ="13241235";
-  user : User;
-  successful : boolean = false;
-  emailUsed : boolean = false;
-  pleaseWait : boolean = false;
-  googleClientS : string = environment.googleClientS;
+    GId: string;
+    GfirstName: string;
+    GlastName: string;
+    Gemail: string;
+    GuserName: string;
 
-  constructor(private fb: FacebookService, private router: Router,  private userService: UserService, private _ngZone: NgZone) {
-    console.log('Initializing Facebook');
-    let initParams: InitParams = {
-      appId: environment.facebookKey,
-      xfbml: true,
-      version: 'v2.12'
-    };
-    fb.init(initParams);
-    console.log('Initialized Facebook');
-    this.changeUsername = false;
-    this.userName = "";
+    error:string;
 
+    registerWithFacebook:boolean = false;
+    registerWithGoogle:boolean = false;
+    registerWithPassword:boolean = true;
 
-  }
+    showMessage: boolean;
+    messageType: number;
+    alertMessage: string;
 
-  ngAfterViewInit(): void {
-    gapi.load('auth2', function() {
-      gapi.auth2.init({
-        client_id: environment.googleClient,
-        fetch_basic_profile: true
-      });
-    });
-  }
+    photoUrl : string ="13241235";
+    user : User;
+    successful : boolean = false;
+    googleClientS : string = environment.googleClientS;
 
-  googleSignIn() {
-    console.log('I am passing signIn');
-    var auth2 = gapi.auth2.getAuthInstance();
-    var user = auth2.currentUser.get();
-    var profile = user.getBasicProfile();
-    // Sign the user in, and then retrieve their ID.
-    setTimeout(() =>
-      {
-        this._ngZone.run(
-          () => auth2.signIn().then((res: any) => {
-            var profile = res.getBasicProfile();
-            this.setGoogleVariables(profile.getId(),profile.getGivenName(),profile.getFamilyName(),profile.getImageUrl(),profile.getEmail());
-          })
-        );
-      },
-      1000);
-    this._ngZone.run(
-      () => auth2.signIn().then((res: any) => {
-        var profile = res.getBasicProfile();
-        this.setGoogleVariables(profile.getId(),profile.getGivenName(),profile.getFamilyName(),profile.getImageUrl(),profile.getEmail());
-      })
-    );
-  }
+    facebookText: string;
+    googleText: string;
+    facebookWorking: boolean = environment.facebookWorking;
+    googleWorking: boolean = environment.googleWorking;
 
-  setGoogleVariables(id:string, name:string, lastname:string , img:string , email:string ){
-    this.registerWithFacebook = false;
-    this.registerWithGoogle = true;
-    this.GId = id;
-    this.GfirstName = name;
-    this.GlastName = lastname;
-    this.Gemail = email;
-    this.photoUrl = img;
-  }
+    constructor(private fb: FacebookService, private router: Router,  private userService: UserService, private _ngZone: NgZone) {
+        if (this.facebookWorking){
+            let initParams: InitParams = {
+                appId: environment.facebookKey,
+                xfbml: true,
+                version: 'v2.12'
+            };
+            fb.init(initParams);
+            this.facebookText = "Registrarse con Facebook";
+        } else {
+            this.facebookText = "Pronto con Facebook";
+        }
+        this.username = "";
+        this.showMessage = false;
+    }
 
-
-
-  ngOnInit() {
-  }
-
-  /**
-   * Checks that the userName is free to use
-   */
-  registerFb() {
-    this.pleaseWait = true;
-    var count1 = 0;
-    this.userService.emailExists(this.email).subscribe((users: boolean) => {
-      this.emailUsed = users;
-      if (!this.emailUsed) {
-        var count2 = 0;
-        this.userService.usernameExists(this.userName).subscribe((usersTwo: boolean) => {
-          this.changeUsername = usersTwo;
-          if (!this.changeUsername) {
-            this.userService.register(this.fbId, this.userName, this.firstName, this.lastName, this.email, this.photoUrl, 0).subscribe((users: User[]) => {
-              if (users) {
-                this.successful = true;
-                this.pleaseWait = false;
-              }else {
-                console.log("Couldn't register");
-              }
+    ngAfterViewInit(): void {
+        if (this.googleWorking){
+            gapi.load('auth2', function() {
+                gapi.auth2.init({
+                    client_id: environment.googleClient,
+                    fetch_basic_profile: true
+                });
             });
-          }
-        });
-      }
-    });
+            this.googleText =  "Registrarse con Google";
+        } else {
+            this.googleText = "Pronto con Google";
+        }
+    }
 
-  }
+    googleSignIn() {
+        if (this.googleWorking){
+            this.registerWithPassword = false;
+            console.log('I am passing signIn');
+            var auth2 = gapi.auth2.getAuthInstance();
+            var user = auth2.currentUser.get();
+            var profile = user.getBasicProfile();
+            // Sign the user in, and then retrieve their ID.
+            setTimeout(() =>
+                {
+                    this._ngZone.run(
+                        () => auth2.signIn().then((res: any) => {
+                            var profile = res.getBasicProfile();
+                            this.setGoogleVariables(profile.getId(),profile.getGivenName(),profile.getFamilyName(),profile.getImageUrl(),profile.getEmail());
+                        })
+                    );
+                },
+                1000);
+            this._ngZone.run(
+                () => auth2.signIn().then((res: any) => {
+                    var profile = res.getBasicProfile();
+                    this.setGoogleVariables(profile.getId(),profile.getGivenName(),profile.getFamilyName(),profile.getImageUrl(),profile.getEmail());
+                })
+            );
+        }
+    }
 
-  registerGoogle() {
-    this.pleaseWait = true;
-    var count1 = 0;
-    this.userService.emailExists(this.Gemail).subscribe((users: boolean) => {
-      this.emailUsed = users;
-      if (!this.emailUsed) {
-        var count2 = 0;
-        this.userService.usernameExists(this.userName).subscribe((usersTwo: boolean) => {
-          this.changeUsername = usersTwo;
-          if (!this.changeUsername) {
-            this.userService.register(this.GId, this.userName, this.GfirstName, this.GlastName, this.Gemail, this.photoUrl, 1).subscribe((users: User[]) => {
-              if (users) {
-                console.log("GOOGLE ID: "+ this.userName);
-                this.successful = true;
-                this.pleaseWait = false;
-              }else {
-                console.log("Couldn't register");
-              }
+    setGoogleVariables(id:string, name:string, lastname:string , img:string , email:string ){
+        this.registerWithFacebook = false;
+        this.registerWithGoogle = true;
+        this.GId = id;
+        this.GfirstName = name;
+        this.GlastName = lastname;
+        this.Gemail = email;
+        this.photoUrl = img;
+    }
+
+    ngOnInit() {
+    }
+
+    /**
+     * Checks that the userName is free to use
+     */
+    registerFb() {
+        if (this.facebookWorking) {
+            this.showMessage = true;
+            this.messageType = 2;
+            this.alertMessage = "Por favor espere.";
+            this.userService.emailExists(this.email).subscribe((emailUsed: boolean) => {
+                if (!emailUsed) {
+                    this.userService.usernameExists(this.username).subscribe((usernameTaken: boolean) => {
+                        if (!usernameTaken) {
+                            this.userService.register(this.fbId, this.username, this.firstName, this.lastName, this.email, this.photoUrl, 0, null, 1).subscribe((users: User[]) => {
+                                if (users) {
+                                    this.successful = true;
+                                    this.messageType = 0;
+                                    this.alertMessage = "Se ha registrado con éxito.";
+                                } else {
+                                    this.messageType = 1;
+                                    this.alertMessage = "Hubo un error, no se ha podido registrar.";
+                                }
+                            });
+                        } else {
+                            this.messageType = 1;
+                            this.alertMessage = "El nombre de usuario no está disponible.";
+                        }
+                    });
+                } else {
+                    this.messageType = 1;
+                    this.alertMessage = "El email escogido ya se encuentra asociado a una cuenta.";
+                }
             });
-          }
+        }
+    }
+
+    registerGoogle() {
+        if (this.googleWorking) {
+            this.showMessage = true;
+            this.messageType = 2;
+            this.alertMessage = "Por favor espere.";
+            this.userService.emailExists(this.Gemail).subscribe((emailUsed: boolean) => {
+                if (!emailUsed) {
+                    this.userService.usernameExists(this.username).subscribe((usernameTaken: boolean) => {
+                        if (!usernameTaken) {
+                            this.userService.register(this.GId, this.username, this.GfirstName, this.GlastName, this.Gemail, this.photoUrl, 1, null, 1).subscribe((users: User[]) => {
+                                if (users) {
+                                    this.successful = true;
+                                    this.messageType = 0;
+                                    this.alertMessage = "Se ha registrado con éxito.";
+                                } else {
+                                    this.messageType = 1;
+                                    this.alertMessage = "Hubo un error, no se ha podido registrar.";
+                                }
+                            });
+                        } else {
+                            this.messageType = 1;
+                            this.alertMessage = "El nombre de usuario no está disponible.";
+                        }
+                    });
+                } else {
+                    this.messageType = 1;
+                    this.alertMessage = "El email escogido ya se encuentra asociado a una cuenta.";
+                }
+            });
+        }
+    }
+
+    isFacebookRegister() {
+        return this.registerWithFacebook;
+    }
+
+    loginWithOptions() {
+        if (environment.facebookWorking) {
+            this.registerWithPassword = false;
+            const loginOptions: LoginOptions = {
+                enable_profile_selector: true,
+                return_scopes: true,
+                scope: 'public_profile,email'
+            };
+
+            this.fb.login(loginOptions)
+                .then((res: LoginResponse) => {
+                    console.log('Logged in', res);
+                    this.getProfile();
+                })
+                .catch(this.handleErrorLogin);
+        }
+    }
+
+    private handleErrorLogin(error) {
+        console.error('Error processing FB login', error);
+    }
+
+    /**
+     * Obtains the user's information from his facebook profile and stores it.
+     */
+    getProfile() {
+        this.fb.api('me?fields=id,first_name,last_name,email,picture.width(150).height(150)')
+            .then((res: any) => {
+                console.log('Got the users profile information'+ res);
+                this.fbId = res.id;
+                this.firstName = res.first_name;
+                this.lastName = res.last_name;
+                this.email = res.email;
+                this.photoUrl = res.picture.data.url;
+                console.log(this.fbId +" "+this.firstName +" "+ this.lastName +" "+this.email);
+                this.registerWithFacebook = true;
+                this.registerWithGoogle = false;
+                return res;
+            })
+          .catch(this.handleErrorProfile);
+    }
+
+    private handleErrorProfile(error) {
+        console.error('Error processing FB profile', error);
+    }
+
+    getLoginStatus() {
+        this.fb.getLoginStatus()
+            .then(console.log.bind(console))
+            .catch(console.error.bind(console));
+    }
+
+    passwordRegister(){
+        this.showMessage = true;
+        this.messageType = 2;
+        this.alertMessage = "Por favor espere.";
+        this.userService.emailExists(this.email).subscribe((emailUsed: boolean) => {
+            if (!emailUsed) {
+                this.userService.usernameExists(this.username).subscribe((usernameTaken: boolean) => {
+                    if (!usernameTaken) {
+                        this.userService.register(this.fbId, this.username, this.firstName, this.lastName, this.email, this.photoUrl, 3, this.password, 1).subscribe((users: User[]) => {
+                            if (users) {
+                                this.successful = true;
+                                this.messageType = 0;
+                                this.alertMessage = "Se ha registrado con éxito.";
+                            } else {
+                                this.messageType = 1;
+                                this.alertMessage = "Hubo un error, no se ha podido registrar.";
+                            }
+                        });
+                    } else {
+                        this.messageType = 1;
+                        this.alertMessage = "El nombre de usuario no está disponible.";
+                    }
+                });
+            } else {
+                this.messageType = 1;
+                this.alertMessage = "El email escogido ya se encuentra asociado a una cuenta.";
+            }
         });
-      }
-    });
-
-  }
-
-
-  isFacebookRegister() {
-    return this.registerWithFacebook;
-  }
-
-  loginWithOptions() {
-    const loginOptions: LoginOptions = {
-      enable_profile_selector: true,
-      return_scopes: true,
-      scope: 'public_profile,email'
-    };
-
-    this.fb.login(loginOptions)
-      .then((res: LoginResponse) => {
-        console.log('Logged in', res);
-        this.getProfile();
-      })
-      .catch(this.handleErrorLogin);
-  }
-
-  private handleErrorLogin(error) {
-    console.error('Error processing FB login', error);
-  }
-
-  /**
-   * Obtains the user's information from his facebook profile and stores it.
-   */
-  getProfile() {
-    this.fb.api('me?fields=id,first_name,last_name,email,picture.width(150).height(150)')
-      .then((res: any) => {
-        console.log('Got the users profile information'+ res);
-        this.fbId = res.id;
-        this.firstName = res.first_name;
-        this.lastName = res.last_name;
-        this.email = res.email;
-        this.photoUrl = res.picture.data.url;
-        console.log(this.fbId +" "+this.firstName +" "+ this.lastName +" "+this.email);
-        this.registerWithFacebook = true;
-        this.registerWithGoogle = false;
-        return res;
-      })
-      .catch(this.handleErrorProfile);
-  }
-
-  private handleErrorProfile(error) {
-    console.error('Error processing FB profile', error);
-  }
-
-  getLoginStatus() {
-    this.fb.getLoginStatus()
-      .then(console.log.bind(console))
-      .catch(console.error.bind(console));
-  }
-
+    }
 
 }

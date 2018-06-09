@@ -29,8 +29,7 @@ const routes : Routes = [
     },
     {
         path : 'glossary', component: GlossaryComponent
-    }
-    ,
+    },
     {
         path : 'glossary/:definitionId', component: DefinitionComponent
     },

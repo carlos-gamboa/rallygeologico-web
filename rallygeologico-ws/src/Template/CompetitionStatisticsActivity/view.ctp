@@ -29,6 +29,10 @@
             <td><?= $competitionStatisticsActivity->has('activity') ? $this->Html->link($competitionStatisticsActivity->activity->id, ['controller' => 'Activity', 'action' => 'view', $competitionStatisticsActivity->activity->id]) : '' ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Id') ?></th>
+            <td><?= $this->Number->format($competitionStatisticsActivity->id) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Points Obtained') ?></th>
             <td><?= $this->Number->format($competitionStatisticsActivity->points_obtained) ?></td>
         </tr>

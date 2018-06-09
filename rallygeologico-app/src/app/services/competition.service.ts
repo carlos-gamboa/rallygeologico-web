@@ -68,4 +68,75 @@ export class CompetitionService {
         return this.http.get<Competition[]>(this.baseUrl + "competition/getallpubliccompetitions/"+user_id+".json",{ headers: this.headers, withCredentials: true })
     }
 
+    /**
+     * Service for getting all the competitions
+     *
+     * @returns {Observable<Competition[]>}
+     */
+    getAllCompetitions(): Observable<Competition[]>{
+        return this.http.get<Competition[]>(this.baseUrl + "competition.json",{ headers: this.headers, withCredentials: true })
+    }
+
+    /**
+     * Service for editing a competition
+     *
+     * @param {number} id
+     * @param {string} name
+     * @param {string} isActive
+     * @param {string} isPublic
+     * @param {string} description
+     * @param {string} startingDate
+     * @param {string} finishingDate
+     * @param rallyId
+     * @param {string} adminId
+     * @returns {Observable<Competition>}
+     */
+    editCompetition(id: number, name: string, isActive: string, isPublic: string, description: string, startingDate: string, finishingDate: string, rallyId, adminId: string): Observable<Competition>{
+        return this.http.post<Competition>(this.baseUrl + "competition/edit/" + id + ".json", {
+            'is_active': isActive,
+            'is_public': isPublic,
+            'admin_id': adminId,
+            'description': description,
+            'name': name,
+            'rally_id': rallyId,
+            'starting_date': startingDate,
+            'finishing_date': finishingDate
+        },{ headers: this.headers, withCredentials: true })
+    }
+
+    /**
+     * Service for creating a competition
+     *
+     * @param {string} name
+     * @param {string} isActive
+     * @param {string} isPublic
+     * @param {string} description
+     * @param {string} startingDate
+     * @param {string} finishingDate
+     * @param rallyId
+     * @param {string} adminId
+     * @returns {Observable<Competition>}
+     */
+    adminAddCompetition(name: string, isActive: string, isPublic: string, description: string, startingDate: string, finishingDate: string, rallyId, adminId: string): Observable<Competition>{
+        return this.http.post<Competition>(this.baseUrl + "competition/add.json", {
+            'is_active': isActive,
+            'is_public': isPublic,
+            'admin_id': adminId,
+            'description': description,
+            'name': name,
+            'rally_id': rallyId,
+            'starting_date': startingDate
+        },{ headers: this.headers, withCredentials: true })
+    }
+
+    /**
+     * Service for deleting a competition
+     *
+     * @param {number} id
+     * @returns {Observable<boolean>}
+     */
+    deleteCompetition(id: number): Observable<boolean>{
+        return this.http.delete<boolean>(this.baseUrl + "competition/delete/"+id+".json");
+    }
+
 }

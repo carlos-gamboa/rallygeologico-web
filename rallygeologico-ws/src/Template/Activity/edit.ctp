@@ -20,6 +20,8 @@
         <li><?= $this->Html->link(__('New Option'), ['controller' => 'Options', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Multimedia'), ['controller' => 'Multimedia', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Multimedia'), ['controller' => 'Multimedia', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Competition Statistics'), ['controller' => 'CompetitionStatistics', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Competition Statistic'), ['controller' => 'CompetitionStatistics', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="activity form large-9 medium-8 columns content">
@@ -27,11 +29,13 @@
     <fieldset>
         <legend><?= __('Edit Activity') ?></legend>
         <?php
-            echo $this->Form->control('site_id', ['options' => $site, 'empty' => true]);
+            echo $this->Form->control('site_id', ['options' => $site]);
             echo $this->Form->control('activity_type');
             echo $this->Form->control('points_awarded');
             echo $this->Form->control('description');
+            echo $this->Form->control('name');
             echo $this->Form->control('multimedia._ids', ['options' => $multimedia]);
+            echo $this->Form->control('competition_statistics._ids', ['options' => $competitionStatistics]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

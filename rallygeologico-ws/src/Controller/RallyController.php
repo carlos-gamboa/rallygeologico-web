@@ -93,13 +93,13 @@ class RallyController extends AppController
             $rally = $this->Rally->patchEntity($rally, $this->getRequest()->getData());
             if ($this->Rally->save($rally)) {
                 $this->Flash->success(__('The rally has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The rally could not be saved. Please, try again.'));
         }
         $site = $this->Rally->Site->find('list', ['limit' => 200]);
         $this->set(compact('rally', 'site'));
+        $this->render('/Rally/json/template');
+
     }
 
     /**
@@ -115,11 +115,13 @@ class RallyController extends AppController
         $rally = $this->Rally->get($id);
         if ($this->Rally->delete($rally)) {
             $this->Flash->success(__('The rally has been deleted.'));
+            $this->set('rally', true);
         } else {
             $this->Flash->error(__('The rally could not be deleted. Please, try again.'));
+            $this->set('rally', false);
         }
-
-        return $this->redirect(['action' => 'index']);
+        //return $this->redirect(['action' => 'index']);
+        $this->render('/Rally/json/template');
     }
 
     /**
@@ -132,5 +134,44 @@ class RallyController extends AppController
         );
         $this->set('rally', $rally);
         $this->render('/Rally/json/template');
+    }
+
+    /**
+     * Gets all rallies those aren't part of the specified site
+     *
+     * @param null $siteId
+     */
+    public function getOtherRallies($siteId = null){
+        $this->loadModel('RallySite');
+        $sites = $this->Rally->find('all', [
+            'conditions' => [
+                'rally.id NOT IN ' => $this->RallySite->find('all', [
+                    'fields' => ['RallySite.rally_id'],
+                    'conditions' => ['RallySite.site_id' => $siteId
+                    ]
+                ])
+            ]
+        ]);
+        $this->set('site', $sites);
+        $this->render('/Site/json/template');
+    }
+    /**
+     * Gets all rallies those are part of the specified site
+     *
+     * @param null $siteId
+     */
+    public function getAssociatedRallies($siteId = null){
+        $this->loadModel('RallySite');
+        $sites = $this->Rally->find('all', [
+            'conditions' => [
+                'rally.id IN ' => $this->RallySite->find('all', [
+                    'fields' => ['RallySite.rally_id'],
+                    'conditions' => ['RallySite.site_id' => $siteId
+                    ]
+                ])
+            ]
+        ]);
+        $this->set('site', $sites);
+        $this->render('/Site/json/template');
     }
 }

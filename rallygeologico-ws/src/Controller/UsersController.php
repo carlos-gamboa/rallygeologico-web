@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\Utility\Hash;
+use Cake\Auth\DefaultPasswordHasher;
 
 /**
  * Users Controller
@@ -185,6 +186,30 @@ class UsersController extends AppController
     }
 
     /**
+     * Checks if a user is admin.
+     *
+     * @param null $Username User's username
+     */
+    public function userIsAdmin($Username = null)
+    {
+        $users = $this->Users->find('all', [
+                'conditions' => [
+                    'users.username' => $Username,
+                    'users.is_Admin' => 0,
+                ]
+            ]
+        );
+        $this->set('users', $users);
+        if (!$users->isEmpty()){
+            $this->set('users', false);
+        }
+        else{
+            $this->set('users', true);
+        }
+        $this->render('/Users/json/template');
+    }
+
+    /**
      * Find an user by it's email
      *
      * @param null $Email User's email.
@@ -231,6 +256,28 @@ class UsersController extends AppController
                 'conditions' => [
                     'users.api_id' => $ApiId,
                     'users.login_api' => $LoginApi
+                ]
+            ]
+        );
+        $this->set('users', $users);
+        $this->render('/Users/json/template');
+    }
+
+
+    /**
+     * Find an admin by it's api id
+     *
+     */
+    public function findApiIdAdmin()
+    {
+        $data = $this->getRequest()->getData();
+        $ApiId = $data['api_id'];
+        $LoginApi = $data['login_api'];
+        $users = $this->Users->find('all', [
+                'conditions' => [
+                    'users.api_id' => $ApiId,
+                    'users.login_api' => $LoginApi,
+                    'users.is_admin' => 1
                 ]
             ]
         );

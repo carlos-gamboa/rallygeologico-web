@@ -3,11 +3,6 @@
 @import "assets/fonts/font-awesome/font-awesome.min.css";
 @import "assets/fonts/linearicons/linearicons.css";
 
-@font-face{
-    font-family: "Myriad-Pro";
-    src: url(http://www.anaveer.in/honda/font/MYRIADPRO-REGULAR.OTF) format("truetype");
-}
-
 /*--------------------------- Color variations ----------------------*/
 /* Medium Layout: 1280px */
 /* Tablet Layout: 768px */

@@ -40,7 +40,8 @@ class ActivityTable extends Table
         $this->setPrimaryKey('id');
 
         $this->belongsTo('Site', [
-            'foreignKey' => 'site_id'
+            'foreignKey' => 'site_id',
+            'joinType' => 'INNER'
         ]);
         $this->hasMany('Options', [
             'foreignKey' => 'activity_id'
@@ -71,17 +72,15 @@ class ActivityTable extends Table
 
         $validator
             ->integer('activity_type')
-            ->requirePresence('activity_type', 'create')
-            ->notEmpty('activity_type');
+            ->allowEmpty('activity_type');
 
         $validator
             ->integer('points_awarded')
-            ->requirePresence('points_awarded', 'create')
-            ->notEmpty('points_awarded');
+            ->allowEmpty('points_awarded');
 
         $validator
             ->scalar('description')
-            ->maxLength('description', 1000)
+            ->maxLength('description', 5000)
             ->allowEmpty('description');
 
         $validator

@@ -17,6 +17,8 @@
         <li><?= $this->Html->link(__('New Option'), ['controller' => 'Options', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Multimedia'), ['controller' => 'Multimedia', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Multimedia'), ['controller' => 'Multimedia', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Competition Statistics'), ['controller' => 'CompetitionStatistics', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Competition Statistic'), ['controller' => 'CompetitionStatistics', 'action' => 'add']) ?> </li>
     </ul>
 </nav>
 <div class="activity view large-9 medium-8 columns content">
@@ -29,6 +31,10 @@
         <tr>
             <th scope="row"><?= __('Description') ?></th>
             <td><?= h($activity->description) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Name') ?></th>
+            <td><?= h($activity->name) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Id') ?></th>
@@ -51,6 +57,7 @@
                 <th scope="col"><?= __('Id') ?></th>
                 <th scope="col"><?= __('Media Type') ?></th>
                 <th scope="col"><?= __('Media Url') ?></th>
+                <th scope="col"><?= __('Name') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
             <?php foreach ($activity->multimedia as $multimedia): ?>
@@ -58,10 +65,42 @@
                 <td><?= h($multimedia->id) ?></td>
                 <td><?= h($multimedia->media_type) ?></td>
                 <td><?= h($multimedia->media_url) ?></td>
+                <td><?= h($multimedia->name) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['controller' => 'Multimedia', 'action' => 'view', $multimedia->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['controller' => 'Multimedia', 'action' => 'edit', $multimedia->id]) ?>
                     <?= $this->Form->postLink(__('Delete'), ['controller' => 'Multimedia', 'action' => 'delete', $multimedia->id], ['confirm' => __('Are you sure you want to delete # {0}?', $multimedia->id)]) ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+        <?php endif; ?>
+    </div>
+    <div class="related">
+        <h4><?= __('Related Competition Statistics') ?></h4>
+        <?php if (!empty($activity->competition_statistics)): ?>
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <th scope="col"><?= __('Id') ?></th>
+                <th scope="col"><?= __('User Id') ?></th>
+                <th scope="col"><?= __('Competition Id') ?></th>
+                <th scope="col"><?= __('Starting Date') ?></th>
+                <th scope="col"><?= __('Finishing Date') ?></th>
+                <th scope="col"><?= __('Points') ?></th>
+                <th scope="col" class="actions"><?= __('Actions') ?></th>
+            </tr>
+            <?php foreach ($activity->competition_statistics as $competitionStatistics): ?>
+            <tr>
+                <td><?= h($competitionStatistics->id) ?></td>
+                <td><?= h($competitionStatistics->user_id) ?></td>
+                <td><?= h($competitionStatistics->competition_id) ?></td>
+                <td><?= h($competitionStatistics->starting_date) ?></td>
+                <td><?= h($competitionStatistics->finishing_date) ?></td>
+                <td><?= h($competitionStatistics->points) ?></td>
+                <td class="actions">
+                    <?= $this->Html->link(__('View'), ['controller' => 'CompetitionStatistics', 'action' => 'view', $competitionStatistics->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['controller' => 'CompetitionStatistics', 'action' => 'edit', $competitionStatistics->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'CompetitionStatistics', 'action' => 'delete', $competitionStatistics->id], ['confirm' => __('Are you sure you want to delete # {0}?', $competitionStatistics->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>
