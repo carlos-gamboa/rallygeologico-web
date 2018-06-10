@@ -138,7 +138,12 @@ export class SiteService {
         return this.http.get<Site[]>(this.baseUrl + "site/getAssociatedSitesFromTerm/"+termId+".json");
     }
 
+    /**
+     * Gets all the sites
+     * @returns {Observable<Object>}
+     */
     getSites() : Observable<Site[]>{
       return this.http.get<Site[]>(this.baseUrl + "site.json");
     }
+
 }

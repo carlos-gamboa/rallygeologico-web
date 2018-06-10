@@ -18,6 +18,12 @@ export class TermService {
     this.headers.append('Content-Type', 'application/json');
   }
 
+  /**
+   * Adds a new term
+   * @param name
+   * @param description
+   * @returns {Observable<Object>}
+   */
   addTerm(name : string, description : string) : Observable<Term>{
     return this.http.post<Term>(this.baseUrl + "term/add.json", {
       'name':name,
@@ -25,6 +31,13 @@ export class TermService {
     },{ headers: this.headers, withCredentials: true });
   }
 
+  /**
+   * Edits the existing term with new information
+   * @param id
+   * @param name
+   * @param description
+   * @returns {Observable<Object>}
+   */
   editTerm(id: number, name: string, description: string): Observable<Term>{
     return this.http.post<Term>(this.baseUrl + "term/edit/"+id+".json",{
       'name' : name,
@@ -32,13 +45,31 @@ export class TermService {
     },{ headers: this.headers, withCredentials: true });
   }
 
-  deleteTerm(id: number) : Observable<Term>{
-    return this.http.post<Term>(this.baseUrl + "term/delete/"+id+".json", {
+  /**
+   * Deletes the specified term
+   * @param id
+   * @returns {Observable<Object>}
+   */
+  deleteTerm(id: number) : Observable<boolean>{
+    return this.http.post<boolean>(this.baseUrl + "term/delete/"+id+".json", {
     },{ headers: this.headers, withCredentials: true });
   }
 
+  /**
+   * Gets first twenty terms
+   * @returns {Observable<Object>}
+   */
   getTerms() : Observable<Term[]>{
-    return this.http.get<Term[]>(this.baseUrl + "term.json");
+    return this.http.get<Term[]>(this.baseUrl + "term.json", { headers: this.headers, withCredentials: true })
+  }
+
+  /**
+   * Gets all the terms
+   * @param termId
+   * @returns {Observable<Object>}
+   */
+  getAllTerms(termId: number):Observable<Term[]>{
+    return this.http.get<Term[]>(this.baseUrl + "term/getAllTerms/"+termId+".json");
   }
 
   /**
@@ -82,7 +113,7 @@ export class TermService {
    * @returns {Observable<number>}
    */
   getTermMultimedia(termId: number, multimediaId: number): Observable<number>{
-    return this.http.get<number>(this.baseUrl + "termMultimedia/getTermSite/"+termId+"/"+multimediaId+".json");
+    return this.http.get<number>(this.baseUrl + "termMultimedia/getTermMultimedia/"+termId+"/"+multimediaId+".json");
   }
 
   /**

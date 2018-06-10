@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {User} from "../../model/user";
-import {Rally} from "../../model/rally";
-import {Competition} from "../../model/competition";
 import {DataService} from "../../services/data/data.service";
-import {CompetitionService} from "../../services/competition.service";
 import {Router} from "@angular/router";
 import {UserService} from "../../services/user.service";
 import {Term} from "../../model/term";
@@ -94,7 +91,8 @@ export class EditTermComponent implements OnInit {
   }
 
   setupData(){
-    this.termService.getTerms().subscribe((terms: Term[]) => {
+    this.termService.getAllTerms().subscribe((terms: Term[]) => {
+      console.log(terms);
       this.allTerms = terms;
       this.reloadTerms(this.allTerms);
       this.allMultimedia = [];
@@ -119,14 +117,14 @@ export class EditTermComponent implements OnInit {
 
   reloadSites(sites : Site[]) : void{
     this.sites = sites;
-    this.totalSites = Site.length;
+    this.totalSites = sites.length;
     this.showedSites = sites.slice(0, this.pageSize);
     this.currentPageSite = 0;
   }
 
   reloadMultimedia(multimedia : Multimedia[]) : void{
     this.multimedia = multimedia;
-    this.totalMultimedia = Site.length;
+    this.totalMultimedia = multimedia.length;
     this.showedMultimedia = multimedia.slice(0, this.pageSize);
     this.currentPageMultimedia = 0;
   }
@@ -181,7 +179,7 @@ export class EditTermComponent implements OnInit {
     let multimediaToShow = [];
     if(this.searchMultimediaQuery.length >= 1) {
         for (let multimedia of this.allMultimedia) {
-            if (multimedia.name.toLowerCase().startsWith(this.searchSiteQuery.toLowerCase())) {
+            if (multimedia.name.toLowerCase().startsWith(this.searchMultimediaQuery.toLowerCase())) {
                 multimediaToShow.push(multimedia);
             }
         }
@@ -192,7 +190,23 @@ export class EditTermComponent implements OnInit {
 }
 
 
-
+  deleteTerm(id: number, i: number){
+    this.deleted = false;
+    this.changesSaved = false;
+    this.termService.deleteTerm(id).subscribe((deleted: boolean) => {
+      this.deleted = true;
+      if (deleted){
+        this.currentTerm = null;
+        this.allTerms.splice(((this.currentPageTerm - 1) * this.pageSize) + i, 1);
+        this.messageType = true;
+        this.alertMessage = "Se ha eliminado el término.";
+        this.reloadTerms(this.allTerms);
+      } else {
+        this.messageType = false;
+        this.alertMessage = "No se pudo eliminar el término.";
+      }
+    });
+  }
 
 
   edit(i: number){
@@ -270,6 +284,7 @@ export class EditTermComponent implements OnInit {
           this.allMultimedia.push(multimedia);
         }
         this.reloadMultimedia(this.allMultimedia);
+
       });
     });
   }
@@ -285,10 +300,10 @@ export class EditTermComponent implements OnInit {
           this.changesSaved = true;
           this.messageType = true;
           this.newTerm = false;
-          this.alertMessage = "La competencia ha sido creada.";
+          this.alertMessage = "El término ha sido creado.";
         } else {
           this.messageType = false;
-          this.alertMessage = "No se pudo crear la competencia.";
+          this.alertMessage = "No se pudo eliminar el término.";
         }
       });
     } else {
@@ -329,7 +344,7 @@ export class EditTermComponent implements OnInit {
    */
   addTermSite(i : number){
     this.changesSaved = false;
-    this.termService.addTermSite(i, this.currentTerm.id).subscribe((term: Term) =>{
+    this.termService.addTermSite(this.currentTerm.id,i).subscribe((term: Term) =>{
       this.changesSaved = true;
       if(term){
         this.updateSites();
@@ -388,7 +403,7 @@ export class EditTermComponent implements OnInit {
      */
     addTermMultimedia(i : number){
         this.changesSaved = false;
-        this.termService.addTermMultimedia(i, this.currentTerm.id).subscribe((term: Term) =>{
+        this.termService.addTermMultimedia(this.currentTerm.id, i).subscribe((term: Term) =>{
             this.changesSaved = true;
             if(term){
                 this.updateMultimedia();
@@ -408,21 +423,21 @@ export class EditTermComponent implements OnInit {
      * @param {number} i
      */
     deleteTermMultimedia(i: number){
-        this.changesSaved = false;
-        this.termService.getTermMultimedia(this.currentTerm.id, i).subscribe((id: number) => {
-            this.termService.deleteTermMultimedia(id).subscribe((deleted: boolean) => {
-                this.changesSaved = true;
-                if (deleted) {
-                    this.updateMultimedia();
-                    this.reloadMultimedia(this.allMultimedia);
-                    this.messageType = true;
-                    this.alertMessage = "Se ha eliminado el sitio del rally seleccionado."
-                } else {
-                    this.messageType = false;
-                    this.alertMessage = "No se pudo eliminal el sitio del rally seleccionado."
-                }
-            });
+      this.changesSaved = false;
+      this.termService.getTermMultimedia(this.currentTerm.id, i).subscribe((id: number) => {
+        this.termService.deleteTermMultimedia(id).subscribe((deleted: boolean) => {
+          this.changesSaved = true;
+          if (deleted) {
+            this.updateMultimedia();
+            this.reloadMultimedia(this.allMultimedia);
+            this.messageType = true;
+            this.alertMessage = "Se ha eliminado el sitio del rally seleccionado."
+          } else {
+            this.messageType = false;
+            this.alertMessage = "No se pudo eliminal el sitio del rally seleccionado."
+          }
         });
+      });
     }
 
 

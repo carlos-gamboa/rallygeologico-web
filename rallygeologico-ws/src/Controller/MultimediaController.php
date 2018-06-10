@@ -139,14 +139,14 @@ class MultimediaController extends AppController
                 ])
             ]
         ]);
-        $this->set('media', $media);
-        $this->render('/Site/json/template');
+        $this->set('multimedia', $media);
+        $this->render('/Multimedia/json/template');
     }
 
     /**
      * Gets all multimedia associated with the term
      *
-     * @param null $rallyId
+     * @param null $termId
      */
     public function getAssociatedMultimedia($termId = null){
         $this->loadModel('TermMultimedia');
@@ -159,7 +159,7 @@ class MultimediaController extends AppController
                 ])
             ]
         ]);
-        $this->set('media', $media);
-        $this->render('/Site/json/template');
+        $this->set('multimedia', $media);
+        $this->render('/Multimedia/json/template');
     }
 }
