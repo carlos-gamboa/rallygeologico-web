@@ -23,9 +23,7 @@ export class EditCantonComponent implements OnInit {
     messageType : boolean;
 
     searchQuery : string = "";
-    searchSiteQuery : string = "";
     alertMessage : string = "";
-    searchMultimediaQuery = "";
 
     user: User;
     pageSize : number = 10;
@@ -36,15 +34,6 @@ export class EditCantonComponent implements OnInit {
     showedCantons : Canton[];
     totalCantons : number;
     currentPageCanton : number;
-    currentPageSite : number;
-    currentPageMultimedia : number;
-
-    // multimedia : Multimedia[];
-    // allMultimedia : Multimedia[];
-    // totalMultimedia : number = 0;
-    // otherMultimedia: Multimedia[];
-    // currentMultimedia : Multimedia[];
-    // showedMultimedia : Multimedia[];
 
     allProvinces : Province[];
 
@@ -54,14 +43,6 @@ export class EditCantonComponent implements OnInit {
     name: string;
     province_id: number;
 
-
-
-    // sites : Site[];
-    // allSites : Site[];
-    // showedSites : Site[];
-    // totalSites : number = 0;
-    // otherSites : Site[];
-    // currentSites : Site[];
 
 
     constructor(private cantonService: CantonService,

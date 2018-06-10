@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {DistrictService} from "../../services/district.service";
 import {DataService} from "../../services/data/data.service";
 import {Canton} from "../../model/canton";
+import {CantonService} from "../../services/canton.service";
 
 @Component({
   selector: 'app-edit-district',
@@ -22,9 +23,7 @@ export class EditDistrictComponent implements OnInit {
     messageType : boolean;
 
     searchQuery : string = "";
-    searchSiteQuery : string = "";
     alertMessage : string = "";
-    searchMultimediaQuery = "";
 
     user: User;
     pageSize : number = 10;
@@ -35,15 +34,6 @@ export class EditDistrictComponent implements OnInit {
     showedDistricts : District[];
     totalDistricts : number;
     currentPageDistrict : number;
-    currentPageSite : number;
-    currentPageMultimedia : number;
-
-    // multimedia : Multimedia[];
-    // allMultimedia : Multimedia[];
-    // totalMultimedia : number = 0;
-    // otherMultimedia: Multimedia[];
-    // currentMultimedia : Multimedia[];
-    // showedMultimedia : Multimedia[];
 
 
     currentDistrict : District;
@@ -52,18 +42,14 @@ export class EditDistrictComponent implements OnInit {
     name: string;
     canton_id: number;
 
+    allCantons : Canton[];
 
 
-    // sites : Site[];
-    // allSites : Site[];
-    // showedSites : Site[];
-    // totalSites : number = 0;
-    // otherSites : Site[];
-    // currentSites : Site[];
 
 
     constructor(private dataService: DataService,
                 private districtService: DistrictService,
+                private cantonService: CantonService,
                 private router: Router,
                 private userService : UserService) {
         this.readyToShow = false;
@@ -91,15 +77,11 @@ export class EditDistrictComponent implements OnInit {
             console.log(districts);
             this.allDistricts = districts;
             this.reloadDistricts(this.allDistricts);
-            //this.allMultimedia = [];
-            // this.multimediaService.getMultimedia().subscribe((multimedia: Multimedia[]) => {
-            //     this.allMultimedia = multimedia;
-            //     this.siteService.getSites().subscribe((sites: Site[]) => {
-            //         this.allSites = sites;
-            //         this.termSelected = false;
-            this.readyToShow = true;
-            //     });
-            // });
+            this.allCantons = [];
+            this.cantonService.selectallCantons().subscribe((cantons : Canton[]) => {
+                this.allCantons = cantons;
+                this.readyToShow = true;
+            });
         });
     }
 

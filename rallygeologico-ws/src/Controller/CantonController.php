@@ -96,8 +96,6 @@ class CantonController extends AppController
             $canton = $this->Canton->patchEntity($canton, $this->getRequest()->getData());
             if ($this->Canton->save($canton)) {
                 $this->Flash->success(__('The canton has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The canton could not be saved. Please, try again.'));
         }
