@@ -102,6 +102,8 @@ class DistrictController extends AppController
         }
         $canton = $this->District->Canton->find('list', ['limit' => 200]);
         $this->set(compact('district', 'canton'));
+        $this->render('/District/json/template');
+
     }
 
     /**
@@ -117,10 +119,12 @@ class DistrictController extends AppController
         $district = $this->District->get($id);
         if ($this->District->delete($district)) {
             $this->Flash->success(__('The district has been deleted.'));
+            $this->set('district', true);
         } else {
             $this->Flash->error(__('The district could not be deleted. Please, try again.'));
+            $this->set('district', false);
         }
 
-        return $this->redirect(['action' => 'index']);
+        $this->render('/District/json/template');
     }
 }

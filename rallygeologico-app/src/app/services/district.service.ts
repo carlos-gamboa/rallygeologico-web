@@ -33,7 +33,7 @@ export class DistrictService {
     }
 
     editDistrict(id:number, name:string ,canton_id:number): Observable<District>{
-            return this.http.post<District>(this.baseUrl + "competition/edit/" + id + ".json", {
+            return this.http.post<District>(this.baseUrl + "district/edit/" + id + ".json", {
                 'name': name,
                 'canton_id': canton_id
             },{ headers: this.headers, withCredentials: true });
@@ -47,7 +47,8 @@ export class DistrictService {
     }
 
     deleteDistrict(id:number): Observable<boolean> {
-        return this.http.delete<boolean>(this.baseUrl + "district/delete/"+id+".json");
+        return this.http.post<boolean>(this.baseUrl + "district/delete/"+id+".json",
+            { headers: this.headers, withCredentials: true });
     }
 
 

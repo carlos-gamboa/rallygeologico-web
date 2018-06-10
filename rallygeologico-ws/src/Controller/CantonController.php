@@ -103,6 +103,7 @@ class CantonController extends AppController
         }
         $province = $this->Canton->Province->find('list', ['limit' => 200]);
         $this->set(compact('canton', 'province'));
+        $this->render('/Canton/json/template');
     }
 
     /**
@@ -118,10 +119,12 @@ class CantonController extends AppController
         $canton = $this->Canton->get($id);
         if ($this->Canton->delete($canton)) {
             $this->Flash->success(__('The canton has been deleted.'));
+            $this->set('canton', true);
         } else {
             $this->Flash->error(__('The canton could not be deleted. Please, try again.'));
+            $this->set('canton', false);
         }
 
-        return $this->redirect(['action' => 'index']);
+        $this->render('/Canton/json/template');
     }
 }

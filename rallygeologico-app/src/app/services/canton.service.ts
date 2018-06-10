@@ -20,7 +20,7 @@ export class CantonService {
     }
 
     editCanton(id:number, name:string, province_id:number):Observable<Canton>{
-        return this.http.post<Canton>(this.baseUrl + "competition/edit/" + id + ".json", {
+        return this.http.post<Canton>(this.baseUrl + "canton/edit/" + id + ".json", {
             'name': name,
             'province_id': province_id
         },{ headers: this.headers, withCredentials: true });
@@ -34,7 +34,8 @@ export class CantonService {
     }
 
     deleteCanton(id : number):Observable<boolean> {
-        return this.http.delete<boolean>(this.baseUrl + "canton/delete/"+id+".json");
+        return this.http.post<boolean>(this.baseUrl + "canton/delete/"+id+".json" ,
+            { headers: this.headers, withCredentials: true });
     }
     
 }
