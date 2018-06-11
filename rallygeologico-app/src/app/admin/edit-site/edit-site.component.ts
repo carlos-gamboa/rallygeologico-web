@@ -2,15 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import {Rally} from "../../model/rally";
 import {User} from "../../model/user";
-import {Competition} from "../../model/competition";
-import {CompetitionStatisticsService} from "../../services/competition.statistics.service";
-import {CompetitionService} from "../../services/competition.service";
-import {InvitationService} from "../../services/invitation.service";
 import {UserService} from "../../services/user.service";
 import {RallyService} from "../../services/rally.service";
 import {Router} from "@angular/router";
 import {DataService} from "../../services/data/data.service";
-import {CompetitionStatistics} from "../../model/competition.statistics";
 import {District} from "../../model/district";
 import {Site} from "../../model/site";
 import {SiteService} from "../../services/site.service";
@@ -36,12 +31,17 @@ export class EditSiteComponent implements OnInit {
     allRallies: Rally[];
     showedRallies: Rally[];
 
+    currentRallies: Rally[];
+    otherRallies: Rally[];
+
     pageSize : number = 10;
     currentPageSite : number = 0;
     totalSite : number = 0;
     totalRallies : number = 0;
     currentPageRallies: number = 0;
-    searchQuery : string = "";
+
+    searchSiteQuery : string = "";
+    searchRallyQuery : string = "";
 
     currentSite: Site;
     currentSiteIndex: number;
@@ -126,9 +126,9 @@ export class EditSiteComponent implements OnInit {
      */
     searchRally(){
         let ralliesToShow = [];
-        if(this.searchQuery.length >= 1) {
+        if(this.searchRallyQuery.length >= 1) {
             for (let rally of this.allRallies) {
-                if (rally.name.toLowerCase().startsWith(this.searchQuery.toLowerCase())) {
+                if (rally.name.toLowerCase().startsWith(this.searchRallyQuery.toLowerCase())) {
                     ralliesToShow.push(rally);
                 }
             }
@@ -163,9 +163,9 @@ export class EditSiteComponent implements OnInit {
      */
     searchSite(){
         let sitesToShow = [];
-        if(this.searchQuery.length >= 1) {
+        if(this.searchSiteQuery.length >= 1) {
             for (let site of this.allSites) {
-                if (site.name.toLowerCase().startsWith(this.searchQuery.toLowerCase())) {
+                if (site.name.toLowerCase().startsWith(this.searchSiteQuery.toLowerCase())) {
                     sitesToShow.push(site);
                 }
             }
@@ -256,6 +256,9 @@ export class EditSiteComponent implements OnInit {
         this.activeTab = i;
         this.changesSaved = false;
         this.deleted = false;
+        if (i == 1){
+            this.updateRallies();
+        }
     }
 
     goBack(){
@@ -264,20 +267,100 @@ export class EditSiteComponent implements OnInit {
         this.reloadSites(this.allSites);
     }
 
-    deleteSite(i: number){
+    deleteSite(id: number, i: number){
         this.deleted = false;
         this.changesSaved = false;
-        this.siteService.deleteSite(i).subscribe((deleted: boolean) => {
+        this.siteService.deleteSite(id).subscribe((deleted: boolean) => {
             this.deleted = true;
             if (deleted){
                 this.currentSite = null;
-                this.allSites.splice(this.currentSiteIndex, 1);
+                this.allSites.splice(((this.currentPageSite - 1) * this.pageSize) + i, 1);
                 this.messageType = true;
                 this.alertMessage = "Se ha eliminado la competencia.";
+                this.reloadSites(this.allSites);
             } else {
                 this.messageType = false;
                 this.alertMessage = "No se pudo eliminar la competencia.";
             }
+        });
+    }
+
+    /**
+     * Loads all sites'information
+     */
+    updateRallies(){
+        this.allRallies = [];
+        this.rallyService.getOtherRallies(this.currentSite.id).subscribe((otherRallies: Rally[]) => {
+            this.otherRallies = otherRallies;
+            this.rallyService.getAssociatedRallies(this.currentSite.id).subscribe((currentRallies: Rally[]) => {
+                this.currentRallies = currentRallies;
+                for(let rally of this.otherRallies){
+                    this.allRallies.push(rally);
+                }
+                for(let rally of this.currentRallies){
+                    this.allRallies.push(rally);
+                }
+                this.reloadRallies(this.allRallies);
+            });
+        });
+    }
+
+    /**
+     * Returns if the specified site is actually part of the current rally
+     *
+     * @param {Rally} rally
+     * @returns {boolean}
+     */
+    belongsTo(rally: Rally): boolean{
+        for(let currentRally of this.currentRallies){
+            if (rally.name == currentRally.name){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Adds a rallySite relation between the current rally and the site on the specified position
+     *
+     * @param {number} i
+     */
+    addRallySite(i : number){
+        this.changesSaved = false;
+        this.rallyService.addRallySite(i, this.currentSite.id).subscribe((site: Site) =>{
+            this.changesSaved = true;
+            if(site){
+                this.updateRallies();
+                this.reloadRallies(this.allRallies);
+                this.messageType = true;
+                this.alertMessage = "Se ha agregado el sitio al rally seleccionado."
+            } else {
+                this.messageType = false;
+                this.alertMessage = "No se pudo agregar el sitio al rally seleccionado."
+            }
+        });
+    }
+
+    /**
+     * Deletes the rallySite relation between the current rally and the site on the specified position
+     *
+     * @param {number} i
+     */
+    deleteRallySite(i: number){
+        this.changesSaved = false;
+        this.rallyService.getRallySite(i, this.currentSite.id).subscribe((id: number) => {
+            this.rallyService.deleteRallySite(id).subscribe((deleted: boolean) => {
+                this.changesSaved = true;
+                if (deleted) {
+                    this.updateRallies();
+                    this.reloadRallies(this.allRallies);
+                    this.messageType = true;
+                    this.alertMessage = "Se ha eliminado el sitio del rally seleccionado."
+                } else {
+                    this.messageType = false;
+                    this.alertMessage = "No se pudo eliminal el sitio del rally seleccionado."
+                }
+            });
         });
     }
 

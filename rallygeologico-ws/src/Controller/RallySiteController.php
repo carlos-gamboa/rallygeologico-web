@@ -57,6 +57,7 @@ class RallySiteController extends AppController
         ]);
 
         $this->set('rallySite', $rallySite);
+        $this->render('/RallySite/json/template');
     }
 
     /**
@@ -119,10 +120,29 @@ class RallySiteController extends AppController
         $rallySite = $this->RallySite->get($id);
         if ($this->RallySite->delete($rallySite)) {
             $this->Flash->success(__('The rally site has been deleted.'));
+            $this->set('rallySite', true);
+
         } else {
             $this->Flash->error(__('The rally site could not be deleted. Please, try again.'));
+            $this->set('rallySite', false);
         }
 
-        return $this->redirect(['action' => 'index']);
+        //return $this->redirect(['action' => 'index']);
+        $this->render('/RallySite/json/template');
+    }
+
+    /**
+     * Gets the relation id based on rally and site's ids.
+     *
+     * @param null $rallyId
+     * @param null $siteId
+     */
+    public function getRallySite($rallyId = null, $siteId = null){
+        $rallySite = $this->RallySite->find('all', [
+                'conditions' => ['rallySite.rally_id' => $rallyId,
+                    'rallySite.site_id' => $siteId]]
+        );
+        $this->set('rallySite', $rallySite->extract('id'));
+        $this->render('/RallySite/json/template');
     }
 }

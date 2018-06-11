@@ -259,16 +259,17 @@ export class EditCompetitionComponent implements OnInit {
         this.reloadCompetitions(this.allCompetitions);
     }
 
-    deleteCompetition(){
+    deleteCompetition(id: number, i: number){
         this.deleted = false;
         this.changesSaved = false;
-        this.competitionService.deleteCompetition(this.currentCompetition.id).subscribe((deleted: boolean) => {
+        this.competitionService.deleteCompetition(id).subscribe((deleted: boolean) => {
             this.deleted = true;
             if (deleted){
                 this.currentCompetition = null;
-                this.allCompetitions.splice(this.currentCompetitionIndex, 1);
+                this.allCompetitions.splice(((this.currentPageCompetition - 1) * this.pageSize) + i, 1);
                 this.messageType = true;
                 this.alertMessage = "Se ha eliminado la competencia.";
+                this.reloadCompetitions(this.allCompetitions);
             } else {
                 this.messageType = false;
                 this.alertMessage = "No se pudo eliminar la competencia.";

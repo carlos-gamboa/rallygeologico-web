@@ -7,6 +7,7 @@ use Cake\Network\Exception\UnauthorizedException;
 use Cake\Event\Event;
 use Cake\Utility\Text;
 use Cake\Utility\Security;
+use Cake\Auth\DefaultPasswordHasher;
 
 /**
  * Login Controller
@@ -54,29 +55,44 @@ class LoginController extends AppController
     {
         try {
             $data = $this->getRequest()->getData();
-            if(!isset($data['api_id'])||!isset($data['login_api'])){
+            if(!isset($data['login_api'])){
                 throw new UnauthorizedException("Please enter your FacebookId" . print_r($data, true));
             }
+            
+            $loginApi = $data['login_api'];
+            
+            if ($loginApi == 3){
+                $users = $this->Auth->identify();
+                if(!$users) {
+                    throw new UnauthorizedException("Invalid login");
+                }
 
-            $ApiId = $data['api_id'];
-            $LoginApi = $data['login_api'];
+                // if everything is OK set Auth session with user data
+                $this->Auth->setUser($users);
 
-            // Check for user credentials
-            $users = $this->Users->find('all', [
-                'conditions' => [
-                    'users.api_id' => $ApiId,
-                    'users.login_api' => $LoginApi
-                ]
-            ]);
-            if(!$users) {
-                throw new UnauthorizedException("Invalid login");
+                // Generate user Auth token
+                $token =  Security::hash($users->id.$users->username, 'sha1', true);
+            } else {
+                $apiId = $data['api_id'];
+
+                // Check for user credentials
+                $users = $this->Users->find('all', [
+                    'conditions' => [
+                        'users.api_id' => $apiId,
+                        'users.login_api' => $loginApi
+                    ]
+                ]);
+                if(!$users) {
+                    throw new UnauthorizedException("Invalid login");
+                }
+
+                // if everything is OK set Auth session with user data
+                $this->Auth->setUser($users->toArray());
+
+                // Generate user Auth token
+                $token =  Security::hash($users->id.$users->api_id, 'sha1', true);
             }
 
-            // if everything is OK set Auth session with user data
-            $this->Auth->setUser($users->toArray());
-
-            // Generate user Auth token
-            $token =  Security::hash($users->id.$users->api_id, 'sha1', true);
             // Add user token into Auth session
             $this->getRequest()->getSession()->write('Auth.User.token', $token);
 
@@ -89,6 +105,7 @@ class LoginController extends AppController
         $this->set('users', $this->Auth->user());
         $this->render('/Users/json/template');
     }
+    
     /**
      * Logout user
      * API URL  /api/login method: DELETE

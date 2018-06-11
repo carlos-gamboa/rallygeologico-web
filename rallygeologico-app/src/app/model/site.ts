@@ -1,3 +1,5 @@
+import {Term} from "./term";
+
 import {District} from "./district";
 
 export class Site {
@@ -10,6 +12,7 @@ export class Site {
     longitude: number;
     district_id: string;
     points: number;
+    terms: Term[];
     is_easter_egg: string;
     district: District;
 
