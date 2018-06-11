@@ -1,3 +1,4 @@
+<app-admin-header [activeTab]="4"></app-admin-header>
 <!-- Start banner Area -->
 <section class="banner-area relative" id="home">
   <div class="overlay overlay-bg"></div>
@@ -20,7 +21,7 @@
         <div class="offset-md-2 col-md-8 col-xs-12">
           <h3 class="text-center mb-3">Seleccione el término que desea editar</h3>
           <div class="busqueda" id="searchFormEdit">
-            <input [(ngModel)]="searchTermQuery" type="text" title="Digite aquí el nombre del término" id="searchTermEdit" placeholder="Digite el nombre del término" />
+            <input [(ngModel)]="searchQuery" type="text" title="Digite aquí el nombre del término" id="searchTermEdit" placeholder="Digite el nombre del término" />
             <button type="button" id="searchEdit" title="Click aquí para buscar el sitio" (click)="searchTerm()">Buscar</button>
           </div>
           <div class="text-center">

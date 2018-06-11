@@ -3,6 +3,7 @@ import {UserService} from "../../services/user.service";
 import {Router} from "@angular/router";
 import {User} from "../../model/user";
 import {DataService} from "../../services/data/data.service";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-header',
@@ -15,8 +16,10 @@ export class HeaderComponent implements OnInit {
 
     user:User;
     readyToShow: boolean = false;
+    assetsUrl: string;
 
   constructor(private userService: UserService,private router: Router,  private dataService: DataService) {
+      this.assetsUrl = environment.assetsUrl;
       this.user = this.dataService.getUser();
       if (!this.user){
           this.userService.isLoggedIn().subscribe((users: User) => {

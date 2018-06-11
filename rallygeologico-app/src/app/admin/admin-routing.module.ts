@@ -18,7 +18,7 @@ const routes : Routes = [
             path: 'competition', component: EditCompetitionComponent
         },
         {
-          path: 'term', component: EditTermComponent
+            path: 'term', component: EditTermComponent
         },
         {
             path: 'site', component: EditSiteComponent

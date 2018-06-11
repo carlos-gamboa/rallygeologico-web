@@ -13,6 +13,7 @@ import { EditRallyComponent } from './edit-rally/edit-rally.component';
 import {EditSiteComponent} from "./edit-site/edit-site.component";
 import { EditCantonComponent } from './edit-canton/edit-canton.component';
 import { EditDistrictComponent } from './edit-district/edit-district.component';
+import { AdminHeaderComponent } from './admin-header/admin-header.component';
 
 @NgModule({
     imports: [
@@ -34,7 +35,8 @@ import { EditDistrictComponent } from './edit-district/edit-district.component';
         EditRallyComponent,
         EditSiteComponent,
         EditCantonComponent,
-        EditDistrictComponent
+        EditDistrictComponent,
+        AdminHeaderComponent
     ],
     exports: [
         PublicFooterComponent
