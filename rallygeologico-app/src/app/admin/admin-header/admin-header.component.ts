@@ -14,31 +14,27 @@ export class AdminHeaderComponent implements OnInit {
 
     @Input() activeTab: number;
     assetsUrl: string;
+    user: User;
 
     constructor(private userService: UserService,private router: Router,  private dataService: DataService) {
         this.assetsUrl = environment.assetsUrl;
+        this.user = this.dataService.getUser();
+        if (!this.user){
+            this.userService.isLoggedIn().subscribe((users: User) => {
+                if(users[0] && users[0].is_admin == 1){
+                    this.dataService.updateUser(users[0]);
+                    this.user = users[0];
+                } else {
+                    this.router.navigate(['/landing']);
+                }
+            });
+        } else if (this.user.is_admin == 0){
+            this.router.navigate(['/landing']);
+        }
     }
 
     ngOnInit() {
 
-    }
-
-    async ngAfterViewInit() {
-        await this.loadScript(this.assetsUrl+"assets/js/jquery-2.2.4.min.js");
-        await this.loadScript(this.assetsUrl+"assets/js/superfish.min.js");
-        await this.loadScript(this.assetsUrl+"assets/js/jquery.magnific-popup.min.js");
-        await this.loadScript(this.assetsUrl+"assets/js/jquery.counterup.min.js");
-        await this.loadScript(this.assetsUrl+"assets/js/main.js");
-    }
-
-    private loadScript(scriptUrl: string) {
-        return new Promise((resolve, reject) => {
-            const scriptElement = document.createElement('script');
-            scriptElement.src = scriptUrl;
-            scriptElement.type = "text/javascript";
-            scriptElement.onload = resolve;
-            document.body.appendChild(scriptElement);
-        })
     }
 
     isActive(active){

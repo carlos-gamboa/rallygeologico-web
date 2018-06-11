@@ -16,7 +16,7 @@ declare var gapi: any;
 })
 export class LoginComponent implements OnInit {
     
-  username:string;
+    username:string;
     password:string;
     error:string;
     fbId: string;
@@ -77,7 +77,7 @@ export class LoginComponent implements OnInit {
         this.userService.isLoggedIn().subscribe((users: User) => {
             if (users[0]) {
                 this.dataService.updateUser(users[0]);
-                this.router.navigate(['/dashboard']);
+                this.router.navigate(['/admin/competition']);
             }
         });
     }
@@ -194,10 +194,10 @@ export class LoginComponent implements OnInit {
         this.showMessage = true;
         this.messageType = 2;
         this.userService.loginWithPassword(this.username, this.password).subscribe((user: User) => {
-            if (user && user.is_admin == 1){
+            if (user[0] && user[0].is_admin == 1){
                 this.alertMessage = "Ha iniciado sesión con éxito";
                 this.messageType = 0;
-                this.userDataService.updateUser(user);
+                this.userDataService.updateUser(user[0]);
                 setTimeout(() =>
                     {
                         this._ngZone.run(

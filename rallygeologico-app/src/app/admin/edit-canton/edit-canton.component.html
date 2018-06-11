@@ -41,10 +41,10 @@
                 <tr *ngFor="let canton of showedCantons; let i = index">
                   <td><h5 >{{canton?.name}}</h5></td>
                   <td>
-                    <button title="Editar" class="invite-btn genric-btn circle text-center warning medium wide-button" (click)="edit(i)">Editar</button>
+                    <button title="Editar" class="invite-btn genric-btn circle text-center warning medium " (click)="edit(i)">Editar</button>
                   </td>
                   <td>
-                    <button title="Eliminar" class="invite-btn genric-btn circle text-center danger medium wide-button" (click)="deleteCanton(canton.id, i)">Eliminar</button>
+                    <button title="Eliminar" class="invite-btn genric-btn circle text-center danger medium " (click)="deleteCanton(canton.id, i)">Eliminar</button>
                   </td>
                 </tr>
                 </tbody>

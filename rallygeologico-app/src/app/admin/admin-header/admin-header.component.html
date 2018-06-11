@@ -6,14 +6,12 @@
     <div class="row align-items-center justify-content-center d-flex">
       <nav id="nav-menu-container">
         <ul class="nav-menu">
-          <li [class.menu-active]="isActive(0)"><a routerLink="/landing">Inicio</a></li>
           <li [class.menu-active]="isActive(1)"><a routerLink="/admin/competition" >Competencias</a></li>
           <li [class.menu-active]="isActive(2)"><a routerLink="/admin/rally" >Rallies</a></li>
           <li [class.menu-active]="isActive(3)"><a routerLink="/admin/site" >Sitios</a></li>
           <li [class.menu-active]="isActive(4)"><a routerLink="/admin/term" >Términos</a></li>
-          <li class="menu-has-children" [class.menu-active]="isActive(5)"><a routerLink="/" >Datos geográficos</a>
+          <li class="menu-has-children" [class.menu-active]="isActive(5)"><a routerLink="/admin/term" >Datos geográficos</a>
             <ul>
-              <li><a routerLink="/admin/province">Provincias</a></li>
               <li><a routerLink="/admin/canton">Cantones</a></li>
               <li><a routerLink="/admin/district">Distritos</a></li>
             </ul>
