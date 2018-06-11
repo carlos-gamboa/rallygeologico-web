@@ -139,8 +139,8 @@ class RallySiteController extends AppController
      */
     public function getRallySite($rallyId = null, $siteId = null){
         $rallySite = $this->RallySite->find('all', [
-                'conditions' => ['rallySite.rally_id' => $rallyId,
-                    'rallySite.site_id' => $siteId]]
+                'conditions' => ['RallySite.rally_id' => $rallyId,
+                    'RallySite.site_id' => $siteId]]
         );
         $this->set('rallySite', $rallySite->extract('id'));
         $this->render('/RallySite/json/template');

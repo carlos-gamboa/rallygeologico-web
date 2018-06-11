@@ -144,9 +144,9 @@ class CompetitionController extends AppController
                 ],
             'conditions' => [
                     'AND' => [
-                        'competition.is_active' => 1,
-                        'competition.is_public' => 1,
-                        'competition.admin_id !=' =>  $user_id
+                        'Competition.is_active' => 1,
+                        'Competition.is_public' => 1,
+                        'Competition.admin_id !=' =>  $user_id
                     ],
                     ['competition.id NOT IN' => $this->CompetitionStatistics->find('all', [
                         'fields' => ['CompetitionStatistics.competition_id'],

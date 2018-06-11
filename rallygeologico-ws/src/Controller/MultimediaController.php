@@ -132,7 +132,7 @@ class MultimediaController extends AppController
         $this->loadModel('TermMultimedia');
         $media = $this->Multimedia->find('all', [
             'conditions' => [
-                'multimedia.id NOT IN ' => $this->TermMultimedia->find('all', [
+                'Multimedia.id NOT IN ' => $this->TermMultimedia->find('all', [
                     'fields' => ['TermMultimedia.multimedia_id'],
                     'conditions' => ['TermMultimedia.term_id' => $termId
                     ]
@@ -152,7 +152,7 @@ class MultimediaController extends AppController
         $this->loadModel('TermMultimedia');
         $media = $this->Multimedia->find('all', [
             'conditions' => [
-                'multimedia.id IN ' => $this->TermMultimedia->find('all', [
+                'Multimedia.id IN ' => $this->TermMultimedia->find('all', [
                     'fields' => ['TermMultimedia.multimedia_id'],
                     'conditions' => ['TermMultimedia.term_id' => $termId
                     ]

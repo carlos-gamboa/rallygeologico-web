@@ -159,7 +159,7 @@ class UsersController extends AppController
     public function username($Username = null)
     {
         $users = $this->Users->find('all', [
-                'conditions' => ['users.username' => $Username]]
+                'conditions' => ['Users.username' => $Username]]
         );
         $this->set('users', $users);
         $this->render('/Users/json/template');
@@ -173,7 +173,7 @@ class UsersController extends AppController
     public function usernameExists($Username = null)
     {
         $users = $this->Users->find('all', [
-                'conditions' => ['users.username' => $Username]]
+                'conditions' => ['Users.username' => $Username]]
         );
         $this->set('users', $users);
         if ($users->isEmpty()){
@@ -194,8 +194,8 @@ class UsersController extends AppController
     {
         $users = $this->Users->find('all', [
                 'conditions' => [
-                    'users.username' => $Username,
-                    'users.is_Admin' => 0,
+                    'Users.username' => $Username,
+                    'Users.is_Admin' => 0,
                 ]
             ]
         );
@@ -217,7 +217,7 @@ class UsersController extends AppController
     public function email($Email = null)
     {
         $users = $this->Users->find('all', [
-                'conditions' => ['users.email' => $Email]]
+                'conditions' => ['Users.email' => $Email]]
         );
         $this->set('users', $users);
         $this->render('/Users/json/template');
@@ -231,7 +231,7 @@ class UsersController extends AppController
     public function emailExists($Email = null)
     {
         $users = $this->Users->find('all', [
-                'conditions' => ['users.email' => $Email]]
+                'conditions' => ['Users.email' => $Email]]
         );
         $this->set('users', $users);
         if ($users->isEmpty()){
@@ -254,8 +254,8 @@ class UsersController extends AppController
         $LoginApi = $data['login_api'];
         $users = $this->Users->find('all', [
                 'conditions' => [
-                    'users.api_id' => $ApiId,
-                    'users.login_api' => $LoginApi
+                    'Users.api_id' => $ApiId,
+                    'Users.login_api' => $LoginApi
                 ]
             ]
         );
@@ -275,9 +275,9 @@ class UsersController extends AppController
         $LoginApi = $data['login_api'];
         $users = $this->Users->find('all', [
                 'conditions' => [
-                    'users.api_id' => $ApiId,
-                    'users.login_api' => $LoginApi,
-                    'users.is_admin' => 1
+                    'Users.api_id' => $ApiId,
+                    'Users.login_api' => $LoginApi,
+                    'Users.is_admin' => 1
                 ]
             ]
         );
@@ -295,8 +295,8 @@ class UsersController extends AppController
         $LoginApi = $data['login_api'];
         $users = $this->Users->find('all', [
                 'conditions' => [
-                    'users.api_id' => $ApiId,
-                    'users.login_api' => $LoginApi
+                    'Users.api_id' => $ApiId,
+                    'Users.login_api' => $LoginApi
                 ]
             ]
         );

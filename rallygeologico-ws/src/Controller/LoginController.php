@@ -78,8 +78,8 @@ class LoginController extends AppController
                 // Check for user credentials
                 $users = $this->Users->find('all', [
                     'conditions' => [
-                        'users.api_id' => $apiId,
-                        'users.login_api' => $loginApi
+                        'Users.api_id' => $apiId,
+                        'Users.login_api' => $loginApi
                     ]
                 ]);
                 if(!$users) {

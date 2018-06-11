@@ -47,6 +47,8 @@ export class RegisterComponent implements OnInit {
     facebookWorking: boolean = environment.facebookWorking;
     googleWorking: boolean = environment.googleWorking;
 
+    emailUsed: boolean = false;
+
     constructor(private fb: FacebookService, private router: Router,  private userService: UserService, private _ngZone: NgZone) {
         if (this.facebookWorking){
             let initParams: InitParams = {
@@ -123,6 +125,7 @@ export class RegisterComponent implements OnInit {
             this.messageType = 2;
             this.alertMessage = "Por favor espere.";
             this.userService.emailExists(this.email).subscribe((emailUsed: boolean) => {
+                this.emailUsed = emailUsed;
                 if (!emailUsed) {
                     this.userService.usernameExists(this.username).subscribe((usernameTaken: boolean) => {
                         if (!usernameTaken) {
@@ -155,6 +158,7 @@ export class RegisterComponent implements OnInit {
             this.messageType = 2;
             this.alertMessage = "Por favor espere.";
             this.userService.emailExists(this.Gemail).subscribe((emailUsed: boolean) => {
+                this.emailUsed = emailUsed;
                 if (!emailUsed) {
                     this.userService.usernameExists(this.username).subscribe((usernameTaken: boolean) => {
                         if (!usernameTaken) {
@@ -242,6 +246,7 @@ export class RegisterComponent implements OnInit {
         this.messageType = 2;
         this.alertMessage = "Por favor espere.";
         this.userService.emailExists(this.email).subscribe((emailUsed: boolean) => {
+            this.emailUsed = emailUsed;
             if (!emailUsed) {
                 this.userService.usernameExists(this.username).subscribe((usernameTaken: boolean) => {
                     if (!usernameTaken) {

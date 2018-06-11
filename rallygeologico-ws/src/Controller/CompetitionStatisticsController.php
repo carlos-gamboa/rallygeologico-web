@@ -137,7 +137,7 @@ class CompetitionStatisticsController extends AppController
     {
         $competitionStatistics = $this->CompetitionStatistics->find('all', [
             'contain' => ['Users', 'Site', 'Activity'],
-            'conditions' => ['competitionStatistics.competition_id' => $competitionId]]
+            'conditions' => ['CompetitionStatistics.competition_id' => $competitionId]]
         );
         $this->set('competitionStatistics', $competitionStatistics);
         $this->render('/CompetitionStatistics/json/template');
@@ -152,7 +152,7 @@ class CompetitionStatisticsController extends AppController
 
         $competitionStatistics = $this->CompetitionStatistics->find('all', [
             'contain' => ['Competition', 'Site', 'Activity'],
-            'conditions' => ['competitionStatistics.user_id' => $userId]
+            'conditions' => ['CompetitionStatistics.user_id' => $userId]
         ]);
 
         $this->set('competitionStatistics', $competitionStatistics);

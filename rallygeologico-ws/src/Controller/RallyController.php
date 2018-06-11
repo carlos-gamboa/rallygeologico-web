@@ -129,7 +129,7 @@ class RallyController extends AppController
      */
     public function newestRallies (){
         $rally = $this->Rally->find('all', [
-                'order' => ['rally.id' => 'DESC']
+                'order' => ['Rally.id' => 'DESC']
             ]
         );
         $this->set('rally', $rally);
@@ -145,7 +145,7 @@ class RallyController extends AppController
         $this->loadModel('RallySite');
         $sites = $this->Rally->find('all', [
             'conditions' => [
-                'rally.id NOT IN ' => $this->RallySite->find('all', [
+                'Rally.id NOT IN ' => $this->RallySite->find('all', [
                     'fields' => ['RallySite.rally_id'],
                     'conditions' => ['RallySite.site_id' => $siteId
                     ]
@@ -164,7 +164,7 @@ class RallyController extends AppController
         $this->loadModel('RallySite');
         $sites = $this->Rally->find('all', [
             'conditions' => [
-                'rally.id IN ' => $this->RallySite->find('all', [
+                'Rally.id IN ' => $this->RallySite->find('all', [
                     'fields' => ['RallySite.rally_id'],
                     'conditions' => ['RallySite.site_id' => $siteId
                     ]

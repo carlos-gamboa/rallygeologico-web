@@ -135,8 +135,8 @@ class TermSiteController extends AppController
      */
     public function getTermSite($termId = null, $siteId = null){
         $termSite = $this->TermSite->find('all', [
-                'conditions' => ['termSite.term_id' => $termId,
-                    'termSite.site_id' => $siteId]]
+                'conditions' => ['TermSite.term_id' => $termId,
+                    'TermSite.site_id' => $siteId]]
         );
         $this->set('termSite', $termSite->extract('id'));
         $this->render('/TermSite/json/template');

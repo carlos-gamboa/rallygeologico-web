@@ -136,8 +136,8 @@ class TermMultimediaController extends AppController
      */
     public function getTermMultimedia($termId = null, $multimediaId = null){
         $termMultimedia = $this->TermMultimedia->find('all', [
-                'conditions' => ['termMultimedia.term_id' => $termId,
-                    'termMultimedia.multimedia_id' => $multimediaId]]
+                'conditions' => ['TermMultimedia.term_id' => $termId,
+                    'TermMultimedia.multimedia_id' => $multimediaId]]
         );
         $this->set('termMultimedia', $termMultimedia->extract('id'));
         $this->render('/TermMultimedia/json/template');

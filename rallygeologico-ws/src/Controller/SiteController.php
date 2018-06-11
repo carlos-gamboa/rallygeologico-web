@@ -137,7 +137,7 @@ class SiteController extends AppController
         $this->loadModel('RallySite');
         $sites = $this->Site->find('all', [
             'conditions' => [
-                'site.id NOT IN ' => $this->RallySite->find('all', [
+                'Site.id NOT IN ' => $this->RallySite->find('all', [
                     'fields' => ['RallySite.site_id'],
                     'conditions' => ['RallySite.rally_id' => $rallyId
                     ]
@@ -158,7 +158,7 @@ class SiteController extends AppController
         $this->loadModel('RallySite');
         $sites = $this->Site->find('all', [
             'conditions' => [
-                'site.id IN ' => $this->RallySite->find('all', [
+                'Site.id IN ' => $this->RallySite->find('all', [
                     'fields' => ['RallySite.site_id'],
                     'conditions' => ['RallySite.rally_id' => $rallyId
                     ]
@@ -179,7 +179,7 @@ class SiteController extends AppController
         $this->loadModel('TermSite');
         $sites = $this->Site->find('all', [
             'conditions' => [
-                'site.id NOT IN ' => $this->TermSite->find('all', [
+                'Site.id NOT IN ' => $this->TermSite->find('all', [
                     'fields' => ['TermSite.site_id'],
                     'conditions' => ['TermSite.term_id' => $termId
                     ]
@@ -199,7 +199,7 @@ class SiteController extends AppController
         $this->loadModel('TermSite');
         $sites = $this->Site->find('all', [
             'conditions' => [
-                'site.id IN ' => $this->TermSite->find('all', [
+                'Site.id IN ' => $this->TermSite->find('all', [
                     'fields' => ['TermSite.site_id'],
                     'conditions' => ['TermSite.term_id' => $termId
                     ]
