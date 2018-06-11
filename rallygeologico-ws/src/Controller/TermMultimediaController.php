@@ -118,10 +118,29 @@ class TermMultimediaController extends AppController
         $termMultimedia = $this->TermMultimedia->get($id);
         if ($this->TermMultimedia->delete($termMultimedia)) {
             $this->Flash->success(__('The term multimedia has been deleted.'));
+            $this->set('termMultimedia', true);
         } else {
             $this->Flash->error(__('The term multimedia could not be deleted. Please, try again.'));
+            $this->set('termMultimedia', false);
         }
 
-        return $this->redirect(['action' => 'index']);
+        //return $this->redirect(['action' => 'index']);
+        $this->render('/TermMultimedia/json/template');
     }
+
+    /**
+     * Retrieves the id of the termMultimedia entry with the specified values
+     * @param null $termId
+     * @param null $multimediaId
+     *
+     */
+    public function getTermMultimedia($termId = null, $multimediaId = null){
+        $termMultimedia = $this->TermMultimedia->find('all', [
+                'conditions' => ['termMultimedia.term_id' => $termId,
+                    'termMultimedia.multimedia_id' => $multimediaId]]
+        );
+        $this->set('termMultimedia', $termMultimedia->extract('id'));
+        $this->render('/TermMultimedia/json/template');
+    }
+
 }

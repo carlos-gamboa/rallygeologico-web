@@ -33,6 +33,8 @@ import {SiteService} from "./services/site.service";
 import {environment} from "../environments/environment";
 import {CompetitionStatisticsService} from "./services/competition.statistics.service";
 import {AdminModule} from "./admin/admin.module";
+import {TermService} from "./services/term.service";
+import {MultimediaService} from "./services/multimedia.service";
 import {DistrictService} from "./services/district.service";
 
 
@@ -68,7 +70,7 @@ import {DistrictService} from "./services/district.service";
       }),
       AgmSnazzyInfoWindowModule
   ],
-  providers: [DataService, UserService, Configuration, RallyService, InvitationService, CompetitionService, SiteService, CompetitionStatisticsService, DistrictService],
+  providers: [DataService, UserService, Configuration, RallyService, InvitationService, CompetitionService, SiteService, CompetitionStatisticsService, TermService, MultimediaService, DistrictService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

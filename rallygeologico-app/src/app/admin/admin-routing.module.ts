@@ -7,6 +7,7 @@ import {EditRallyComponent} from "./edit-rally/edit-rally.component";
 import {EditSiteComponent} from "./edit-site/edit-site.component";
 import {EditCantonComponent} from "./edit-canton/edit-canton.component";
 import {EditDistrictComponent} from "./edit-district/edit-district.component";
+import {EditTermComponent} from "./edit-term/edit-term.component";
 
 const routes : Routes = [
     { path: 'admin', component: AdminComponent, children: [
@@ -16,7 +17,10 @@ const routes : Routes = [
         {
             path: 'competition', component: EditCompetitionComponent
         },
-        {            
+        {
+          path: 'term', component: EditTermComponent
+        },
+        {
             path: 'site', component: EditSiteComponent
         },
         {

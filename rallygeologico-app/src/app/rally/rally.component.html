@@ -25,6 +25,35 @@
                 <p class="text-justify mt-4">{{rally?.description}}</p>
                 <h5 class="text-center" style="display: inline"><b>Puntos: </b></h5>
                 <p style="display: inline">{{rally?.points_awarded}}</p>
+
+                <br><hr><br>
+                <h4 class="text-center"><b>Estadísticas Totales:</b></h4><br>
+                <p class="text-center" style="display: inline"><b>Usuarios con máxima cantidad de puntos: </b></p>
+                <p style="display: inline">{{usersWithMaxPoints}}</p> <!--stat--><br>
+                <p class="text-center" style="display: inline"><b>Total de competiciones: </b></p>
+                <p style="display: inline">{{totalTotalCompetitions}}</p> <!--stat--><br>
+                <p class="text-center" style="display: inline"><b>Total de usuarios: </b></p>
+                <p style="display: inline">{{totalTotalUsers}}</p> <!--stat--><br>
+                <p class="text-center" style="display: inline"><b>Puntaje máximo actual: </b></p>
+                <p style="display: inline">{{totalMaxPoints}}</p> <!--stat--><br>
+                <p class="text-center" style="display: inline"><b>Total de puntos hechos en este rally: </b></p>
+                <p style="display: inline">{{totalTotalPoints}}</p> <!--stat-->
+                <!--<p class="text-justify mt-4">{{rally?.description}}</p> &lt;!&ndash;stat&ndash;&gt;
+                <p style="display: inline">{{rally?.points_awarded}}</p>--> <!--stat-->
+                <br><hr><br>
+                <h4 class="text-center"><b>Estadísticas En Competiciones Activas:</b></h4><br>
+                <p class="text-center" style="display: inline"><b>Usuarios con máxima cantidad de puntos: </b></p>
+                <p style="display: inline">{{activeUsersWithMaxPoints}}</p> <!--stat--><br>
+                <p class="text-center" style="display: inline"><b>Total de competiciones: </b></p>
+                <p style="display: inline">{{activeTotalCompetitions}}</p> <!--stat--><br>
+                <p class="text-center" style="display: inline"><b>Total de usuarios: </b></p>
+                <p style="display: inline">{{activeTotalUsers}}</p> <!--stat--><br>
+                <p class="text-center" style="display: inline"><b>Puntaje máximo actual: </b></p>
+                <p style="display: inline">{{activeMaxPoints}}</p> <!--stat--><br>
+                <p class="text-center" style="display: inline"><b>Total de puntos hechos en este rally: </b></p>
+                <p style="display: inline">{{activeTotalPoints}}</p> <!--stat-->
+                <!--<p class="text-justify mt-4">{{rally?.description}}</p> &lt;!&ndash;stat&ndash;&gt;
+                <p style="display: inline">{{rally?.points_awarded}}</p>--> <!--stat-->
             </div>
             <div class="col-lg-8">
                 <agm-map class="map" [latitude]="rally?.latitude" [longitude]="rally?.longitude" [zoom]="zoom">

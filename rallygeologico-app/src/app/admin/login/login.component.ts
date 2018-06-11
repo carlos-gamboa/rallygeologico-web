@@ -15,8 +15,8 @@ declare var gapi: any;
     styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
-    username:string;
+    
+  username:string;
     password:string;
     error:string;
     fbId: string;
@@ -67,6 +67,7 @@ export class LoginComponent implements OnInit {
                 gapi.auth2.init({
                     client_id: environment.googleClient,
                     fetch_basic_profile: true
+
                 });
             });
             this.googleText = "Iniciar sesión con Google";
