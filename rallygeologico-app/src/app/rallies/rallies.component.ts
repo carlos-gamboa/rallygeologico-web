@@ -31,12 +31,10 @@ export class RalliesComponent implements OnInit {
               if(users[0]){
                   this.dataService.updateUser(users[0]);
                   this.user = users[0];
-                  this.setupData();
               }
           });
-      } else {
-          this.setupData();
       }
+      this.setupData();
   }
 
   ngOnInit() {
