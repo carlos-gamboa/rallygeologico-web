@@ -254,9 +254,9 @@ class CompetitionStatisticsController extends AppController
                         'fields' => ['Competition.id'],
                         'conditions' => [
                             'Competition.rally_id' => $rallyId,
-                            'Competition.is_active' => 1
                         ]
-                    ])
+                    ]),
+                    'CompetitionStatistics.points' => $maxPoints
                 ]
             ]);
         }

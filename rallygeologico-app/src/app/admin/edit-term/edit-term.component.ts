@@ -91,7 +91,7 @@ export class EditTermComponent implements OnInit {
   }
 
   setupData(){
-    this.termService.getAllTerms().subscribe((terms: Term[]) => {
+    this.termService.getAllTerms(1).subscribe((terms: Term[]) => {
       console.log(terms);
       this.allTerms = terms;
       this.reloadTerms(this.allTerms);

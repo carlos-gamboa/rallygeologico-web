@@ -85,4 +85,41 @@ export class CompetitionStatisticsService {
     deleteStatisticActivity(id: number): Observable<boolean>{
         return this.http.delete<boolean>(this.baseUrl + "competitionStatisticsActivity/delete/"+id+".json");
     }
+
+    /**
+     * Gets the overall statistics associated with a rally.
+     * @param competitionId
+     * @returns {Observable<Object>}
+     */
+    getTotalRallyStatistics(rallyId :number): Observable<CompetitionStatistics[]>{
+        return this.http.get<CompetitionStatistics[]>(this.baseUrl + "competitionStatistics/getTotalRallyStatistics/" + rallyId + ".json",
+            { headers: this.headers, withCredentials: true }
+        );
+    }
+
+    /**
+     * Gets the statistics associated with a rally's active competitions.
+     * @param competitionId
+     * @returns {Observable<Object>}
+     */
+    getActiveRallyStatistics(rallyId:number): Observable<CompetitionStatistics[]>{
+        return this.http.get<CompetitionStatistics[]>(this.baseUrl + "competitionStatistics/getActiveRallyStatistics/" + rallyId + ".json",
+            { headers: this.headers, withCredentials: true }
+        );
+    }
+
+    /**
+     * Gets the number of users with the most points associated with a rally
+     * @param competitionId
+     * @returns {Observable<Object>}
+     */
+    getUsersWithMostPoints(rallyId:number, maxPoints : number, isActive : number): Observable<CompetitionStatistics[]>{
+        return this.http.post<CompetitionStatistics[]>(this.baseUrl + "competitionStatistics/getUsersWithMostPoints.json",{
+            'rally_id': rallyId,
+            'max_points': maxPoints,
+            'is_active' : isActive
+        },{ headers: this.headers, withCredentials: true }
+        );
+    }
+    
 }
