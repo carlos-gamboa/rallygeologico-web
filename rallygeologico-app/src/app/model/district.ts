@@ -2,7 +2,7 @@ import {Canton} from "./canton";
 
 export class District {
     id : number;
-    name : number;
+    name : string;
     canton_id: number;
     canton : Canton;
 

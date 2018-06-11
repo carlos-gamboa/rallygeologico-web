@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {Configuration} from "./data/constants";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {Observable} from "rxjs/Observable";
+import {Canton} from "../model/canton";
 
 @Injectable()
 export class CantonService {
@@ -13,20 +15,27 @@ export class CantonService {
   }
 
 
-    selectallCantons(){
-
+    selectallCantons(): Observable<Canton[]>{
+        return this.http.get<Canton[]>(this.baseUrl + "canton.json",{ headers: this.headers, withCredentials: true })
     }
 
-    editCanton(){
-
+    editCanton(id:number, name:string, province_id:number):Observable<Canton>{
+        return this.http.post<Canton>(this.baseUrl + "canton/edit/" + id + ".json", {
+            'name': name,
+            'province_id': province_id
+        },{ headers: this.headers, withCredentials: true });
     }
 
-    createCanton() {
-
+    addCanton(name:string , province_id:number): Observable<Canton> {
+        return this.http.post<Canton>(this.baseUrl + "canton/add.json", {
+            'name': name,
+            'province_id': province_id
+        },{ headers: this.headers, withCredentials: true });
     }
 
-    removeCanton() {
-
+    deleteCanton(id : number):Observable<boolean> {
+        return this.http.post<boolean>(this.baseUrl + "canton/delete/"+id+".json" ,
+            { headers: this.headers, withCredentials: true });
     }
     
 }

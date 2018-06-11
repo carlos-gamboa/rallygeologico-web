@@ -58,7 +58,7 @@ export class EditCompetitionComponent implements OnInit {
     messageType: boolean;
 
     newCompetition: boolean;
-    competitionSelected: boolean;
+    cantonSelected: boolean;
     readyToShow: boolean;
     activeTab: number;
 
@@ -96,7 +96,7 @@ export class EditCompetitionComponent implements OnInit {
                 this.allUsers = [];
                 this.userService.getUsers().subscribe((users: User[]) => {
                     this.allUsers = users;
-                    this.competitionSelected = false;
+                    this.cantonSelected = false;
                     this.readyToShow = true;
                 });
             });
@@ -208,7 +208,7 @@ export class EditCompetitionComponent implements OnInit {
     edit(i: number){
         this.readyToShow = false;
         this.activeTab = 0;
-        this.competitionSelected = true;
+        this.cantonSelected = true;
         this.changesSaved = false;
         this.deleted = false;
         if (i == -1){
@@ -254,7 +254,7 @@ export class EditCompetitionComponent implements OnInit {
     }
 
     goBack(){
-        this.competitionSelected = false;
+        this.cantonSelected = false;
         this.currentCompetition = null;
         this.reloadCompetitions(this.allCompetitions);
     }

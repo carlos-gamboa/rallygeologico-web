@@ -31,4 +31,25 @@ export class DistrictService {
     getAllDistricts(): Observable<District[]>{
         return this.http.get<District[]>(this.baseUrl + "district.json",{ headers: this.headers, withCredentials: true })
     }
+
+    editDistrict(id:number, name:string ,canton_id:number): Observable<District>{
+            return this.http.post<District>(this.baseUrl + "district/edit/" + id + ".json", {
+                'name': name,
+                'canton_id': canton_id
+            },{ headers: this.headers, withCredentials: true });
+    }
+
+    addDistrict(name:string, canton_id:number): Observable<District> {
+        return this.http.post<District>(this.baseUrl + "district/add.json", {
+            'name': name,
+            'canton_id':canton_id
+        },{ headers: this.headers, withCredentials: true });
+    }
+
+    deleteDistrict(id:number): Observable<boolean> {
+        return this.http.post<boolean>(this.baseUrl + "district/delete/"+id+".json",
+            { headers: this.headers, withCredentials: true });
+    }
+
+
 }

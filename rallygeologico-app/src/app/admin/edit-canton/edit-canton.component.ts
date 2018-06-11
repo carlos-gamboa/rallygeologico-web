@@ -1,16 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from "../../services/user.service";
-import {DatePipe} from "@angular/common";
-import {CompetitionStatistics} from "../../model/competition.statistics";
-import {RallyService} from "../../services/rally.service";
-import {CompetitionService} from "../../services/competition.service";
-import {InvitationService} from "../../services/invitation.service";
-import {Rally} from "../../model/rally";
 import {User} from "../../model/user";
-import {CompetitionStatisticsService} from "../../services/competition.statistics.service";
-import {Competition} from "../../model/competition";
 import {DataService} from "../../services/data/data.service";
 import {Router} from "@angular/router";
+import {CantonService} from "../../services/canton.service";
+import {Canton} from "../../model/canton";
+import {Province} from "../../model/province";
+import {ProvinceService} from "../../services/province.service";
 
 @Component({
   selector: 'app-edit-canton',
@@ -19,57 +15,41 @@ import {Router} from "@angular/router";
 })
 export class EditCantonComponent implements OnInit {
 
-    ralliesList: Rally[] = [];
-
-    competitions: Competition[];
-    allCompetitions: Competition[];
-    showedCompetitions: Competition[];
-
-    user: User;
-    users : User[];
-    allUsers: User[];
-    showedUsers: User[];
-
-    pageSize : number = 10;
-    currentPageUser : number = 0;
-    totalUsers : number = 0;
-    totalCompetitions : number = 0;
-    currentPageCompetition: number = 0;
-    clickedStatistic: number = -1;
-
-    searchQuery : string = "";
-
-    currentCompetition: Competition;
-    currentCompetitionIndex: number;
-
-    statistics: CompetitionStatistics[];
-
-    name: string;
-    is_active: string;
-    is_public: string;
-    rally_id: string;
-    description: string;
-    starting_date: string;
-    finishing_date: string;
-    admin_id: string;
-
+    readyToShow : boolean;
+    cantonSelected : boolean;
     changesSaved: boolean;
     deleted: boolean;
-    alertMessage: string;
-    messageType: boolean;
+    newCanton: boolean;
+    messageType : boolean;
 
-    newCompetition: boolean;
-    competitionSelected: boolean;
-    readyToShow: boolean;
-    activeTab: number;
+    searchQuery : string = "";
+    alertMessage : string = "";
 
-    invitedUsers: number[] = [];
+    user: User;
+    pageSize : number = 10;
+    activeTab : number;
 
-    constructor(private rallyService: RallyService, private userService: UserService,
-                private dataService: DataService, private competitionService: CompetitionService,
-                private invitationService: InvitationService,
-                private competitionStatisticsService: CompetitionStatisticsService,  private router: Router,
-                private dataPipe: DatePipe) {
+    cantons : Canton[];
+    allCantons : Canton[];
+    showedCantons : Canton[];
+    totalCantons : number;
+    currentPageCanton : number;
+
+    allProvinces : Province[];
+
+    currentCanton : Canton;
+    currentCantonIndex: number;
+
+    name: string;
+    province_id: number;
+
+
+
+    constructor(private cantonService: CantonService,
+                private provinceService : ProvinceService,
+                private userService: UserService,
+                private dataService: DataService,
+                private router:Router) {
         this.readyToShow = false;
         this.user = this.dataService.getUser();
         if (!this.user) {
@@ -85,280 +65,135 @@ export class EditCantonComponent implements OnInit {
         } else {
             this.setupData();
         }
+
     }
 
     ngOnInit() {
     }
 
     setupData(){
-        this.rallyService.getAllRallies().subscribe((rallies: Rally[]) => {
-            this.ralliesList = rallies;
-            this.competitionService.getAllCompetitions().subscribe((competitions: Competition[]) => {
-                this.allCompetitions = competitions;
-                this.reloadCompetitions(this.allCompetitions);
-                this.allUsers = [];
-                this.userService.getUsers().subscribe((users: User[]) => {
-                    this.allUsers = users;
-                    this.reloadUsers(this.allUsers);
-                    this.competitionSelected = false;
-                    this.readyToShow = true;
-                });
+        this.cantonService.selectallCantons().subscribe((cantons: Canton[]) => {
+            console.log(cantons);
+            this.allCantons = cantons;
+            this.reloadCantons(this.allCantons);
+            this.allProvinces = [];
+            this.provinceService.getAllProvinces().subscribe((provinces : Province[]) => {
+                console.log(provinces);
+                this.allProvinces = provinces;
+                this.readyToShow = true;
             });
         });
     }
 
-    /**
-     * Reloads the corresponding users in the table
-     * @param {User[]} users
-     */
-    reloadUsers(users : User[]) : void{
-        this.users = users;
-        this.totalUsers = users.length;
-        this.showedUsers = users.slice(0, this.pageSize);
-        this.currentPageUser = 0;
+    reloadCantons(cantons : Canton[]) : void{
+        this.cantons = cantons;
+        this.totalCantons = cantons.length;
+        this.showedCantons = cantons.slice(0, this.pageSize);
+        this.currentPageCanton = 0;
     }
 
-    /**
-     * Selects the number of users' pages
-     */
-    userPageChange() : void{
-        if(this.users) {
-            this.showedUsers = this.users.slice((this.currentPageUser - 1) * this.pageSize, ((this.currentPageUser) * this.pageSize));
-        }
-    }
-
-    /**
-     * Searches a specified user
-     */
-    searchUser(){
-        let usersToShow = [];
+    searchCanton(){
+        let termsToShow = [];
         if(this.searchQuery.length >= 1) {
-            for (let user of this.allUsers) {
-                if (user.username.toLowerCase().startsWith(this.searchQuery.toLowerCase())) {
-                    usersToShow.push(user);
+            for (let canton of this.allCantons) {
+                if (canton.name.toLowerCase().startsWith(this.searchQuery.toLowerCase())) {
+                    termsToShow.push(canton);
                 }
             }
-            this.reloadUsers(usersToShow);
+            this.reloadCantons(termsToShow);
         }else{
-            this.reloadUsers(this.allUsers);
+            this.reloadCantons(this.allCantons);
         }
     }
 
-    /**
-     * Reloads the corresponding users in the table
-     * @param {User[]} users
-     */
-    reloadCompetitions(competitions : Competition[]) : void{
-        this.competitions = competitions;
-        this.totalCompetitions = competitions.length;
-        this.showedCompetitions = competitions.slice(0, this.pageSize);
-        this.currentPageCompetition = 0;
-    }
-
-    /**
-     * Selects the number of users' pages
-     */
-    competitionPageChange() : void{
-        if(this.users) {
-            this.showedUsers = this.users.slice((this.currentPageCompetition - 1) * this.pageSize, ((this.currentPageCompetition) * this.pageSize));
+    cantonPageChange() : void{
+        if(this.cantons) {
+            this.showedCantons = this.cantons.slice((this.currentPageCanton - 1) * this.pageSize, ((this.currentPageCanton) * this.pageSize));
         }
     }
 
-    /**
-     * Searches a specified user
-     */
-    searchCompetition(){
-        let usersToShow = [];
-        if(this.searchQuery.length >= 1) {
-            for (let user of this.allUsers) {
-                if (user.username.toLowerCase().startsWith(this.searchQuery.toLowerCase())) {
-                    usersToShow.push(user);
-                }
-            }
-            this.reloadUsers(usersToShow);
-        }else{
-            this.reloadUsers(this.allUsers);
-        }
-    }
-
-    saveChanges(){
-        this.changesSaved = false;
+    deleteCanton(id: number, i: number){
         this.deleted = false;
-        if (!this.currentCompetition){
-            this.competitionService.adminAddCompetition(this.name, this.is_active, this.is_public, this.description,
-                this.starting_date.replace("T", " "),
-                this.finishing_date.replace("T", " "), this.rally_id, this.admin_id).subscribe((competition: Competition) => {
-                if (competition){
-                    this.currentCompetition = competition;
-                    this.allCompetitions.push(this.currentCompetition);
-                    this.changesSaved = true;
-                    this.messageType = true;
-                    this.newCompetition = false;
-                    this.alertMessage = "La competencia ha sido creada.";
-                } else {
-                    this.messageType = false;
-                    this.alertMessage = "No se pudo crear la competencia.";
-                }
-            });
-        } else {
-            this.competitionService.editCompetition(this.currentCompetition.id, this.name, this.is_active,
-                this.is_public, this.description, this.starting_date.replace("T", " "),
-                this.finishing_date.replace("T", " "), this.rally_id,
-                this.admin_id).subscribe((competition: Competition) => {
-                this.changesSaved = true;
-                if (competition){
-                    this.currentCompetition = competition;
-                    this.allCompetitions[this.currentCompetitionIndex] = this.currentCompetition;
-                    this.messageType = true;
-                    this.alertMessage = "Se han guardado los cambios.";
-                } else {
-                    this.alertMessage = "No se pudo guardar los cambios.";
-                    this.messageType = false;
-
-                }
-            });
-        }
-    }
-
-    editCompetitionChange(){
-        if (!this.currentCompetition){
-            this.name = "";
-            this.is_active = "1";
-            this.is_public = "1";
-            this.rally_id = "";
-            this.description = "";
-            this.starting_date = "";
-            this.finishing_date = "";
-            this.admin_id = "";
-        } else {
-            this.name = this.currentCompetition.name;
-            this.is_active = this.currentCompetition.is_active.toString();
-            this.is_public = this.currentCompetition.is_public.toString();
-            this.rally_id = this.currentCompetition.rally_id.toString();
-            this.admin_id = this.currentCompetition.admin_id.toString();
-            this.description = this.currentCompetition.description;
-            this.starting_date = this.dataPipe.transform(this.currentCompetition.starting_date, 'yyyy-MM-ddThh:mm');
-            this.finishing_date = this.dataPipe.transform(this.currentCompetition.finishing_date, 'yyyy-MM-ddThh:mm');
-        }
-    }
-
-    sortStatistics(){
-        this.statistics.sort(function(a,b) {return (b.points - a.points)});
+        this.changesSaved = false;
+        this.cantonService.deleteCanton(id).subscribe((deleted: boolean) => {
+            this.deleted = true;
+            if (deleted){
+                this.currentCanton = null;
+                this.allCantons.splice(((this.currentPageCanton - 1) * this.pageSize) + i, 1);
+                this.messageType = true;
+                this.alertMessage = "Se ha eliminado el término.";
+                this.reloadCantons(this.allCantons);
+            } else {
+                this.messageType = false;
+                this.alertMessage = "No se pudo eliminar el término.";
+            }
+        });
     }
 
     edit(i: number){
         this.readyToShow = false;
         this.activeTab = 0;
-        this.competitionSelected = true;
+        this.cantonSelected = true;
         this.changesSaved = false;
         this.deleted = false;
         if (i == -1){
-            this.newCompetition = true;
-            this.currentCompetition = null;
+            this.newCanton = true;
+            this.currentCanton = null;
         } else {
-            this.currentCompetition = this.showedCompetitions[i];
-            this.currentCompetitionIndex = ((this.currentPageCompetition - 1) * this.pageSize) + i;
-            this.updateStatistics();
+            this.currentCanton = this.showedCantons[i];
+            this.currentCantonIndex = ((this.currentPageCanton - 1) * this.pageSize) + i;
         }
-        this.editCompetitionChange();
+        this.editCantonChange();
     }
 
-    updateStatistics(){
-        this.competitionStatisticsService.getStatistics(this.currentCompetition.id).subscribe((statistics: CompetitionStatistics[])=>{
-            if (statistics){
-                this.statistics = statistics;
-                this.sortStatistics();
-                this.readyToShow = true;
-            } else {
-                console.log("Couldn't get statistics");
-            }
-        });
-        this.clickedStatistic = -1;
-    }
-
-    changeTab(i: number){
-        this.activeTab = i;
-        this.changesSaved = false;
-        this.deleted = false;
-    }
-
-    isUserStatisticClicked(i: number){
-        return i == this.clickedStatistic;
-    }
-
-    userStatisticClicked(i: number){
-        if (i == this.clickedStatistic){
-            this.clickedStatistic = -1;
+    editCantonChange(){
+        if (!this.currentCanton){
+            this.name = "";
+            this.province_id = -1;
         } else {
-            this.clickedStatistic = i;
+            this.name = this.currentCanton.name;
+            this.province_id = this.currentCanton.province_id;
         }
+        this.readyToShow = true;
     }
 
     goBack(){
-        this.competitionSelected = false;
-        this.currentCompetition = null;
-        this.reloadCompetitions(this.allCompetitions);
+        this.cantonSelected = false;
+        this.currentCanton = null;
+        this.reloadCantons(this.allCantons);
     }
 
-    deleteCompetition(){
-        this.deleted = false;
+    saveChanges(){
         this.changesSaved = false;
-        this.competitionService.deleteCompetition(this.currentCompetition.id).subscribe((deleted: boolean) => {
-            this.deleted = true;
-            if (deleted){
-                this.currentCompetition = null;
-                this.allCompetitions.splice(this.currentCompetitionIndex, 1);
-                this.messageType = true;
-                this.alertMessage = "Se ha eliminado la competencia.";
-            } else {
-                this.messageType = false;
-                this.alertMessage = "No se pudo eliminar la competencia.";
-            }
-        });
+        this.deleted = false;
+        if (!this.currentCanton){
+            this.cantonService.addCanton(this.name, this.province_id).subscribe((canton : Canton) => {
+                if (canton){
+                    this.currentCanton = canton;
+                    this.allCantons.push(this.currentCanton);
+                    this.changesSaved = true;
+                    this.messageType = true;
+                    this.newCanton = false;
+                    this.alertMessage = "El término ha sido creado.";
+                } else {
+                    this.messageType = false;
+                    this.alertMessage = "No se pudo eliminar el término.";
+                }
+            });
+        } else {
+            this.cantonService.editCanton(this.currentCanton.id, this.name, this.province_id).subscribe((canton : Canton) => {
+                this.changesSaved = true;
+                if (canton){
+                    this.currentCanton = canton;
+                    this.allCantons[this.currentCantonIndex] = this.currentCanton;
+                    this.messageType = true;
+                    this.alertMessage = "Se han guardado los cambios.";
+                } else {
+                    this.alertMessage = "No se pudo guardar los cambios.";
+                    this.messageType = false;
+                }
+            });
+        }
     }
 
-    deleteStatistic(id: number){
-        this.deleted = false;
-        this.competitionStatisticsService.deleteStatistic(id).subscribe((deleted: boolean) => {
-            this.deleted = true;
-            if (deleted){
-                this.updateStatistics();
-                this.messageType = true;
-                this.alertMessage = "Se han eliminado las estadísticas del jugador.";
-            } else {
-                this.messageType = false;
-                this.alertMessage = "No se pudo eliminar las estadística del jugador.";
-            }
-        });
-    }
-
-    deleteStatisticSite(id: number){
-        this.deleted = false;
-        this.competitionStatisticsService.deleteStatisticSite(id).subscribe((deleted: boolean) => {
-            this.deleted = true;
-            if (deleted){
-                this.updateStatistics();
-                this.messageType = true;
-                this.alertMessage = "Se ha eliminado la estadística del sitio.";
-            } else {
-                this.messageType = false;
-                this.alertMessage = "No se pudo eliminar la estadística del sitio.";
-            }
-        });
-    }
-
-    deleteStatisticActivity(id: number){
-        this.deleted = false;
-        this.competitionStatisticsService.deleteStatisticActivity(id).subscribe((deleted: boolean) => {
-            this.deleted = true;
-            if (deleted){
-                this.updateStatistics();
-                this.messageType = true;
-                this.alertMessage = "Se ha eliminado la estadística de la actividad.";
-            } else {
-                this.messageType = false;
-                this.alertMessage = "No se pudo eliminar la estadística de la actividad.";
-            }
-        });
-    }
 }

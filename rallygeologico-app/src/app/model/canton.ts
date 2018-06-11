@@ -2,7 +2,7 @@ import {Province} from "./province";
 
 export class Canton {
     id : number;
-    name : number;
+    name : string;
     province_id: number;
     province : Province;
 
