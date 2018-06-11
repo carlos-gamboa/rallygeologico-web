@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\Utility\Hash;
+use Cake\Auth\DefaultPasswordHasher;
 
 /**
  * Users Controller
@@ -55,10 +56,10 @@ class UsersController extends AppController
     public function view($id = null)
     {
         $user = $this->Users->get($id, [
-            'contain' => ['Competition', 'InvitationSend', 'InvitationReceive', 'CompetitionStatistics', 'CompetitionStatisticsSite']
         ]);
 
-        $this->set('user', $user);
+        $this->set('users', $user);
+        $this->render('/Users/json/template');
     }
 
     /**

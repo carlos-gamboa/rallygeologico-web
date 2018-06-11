@@ -151,7 +151,7 @@ class CompetitionStatisticsController extends AppController
     public function currentCompetitions($userId = null){
 
         $competitionStatistics = $this->CompetitionStatistics->find('all', [
-            'contain' => ['Competition'],
+            'contain' => ['Competition', 'Site', 'Activity'],
             'conditions' => ['competitionStatistics.user_id' => $userId]
         ]);
 
@@ -284,6 +284,58 @@ class CompetitionStatisticsController extends AppController
                         'CompetitionStatisticsSite.site_id' => $siteId
                     ]
                 ]),
+            ]
+        ]);
+
+        $this->set('competitionStatistics', $competitionStatistics->toList());
+        $this->render('/CompetitionStatistics/json/template');
+    }
+
+    /**
+     * Gets the statistics associated with a user's active competitions.
+     *
+     * @param null $userId User Id
+     */
+    public function getActiveUserStatistics($userId = null){
+        $this->loadModel('Competition');
+
+        $competitionStatistics = $this->CompetitionStatistics->find('all', [
+            'fields' => [
+                'totalActiveCompetitions' => 'COUNT( DISTINCT CompetitionStatistics.competition_id)',
+            ],
+            'conditions' => [
+                'CompetitionStatistics.competition_id IN' => $this->Competition->find('all', [
+                    'fields' => ['Competition.id'],
+                    'conditions' => [
+                        'Competition.is_active' => 1
+                    ]
+                ]),
+                'CompetitionStatistics.user_id' => $userId
+            ]
+        ]);
+
+        $this->set('competitionStatistics', $competitionStatistics->toList());
+        $this->render('/CompetitionStatistics/json/template');
+    }
+
+    /**
+     * Gets the statistics associated with a user's competitions.
+     *
+     * @param null $userId User Id
+     */
+    public function getUserStatistics($userId = null){
+        $this->loadModel('Competition');
+
+        $competitionStatistics = $this->CompetitionStatistics->find('all', [
+            'fields' => [
+                'totalCompetitions' => 'COUNT( DISTINCT CompetitionStatistics.competition_id)',
+                'totalPoints' => 'SUM(CompetitionStatistics.points)'
+            ],
+            'conditions' => [
+                'CompetitionStatistics.competition_id IN' => $this->Competition->find('all', [
+                    'fields' => ['Competition.id']
+                ]),
+                'CompetitionStatistics.user_id' => $userId
             ]
         ]);
 

@@ -142,7 +142,8 @@ class SiteController extends AppController
                     'conditions' => ['RallySite.rally_id' => $rallyId
                     ]
                 ])
-            ]
+            ],
+            'contain' => ['District']
         ]);
         $this->set('site', $sites);
         $this->render('/Site/json/template');
@@ -162,7 +163,8 @@ class SiteController extends AppController
                     'conditions' => ['RallySite.rally_id' => $rallyId
                     ]
                 ])
-            ]
+            ],
+            'contain' => ['District']
         ]);
         $this->set('site', $sites);
         $this->render('/Site/json/template');
@@ -205,6 +207,20 @@ class SiteController extends AppController
             ]
         ]);
         $this->set('site', $sites);
+      $this->render('/Site/json/template');
+    }
+
+  /*
+     * Gets the total sites
+     */
+    public function getTotalSites(){
+        $site = $this->Site->find('all', [
+            'fields' => [
+                'totalSites' => 'COUNT( Site.id)',
+            ]
+        ]);
+
+        $this->set('site', $site->toList());
         $this->render('/Site/json/template');
     }
 }

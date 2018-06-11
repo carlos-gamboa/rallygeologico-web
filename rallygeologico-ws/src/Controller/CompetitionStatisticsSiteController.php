@@ -128,4 +128,30 @@ class CompetitionStatisticsSiteController extends AppController
 
         $this->render('/CompetitionStatisticsSite/json/template');
     }
+
+    /**
+     * Gets the number of visited sites by an user.
+     *
+     * @param null $userId User Id.
+     */
+    public function getVisitedSites($userId = null){
+        $this->loadModel('CompetitionStatistics');
+
+        $competitionStatisticsSite = $this->CompetitionStatisticsSite->find('all', [
+            'fields' => [
+                'totalVisited' => 'COUNT( DISTINCT CompetitionStatisticsSite.site_id)',
+            ],
+            'conditions' => [
+                'CompetitionStatisticsSite.competition_statistics_id IN' => $this->CompetitionStatistics->find('all', [
+                    'fields' => ['CompetitionStatistics.id'],
+                    'conditions' => [
+                        'CompetitionStatistics.user_id' => $userId
+                    ]
+                ]),
+            ]
+        ]);
+
+        $this->set('competitionStatisticsSite', $competitionStatisticsSite->toList());
+        $this->render('/CompetitionStatisticsSite/json/template');
+    }
 }
