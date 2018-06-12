@@ -55,9 +55,9 @@ INSERT INTO `site` (`id`, `name`, `qr_url`, `details`, `description`, `latitude`
 INSERT INTO `site` (`id`, `name`, `qr_url`, `details`, `description`, `latitude`, `longitude`, `district_id`, `points`) VALUES (NULL, 'Las columnas de Carbonal', NULL, 'Continuando sobre el camino a playa Naranjo.',
  'Cuando algunas lavas se enfrían producen un sistema de fracturas en forma de columnas. Estas fracturas se forman por la contracción del material lávico al enfriar, y son idealmente en forma de hexágonos, aunque generalmente son un poco más irregulares.', '10.7980556', '-85.64166666666668', 2, 50);
 
-INSERT INTO `rally` (`id`, `name`, `points_awarded`, `image_url`, `description`, `latitude`, `longitude`) VALUES (NULL, 'Rally 1', '500', NULL, 'El Rally #1 incluye localidades en sitios del cantón de La Cruz como: El parque nacional Santa Rosa, con increíbles paisajes naturales declarados patrimonio de la humanidad; y Cuajiniquil, pueblo costero cuya principal actividad económica es la pesca y el creciente desarrollo turístico. En este rally se conocerán rocas volcánicas generadas en las profundidades oceánicas, así como rocas sedimentarias consecuencia de eventos meteorológicos fosilizados, conocidas por los geólogos como tormentitas, y algunas rocas producto de erupciones volcánicas explosivas.', '10.8341667', '-85.61138888888888');
-INSERT INTO `rally` (`id`, `name`, `points_awarded`, `image_url`, `description`, `latitude`, `longitude`) VALUES (NULL, 'Rally 2', '500', NULL, 'Esta geoaventura abarca pueblos costeros del cantón de La Cruz, entre los que destacan Cuajiniquil, pueblo cercano a sitios turísticos; El Jobo, pueblo con diversidad de playas y el centro poblacional del cantón, identificado por sus maravillosas vistas a la cordillera volcánica de Guanacaste y a bahía Salinas. Geológicamente se abarcan rocas sedimentarias producto de grandes avalanchas volcánicas, antiguos arrecifes coralinos, dunas activas y rocas generadas por eventos climáticos fosilizados en las rocas.', '10.9622222', '-85.6975');
-INSERT INTO `rally` (`id`, `name`, `points_awarded`, `image_url`, `description`, `latitude`, `longitude`) VALUES (NULL, 'Rally 3', '500', NULL, 'Este rally comprende sitios entre el parque nacional Santa Rosa, caracterizado por su alta geobiodiversidad, y el centro poblacional del cantón de La Cruz – Santa Cecilia, con sus planicies que permiten la visualización de diversas geoformas moldeadas por diferentes procesos geológicos. Desde el punto de vista geológico se identificarán rocas conformadas por diferentes tipos de actividad volcánica como: Erupciones explosivas de gas y sólidos y erupciones lávicas.', '11.0375', '-85.54583333333333');
+INSERT INTO `rally` (`id`, `name`, `points_awarded`, `image_url`, `description`, `latitude`, `longitude`) VALUES (NULL, 'Rally 1', '500', 'assets/images/sites/5/a.png', 'El Rally #1 incluye localidades en sitios del cantón de La Cruz como: El parque nacional Santa Rosa, con increíbles paisajes naturales declarados patrimonio de la humanidad; y Cuajiniquil, pueblo costero cuya principal actividad económica es la pesca y el creciente desarrollo turístico. En este rally se conocerán rocas volcánicas generadas en las profundidades oceánicas, así como rocas sedimentarias consecuencia de eventos meteorológicos fosilizados, conocidas por los geólogos como tormentitas, y algunas rocas producto de erupciones volcánicas explosivas.', '10.8341667', '-85.61138888888888');
+INSERT INTO `rally` (`id`, `name`, `points_awarded`, `image_url`, `description`, `latitude`, `longitude`) VALUES (NULL, 'Rally 2', '500', 'assets/images/sites/7/c.png', 'Esta geoaventura abarca pueblos costeros del cantón de La Cruz, entre los que destacan Cuajiniquil, pueblo cercano a sitios turísticos; El Jobo, pueblo con diversidad de playas y el centro poblacional del cantón, identificado por sus maravillosas vistas a la cordillera volcánica de Guanacaste y a bahía Salinas. Geológicamente se abarcan rocas sedimentarias producto de grandes avalanchas volcánicas, antiguos arrecifes coralinos, dunas activas y rocas generadas por eventos climáticos fosilizados en las rocas.', '10.9622222', '-85.6975');
+INSERT INTO `rally` (`id`, `name`, `points_awarded`, `image_url`, `description`, `latitude`, `longitude`) VALUES (NULL, 'Rally 3', '500', 'assets/images/sites/20/a.png', 'Este rally comprende sitios entre el parque nacional Santa Rosa, caracterizado por su alta geobiodiversidad, y el centro poblacional del cantón de La Cruz – Santa Cecilia, con sus planicies que permiten la visualización de diversas geoformas moldeadas por diferentes procesos geológicos. Desde el punto de vista geológico se identificarán rocas conformadas por diferentes tipos de actividad volcánica como: Erupciones explosivas de gas y sólidos y erupciones lávicas.', '11.0375', '-85.54583333333333');
 
 INSERT INTO `rally_site` (`rally_id`, `site_id`) VALUES ('1', '1');
 INSERT INTO `rally_site` (`rally_id`, `site_id`) VALUES ('1', '2');
@@ -127,59 +127,59 @@ INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Columnas', ''); 
 INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Hexágonos', ''); -- 41
 INSERT INTO `term` (`id`, `name`, `description`) VALUES (NULL, 'Escoria', ''); -- 42
 
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Círculo gradudo'); -- 1
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Azimuth de 45°'); -- 2
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Azimuth de 200°'); -- 3
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Cordillera Volcánica de Guanacaste'); -- 4
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'El cerro El Ingés'); -- 5
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Manto terrestre'); -- 6
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Placa del Geográfico'); -- 7
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Escorias'); -- 8
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Ver esquema'); -- 9
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Esta discordancia'); -- 10
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Peridotitas'); -- 11
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Un ejemplo del acantilado de la península de Santa Elena'); -- 12
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Peridotita en luz natural'); -- 13
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Peridotita en luz polarizada'); -- 14
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Dique de diabasa en luz natural'); -- 15
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Dique de diabasa en luz polarizada'); -- 16
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Peridotitas y diques de diabasa'); -- 17
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Poza de El General'); -- 18
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Estratos'); -- 19
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Inclinado'); -- 20
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Fracturas'); -- 21
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Árboles'); -- 22
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Destrucción de la roca'); -- 23
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Bioturbaciones'); -- 24
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Troncos'); -- 25
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Mirador'); -- 26
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Los Muñecos'); -- 27
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Como El Muñeco'); -- 28
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Nefertiti'); -- 29
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Coral'); -- 30
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Troncos'); -- 31
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Bioturbaciones'); -- 32
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Modelo tridimensional'); -- 33
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Conglomerado'); -- 34
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Fragmentos redondeados'); -- 35
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Duna costera'); -- 36
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Flecha'); -- 37
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Polígono'); -- 38
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Límite fronterizo'); -- 39
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Puntos'); -- 40
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Sinclinal'); -- 41
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Brecha'); -- 42
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Estructuras volcánicas'); -- 43
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Roca'); -- 44
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Biotita'); -- 45
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Quebrada Duende'); -- 46
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Extremos de la cueva'); -- 47
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Fiammes'); -- 48
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Marmitas de erosión'); -- 49
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Columnas'); -- 50
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Hexágonos'); -- 51
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Irregulares'); -- 52
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, '', 'Lenticular'); -- 53
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/1/a.png', 'Círculo gradudo'); -- 1
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/1/b.png', 'Azimuth de 45°'); -- 2
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/1/c.png', 'Azimuth de 200°'); -- 3
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/1/d.png', 'Cordillera Volcánica de Guanacaste'); -- 4
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/1/e.png', 'El cerro El Ingés'); -- 5
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/1/f.png', 'Manto terrestre'); -- 6
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/1/g.png', 'Placa del Geográfico'); -- 7
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/2/a.png', 'Escorias'); -- 8
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/3/a.png', 'Ver esquema'); -- 9
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/3/b.png', 'Esta discordancia'); -- 10
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/4/a.png', 'Peridotitas'); -- 11
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/4/b.png', 'Un ejemplo del acantilado de la península de Santa Elena'); -- 12
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/4/d.png', 'Peridotita en luz natural'); -- 13
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/4/e.png', 'Peridotita en luz polarizada'); -- 14
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/4/f.png', 'Dique de diabasa en luz natural'); -- 15
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/4/g.png', 'Dique de diabasa en luz polarizada'); -- 16
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/5/a.png', 'Peridotitas y diques de diabasa'); -- 17
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/5/b.png', 'Poza de El General'); -- 18
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/6/a.png', 'Estratos'); -- 19
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/6/b.png', 'Inclinado'); -- 20
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/6/c.png', 'Fracturas'); -- 21
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/6/d.png', 'Árboles'); -- 22
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/6/e.png', 'Destrucción de la roca'); -- 23
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/6/f.png', 'Bioturbaciones'); -- 24
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/6/g.png', 'Troncos'); -- 25
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/7/a.png', 'Mirador'); -- 26
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/7/b.png', 'Los Muñecos'); -- 27
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/7/c.png', 'Como El Muñeco'); -- 28
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/7/d.png', 'Nefertiti'); -- 29
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/7/e.png', 'Coral'); -- 30
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/8/a.png', 'Troncos'); -- 31
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/8/b.png', 'Bioturbaciones'); -- 32
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/9/b.png', 'Modelo tridimensional'); -- 33
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/10/a.png', 'Conglomerado'); -- 34
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/10/b.png', 'Fragmentos redondeados'); -- 35
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/11/a.png', 'Duna costera'); -- 36
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/12/a.png', 'Flecha'); -- 37
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/12/b.png', 'Polígono'); -- 38
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/13/a.png', 'Límite fronterizo'); -- 39
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/14/a.png', 'Puntos'); -- 40
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/14/b.png', 'Sinclinal'); -- 41
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/15/a.png', 'Brecha'); -- 42
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/16/a.png', 'Estructuras volcánicas'); -- 43
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/17/a.png', 'Roca'); -- 44
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/17/b.png', 'Biotita'); -- 45
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/18/a.png', 'Quebrada Duende'); -- 46
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/18/c.png', 'Extremos de la cueva'); -- 47
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/19/a.png', 'Fiammes'); -- 48
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/19/b.png', 'Marmitas de erosión'); -- 49
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/20/a.png', 'Columnas'); -- 50
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/20/b.png', 'Hexágonos'); -- 51
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/20/c.png', 'Irregulares'); -- 52
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/9/a.png', 'Lenticular'); -- 53
 
 INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (1, 1);
 INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (2, 2);

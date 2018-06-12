@@ -1,6 +1,6 @@
 .login-background{
   margin-top: 7em;
-  background: url("../../assets/images/login-background.jpg") no-repeat;
+  background: url("../../assets/images/general/login.jpg") no-repeat;
   background-size: cover ;
   width: 100%;
   min-height: 100vh;

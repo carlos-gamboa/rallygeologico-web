@@ -39,7 +39,7 @@
         <a class="primary-btn" href="#">Comienza ahora</a>
       </div>
       <div class="col-lg-6 justify-content-center align-items-center d-flex">
-        <img class="vertical-image" src="{{assetsUrl}}assets/images/piedraVertical.jpg">
+        <img class="vertical-image" src="{{assetsUrl}}assets/images/general/vertical.jpg">
       </div>
     </div>
   </div>
@@ -59,7 +59,7 @@
     </div>
     <div class="row">
       <div class="col-lg-6 single-blog" *ngFor="let rally of newestRallies">
-        <img class="img-fluid" src="{{rally.image_url}}" alt="../../assets/images/elena.jpg">
+        <img class="img-fluid" src="{{assetsUrl}}{{rally.image_url}}" alt="../../assets/images/elena.jpg">
         <ul class="tags">
           <li><a >Nuevo</a></li>
         </ul>
