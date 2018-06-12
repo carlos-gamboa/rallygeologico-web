@@ -49,7 +49,10 @@ export class RegisterComponent implements OnInit {
 
     emailUsed: boolean = false;
 
+    assetsUrl: string;
+
     constructor(private fb: FacebookService, private router: Router,  private userService: UserService, private _ngZone: NgZone) {
+        this.assetsUrl = environment.assetsUrl;
         if (this.facebookWorking){
             let initParams: InitParams = {
                 appId: environment.facebookKey,

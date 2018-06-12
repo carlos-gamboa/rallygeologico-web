@@ -1,3 +1,4 @@
+<app-admin-header [activeTab]="5"></app-admin-header>
 <!-- Start banner Area -->
 <section class="banner-area relative" id="home">
   <div class="overlay overlay-bg"></div>
@@ -40,10 +41,10 @@
                 <tr *ngFor="let district of showedDistricts; let i = index">
                   <td><h5 >{{district?.name}}</h5></td>
                   <td>
-                    <button title="Editar" class="invite-btn genric-btn circle text-center warning medium wide-button" (click)="edit(i)">Editar</button>
+                    <button title="Editar" class="invite-btn genric-btn circle text-center warning medium" (click)="edit(i)">Editar</button>
                   </td>
                   <td>
-                    <button title="Eliminar" class="invite-btn genric-btn circle text-center danger medium wide-button" (click)="deleteDistrict(district.id, i)">Eliminar</button>
+                    <button title="Eliminar" class="invite-btn genric-btn circle text-center danger medium" (click)="deleteDistrict(district.id, i)">Eliminar</button>
                   </td>
                 </tr>
                 </tbody>

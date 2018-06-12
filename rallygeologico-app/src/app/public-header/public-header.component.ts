@@ -11,12 +11,13 @@ export class PublicHeaderComponent implements OnInit {
     @Input() activeTab: number;
     assetsUrl: string;
 
-  constructor() {
-      this.assetsUrl = environment.assetsUrl;
-  }
+    constructor() {
+        this.assetsUrl = environment.assetsUrl;
+    }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+
+    }
 
     async ngAfterViewInit() {
         await this.loadScript(this.assetsUrl+"assets/js/jquery-2.2.4.min.js");
@@ -37,11 +38,11 @@ export class PublicHeaderComponent implements OnInit {
     }
 
     isActive(active){
-      return (this.activeTab === active);
+        return (this.activeTab === active);
     }
 
     changeActive(active){
-      this.activeTab = active;
+        this.activeTab = active;
     }
 
 }
