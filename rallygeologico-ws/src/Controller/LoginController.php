@@ -67,11 +67,10 @@ class LoginController extends AppController
                     throw new UnauthorizedException("Invalid login");
                 }
 
-                // if everything is OK set Auth session with user data
-                $this->Auth->setUser($users);
+                $this->Auth->setUser([$users]);
 
                 // Generate user Auth token
-                $token =  Security::hash($users->id.$users->username, 'sha1', true);
+                $token =  Security::hash($users['id'].$users['api_id'], 'sha1', true);
             } else {
                 $apiId = $data['api_id'];
 

@@ -24,10 +24,6 @@ export class SearchRalliesComponent implements OnInit {
 
     searchQuery : string = "";
 
-
-
-
-
   constructor(private competitionService:CompetitionService,
               private dataService:DataService,
               private router: Router,

@@ -1,16 +1,24 @@
 import { Component } from '@angular/core';
+import {environment} from "../../environments/environment";
 
 @Component({
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })
 export class UserComponent{
+
+    assetsUrl: string;
+
+    constructor(){
+        this.assetsUrl = environment.assetsUrl;
+    }
+
     async ngAfterViewInit() {
-        await this.loadScript("../../../assets/js/jquery-2.2.4.min.js");
-        await this.loadScript("../../../assets/js/superfish.min.js");
-        await this.loadScript("../../../assets/js/jquery.magnific-popup.min.js");
-        await this.loadScript("../../../assets/js/jquery.counterup.min.js");
-        await this.loadScript("../../../assets/js/main.js");
+        await this.loadScript(this.assetsUrl + "../assets/js/jquery-2.2.4.min.js");
+        await this.loadScript(this.assetsUrl + "../assets/js/superfish.min.js");
+        await this.loadScript(this.assetsUrl + "../assets/js/jquery.magnific-popup.min.js");
+        await this.loadScript(this.assetsUrl + "../assets/js/jquery.counterup.min.js");
+        await this.loadScript(this.assetsUrl + "../assets/js/main.js");
     }
 
     private loadScript(scriptUrl: string) {
