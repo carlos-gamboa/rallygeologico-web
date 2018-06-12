@@ -1,4 +1,5 @@
-<app-header [activeTab]="2"></app-header>
+<app-public-header *ngIf="!user"></app-public-header>
+<app-header [activeTab]="2" *ngIf="user"></app-header>
 <!-- Start banner Area -->
 <section class="banner-area relative" id="home">
     <div class="overlay overlay-bg"></div>
