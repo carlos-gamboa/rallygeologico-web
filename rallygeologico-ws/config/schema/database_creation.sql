@@ -20,8 +20,8 @@ CREATE TABLE IF NOT EXISTS rally (
   points_awarded INT NOT NULL,
   image_url VARCHAR (200),
   description VARCHAR (5000),
-  latitude FLOAT NOT NULL,
-  longitude FLOAT NOT NULL
+  latitude DOUBLE NOT NULL,
+  longitude DOUBLE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS competition(
@@ -86,8 +86,8 @@ CREATE TABLE IF NOT EXISTS site (
   qr_url VARCHAR(200),
   details VARCHAR(2000),
   description VARCHAR(5000),
-  latitude FLOAT NOT NULL,
-  longitude FLOAT NOT NULL,
+  latitude DOUBLE NOT NULL,
+  longitude DOUBLE NOT NULL,
   district_id INT NOT NULL,
   points INT DEFAULT 100,
   is_easter_egg TINYINT DEFAULT 0,
