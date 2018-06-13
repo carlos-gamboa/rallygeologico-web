@@ -194,7 +194,7 @@ export class LoginComponent implements OnInit {
         this.showMessage = true;
         this.messageType = 2;
         this.userService.loginWithPassword(this.username, this.password).subscribe((user: User) => {
-            if (user[0] && user[0].is_admin == 1){
+            if (user && user[0] && user[0].is_admin == 1){
                 this.alertMessage = "Ha iniciado sesión con éxito";
                 this.messageType = 0;
                 this.userDataService.updateUser(user[0]);
