@@ -43,8 +43,6 @@ export class EditCantonComponent implements OnInit {
     name: string;
     province_id: number;
 
-
-
     constructor(private cantonService: CantonService,
                 private provinceService : ProvinceService,
                 private userService: UserService,
@@ -174,10 +172,10 @@ export class EditCantonComponent implements OnInit {
                     this.changesSaved = true;
                     this.messageType = true;
                     this.newCanton = false;
-                    this.alertMessage = "El término ha sido creado.";
+                    this.alertMessage = "El cantón ha sido creado.";
                 } else {
                     this.messageType = false;
-                    this.alertMessage = "No se pudo eliminar el término.";
+                    this.alertMessage = "No se pudo eliminar el cantón.";
                 }
             });
         } else {

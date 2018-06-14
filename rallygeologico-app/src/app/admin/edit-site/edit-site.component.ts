@@ -311,9 +311,9 @@ export class EditSiteComponent implements OnInit {
      * @param {Rally} rally
      * @returns {boolean}
      */
-    belongsTo(rally: Rally): boolean{
+    belongsTo(id: number): boolean{
         for(let currentRally of this.currentRallies){
-            if (rally.name == currentRally.name){
+            if (id == currentRally.id){
                 return true;
             }
         }

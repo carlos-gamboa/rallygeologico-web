@@ -214,6 +214,7 @@ export class EditCompetitionComponent implements OnInit {
         if (i == -1){
             this.newCompetition = true;
             this.currentCompetition = null;
+            this.readyToShow = true;
         } else {
             this.currentCompetition = this.showedCompetitions[i];
             this.currentCompetitionIndex = ((this.currentPageCompetition - 1) * this.pageSize) + i;

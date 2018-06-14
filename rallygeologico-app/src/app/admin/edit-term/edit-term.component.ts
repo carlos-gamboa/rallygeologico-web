@@ -328,9 +328,9 @@ export class EditTermComponent implements OnInit {
    * @param {Site} site
    * @returns {boolean}
    */
-  belongsTo(site: Site): boolean{
+  belongsTo(id: number): boolean{
     for(let currentSite of this.currentSites){
-      if (site.name == currentSite.name){
+      if (id == currentSite.id){
         return true;
       }
     }
@@ -387,9 +387,9 @@ export class EditTermComponent implements OnInit {
      * @param {Multimedia} multimedia
      * @returns {boolean}
      */
-    multimediaBelongsTo(multimedia: Multimedia): boolean{
+    multimediaBelongsTo(id: number): boolean{
         for(let currentMultimedia of this.currentMultimedia){
-            if (multimedia.name == currentMultimedia.name){
+            if (id == currentMultimedia.id){
                 return true;
             }
         }

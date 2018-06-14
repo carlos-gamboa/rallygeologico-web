@@ -180,8 +180,8 @@
                                     <td><h5 >{{site?.name}}</h5></td>
                                     <td><h5 >{{site?.district.name}}</h5></td>
                                     <td align="center">
-                                        <button title="Eliminar" class="invite-btn table-button genric-btn circle text-center danger medium" *ngIf="belongsTo(site)" (click)="deleteRallySite(i)">Eliminar</button>
-                                        <button title="Agregar" class="invite-btn table-button genric-btn circle text-center info medium" *ngIf="!belongsTo(site)" (click)="addRallySite(i)">Agregar</button>
+                                        <button title="Eliminar" class="invite-btn table-button genric-btn circle text-center danger medium" *ngIf="belongsTo(site.id)" (click)="deleteRallySite(i)">Eliminar</button>
+                                        <button title="Agregar" class="invite-btn table-button genric-btn circle text-center info medium" *ngIf="!belongsTo(site.id)" (click)="addRallySite(i)">Agregar</button>
                                     </td>
                                 </tr>
                                 </tbody>

@@ -372,9 +372,9 @@ export class EditRallyComponent implements OnInit {
      * @param {Site} site
      * @returns {boolean}
      */
-    belongsTo(site: Site): boolean{
+    belongsTo(id: number): boolean{
         for(let currentSite of this.currentSites){
-            if (site.name == currentSite.name){
+            if (id == currentSite.id){
                 return true;
             }
         }

@@ -44,9 +44,6 @@ export class EditDistrictComponent implements OnInit {
 
     allCantons : Canton[];
 
-
-
-
     constructor(private dataService: DataService,
                 private districtService: DistrictService,
                 private cantonService: CantonService,
@@ -121,11 +118,11 @@ export class EditDistrictComponent implements OnInit {
                 this.currentDistrict = null;
                 this.allDistricts.splice(((this.currentPageDistrict - 1) * this.pageSize) + i, 1);
                 this.messageType = true;
-                this.alertMessage = "Se ha eliminado el término.";
+                this.alertMessage = "Se ha eliminado el distrito.";
                 this.reloadDistricts(this.allDistricts);
             } else {
                 this.messageType = false;
-                this.alertMessage = "No se pudo eliminar el término.";
+                this.alertMessage = "No se pudo eliminar el distrito.";
             }
         });
     }
@@ -174,10 +171,10 @@ export class EditDistrictComponent implements OnInit {
                     this.changesSaved = true;
                     this.messageType = true;
                     this.newDistrict = false;
-                    this.alertMessage = "El término ha sido creado.";
+                    this.alertMessage = "El distrito ha sido creado.";
                 } else {
                     this.messageType = false;
-                    this.alertMessage = "No se pudo eliminar el término.";
+                    this.alertMessage = "No se pudo eliminar el distrito.";
                 }
             });
         } else {

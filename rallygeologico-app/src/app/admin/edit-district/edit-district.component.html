@@ -77,6 +77,11 @@
           <button title="Volver a seleccionar" class="invite-btn genric-btn text-center medium info mb-4" (click)="goBack()">Cambiar de distrito</button>
         </div>
       </div>
+      <div class="row">
+        <div class="col-md-8 offset-2">
+          <button title="Detalles" class="invite-btn genric-btn text-center medium wide-button" [class.primary]="activeTab == 0" [class.primary-border]="activeTab != 0">Detalles del distrito</button>
+        </div>
+      </div>
     </div>
   </section>
   <!-- End tab Area -->
