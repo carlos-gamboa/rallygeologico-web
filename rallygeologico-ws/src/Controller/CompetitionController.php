@@ -160,5 +160,34 @@ class CompetitionController extends AppController
         $this->set('competition', $competitions);
         $this->render('/Competition/json/template');
     }
+
+    /**
+     * Gets all the the competitions the user is participating.
+     *
+     * @param null $user_id User Id
+     */
+    public function getUserActiveCompetitions($user_id = null) {
+        $this->loadModel('CompetitionStatistics');
+        $competitions = $this->Competition->find('all', [
+            'contain' =>
+                [
+                    'Rally'
+                ],
+            'conditions' => [
+                'AND' => [
+                    'Competition.is_active' => 1
+                ],
+                ['Competition.id IN' => $this->CompetitionStatistics->find('all', [
+                    'fields' => ['CompetitionStatistics.competition_id'],
+                    'conditions' => [
+                        'CompetitionStatistics.user_id' => $user_id
+                    ]
+                ])]
+            ]
+        ]);
+
+        $this->set('competition', $competitions);
+        $this->render('/Competition/json/template');
+    }
     
 }
