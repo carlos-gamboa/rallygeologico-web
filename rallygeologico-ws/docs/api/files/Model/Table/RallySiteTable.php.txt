@@ -35,7 +35,7 @@ class RallySiteTable extends Table
 
         $this->setTable('rally_site');
         $this->setDisplayField('rally_id');
-        $this->setPrimaryKey(['rally_id', 'site_id']);
+        $this->setPrimaryKey('id');
 
         $this->belongsTo('Rally', [
             'foreignKey' => 'rally_id',
@@ -45,6 +45,21 @@ class RallySiteTable extends Table
             'foreignKey' => 'site_id',
             'joinType' => 'INNER'
         ]);
+    }
+
+    /**
+     * Default validation rules.
+     *
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
+     */
+    public function validationDefault(Validator $validator)
+    {
+        $validator
+            ->integer('id')
+            ->allowEmpty('id', 'create');
+
+        return $validator;
     }
 
     /**

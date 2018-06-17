@@ -35,7 +35,7 @@ class TermSiteTable extends Table
 
         $this->setTable('term_site');
         $this->setDisplayField('term_id');
-        $this->setPrimaryKey(['term_id', 'site_id']);
+        $this->setPrimaryKey('id');
 
         $this->belongsTo('Term', [
             'foreignKey' => 'term_id',
@@ -45,6 +45,21 @@ class TermSiteTable extends Table
             'foreignKey' => 'site_id',
             'joinType' => 'INNER'
         ]);
+    }
+
+    /**
+     * Default validation rules.
+     *
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
+     */
+    public function validationDefault(Validator $validator)
+    {
+        $validator
+            ->integer('id')
+            ->allowEmpty('id', 'create');
+
+        return $validator;
     }
 
     /**

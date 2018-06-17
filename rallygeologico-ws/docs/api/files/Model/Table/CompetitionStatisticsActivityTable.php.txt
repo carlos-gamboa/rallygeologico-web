@@ -35,7 +35,7 @@ class CompetitionStatisticsActivityTable extends Table
 
         $this->setTable('competition_statistics_activity');
         $this->setDisplayField('competition_statistics_id');
-        $this->setPrimaryKey(['competition_statistics_id', 'activity_id']);
+        $this->setPrimaryKey('id');
 
         $this->belongsTo('CompetitionStatistics', [
             'foreignKey' => 'competition_statistics_id',
@@ -55,6 +55,10 @@ class CompetitionStatisticsActivityTable extends Table
      */
     public function validationDefault(Validator $validator)
     {
+        $validator
+            ->integer('id')
+            ->allowEmpty('id', 'create');
+
         $validator
             ->dateTime('resolved_date')
             ->allowEmpty('resolved_date');

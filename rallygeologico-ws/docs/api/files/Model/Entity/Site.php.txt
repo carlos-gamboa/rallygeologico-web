@@ -11,8 +11,8 @@ use Cake\ORM\Entity;
  * @property string $qr_url
  * @property string $details
  * @property string $description
- * @property float $latitude
- * @property float $longitude
+ * @property double $latitude
+ * @property double $longitude
  * @property int $district_id
  * @property int $points
  * @property int $is_easter_egg
