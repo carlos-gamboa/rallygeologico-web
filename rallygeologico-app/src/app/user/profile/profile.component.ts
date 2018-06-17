@@ -55,6 +55,9 @@ export class ProfileComponent implements OnInit {
 
     ngOnInit() {}
 
+    /**
+     * This method set all the required data
+     */
     setupData(){
         this.route.params
             .subscribe(
@@ -89,6 +92,10 @@ export class ProfileComponent implements OnInit {
             );
     }
 
+    /**
+     * This method reload all the showed statistics
+     * @param {CompetitionStatistics[]} competitionStats
+     */
     reloadCompetitions(competitionStats:CompetitionStatistics[]) {
         this.statistics = competitionStats;
         this.totalCompetitions = competitionStats.length;
@@ -96,11 +103,19 @@ export class ProfileComponent implements OnInit {
         this.currentPage = 0;
     }
 
-
+    /**
+     * This method controls the statistics drop down in a row
+     * @param {number} i
+     * @returns {boolean}
+     */
     isUserStatisticClicked(i: number){
         return i == this.clickedStatistic;
     }
 
+    /**
+     *
+     * @param {number} i
+     */
     userStatisticClicked(i: number){
         if (i == this.clickedStatistic){
             this.clickedStatistic = -1;
@@ -109,10 +124,16 @@ export class ProfileComponent implements OnInit {
         }
     }
 
+    /**
+     * This method sort the user statistics
+     */
     sortStatistics(){
         this.statistics.sort(function(a,b) {return (b.points - a.points)});
     }
 
+    /**
+     * This method is call when user wants to see more statistics
+     */
     pageChange() : void{
         if(this.statistics) {
             this.showedStatistics = this.statistics.slice((this.currentPage - 1) * this.pageSize, ((this.currentPage) * this.pageSize));

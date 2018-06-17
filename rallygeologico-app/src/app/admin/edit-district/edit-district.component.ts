@@ -69,6 +69,9 @@ export class EditDistrictComponent implements OnInit {
     ngOnInit() {
     }
 
+    /**
+     *  This method set all data using web services
+     */
     setupData(){
         this.districtService.getAllDistricts().subscribe((districts : District[]) => {
             console.log(districts);
@@ -82,6 +85,10 @@ export class EditDistrictComponent implements OnInit {
         });
     }
 
+    /**
+     *  This method reload all Districts showing in the page
+     * @param {District[]} districts
+     */
     reloadDistricts(districts : District[]) : void{
         this.districts = districts;
         this.totalDistricts = districts.length;
@@ -89,6 +96,9 @@ export class EditDistrictComponent implements OnInit {
         this.currentPageDistrict = 0;
     }
 
+    /**
+     * This method search an specific District and show it in the page
+     */
     searchDistrict(){
         let termsToShow = [];
         if(this.searchQuery.length >= 1) {
@@ -103,12 +113,20 @@ export class EditDistrictComponent implements OnInit {
         }
     }
 
+    /**
+     * This method change the showed Districts in the table
+     */
     districtPageChange() : void{
         if(this.districts) {
             this.showedDistricts = this.districts.slice((this.currentPageDistrict - 1) * this.pageSize, ((this.currentPageDistrict) * this.pageSize));
         }
     }
 
+    /**
+     * This method allows to delete an specific District when the delete button is pressed
+     * @param {number} id
+     * @param {number} i
+     */
     deleteDistrict(id: number, i: number){
         this.deleted = false;
         this.changesSaved = false;
@@ -127,6 +145,10 @@ export class EditDistrictComponent implements OnInit {
         });
     }
 
+    /**
+     * This method allows to edit an specific District
+     * @param {number} i
+     */
     edit(i: number){
         this.readyToShow = false;
         this.activeTab = 0;
@@ -143,6 +165,9 @@ export class EditDistrictComponent implements OnInit {
         this.editCantonChange();
     }
 
+    /**
+     * This method allows to edit a District
+     */
     editCantonChange(){
         if (!this.currentDistrict){
             this.name = "";
@@ -154,12 +179,18 @@ export class EditDistrictComponent implements OnInit {
         this.readyToShow = true;
     }
 
+    /**
+     * This method set variables to default when user goes back in the menu
+     */
     goBack(){
         this.districtSelected = false;
         this.currentDistrict = null;
         this.reloadDistricts(this.allDistricts);
     }
 
+    /**
+     * This method call web services to create or edit an specific District
+     */
     saveChanges(){
         this.changesSaved = false;
         this.deleted = false;

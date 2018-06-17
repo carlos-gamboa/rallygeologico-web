@@ -69,6 +69,9 @@ export class EditCantonComponent implements OnInit {
     ngOnInit() {
     }
 
+    /**
+     *  This method set all data using web services
+     */
     setupData(){
         this.cantonService.selectallCantons().subscribe((cantons: Canton[]) => {
             console.log(cantons);
@@ -83,6 +86,10 @@ export class EditCantonComponent implements OnInit {
         });
     }
 
+    /**
+     *  This method reload all cantons showing in the page
+     * @param {Canton[]} cantons
+     */
     reloadCantons(cantons : Canton[]) : void{
         this.cantons = cantons;
         this.totalCantons = cantons.length;
@@ -90,6 +97,9 @@ export class EditCantonComponent implements OnInit {
         this.currentPageCanton = 0;
     }
 
+    /**
+     * This method search an specific canton and show it in the page
+     */
     searchCanton(){
         let termsToShow = [];
         if(this.searchQuery.length >= 1) {
@@ -104,12 +114,20 @@ export class EditCantonComponent implements OnInit {
         }
     }
 
+    /**
+     * This method change the showed Cantons in the table
+     */
     cantonPageChange() : void{
         if(this.cantons) {
             this.showedCantons = this.cantons.slice((this.currentPageCanton - 1) * this.pageSize, ((this.currentPageCanton) * this.pageSize));
         }
     }
 
+    /**
+     * This method allows to delete an specific Canton when the delete button is pressed
+     * @param {number} id
+     * @param {number} i
+     */
     deleteCanton(id: number, i: number){
         this.deleted = false;
         this.changesSaved = false;
@@ -128,6 +146,10 @@ export class EditCantonComponent implements OnInit {
         });
     }
 
+    /**
+     * This method allows to edit an specific Canton
+     * @param {number} i
+     */
     edit(i: number){
         this.readyToShow = false;
         this.activeTab = 0;
@@ -144,6 +166,9 @@ export class EditCantonComponent implements OnInit {
         this.editCantonChange();
     }
 
+    /**
+     * This method allows to edit a Canton
+     */
     editCantonChange(){
         if (!this.currentCanton){
             this.name = "";
@@ -155,12 +180,18 @@ export class EditCantonComponent implements OnInit {
         this.readyToShow = true;
     }
 
+    /**
+     * This method set variables to default when user goes back in the menu
+     */
     goBack(){
         this.cantonSelected = false;
         this.currentCanton = null;
         this.reloadCantons(this.allCantons);
     }
 
+    /**
+     * This method call web services to create or edit an specific Canton
+     */
     saveChanges(){
         this.changesSaved = false;
         this.deleted = false;
