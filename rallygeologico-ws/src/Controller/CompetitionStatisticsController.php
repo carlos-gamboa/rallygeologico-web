@@ -21,10 +21,9 @@ class CompetitionStatisticsController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
+        $competitionStatistics = $this->CompetitionStatistics->find('all', [
             'contain' => ['Users', 'Competition']
-        ];
-        $competitionStatistics = $this->paginate($this->CompetitionStatistics);
+        ]);
 
         $this->set(compact('competitionStatistics'));
         $this->set('_serialize', 'competitionStatistics');

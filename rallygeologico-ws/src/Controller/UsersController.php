@@ -23,10 +23,9 @@ class UsersController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
+        $users = $this->Users->find('all', [
             'contain' => []
-        ];
-        $users = $this->paginate($this->Users);
+        ]);
 
         $this->set(compact('users'));
         // Specify which view vars JsonView should serialize.

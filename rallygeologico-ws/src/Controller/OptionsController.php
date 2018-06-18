@@ -21,10 +21,9 @@ class OptionsController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
+        $options = $this->Options->find('all', [
             'contain' => ['Activity']
-        ];
-        $options = $this->paginate($this->Options);
+        ]);
 
         $this->set(compact('options'));
     }

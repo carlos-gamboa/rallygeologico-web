@@ -21,7 +21,8 @@ class TermController extends AppController
      */
     public function index()
     {
-        $term = $this->paginate($this->Term);
+        $term = $this->Term->find('all', [
+        ]);
 
         $this->set(compact('term'));
         $this->set('_serialize', 'term');
