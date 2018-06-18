@@ -132,7 +132,7 @@ export class RegisterComponent implements OnInit {
                 if (!emailUsed) {
                     this.userService.usernameExists(this.username).subscribe((usernameTaken: boolean) => {
                         if (!usernameTaken) {
-                            this.userService.register(this.fbId, this.username, this.firstName, this.lastName, this.email, this.photoUrl, 0, null, 1).subscribe((users: User[]) => {
+                            this.userService.register(this.fbId, this.username, this.firstName, this.lastName, this.email, this.photoUrl, 0, null, 0,1).subscribe((users: User[]) => {
                                 if (users) {
                                     this.successful = true;
                                     this.messageType = 0;
@@ -165,7 +165,7 @@ export class RegisterComponent implements OnInit {
                 if (!emailUsed) {
                     this.userService.usernameExists(this.username).subscribe((usernameTaken: boolean) => {
                         if (!usernameTaken) {
-                            this.userService.register(this.GId, this.username, this.GfirstName, this.GlastName, this.Gemail, this.photoUrl, 1, null, 1).subscribe((users: User[]) => {
+                            this.userService.register(this.GId, this.username, this.GfirstName, this.GlastName, this.Gemail, this.photoUrl, 1, null, 0, 1).subscribe((users: User[]) => {
                                 if (users) {
                                     this.successful = true;
                                     this.messageType = 0;
@@ -253,7 +253,7 @@ export class RegisterComponent implements OnInit {
             if (!emailUsed) {
                 this.userService.usernameExists(this.username).subscribe((usernameTaken: boolean) => {
                     if (!usernameTaken) {
-                        this.userService.register(this.fbId, this.username, this.firstName, this.lastName, this.email, this.photoUrl, 3, this.password, 1).subscribe((users: User[]) => {
+                        this.userService.register(this.fbId, this.username, this.firstName, this.lastName, this.email, this.photoUrl, 3, this.password, 0,1).subscribe((users: User[]) => {
                             if (users) {
                                 this.successful = true;
                                 this.messageType = 0;
