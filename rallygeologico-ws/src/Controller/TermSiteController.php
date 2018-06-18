@@ -117,10 +117,28 @@ class TermSiteController extends AppController
         $termSite = $this->TermSite->get($id);
         if ($this->TermSite->delete($termSite)) {
             $this->Flash->success(__('The term site has been deleted.'));
+            $this->set('termSite', true);
         } else {
             $this->Flash->error(__('The term site could not be deleted. Please, try again.'));
+            $this->set('termSite', false);
         }
 
-        return $this->redirect(['action' => 'index']);
+        //return $this->redirect(['action' => 'index']);
+        $this->render('/TermSite/json/template');
+
+    }
+
+    /**
+     * Gets the termSite entry with the specified values
+     * @param null $termId
+     * @param null $siteId
+     */
+    public function getTermSite($termId = null, $siteId = null){
+        $termSite = $this->TermSite->find('all', [
+                'conditions' => ['TermSite.term_id' => $termId,
+                    'TermSite.site_id' => $siteId]]
+        );
+        $this->set('termSite', $termSite->extract('id'));
+        $this->render('/TermSite/json/template');
     }
 }

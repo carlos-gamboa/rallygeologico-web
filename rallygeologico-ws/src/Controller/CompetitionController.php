@@ -69,17 +69,17 @@ class CompetitionController extends AppController
      */
     public function add()
     {
+        $associations = ['Users'];
         $competition = $this->Competition->newEntity();
         if ($this->getRequest()->is('post')) {
             $competition = $this->Competition->patchEntity($competition, $this->getRequest()->getData());
             if ($this->Competition->save($competition)) {
+                $competition = $this->Competition->loadInto($competition, $associations);
                 $this->Flash->success(__('The competition has been saved.'));
             }
             $this->Flash->error(__('The competition could not be saved. Please, try again.'));
         }
-        $users = $this->Competition->Users->find('list', ['limit' => 200]);
-        $rally = $this->Competition->Rally->find('list', ['limit' => 200]);
-        $this->set(compact('competition', 'users', 'rally'));
+        $this->set('competition', $competition);
         $this->render('/Competition/json/template');
     }
 
@@ -99,14 +99,13 @@ class CompetitionController extends AppController
             $competition = $this->Competition->patchEntity($competition, $this->getRequest()->getData());
             if ($this->Competition->save($competition)) {
                 $this->Flash->success(__('The competition has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The competition could not be saved. Please, try again.'));
         }
         $users = $this->Competition->Users->find('list', ['limit' => 200]);
         $rally = $this->Competition->Rally->find('list', ['limit' => 200]);
         $this->set(compact('competition', 'users', 'rally'));
+        $this->render('/Competition/json/template');
     }
 
     /**
@@ -122,11 +121,12 @@ class CompetitionController extends AppController
         $competition = $this->Competition->get($id);
         if ($this->Competition->delete($competition)) {
             $this->Flash->success(__('The competition has been deleted.'));
+            $this->set('competition', true);
         } else {
             $this->Flash->error(__('The competition could not be deleted. Please, try again.'));
+            $this->set('competition', false);
         }
-
-        return $this->redirect(['action' => 'index']);
+        $this->render('/Competition/json/template');
     }
 
     /**
@@ -144,16 +144,45 @@ class CompetitionController extends AppController
                 ],
             'conditions' => [
                     'AND' => [
-                        'competition.is_active' => 1,
-                        'competition.is_public' => 1,
-                        'competition.admin_id !=' =>  $user_id
+                        'Competition.is_active' => 1,
+                        'Competition.is_public' => 1,
+                        'Competition.admin_id !=' =>  $user_id
                     ],
-                    ['competition.id NOT IN' => $this->CompetitionStatistics->find('all', [
+                    ['Competition.id NOT IN' => $this->CompetitionStatistics->find('all', [
                         'fields' => ['CompetitionStatistics.competition_id'],
                         'conditions' => [
                             'CompetitionStatistics.user_id' => $user_id
                         ]
                     ])]
+            ]
+        ]);
+
+        $this->set('competition', $competitions);
+        $this->render('/Competition/json/template');
+    }
+
+    /**
+     * Gets all the the competitions the user is participating.
+     *
+     * @param null $user_id User Id
+     */
+    public function getUserActiveCompetitions($user_id = null) {
+        $this->loadModel('CompetitionStatistics');
+        $competitions = $this->Competition->find('all', [
+            'contain' =>
+                [
+                    'Rally'
+                ],
+            'conditions' => [
+                'AND' => [
+                    'Competition.is_active' => 1
+                ],
+                ['Competition.id IN' => $this->CompetitionStatistics->find('all', [
+                    'fields' => ['CompetitionStatistics.competition_id'],
+                    'conditions' => [
+                        'CompetitionStatistics.user_id' => $user_id
+                    ]
+                ])]
             ]
         ]);
 

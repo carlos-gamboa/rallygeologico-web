@@ -119,11 +119,13 @@ class CompetitionStatisticsController extends AppController
         $competitionStatistics = $this->CompetitionStatistics->get($id);
         if ($this->CompetitionStatistics->delete($competitionStatistics)) {
             $this->Flash->success(__('The competition statistic has been deleted.'));
+            $this->set('competitionStatistics', true);
         } else {
             $this->Flash->error(__('The competition statistic could not be deleted. Please, try again.'));
+            $this->set('competitionStatistics', false);
         }
 
-        return $this->redirect(['action' => 'index']);
+        $this->render('/CompetitionStatistics/json/template');
     }
 
     /**
@@ -135,7 +137,7 @@ class CompetitionStatisticsController extends AppController
     {
         $competitionStatistics = $this->CompetitionStatistics->find('all', [
             'contain' => ['Users', 'Site', 'Activity'],
-            'conditions' => ['competitionStatistics.competition_id' => $competitionId]]
+            'conditions' => ['CompetitionStatistics.competition_id' => $competitionId]]
         );
         $this->set('competitionStatistics', $competitionStatistics);
         $this->render('/CompetitionStatistics/json/template');
@@ -149,11 +151,195 @@ class CompetitionStatisticsController extends AppController
     public function currentCompetitions($userId = null){
 
         $competitionStatistics = $this->CompetitionStatistics->find('all', [
-            'contain' => ['Competition'],
-            'conditions' => ['competitionStatistics.user_id' => $userId]
+            'contain' => ['Competition', 'Site', 'Activity'],
+            'conditions' => ['CompetitionStatistics.user_id' => $userId]
         ]);
 
         $this->set('competitionStatistics', $competitionStatistics);
+        $this->render('/CompetitionStatistics/json/template');
+    }
+
+    /**
+     * Gets the overall statistics associated with a rally.
+     *
+     * @param null $rallyId Rally Id
+     */
+    public function getTotalRallyStatistics($rallyId = null){
+        $this->loadModel('Competition');
+
+        $competitionStatistics = $this->CompetitionStatistics->find('all', [
+            'fields' => [
+                'totalCompetitions' => 'COUNT( DISTINCT CompetitionStatistics.competition_id)',
+                'totalUsers' => 'COUNT( DISTINCT CompetitionStatistics.user_id)',
+                'maxPoints' => 'MAX(CompetitionStatistics.points)',
+                'totalPoints' => 'SUM(CompetitionStatistics.points)'
+            ],
+            'conditions' => [
+                'CompetitionStatistics.competition_id IN' => $this->Competition->find('all', [
+                    'fields' => ['Competition.id'],
+                    'conditions' => [
+                        'Competition.rally_id' => $rallyId
+                    ]
+                ]),
+            ]
+        ]);
+
+        $this->set('competitionStatistics', $competitionStatistics->toList());
+        $this->render('/CompetitionStatistics/json/template');
+    }
+
+    /**
+     * Gets the statistics associated with a rally's active competitions.
+     *
+     * @param null $rallyId Rally Id
+     */
+    public function getActiveRallyStatistics($rallyId = null){
+        $this->loadModel('Competition');
+
+        $competitionStatistics = $this->CompetitionStatistics->find('all', [
+            'fields' => [
+                'totalCompetitions' => 'COUNT( DISTINCT CompetitionStatistics.competition_id)',
+                'totalUsers' => 'COUNT( DISTINCT CompetitionStatistics.user_id)',
+                'maxPoints' => 'MAX(CompetitionStatistics.points)',
+                'totalPoints' => 'SUM(CompetitionStatistics.points)'
+            ],
+            'conditions' => [
+                'CompetitionStatistics.competition_id IN' => $this->Competition->find('all', [
+                    'fields' => ['Competition.id'],
+                    'conditions' => [
+                        'Competition.rally_id' => $rallyId,
+                        'Competition.is_active' => 1
+                    ]
+                ]),
+            ]
+        ]);
+
+        $this->set('competitionStatistics', $competitionStatistics->toList());
+        $this->render('/CompetitionStatistics/json/template');
+    }
+
+    /**
+     * Gets the number of users with the most points associated with a rally
+     */
+    public function getUsersWithMostPoints(){
+        $this->loadModel('Competition');
+        $data = $this->getRequest()->getData();
+        $rallyId = $data['rally_id'];
+        $maxPoints = $data['max_points'];
+        $isActive = $data['is_active'];
+
+        if ($isActive == 1){
+            $competitionStatistics = $this->CompetitionStatistics->find('all', [
+                'fields' => [
+                    'totalUsers' => 'COUNT( DISTINCT CompetitionStatistics.user_id)',
+                ],
+                'conditions' => [
+                    'CompetitionStatistics.competition_id IN' => $this->Competition->find('all', [
+                        'fields' => ['Competition.id'],
+                        'conditions' => [
+                            'Competition.rally_id' => $rallyId,
+                            'Competition.is_active' => 1
+                        ]
+                    ]),
+                    'CompetitionStatistics.points' => $maxPoints
+                ]
+            ]);
+        } else {
+            $competitionStatistics = $this->CompetitionStatistics->find('all', [
+                'fields' => [
+                    'totalUsers' => 'COUNT( DISTINCT CompetitionStatistics.user_id)',
+                ],
+                'conditions' => [
+                    'CompetitionStatistics.competition_id IN' => $this->Competition->find('all', [
+                        'fields' => ['Competition.id'],
+                        'conditions' => [
+                            'Competition.rally_id' => $rallyId,
+                        ]
+                    ]),
+                    'CompetitionStatistics.points' => $maxPoints
+                ]
+            ]);
+        }
+
+        $this->set('competitionStatistics', $competitionStatistics->toList());
+        $this->render('/CompetitionStatistics/json/template');
+    }
+
+    /**
+     * Gets the statistics associated with a site.
+     *
+     * @param null $siteId Id of the site.
+     */
+    public function getSiteStatistics($siteId = null){
+        $this->loadModel('CompetitionStatisticsSite');
+
+        $competitionStatistics = $this->CompetitionStatistics->find('all', [
+            'fields' => [
+                'totalUsers' => 'COUNT( DISTINCT CompetitionStatistics.user_id)',
+            ],
+            'conditions' => [
+                'CompetitionStatistics.id IN' => $this->CompetitionStatisticsSite->find('all', [
+                    'fields' => ['CompetitionStatisticsSite.competition_statistics_id'],
+                    'conditions' => [
+                        'CompetitionStatisticsSite.site_id' => $siteId
+                    ]
+                ]),
+            ]
+        ]);
+
+        $this->set('competitionStatistics', $competitionStatistics->toList());
+        $this->render('/CompetitionStatistics/json/template');
+    }
+
+    /**
+     * Gets the statistics associated with a user's active competitions.
+     *
+     * @param null $userId User Id
+     */
+    public function getActiveUserStatistics($userId = null){
+        $this->loadModel('Competition');
+
+        $competitionStatistics = $this->CompetitionStatistics->find('all', [
+            'fields' => [
+                'totalActiveCompetitions' => 'COUNT( DISTINCT CompetitionStatistics.competition_id)',
+            ],
+            'conditions' => [
+                'CompetitionStatistics.competition_id IN' => $this->Competition->find('all', [
+                    'fields' => ['Competition.id'],
+                    'conditions' => [
+                        'Competition.is_active' => 1
+                    ]
+                ]),
+                'CompetitionStatistics.user_id' => $userId
+            ]
+        ]);
+
+        $this->set('competitionStatistics', $competitionStatistics->toList());
+        $this->render('/CompetitionStatistics/json/template');
+    }
+
+    /**
+     * Gets the statistics associated with a user's competitions.
+     *
+     * @param null $userId User Id
+     */
+    public function getUserStatistics($userId = null){
+        $this->loadModel('Competition');
+
+        $competitionStatistics = $this->CompetitionStatistics->find('all', [
+            'fields' => [
+                'totalCompetitions' => 'COUNT( DISTINCT CompetitionStatistics.competition_id)',
+                'totalPoints' => 'SUM(CompetitionStatistics.points)'
+            ],
+            'conditions' => [
+                'CompetitionStatistics.competition_id IN' => $this->Competition->find('all', [
+                    'fields' => ['Competition.id']
+                ]),
+                'CompetitionStatistics.user_id' => $userId
+            ]
+        ]);
+
+        $this->set('competitionStatistics', $competitionStatistics->toList());
         $this->render('/CompetitionStatistics/json/template');
     }
 }

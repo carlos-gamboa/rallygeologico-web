@@ -20,11 +20,12 @@
   <div class="container">
     <div class="row">
       <div class="offset-md-2 col-md-8 col-xs-12">
+        <h3 class="text-center mb-3">Busca competencias por nombre</h3>
         <div class="busqueda" id="searchform">
           <input [(ngModel)]="searchQuery" type="text" title="Digite aquí el nombre del la competencia" id="searchterm" placeholder="Digite el nombre de la competencia" />
           <button type="button" id="search" title="Click aquí para buscar la competencia" (click)="searchCompetition()">Buscar</button>
         </div>
-        <div>
+        <div class="text-center">
           <h4 class="title">Resultados</h4> <br>
           <div>
             <table class="table">
@@ -50,7 +51,7 @@
             <div class="col-md-12 mt-10 text-center">
               <div class="d-inline-block">
                 <ngb-pagination [collectionSize]="totalCompetitions" [(page)]="currentPage" [maxSize]="5" [pageSize]="pageSize" [rotate]="true"
-                                [ellipses]="true" [boundaryLinks]="false" (pageChange)="pageChange($event)"></ngb-pagination>
+                                [ellipses]="true" [boundaryLinks]="false" (pageChange)="pageChange()"></ngb-pagination>
               </div>
             </div>
           </div>

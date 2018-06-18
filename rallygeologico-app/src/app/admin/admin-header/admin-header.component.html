@@ -1,0 +1,24 @@
+<header id="header">
+  <div class="ucr-banner">
+    <img src="{{assetsUrl}}../../assets/images/ucr/firma-horizontal-una-linea-reverso.png" class="signature">
+  </div>
+  <div class="container">
+    <div class="row align-items-center justify-content-center d-flex">
+      <nav id="nav-menu-container">
+        <ul class="nav-menu">
+          <li [class.menu-active]="isActive(1)"><a routerLink="/admin/competition" >Competencias</a></li>
+          <li [class.menu-active]="isActive(2)"><a routerLink="/admin/rally" >Rallies</a></li>
+          <li [class.menu-active]="isActive(3)"><a routerLink="/admin/site" >Sitios</a></li>
+          <li [class.menu-active]="isActive(4)"><a routerLink="/admin/term" >Términos</a></li>
+          <li class="menu-has-children" [class.menu-active]="isActive(5)"><a routerLink="/admin/term" >Datos geográficos</a>
+            <ul>
+              <li><a routerLink="/admin/canton">Cantones</a></li>
+              <li><a routerLink="/admin/district">Distritos</a></li>
+            </ul>
+          </li>
+          <li [class.menu-active]="isActive(6)"><a routerLink="" (click)="logout(); changeActive(6)">Cerrar Sesión</a></li>
+        </ul>
+      </nav><!-- #nav-menu-container -->
+    </div>
+  </div>
+</header><!-- #header -->

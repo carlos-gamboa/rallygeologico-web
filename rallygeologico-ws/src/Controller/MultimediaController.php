@@ -122,4 +122,44 @@ class MultimediaController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    /**
+     * Gets all multimedia that isn't associated with the term
+     *
+     * @param null $termId
+     */
+    public function getOtherMultimedia($termId = null){
+        $this->loadModel('TermMultimedia');
+        $media = $this->Multimedia->find('all', [
+            'conditions' => [
+                'Multimedia.id NOT IN ' => $this->TermMultimedia->find('all', [
+                    'fields' => ['TermMultimedia.multimedia_id'],
+                    'conditions' => ['TermMultimedia.term_id' => $termId
+                    ]
+                ])
+            ]
+        ]);
+        $this->set('multimedia', $media);
+        $this->render('/Multimedia/json/template');
+    }
+
+    /**
+     * Gets all multimedia associated with the term
+     *
+     * @param null $termId
+     */
+    public function getAssociatedMultimedia($termId = null){
+        $this->loadModel('TermMultimedia');
+        $media = $this->Multimedia->find('all', [
+            'conditions' => [
+                'Multimedia.id IN ' => $this->TermMultimedia->find('all', [
+                    'fields' => ['TermMultimedia.multimedia_id'],
+                    'conditions' => ['TermMultimedia.term_id' => $termId
+                    ]
+                ])
+            ]
+        ]);
+        $this->set('multimedia', $media);
+        $this->render('/Multimedia/json/template');
+    }
 }

@@ -6,6 +6,7 @@ use Cake\ORM\Entity;
 /**
  * CompetitionStatisticsSite Entity
  *
+ * @property int $id
  * @property int $competition_statistics_id
  * @property int $site_id
  * @property \Cake\I18n\FrozenTime $visited_date
@@ -26,6 +27,8 @@ class CompetitionStatisticsSite extends Entity
      * @var array
      */
     protected $_accessible = [
+        'competition_statistics_id' => true,
+        'site_id' => true,
         'visited_date' => true,
         'competition_statistic' => true,
         'site' => true

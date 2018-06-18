@@ -35,7 +35,7 @@ class TermMultimediaTable extends Table
 
         $this->setTable('term_multimedia');
         $this->setDisplayField('multimedia_id');
-        $this->setPrimaryKey(['multimedia_id', 'term_id']);
+        $this->setPrimaryKey('id');
 
         $this->belongsTo('Term', [
             'foreignKey' => 'term_id',
@@ -45,6 +45,21 @@ class TermMultimediaTable extends Table
             'foreignKey' => 'multimedia_id',
             'joinType' => 'INNER'
         ]);
+    }
+
+    /**
+     * Default validation rules.
+     *
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
+     */
+    public function validationDefault(Validator $validator)
+    {
+        $validator
+            ->integer('id')
+            ->allowEmpty('id', 'create');
+
+        return $validator;
     }
 
     /**

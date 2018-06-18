@@ -66,17 +66,17 @@ class CompetitionStatisticsActivityController extends AppController
      */
     public function add()
     {
+        $associations = ['CompetitionStatistics', 'Activity'];
         $competitionStatisticsActivity = $this->CompetitionStatisticsActivity->newEntity();
         if ($this->getRequest()->is('post')) {
             $competitionStatisticsActivity = $this->CompetitionStatisticsActivity->patchEntity($competitionStatisticsActivity, $this->getRequest()->getData());
             if ($this->CompetitionStatisticsActivity->save($competitionStatisticsActivity)) {
+                $competitionStatisticsActivity = $this->CompetitionStatisticsActivity->loadInto($competitionStatisticsActivity, $associations);
                 $this->Flash->success(__('The competition statistics activity has been saved.'));
             }
             $this->Flash->error(__('The competition statistics activity could not be saved. Please, try again.'));
         }
-        $competitionStatistics = $this->CompetitionStatisticsActivity->CompetitionStatistics->find('list', ['limit' => 200]);
-        $activity = $this->CompetitionStatisticsActivity->Activity->find('list', ['limit' => 200]);
-        $this->set(compact('competitionStatisticsActivity', 'competitionStatistics', 'activity'));
+        $this->set('competitionStatisticsActivity', $competitionStatisticsActivity);
         $this->render('/CompetitionStatisticsActivity/json/template');
     }
 
@@ -118,11 +118,13 @@ class CompetitionStatisticsActivityController extends AppController
         $competitionStatisticsActivity = $this->CompetitionStatisticsActivity->get($id);
         if ($this->CompetitionStatisticsActivity->delete($competitionStatisticsActivity)) {
             $this->Flash->success(__('The competition statistics activity has been deleted.'));
+            $this->set('competitionStatisticsActivity', true);
         } else {
             $this->Flash->error(__('The competition statistics activity could not be deleted. Please, try again.'));
+            $this->set('competitionStatisticsActivity', false);
         }
 
-        return $this->redirect(['action' => 'index']);
+        $this->render('/CompetitionStatisticsActivity/json/template');
     }
 }
 

@@ -136,9 +136,9 @@ class InvitationController extends AppController
     {
         $invitations = $this->Invitation->find('all', [
                 'conditions' => [
-                    'invitation.user_id_receive' => $receiveId,
-                    'invitation.accepted' => 0,
-                    'invitation.rejected' => 0
+                    'Invitation.user_id_receive' => $receiveId,
+                    'Invitation.accepted' => 0,
+                    'Invitation.rejected' => 0
                 ],
                 'contain' => ['Competition', 'UserSend']
             ]
@@ -156,8 +156,8 @@ class InvitationController extends AppController
         $CompetitionId = $data['competition_id'];
         $invitation = $this->Invitation->find('all', [
                 'conditions' => [
-                    'invitation.user_id_receive' => $UserIdReceive,
-                    'invitation.competition_id' => $CompetitionId
+                    'Invitation.user_id_receive' => $UserIdReceive,
+                    'Invitation.competition_id' => $CompetitionId
                 ]
             ]
         );

@@ -35,7 +35,7 @@ class ActivityMultimediaTable extends Table
 
         $this->setTable('activity_multimedia');
         $this->setDisplayField('activity_id');
-        $this->setPrimaryKey(['activity_id', 'multimedia_id']);
+        $this->setPrimaryKey('id');
 
         $this->belongsTo('Activity', [
             'foreignKey' => 'activity_id',
@@ -45,6 +45,21 @@ class ActivityMultimediaTable extends Table
             'foreignKey' => 'multimedia_id',
             'joinType' => 'INNER'
         ]);
+    }
+
+    /**
+     * Default validation rules.
+     *
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
+     */
+    public function validationDefault(Validator $validator)
+    {
+        $validator
+            ->integer('id')
+            ->allowEmpty('id', 'create');
+
+        return $validator;
     }
 
     /**

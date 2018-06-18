@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\Utility\Hash;
+use Cake\Auth\DefaultPasswordHasher;
 
 /**
  * Users Controller
@@ -55,10 +56,10 @@ class UsersController extends AppController
     public function view($id = null)
     {
         $user = $this->Users->get($id, [
-            'contain' => ['Competition', 'InvitationSend', 'InvitationReceive', 'CompetitionStatistics', 'CompetitionStatisticsSite']
         ]);
 
-        $this->set('user', $user);
+        $this->set('users', $user);
+        $this->render('/Users/json/template');
     }
 
     /**
@@ -158,7 +159,7 @@ class UsersController extends AppController
     public function username($Username = null)
     {
         $users = $this->Users->find('all', [
-                'conditions' => ['users.username' => $Username]]
+                'conditions' => ['Users.username' => $Username]]
         );
         $this->set('users', $users);
         $this->render('/Users/json/template');
@@ -172,10 +173,34 @@ class UsersController extends AppController
     public function usernameExists($Username = null)
     {
         $users = $this->Users->find('all', [
-                'conditions' => ['users.username' => $Username]]
+                'conditions' => ['Users.username' => $Username]]
         );
         $this->set('users', $users);
         if ($users->isEmpty()){
+            $this->set('users', false);
+        }
+        else{
+            $this->set('users', true);
+        }
+        $this->render('/Users/json/template');
+    }
+
+    /**
+     * Checks if a user is admin.
+     *
+     * @param null $Username User's username
+     */
+    public function userIsAdmin($Username = null)
+    {
+        $users = $this->Users->find('all', [
+                'conditions' => [
+                    'Users.username' => $Username,
+                    'Users.is_Admin' => 0,
+                ]
+            ]
+        );
+        $this->set('users', $users);
+        if (!$users->isEmpty()){
             $this->set('users', false);
         }
         else{
@@ -192,7 +217,7 @@ class UsersController extends AppController
     public function email($Email = null)
     {
         $users = $this->Users->find('all', [
-                'conditions' => ['users.email' => $Email]]
+                'conditions' => ['Users.email' => $Email]]
         );
         $this->set('users', $users);
         $this->render('/Users/json/template');
@@ -206,7 +231,7 @@ class UsersController extends AppController
     public function emailExists($Email = null)
     {
         $users = $this->Users->find('all', [
-                'conditions' => ['users.email' => $Email]]
+                'conditions' => ['Users.email' => $Email]]
         );
         $this->set('users', $users);
         if ($users->isEmpty()){
@@ -229,8 +254,30 @@ class UsersController extends AppController
         $LoginApi = $data['login_api'];
         $users = $this->Users->find('all', [
                 'conditions' => [
-                    'users.api_id' => $ApiId,
-                    'users.login_api' => $LoginApi
+                    'Users.api_id' => $ApiId,
+                    'Users.login_api' => $LoginApi
+                ]
+            ]
+        );
+        $this->set('users', $users);
+        $this->render('/Users/json/template');
+    }
+
+
+    /**
+     * Find an admin by it's api id
+     *
+     */
+    public function findApiIdAdmin()
+    {
+        $data = $this->getRequest()->getData();
+        $ApiId = $data['api_id'];
+        $LoginApi = $data['login_api'];
+        $users = $this->Users->find('all', [
+                'conditions' => [
+                    'Users.api_id' => $ApiId,
+                    'Users.login_api' => $LoginApi,
+                    'Users.is_admin' => 1
                 ]
             ]
         );
@@ -248,8 +295,8 @@ class UsersController extends AppController
         $LoginApi = $data['login_api'];
         $users = $this->Users->find('all', [
                 'conditions' => [
-                    'users.api_id' => $ApiId,
-                    'users.login_api' => $LoginApi
+                    'Users.api_id' => $ApiId,
+                    'Users.login_api' => $LoginApi
                 ]
             ]
         );

@@ -17,7 +17,7 @@ import {InstructionsComponent} from "./instructions/instructions.component";
 import {RalliesComponent} from "./rallies/rallies.component";
 import {RallyComponent} from "./rally/rally.component";
 import {PublicHeaderComponent} from "./public-header/public-header.component";
-import {PublicFooterComponent} from "./public-footer/public-footer.component";
+import {PublicFooterComponent} from "./admin/public-footer/public-footer.component";
 import {FacebookModule} from 'ngx-facebook';
 import {DataService} from "./services/data/data.service";
 import {UserService} from "./services/user.service";
@@ -32,6 +32,12 @@ import {SiteComponent} from './site/site.component';
 import {SiteService} from "./services/site.service";
 import {environment} from "../environments/environment";
 import {CompetitionStatisticsService} from "./services/competition.statistics.service";
+import {AdminModule} from "./admin/admin.module";
+import {TermService} from "./services/term.service";
+import {MultimediaService} from "./services/multimedia.service";
+import {DistrictService} from "./services/district.service";
+import {CantonService} from "./services/canton.service";
+import {ProvinceService} from "./services/province.service";
 
 
 @NgModule({
@@ -47,8 +53,7 @@ import {CompetitionStatisticsService} from "./services/competition.statistics.se
       RalliesComponent,
       RallyComponent,
       PublicHeaderComponent,
-      PublicFooterComponent,
-      SiteComponent
+      SiteComponent,
   ],
   imports: [
       BrowserModule,
@@ -59,6 +64,7 @@ import {CompetitionStatisticsService} from "./services/competition.statistics.se
       NgbModule.forRoot(),
       NgbModule,
       UserModule,
+      AdminModule,
       FacebookModule.forRoot(),
       HttpClientModule,
       AgmCoreModule.forRoot({
@@ -66,11 +72,8 @@ import {CompetitionStatisticsService} from "./services/competition.statistics.se
       }),
       AgmSnazzyInfoWindowModule
   ],
-  providers: [DataService, UserService, Configuration, RallyService, InvitationService, CompetitionService, SiteService, CompetitionStatisticsService],
+  providers: [DataService, UserService, Configuration, RallyService, InvitationService, CompetitionService, SiteService, CompetitionStatisticsService, TermService, MultimediaService, DistrictService, CantonService, ProvinceService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-    /*constructor(private backendWs : BackendEndpointsService){
-        this.backendWs.updatePrefix('http://localhost:7070');
-    }*/
 }

@@ -3,11 +3,6 @@
 @import "assets/fonts/font-awesome/font-awesome.min.css";
 @import "assets/fonts/linearicons/linearicons.css";
 
-@font-face{
-    font-family: "Myriad-Pro";
-    src: url(http://www.anaveer.in/honda/font/MYRIADPRO-REGULAR.OTF) format("truetype");
-}
-
 /*--------------------------- Color variations ----------------------*/
 /* Medium Layout: 1280px */
 /* Tablet Layout: 768px */
@@ -2417,7 +2412,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .banner-area {
-    background: url(assets/images/banner.jpeg) center;
+    background: url(assets/images/general/banner.jpg) center;
     background-size: cover;
 }
 
@@ -2576,7 +2571,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .feature-area {
-    background: url(assets/images/feature-bg.jpg) center;
+    background: url(assets/images/elena.jpg) center;
     background-size: cover;
 }
 
@@ -2730,7 +2725,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .price-area .single-price:hover {
-    background: url(assets/images/p-bg.jpg) center !important;
+    background: url(assets/images/elena.jpg) center !important;
     background-size: cover !important;
     color: #fff;
     cursor: pointer;
@@ -2759,7 +2754,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .booking-area {
-    background: url(assets/images/booking-bg.jpg) center;
+    background: url(assets/images/elena.jpg) center;
     background-size: cover;
 }
 
@@ -3400,7 +3395,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 ################
 */
 .blog-banner-area {
-    background: url(assets/images/blog-banner.jpg) center;
+    background: url(assets/images/elena.jpg) center;
     background-size: cover;
 }
 

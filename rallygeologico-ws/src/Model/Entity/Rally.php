@@ -11,8 +11,8 @@ use Cake\ORM\Entity;
  * @property int $points_awarded
  * @property string $image_url
  * @property string $description
- * @property float $latitude
- * @property float $longitude
+ * @property double $latitude
+ * @property double $longitude
  *
  * @property \App\Model\Entity\Competition[] $competition
  * @property \App\Model\Entity\Site[] $site

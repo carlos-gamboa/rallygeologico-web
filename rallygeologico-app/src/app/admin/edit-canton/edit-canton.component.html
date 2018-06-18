@@ -1,0 +1,128 @@
+<app-admin-header [activeTab]="5"></app-admin-header>
+<!-- Start banner Area -->
+<section class="banner-area relative" id="home">
+  <div class="overlay overlay-bg"></div>
+  <div class="container">
+    <div class="row d-flex align-items-center justify-content-center">
+      <div class="about-content col-lg-12">
+        <h1 class="text-white">
+          Administrar Cantones
+        </h1>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End banner Area -->
+
+<div *ngIf="readyToShow">
+  <!-- Start choosing Area -->
+  <section class="whole-wrap section-gap" *ngIf="!cantonSelected">
+    <div class="container">
+      <div class="row">
+        <div class="offset-md-2 col-md-8 col-xs-12">
+          <h3 class="text-center mb-3">Seleccione el cantón que desea editar</h3>
+          <div class="busqueda" id="searchFormEdit">
+            <input [(ngModel)]="searchQuery" type="text" title="Digite aquí el nombre del cantón" id="searchcantonEdit" placeholder="Digite el nombre del cantón" />
+            <button type="button" id="searchEdit" title="Click aquí para buscar el sitio" (click)="searchCanton()">Buscar</button>
+          </div>
+          <div class="text-center">
+            <h4 class="mt-4 mb-0">Resultados</h4>
+            <div class="mt-4 mb-4">
+              <button title="Agregar nuevo" class="invite-btn genric-btn text-center primary medium" (click)="edit(-1)">Crear nuevo cantón</button>
+            </div>
+            <div>
+              <table class="table">
+                <thead>
+                <th><h5 class="text-center">Nombre</h5></th>
+                <th><h5 class="text-center">Editar</h5></th>
+                <th><h5 class="text-center">Eliminar</h5></th>
+                </thead>
+                <tbody>
+                <tr *ngFor="let canton of showedCantons; let i = index">
+                  <td><h5 >{{canton?.name}}</h5></td>
+                  <td>
+                    <button title="Editar" class="invite-btn genric-btn circle text-center warning medium " (click)="edit(i)">Editar</button>
+                  </td>
+                  <td>
+                    <button title="Eliminar" class="invite-btn genric-btn circle text-center danger medium " (click)="deleteCanton(canton.id, i)">Eliminar</button>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="row">
+              <div class="col-md-12 mt-10 text-center">
+                <div class="d-inline-block">
+                  <ngb-pagination [collectionSize]="totalCantons" [(page)]="currentPageCanton" [maxSize]="5" [pageSize]="pageSize" [rotate]="true"
+                                  [ellipses]="true" [boundaryLinks]="false" (pageChange)="cantonPageChange($event)"></ngb-pagination>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div align="center">
+            <div *ngIf="deleted" class="alert col-lg-6 mt-10 text-center" role="alert" [class.alert-success]="messageType" [class.alert-danger]="!messageType">
+              {{alertMessage}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End choosing Area -->
+    <!-- Start tab Area -->
+    <section class="whole-wrap section-gap pb-0" *ngIf="cantonSelected">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-6 offset-3">
+                    <button title="Volver a seleccionar" class="invite-btn genric-btn text-center medium info mb-4" (click)="goBack()">Cambiar de cantón</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8 offset-2">
+                    <button title="Detalles" class="invite-btn genric-btn text-center medium wide-button" [class.primary]="activeTab == 0" [class.primary-border]="activeTab != 0">Detalles del cantón</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End tab Area -->
+    <!-- Start form Area -->
+    <section class="whole-wrap section-gap pt-5" *ngIf="cantonSelected && activeTab == 0">
+        <div class="container">
+            <div class="row">
+                <div class="offset-md-2 col-md-8 col-xs-12">
+                    <h3 class="text-center mb-3">Detalles de cantón</h3>
+                    <div class="booking-right mt-50" align="center">
+                        <form #cantonForm="ngForm">
+                            <div class="row mt-10 mb-10">
+                                <div class="col-lg-12">
+                                    <label for="name">Nombre</label>
+                                    <input class="text-input" type="text" [(ngModel)]="name" #nameInput="ngModel" id="name" name="name" placeholder="Nombre del cantón" required>
+                                    <div *ngIf="(nameInput?.invalid) && (nameInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
+                                        <p class="alert-message">Debe introducir un nombre para el cantón.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <div class="col-lg-12" align="center">
+                                    <label for="province_id">Provincia</label>
+                                    <select class="select-input" [(ngModel)]="province_id" #selectProvince="ngModel" id="province_id" name="province_id">
+                                        <option *ngFor="let province of allProvinces" [value]="province.id">
+                                            {{province.name}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="mt-50" align="center">
+                        <button title="Crear Canton" class="btn genric-btn success col-lg-6" style="font-size: 16px" (click)="saveChanges()" [disabled]="cantonForm.invalid" *ngIf="newCanton || currentCanton">Guardar cambios</button>
+                        <div *ngIf="changesSaved" class="alert col-lg-6 mt-10" role="alert" [class.alert-success]="messageType" [class.alert-danger]="!messageType">
+                            {{alertMessage}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End form Area -->
+</div>

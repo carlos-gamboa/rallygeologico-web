@@ -10,6 +10,8 @@
         <li><?= $this->Html->link(__('New Term Site'), ['action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Term'), ['controller' => 'Term', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Term'), ['controller' => 'Term', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Site'), ['controller' => 'Site', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Site'), ['controller' => 'Site', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="termSite index large-9 medium-8 columns content">
@@ -17,6 +19,7 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
+                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('term_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('site_id') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -25,8 +28,9 @@
         <tbody>
             <?php foreach ($termSite as $termSite): ?>
             <tr>
-                <td><?= $this->Number->format($termSite->term_id) ?></td>
+                <td><?= $this->Number->format($termSite->id) ?></td>
                 <td><?= $termSite->has('term') ? $this->Html->link($termSite->term->name, ['controller' => 'Term', 'action' => 'view', $termSite->term->id]) : '' ?></td>
+                <td><?= $termSite->has('site') ? $this->Html->link($termSite->site->name, ['controller' => 'Site', 'action' => 'view', $termSite->site->id]) : '' ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $termSite->term_id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $termSite->term_id]) ?>

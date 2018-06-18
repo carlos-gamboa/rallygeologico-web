@@ -34,8 +34,8 @@ class CompetitionStatisticsSiteTable extends Table
         parent::initialize($config);
 
         $this->setTable('competition_statistics_site');
-        $this->setDisplayField('user_id');
-        $this->setPrimaryKey(['competition_statistics_id', 'site_id']);
+        $this->setDisplayField('competition_statistics_id');
+        $this->setPrimaryKey('id');
 
         $this->belongsTo('CompetitionStatistics', [
             'foreignKey' => 'competition_statistics_id',
@@ -55,6 +55,10 @@ class CompetitionStatisticsSiteTable extends Table
      */
     public function validationDefault(Validator $validator)
     {
+        $validator
+            ->integer('id')
+            ->allowEmpty('id', 'create');
+
         $validator
             ->dateTime('visited_date')
             ->allowEmpty('visited_date');

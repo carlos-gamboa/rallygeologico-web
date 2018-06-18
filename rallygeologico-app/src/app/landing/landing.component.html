@@ -24,7 +24,7 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-6 about-video-left">
-        <h6 class="text-uppercase text-justify">La nueva aplicación competitiva que te permite aprender mientras te diviertes</h6>
+        <h6 class="text-uppercase">La nueva aplicación competitiva que te permite aprender mientras te diviertes</h6>
         <h1 class="text-center">
           ¿Deseas explorar las maravillas geológicas costarricenses?
         </h1>
@@ -39,7 +39,7 @@
         <a class="primary-btn" href="#">Comienza ahora</a>
       </div>
       <div class="col-lg-6 justify-content-center align-items-center d-flex">
-        <img class="vertical-image" src="assets/images/piedraVertical.jpg">
+        <img class="vertical-image" src="{{assetsUrl}}assets/images/general/vertical.jpg">
       </div>
     </div>
   </div>
@@ -63,8 +63,8 @@
         <ul class="tags">
           <li><a >Nuevo</a></li>
         </ul>
-        <a href="#"><h4 class="text-white">{{rally.name}}</h4></a>
-        <p class="text-gray">
+        <a routerLink="/rallies/{{rally.id}}"><h4 class="text-white">{{rally.name}}</h4></a>
+        <p class="text-gray text-justify">
           {{rally.description}}
         </p>
       </div>

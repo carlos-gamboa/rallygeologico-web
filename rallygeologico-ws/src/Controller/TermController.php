@@ -27,6 +27,13 @@ class TermController extends AppController
         $this->set('_serialize', 'term');
     }
 
+    public function getAllTerms($termId = null){
+        $media = $this->Term->find('all', [
+        ]);
+        $this->set('term', $media);
+        $this->render('/Term/json/template');
+    }
+
     /**
      * Allows public access to the web services.
      *
@@ -92,13 +99,12 @@ class TermController extends AppController
             $term = $this->Term->patchEntity($term, $this->getRequest()->getData());
             if ($this->Term->save($term)) {
                 $this->Flash->success(__('The term has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The term could not be saved. Please, try again.'));
         }
         $site = $this->Term->Site->find('list', ['limit' => 200]);
         $this->set(compact('term', 'site'));
+        $this->render('/Term/json/template');
     }
 
     /**
@@ -114,10 +120,13 @@ class TermController extends AppController
         $term = $this->Term->get($id);
         if ($this->Term->delete($term)) {
             $this->Flash->success(__('The term has been deleted.'));
+            $this->set('term', true);
         } else {
             $this->Flash->error(__('The term could not be deleted. Please, try again.'));
+            $this->set('term', false);
         }
-
-        return $this->redirect(['action' => 'index']);
+        //return $this->redirect(['action' => 'index']);
+        $this->render('/Term/json/template');
     }
+
 }
