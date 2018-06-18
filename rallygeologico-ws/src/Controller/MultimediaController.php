@@ -116,11 +116,13 @@ class MultimediaController extends AppController
         $multimedia = $this->Multimedia->get($id);
         if ($this->Multimedia->delete($multimedia)) {
             $this->Flash->success(__('The multimedia has been deleted.'));
+            $this->set('rally', true);
         } else {
             $this->Flash->error(__('The multimedia could not be deleted. Please, try again.'));
+            $this->set('rally', false);
         }
 
-        return $this->redirect(['action' => 'index']);
+        $this->render('/Rally/json/template');
     }
 
     /**

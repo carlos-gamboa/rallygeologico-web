@@ -96,7 +96,7 @@ export class EditTermComponent implements OnInit {
       this.allTerms = terms;
       this.reloadTerms(this.allTerms);
       this.allMultimedia = [];
-      this.multimediaService.getMultimedia().subscribe((multimedia: Multimedia[]) => {
+      this.multimediaService.getAllMultimedia().subscribe((multimedia: Multimedia[]) => {
         this.allMultimedia = multimedia;
         this.siteService.getSites().subscribe((sites: Site[]) => {
           this.allSites = sites;

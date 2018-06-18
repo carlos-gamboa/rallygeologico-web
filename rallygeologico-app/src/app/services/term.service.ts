@@ -3,8 +3,6 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
 import {Site} from "../model/site";
-import {Invitation} from "../model/invitation";
-import {User} from "../model/user";
 import {Term} from "../model/term";
 
 @Injectable()
@@ -138,4 +136,21 @@ export class TermService {
     return this.http.delete<boolean>(this.baseUrl + "termMultimedia/delete/"+id+".json");
   }
 
+    /**
+     * Service for getting all the terms those aren't part of the specified multimedia
+     * @param {number} id
+     * @returns {Observable<Term[]>}
+     */
+  getOtherTerms(id: number): Observable<Term []>{
+    return this.http.get<Term[]>(this.baseUrl + "term/getOtherTermsFromMultimedia/"+id+".json");
+  }
+
+    /**
+     * Service for getting all the terms those are part of the specified multimedia
+     * @param {number} id
+     * @returns {Observable<Term[]>}
+     */
+  getAssociatedTerms(id: number): Observable<Term []>{
+        return this.http.get<Term[]>(this.baseUrl + "term/getAssociatedTermsFromMultimedia/"+id+".json");
+  }
 }

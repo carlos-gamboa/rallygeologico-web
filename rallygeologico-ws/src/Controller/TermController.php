@@ -129,4 +129,44 @@ class TermController extends AppController
         $this->render('/Term/json/template');
     }
 
+    /**
+     * Gets all terms those aren't part of the specified multimedia
+     *
+     * @param null $id
+     */
+    public function getOtherTermsFromMultimedia($id = null){
+        $this->loadModel('TermMultimedia');
+        $terms = $this->Term->find('all', [
+            'conditions' => [
+                'Term.id NOT IN ' => $this->TermMultimedia->find('all', [
+                    'fields' => ['TermMultimedia.term_id'],
+                    'conditions' => ['TermMultimedia.multimedia_id' => $id
+                    ]
+                ])
+            ]
+        ]);
+        $this->set('term', $terms);
+        $this->render('/Term/json/template');
+    }
+
+    /**
+     * Gets all terms those are part of the specified multimedia
+     *
+     * @param null $id
+     */
+    public function getAssociatedTermsFromMultimedia($id = null){
+        $this->loadModel('TermMultimedia');
+        $terms = $this->Term->find('all', [
+            'conditions' => [
+                'Term.id IN ' => $this->TermMultimedia->find('all', [
+                    'fields' => ['TermMultimedia.term_id'],
+                    'conditions' => ['TermMultimedia.multimedia_id' => $id
+                    ]
+                ])
+            ]
+        ]);
+        $this->set('term', $terms);
+        $this->render('/Term/json/template');
+    }
+
 }
