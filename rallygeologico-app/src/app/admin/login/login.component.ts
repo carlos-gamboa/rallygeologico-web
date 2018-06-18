@@ -118,7 +118,7 @@ export class LoginComponent implements OnInit {
                                         setTimeout(() =>
                                             {
                                                 this._ngZone.run(
-                                                    () => this.router.navigate(['/admin/competition'])
+                                                    () => this.router.navigate(['/admin/users'])
                                                 );
                                             },
                                             1500);
@@ -164,7 +164,7 @@ export class LoginComponent implements OnInit {
                             setTimeout(() =>
                                 {
                                     this._ngZone.run(
-                                        () => this.router.navigate(['/admin/competition'])
+                                        () => this.router.navigate(['/admin/users'])
                                     );
                                 },
                                 1500);
@@ -201,7 +201,7 @@ export class LoginComponent implements OnInit {
                 setTimeout(() =>
                     {
                         this._ngZone.run(
-                            () => this.router.navigate(['/admin/competition'])
+                            () => this.router.navigate(['/admin/users'])
                         );
                     },
                     1500);

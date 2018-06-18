@@ -14,6 +14,9 @@ import {EditSiteComponent} from "./edit-site/edit-site.component";
 import { EditCantonComponent } from './edit-canton/edit-canton.component';
 import { EditDistrictComponent } from './edit-district/edit-district.component';
 import { AdminHeaderComponent } from './admin-header/admin-header.component';
+import { EditUsersComponent } from './edit-users/edit-users.component';
+import { EditMultimediaComponent } from './edit-multimedia/edit-multimedia.component';
+import { EditActivityComponent } from './edit-activity/edit-activity.component';
 
 @NgModule({
     imports: [
@@ -36,7 +39,10 @@ import { AdminHeaderComponent } from './admin-header/admin-header.component';
         EditSiteComponent,
         EditCantonComponent,
         EditDistrictComponent,
-        AdminHeaderComponent
+        AdminHeaderComponent,
+        EditUsersComponent,
+        EditMultimediaComponent,
+        EditActivityComponent
     ],
     exports: [
         PublicFooterComponent
