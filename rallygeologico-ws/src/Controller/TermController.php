@@ -27,13 +27,6 @@ class TermController extends AppController
         $this->set('_serialize', 'term');
     }
 
-    public function getAllTerms($termId = null){
-        $media = $this->Term->find('all', [
-        ]);
-        $this->set('term', $media);
-        $this->render('/Term/json/template');
-    }
-
     /**
      * Allows public access to the web services.
      *
@@ -57,7 +50,7 @@ class TermController extends AppController
     public function view($id = null)
     {
         $term = $this->Term->get($id, [
-            'contain' => ['Site']
+            'contain' => ['Site', 'Multimedia']
         ]);
 
         $this->set('term', $term);
@@ -126,6 +119,30 @@ class TermController extends AppController
             $this->set('term', false);
         }
         //return $this->redirect(['action' => 'index']);
+        $this->render('/Term/json/template');
+    }
+
+    /**
+     * Gets all the terms
+     *
+     */
+    public function getAllTerms(){
+        $term = $this->Term->find('all', [
+        ]);
+        $this->set('term', $term);
+        $this->render('/Term/json/template');
+    }
+
+    /**
+     * Gets all the terms ordered by letter
+     */
+    public function getAllTermsOrdered(){
+        $term = $this->Term->find('all', [
+                'order' => ['Term.name' => 'ASC'],
+                'contain' => ['Multimedia']
+            ]
+        );
+        $this->set('term', $term);
         $this->render('/Term/json/template');
     }
 
