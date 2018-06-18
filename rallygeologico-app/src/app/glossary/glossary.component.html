@@ -8,91 +8,29 @@
         <h1 class="text-white">
           Glosario
         </h1>
-        <p class="text-white link-nav"><a href="index.html">Inicio</a>  <span class="lnr lnr-arrow-right"></span>  <a href="contact.html">Glosario</a></p>
+        <p class="text-white link-nav"><a routerLink="/landing">Inicio</a>  <span class="lnr lnr-arrow-right"></span>  <a routerLink="/glossary">Glosario</a></p>
       </div>
     </div>
   </div>
 </section>
 <!-- End banner Area -->
+<div *ngIf="readyToShow"><!-- start banner Area -->
 <div class="whole-wrap">
   <div class="container">
-    <article class="section-top-border">
-      <h3 class="mb-30">A</h3>
+    <article *ngFor="let letter of termKeys; let i = index"  class="section-top-border">
+      <h3 class="mb-30 letter-banner">{{letter}}</h3>
       <div class="row">
-        <div class="col-md-4 booking-right mb-20">
-          <img class="mb-30 center" src="img/nicoya.jpg" alt="Icono de Usuario" width="200">
+        <div *ngFor="let termItem of allTerms.get(letter); let j = index" class="col-sm-12 col-md-6 col-lg-4 booking-right mb-20">
+          <img *ngIf=" termItem.media!= null; else no_image" class="mb-30 center" src="{{termItem.media[0].media_url}}" alt="Icono de Usuario" width="280">
+          <ng-template #no_image><img class="mb-30 center" src="../../assets/images/no-image.png" alt="No image" width="280"></ng-template>
           <div class="single-defination">
-            <a href="#"><h4 style="color:#3366BB" class="mb-20 text-center">Definition 01</h4></a>
-            <p>Recently, the US Federal government banned online casinos from operating in America by making it illegal to transfer money to them through any US bank or payment system. As a result of this law, most of the popular online casino networks</p>
-          </div>
-        </div>
-        <div class="col-md-4 booking-right mb-20">
-          <img class="mb-30 center" src="img/nicoya.jpg" alt="Icono de Usuario" width="200">
-          <div class="single-defination">
-            <a href="#"><h4 style="color:#3366BB" class="mb-20 text-center">Definition 02</h4></a>
-            <p>Recently, the US Federal government banned online casinos from operating in America by making it illegal to transfer money to them through any US bank or payment system. As a result of this law, most of the popular online casino networks</p>
-          </div>
-        </div>
-        <div class="col-md-4 booking-right mb-20">
-          <img class="mb-30 center" src="img/nicoya.jpg" alt="Icono de Usuario" width="200">
-          <div class="single-defination">
-            <a href="#"><h4 style="color:#3366BB" class="mb-20 text-center">Definition 03</h4></a>
-            <p>Recently, the US Federal government banned online casinos from operating in America by making it illegal to transfer money to them through any US bank or payment system. As a result of this law, most of the popular online casino networks</p>
+            <a href="#"><h4 class="mb-20 text-center link">{{termItem.name}}</h4></a>
+            <p class="text-justify">{{termItem.description}} <a href="#">Ver más</a></p>
           </div>
         </div>
       </div>
     </article>
-    <article class="section-top-border">
-      <h3 class="mb-30">B</h3>
-      <div class="row">
-        <div class="col-md-4 booking-right mb-20">
-          <img class="mb-30 center" src="img/nicoya.jpg" alt="Icono de Usuario" width="200">
-          <div class="single-defination">
-            <a href="#"><h4 style="color:#3366BB" class="mb-20 text-center">Definition 01</h4></a>
-            <p>Recently, the US Federal government banned online casinos from operating in America by making it illegal to transfer money to them through any US bank or payment system. As a result of this law, most of the popular online casino networks</p>
-          </div>
-        </div>
-        <div class="col-md-4 booking-right mb-20">
-          <img class="mb-30 center" src="img/nicoya.jpg" alt="Icono de Usuario" width="200">
-          <div class="single-defination">
-            <a href="#"><h4 style="color:#3366BB" class="mb-20 text-center">Definition 02</h4></a>
-            <p>Recently, the US Federal government banned online casinos from operating in America by making it illegal to transfer money to them through any US bank or payment system. As a result of this law, most of the popular online casino networks</p>
-          </div>
-        </div>
-        <div class="col-md-4 booking-right mb-20">
-          <img class="mb-30 center" src="img/nicoya.jpg" alt="Icono de Usuario" width="200">
-          <div class="single-defination">
-            <a href="#"><h4 style="color:#3366BB" class="mb-20 text-center">Definition 03</h4></a>
-            <p>Recently, the US Federal government banned online casinos from operating in America by making it illegal to transfer money to them through any US bank or payment system. As a result of this law, most of the popular online casino networks</p>
-          </div>
-        </div>
-      </div>
-    </article>
-    <article class="section-top-border">
-      <h3 class="mb-30">C</h3>
-      <div class="row">
-        <div class="col-md-4 booking-right mb-20">
-          <img class="mb-30 center" src="img/nicoya.jpg" alt="Icono de Usuario" width="200">
-          <div class="single-defination">
-            <a href="#"><h4 style="color:#3366BB" class="mb-20 text-center">Definition 01</h4></a>
-            <p>Recently, the US Federal government banned online casinos from operating in America by making it illegal to transfer money to them through any US bank or payment system. As a result of this law, most of the popular online casino networks</p>
-          </div>
-        </div>
-        <div class="col-md-4 booking-right mb-20">
-          <img class="mb-30 center" src="img/nicoya.jpg" alt="Icono de Usuario" width="200">
-          <div class="single-defination">
-            <a href="#"><h4 style="color:#3366BB" class="mb-20 text-center">Definition 02</h4></a>
-            <p>Recently, the US Federal government banned online casinos from operating in America by making it illegal to transfer money to them through any US bank or payment system. As a result of this law, most of the popular online casino networks</p>
-          </div>
-        </div>
-        <div class="col-md-4 booking-right mb-20">
-          <img class="mb-30 center" src="img/nicoya.jpg" alt="Icono de Usuario" width="200">
-          <div class="single-defination">
-            <a href="#"><h4 style="color:#3366BB" class="mb-20 text-center">Definition 03</h4></a>
-            <p>Recently, the US Federal government banned online casinos from operating in America by making it illegal to transfer money to them through any US bank or payment system. As a result of this law, most of the popular online casino networks</p>
-          </div>
-        </div>
-      </div>
-    </article>
+
   </div>
+</div>
 </div>

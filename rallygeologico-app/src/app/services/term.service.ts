@@ -138,4 +138,8 @@ export class TermService {
     return this.http.delete<boolean>(this.baseUrl + "termMultimedia/delete/"+id+".json");
   }
 
+  getAllTermsOrdered() : Observable<Term[]>{
+    return this.http.get<Term[]>(this.baseUrl + "term/getAllTermsOrdered.json")
+  }
+
 }
