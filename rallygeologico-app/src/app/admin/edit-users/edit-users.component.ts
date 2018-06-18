@@ -236,4 +236,8 @@ export class EditUsersComponent implements OnInit {
         });
     }
 
+    isPasswordLogin(){
+        return (this.login_api == "3");
+    }
+
 }
