@@ -146,4 +146,13 @@ class TermController extends AppController
         $this->render('/Term/json/template');
     }
 
+    public function getATerm($id = null){
+        $term = $this->Term->get($id, [
+                'contain' => ['Multimedia','Site']
+            ]
+        );
+        $this->set('term', $term);
+        $this->render('/Term/json/template');
+    }
+
 }

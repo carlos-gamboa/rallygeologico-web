@@ -13,7 +13,6 @@ export class GlossaryComponent implements OnInit {
   
   allTerms : Map<string, Term[]> = new Map();
   termKeys:IterableIterator<string>;
-  termValues:IterableIterator<Term[]>;
   readyToShow:boolean = false;
   MAX_TEXT_SIZE : number = 300;
 
@@ -49,7 +48,6 @@ export class GlossaryComponent implements OnInit {
           index++;
         }
         this.termKeys = this.allTerms.keys();
-        this.termValues = this.allTerms.values();
         console.log(this.allTerms);
     }
 

@@ -139,7 +139,11 @@ export class TermService {
   }
 
   getAllTermsOrdered() : Observable<Term[]>{
-    return this.http.get<Term[]>(this.baseUrl + "term/getAllTermsOrdered.json")
+    return this.http.get<Term[]>(this.baseUrl + "term/getAllTermsOrdered.json");
+  }
+
+  getATerm(id:number) : Observable<Term>{
+    return this.http.get<Term>(this.baseUrl + "term/getATerm/" + id +".json");
   }
 
 }
