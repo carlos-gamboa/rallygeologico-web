@@ -65,12 +65,13 @@ class CompetitionStatisticsController extends AppController
      */
     public function add()
     {
-        $associations = ['Users', 'Competition'];
         $competitionStatistics = $this->CompetitionStatistics->newEntity();
         if ($this->getRequest()->is('post')) {
-            $competitionStatistics = $this->CompetitionStatistics->patchEntity($competitionStatistics, $this->getRequest()->getData(), ['associated' => $associations]);
+            $competitionStatistics = $this->CompetitionStatistics->patchEntity($competitionStatistics, $this->getRequest()->getData());
             if ($this->CompetitionStatistics->save($competitionStatistics)) {
-                $competitionStatistics = $this->CompetitionStatistics->loadInto($competitionStatistics, $associations);
+                $competitionStatistics = $this->CompetitionStatistics->get($competitionStatistics->id, [
+                    'contain' => ['Users', 'Competition', 'Site', 'Activity']
+                ]);
                 $this->Flash->success(__('The competition statistic has been saved.'));
             }
             $this->Flash->error(__('The competition statistic could not be saved. Please, try again.'));
