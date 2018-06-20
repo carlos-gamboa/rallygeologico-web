@@ -209,4 +209,12 @@ export class UserService {
         return this.http.post<boolean>(this.baseUrl + "users/delete/"+id+".json", {
         },{ headers: this.headers, withCredentials: true });
     }
+
+    editProfile(id: number, firstName : string, lastName : string, photoUrl : string) : Observable<User>{
+        return this.http.post<User>(this.baseUrl + "users/edit/" + id +".json", {
+            'first_name':firstName,
+            'last_name':lastName,
+            'photo_url':photoUrl
+        },{ headers: this.headers, withCredentials: true });
+    }
 }

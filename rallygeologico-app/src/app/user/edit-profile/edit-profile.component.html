@@ -1,0 +1,86 @@
+<app-header [activeTab]="1"></app-header>
+<!-- start banner Area -->
+<div *ngIf="readyToShow"><!-- start banner Area -->
+  <section class="banner-area relative" id="home">
+    <div class="overlay overlay-bg"></div>
+    <div class="container">
+      <div class="row d-flex align-items-center justify-content-center">
+        <div class="about-content col-lg-12">
+          <h1 class="text-white">
+            Editar perfil
+          </h1>
+          <p class="text-white link-nav"><a  title="Ir a página principal" routerLink="\dashboard">Principal </a>  <span class="lnr lnr-arrow-right"></span>  <a title="Ir al perfil" routerLink="/profile"> Mi Perfil</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End banner Area -->
+  <!-- Start tab Area -->
+  <section class="whole-wrap section-gap pb-0">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 offset-md-2">
+          <button title="Cambiar información" class="invite-btn genric-btn text-center medium wide-button" [class.primary]="activeTab == 0" [class.primary-border]="activeTab != 0" (click)="changeTab(0)">Editar información</button>
+        </div>
+        <div class="col-md-4">
+          <button title="Cambiar contraseña" class="invite-btn genric-btn text-center medium wide-button" [class.primary]="activeTab == 1" [class.primary-border]="activeTab != 1" (click)="changeTab(1)">Cambiar contraseña</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End tab Area -->
+
+  <!-- Start form Area -->
+  <section class="whole-wrap section-gap pt-5" *ngIf="activeTab == 0">
+    <div class="container">
+      <div class="row">
+        <div class="offset-md-2 col-md-8 col-xs-12">
+          <h3 class="text-center mb-3">Editar información</h3>
+          <div class="booking-right mt-50" align="center">
+            <img style="border-radius: 70%" src="{{photo_url}}" width="200" height="200">
+            <form #editProfileForm="ngForm">
+              <div class="row mt-10 mb-10">
+                <div class="col-lg-12">
+                  <label for="first_name">Nombre</label>
+                  <input class="text-input" type="text" [(ngModel)]="first_name" #firstNameInput="ngModel" id="first_name" name="first_name" placeholder="Nombre" required>
+                  <div *ngIf="(firstNameInput?.invalid) && (firstNameInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2 text-center" role="alert">
+                    <div *ngIf="firstNameInput.errors.required">
+                      <p class="alert-message mb-0">Debe introducir un nombre.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12 mt-3">
+                  <label for="last_name">Apellidos</label>
+                  <input class="text-input" type="text" [(ngModel)]="last_name" #lastNameInput="ngModel" id="last_name" name="last_name" placeholder="Apellidos">
+                </div>
+                <div class="col-lg-12 mt-3" align="center" *ngIf="currentUser.login_api == 3">
+                  <label for="photo_url">Imagen de perfil</label>
+                  <select class="select-input" [(ngModel)]="photo_url" #photoUrlInput="ngModel" name="photo_url" id="photo_url" required>
+                    <option value="{{assetsUrl}}assets/images/users/user1.png" selected>Mujer 1</option>
+                    <option value="{{assetsUrl}}assets/images/users/user2.png" selected>Hombre 1</option>
+                    <option value="{{assetsUrl}}assets/images/users/user3.png" selected>Mujer 2</option>
+                    <option value="{{assetsUrl}}assets/images/users/user4.png" selected>Hombre 2</option>
+                    <option value="{{assetsUrl}}assets/images/users/user5.png" selected>Mujer 3</option>
+                    <option value="{{assetsUrl}}assets/images/users/user6.png" selected>Hombre 3</option>
+                    <option value="{{assetsUrl}}assets/images/users/user7.png" selected>Mujer 4</option>
+                    <option value="{{assetsUrl}}assets/images/users/user8.png" selected>Hombre 4</option>
+                  </select>
+                  <div *ngIf="(photoUrlInput?.invalid) && (photoUrlInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
+                    <p class="alert-message">Debe seleccionar una imagen de perfil.</p>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="mt-50" align="center">
+            <button title="Crear Competencia" class="btn genric-btn success col-lg-6" style="font-size: 16px" (click)="saveChanges()" [disabled]="editProfileForm.invalid">Guardar cambios</button>
+            <div *ngIf="changesSaved" class="alert col-lg-6 mt-10" role="alert" [class.alert-success]="messageType" [class.alert-danger]="!messageType">
+              {{alertMessage}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End form Area -->
+</div>
