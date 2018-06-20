@@ -2595,6 +2595,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 
 .feature-area .single-feature {
     margin-bottom: 80px;
+    text-align: center;
 }
 
 .feature-area .single-feature h4 {
