@@ -59,10 +59,11 @@ export class UserService {
      * @param {string} photoUrl User's photo url.
      * @param {number} loginApi User's login API.
      * @param {string} password User's password.
+     * @param {string} passwordNeedsChange User's password.
      * @param {number} isActive If the user is confirmed.
      * @returns {Observable<User[]>}
      */
-    register(apiId : string, username : string, firstName : string, lastName : string, email : string, photoUrl : string, loginApi: number, password: string, isActive: number) : Observable<User[]>{
+    register(apiId : string, username : string, firstName : string, lastName : string, email : string, photoUrl : string, loginApi: number, password: string, passwordNeedsChange: number, isActive: number) : Observable<User[]>{
         if (password){
             return this.http.post<User[]>(this.baseUrl + "users/add.json", {
                 'api_id':apiId,
@@ -73,7 +74,8 @@ export class UserService {
                 'photo_url':photoUrl,
                 'login_api':loginApi,
                 'is_active':isActive,
-                'password':password
+                'password':password,
+                'password_needs_change':passwordNeedsChange
             },{ headers: this.headers, withCredentials: true });
         } else {
             return this.http.post<User[]>(this.baseUrl + "users/add.json", {
@@ -84,10 +86,10 @@ export class UserService {
                 'email':email,
                 'photo_url':photoUrl,
                 'login_api':loginApi,
-                'is_active':isActive
+                'is_active':isActive,
+                'password_needs_change':passwordNeedsChange
             },{ headers: this.headers, withCredentials: true });
         }
-
     }
 
     /**
@@ -155,6 +157,12 @@ export class UserService {
       },{ headers: this.headers, withCredentials: true });
     }
 
+    /**
+     * Logs in with password
+     * @param {string} username
+     * @param {string} password
+     * @returns {Observable<User>}
+     */
     loginWithPassword(username: string, password: string): Observable<User>{
         return this.http.post<User>(this.baseUrl + "login.json", {
             'username':username,
@@ -163,4 +171,42 @@ export class UserService {
         },{ headers: this.headers, withCredentials: true });
     }
 
+    editUser(id: number, apiId : string, username : string, firstName : string, lastName : string, email : string, photoUrl : string, loginApi: number, password: string, passwordNeedsChange:number, isActive: number) : Observable<User>{
+        if (password){
+            return this.http.post<User>(this.baseUrl + "users/edit/" + id +".json", {
+                'api_id':apiId,
+                'username':username,
+                'first_name':firstName,
+                'last_name':lastName,
+                'email':email,
+                'photo_url':photoUrl,
+                'login_api':loginApi,
+                'is_active':isActive,
+                'password':password,
+                'password_needs_change':passwordNeedsChange
+            },{ headers: this.headers, withCredentials: true });
+        } else {
+            return this.http.post<User>(this.baseUrl + "users/edit/" + id +".json", {
+                'api_id':apiId,
+                'username':username,
+                'first_name':firstName,
+                'last_name':lastName,
+                'email':email,
+                'photo_url':photoUrl,
+                'login_api':loginApi,
+                'is_active':isActive,
+                'password_needs_change':passwordNeedsChange
+            },{ headers: this.headers, withCredentials: true });
+        }
+    }
+
+    /**
+     * Deletes the specified user
+     * @param id
+     * @returns {Observable<Object>}
+     */
+    deleteUser(id: number) : Observable<boolean>{
+        return this.http.post<boolean>(this.baseUrl + "users/delete/"+id+".json", {
+        },{ headers: this.headers, withCredentials: true });
+    }
 }
