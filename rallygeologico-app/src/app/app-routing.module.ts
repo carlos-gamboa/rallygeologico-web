@@ -16,7 +16,7 @@ const routes : Routes = [
         path: '', redirectTo: 'landing', pathMatch: 'full'
     },
     {
-        path: 'login', component: LoginComponent
+        path: 'sign-in', component: LoginComponent
     },
     {
         path: 'register', component: RegisterComponent
