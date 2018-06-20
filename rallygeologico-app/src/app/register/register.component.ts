@@ -37,7 +37,7 @@ export class RegisterComponent implements OnInit {
     messageType: number;
     alertMessage: string;
 
-    photoUrl : string = environment.assetsUrl + "assets/user-icon.png";
+    photoUrl : string = environment.assetsUrl + "assets/images/users/user1.png";
     user : User;
     successful : boolean = false;
     googleClientS : string = environment.googleClientS;
