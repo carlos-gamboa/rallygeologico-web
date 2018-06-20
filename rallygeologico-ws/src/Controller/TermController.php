@@ -139,7 +139,7 @@ class TermController extends AppController
     public function getAllTermsOrdered(){
         $term = $this->Term->find('all', [
                 'order' => ['Term.name' => 'ASC'],
-                'contain' => ['Multimedia']
+                'contain' => ['Multimedia', 'Site']
             ]
         );
         $this->set('term', $term);
