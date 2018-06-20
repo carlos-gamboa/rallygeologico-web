@@ -30,6 +30,7 @@ class UsersController extends AppController
         $this->set(compact('users'));
         // Specify which view vars JsonView should serialize.
         $this->set('_serialize', 'users');
+        $this->render('/Users/json/template');
     }
 
     /**
@@ -76,7 +77,7 @@ class UsersController extends AppController
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $this->set(compact('users'));
+        $this->set('users', $users);
         $this->render('/Users/json/template');
     }
 
@@ -96,12 +97,11 @@ class UsersController extends AppController
             $user = $this->Users->patchEntity($user, $this->getRequest()->getData());
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $this->set(compact('user'));
+        $this->set('users', $user);
+        $this->render('/Users/json/template');
     }
 
     /**
@@ -117,11 +117,13 @@ class UsersController extends AppController
         $user = $this->Users->get($id);
         if ($this->Users->delete($user)) {
             $this->Flash->success(__('The user has been deleted.'));
+            $this->set('users', true);
         } else {
             $this->Flash->error(__('The user could not be deleted. Please, try again.'));
+            $this->set('users', false);
         }
 
-        return $this->redirect(['action' => 'index']);
+        $this->render('/Users/json/template');
     }
 
     /**
