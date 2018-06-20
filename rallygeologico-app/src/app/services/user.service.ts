@@ -217,4 +217,12 @@ export class UserService {
             'photo_url':photoUrl
         },{ headers: this.headers, withCredentials: true });
     }
+
+    updatePassword(id: number, currentPassword: string, newPassword: string) : Observable<boolean>{
+        return this.http.post<boolean>(this.baseUrl + "users/changePassword.json", {
+            'id':id,
+            'password':currentPassword,
+            'new_password':newPassword
+        },{ headers: this.headers, withCredentials: true });
+    }
 }

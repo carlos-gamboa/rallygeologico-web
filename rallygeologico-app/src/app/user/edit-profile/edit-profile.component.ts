@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {DataService} from "../../services/data/data.service";
 import {CompetitionStatisticsService} from "../../services/competition.statistics.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {User} from "../../model/user";
 import {UserService} from "../../services/user.service";
 import {environment} from "../../../environments/environment";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-edit-profile',
@@ -12,6 +13,9 @@ import {environment} from "../../../environments/environment";
   styleUrls: ['./edit-profile.component.css']
 })
 export class EditProfileComponent implements OnInit {
+
+    @ViewChild("changePasswordForm")
+    changePasswordForm: NgForm;
 
     readyToShow: boolean = false;
     activeTab: number;
@@ -28,6 +32,10 @@ export class EditProfileComponent implements OnInit {
     photo_url: string;
 
     assetsUrl: string;
+
+    currentPassword: string;
+    newPassword: string;
+    newPasswordVerify: string;
 
     constructor(private dataService: DataService,
                 private userService: UserService,
@@ -83,5 +91,53 @@ export class EditProfileComponent implements OnInit {
                 this.alertMessage = "No se ha logrado guardar los cambios.";
             }
         });
+    }
+
+    matchPasswords(){
+        if (this.newPassword && this.newPasswordVerify){
+            return (this.newPassword.localeCompare(this.newPasswordVerify) == 0);
+        } else {
+            return true;
+        }
+    }
+
+
+    savePasswordChanges(){
+        this.changesSaved = false;
+        if(this.currentPassword && this.newPassword && this.newPasswordVerify) {
+            if (this.currentPassword.localeCompare(this.newPasswordVerify) != 0) {
+                this.userService.updatePassword(this.currentUser.id, this.currentPassword, this.newPassword).subscribe((changed: Boolean) => {
+                    if (changed) {
+                        this.changesSaved = true;
+                        this.messageType = true;
+                        this.alertMessage = "Su contraseña ha sido actualizada";
+                        this.currentPassword = null;
+                        this.newPassword = null;
+                        this.newPasswordVerify = null;
+                        this.resetForm(this.changePasswordForm);
+                    } else {
+                        this.changesSaved = true;
+                        this.messageType = false;
+                        this.alertMessage = "Contraseña actual es incorrecta";
+                    }
+                });
+            }
+            else {
+                this.changesSaved = true;
+                this.messageType = false;
+                this.alertMessage = "La contraseña actual y la nueva son iguales";
+            }
+        }
+        else {
+            this.changesSaved = true;
+            this.messageType = false;
+            this.alertMessage = "Debe llenar todos los campos";
+        }
+    }
+
+    resetForm(form: NgForm){
+        form.form.markAsPristine();
+        form.form.markAsUntouched();
+        form.form.updateValueAndValidity();
     }
 }

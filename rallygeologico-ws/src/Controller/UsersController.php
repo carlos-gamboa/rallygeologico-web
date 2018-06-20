@@ -310,4 +310,26 @@ class UsersController extends AppController
         }
         $this->render('/Users/json/template');
     }
+
+    public function changePassword(){
+        $data = $this->getRequest()->getData();
+        $userId = $data['id'];
+        $password = $data['password'];
+        $userInfo = $this->Users->get($userId, [
+            ]);
+        if((new DefaultPasswordHasher)->check($password, $userInfo->password)){
+            $data['password'] = $data['new_password'];
+            unset($data['new_password']);
+            $user = $this->Users->patchEntity($userInfo, $data);
+            if ($this->Users->save($user)) {
+                $this->set('users', true);
+            }
+            else {
+                $this->set('users', false);
+            }
+        } else {
+            $this->set('users', false);
+        }
+        $this->render('/Users/json/template');
+    }
 }
