@@ -194,11 +194,13 @@
               <table class="table">
                 <thead>
                 <th><h5 class="text-center">Multimedia</h5></th>
+                <th><h5 class="text-center">Imagen</h5></th>
                 <th><h5 class="text-center">Agregar/Eliminar</h5></th>
                 </thead>
                 <tbody>
                 <tr *ngFor="let multimedia of showedMultimedia; let i = index">
-                  <td><h5 >{{multimedia?.name}}</h5></td>
+                  <td style="vertical-align: middle"><h5 class="text-center">{{multimedia?.name}}</h5></td>
+                  <td><div class="text-center"><img  style="width: 100px" src="{{multimedia?.media_url}}"></div></td>
                   <td align="center">
                     <button title="Eliminar" class="invite-btn table-button genric-btn circle text-center danger medium" *ngIf="multimediaBelongsTo(multimedia.id)" (click)="deleteTermMultimedia(multimedia.id)">Eliminar</button>
                     <button title="Agregar" class="invite-btn table-button genric-btn circle text-center info medium" *ngIf="!multimediaBelongsTo(multimedia.id)" (click)="addTermMultimedia(multimedia.id)">Agregar</button>
