@@ -72,7 +72,7 @@
 
 
 .fa-us {
-    !important color: #0077B5;
+    color: #0077B5 !important;
     !important background: #0077B5;
     display: inline-block;
     font: normal normal normal 14px/1 FontAwesome;
@@ -80,4 +80,8 @@
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+.linked-in{
+  color: #0077B5 !important;
 }
