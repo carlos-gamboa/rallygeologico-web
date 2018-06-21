@@ -1,0 +1,25 @@
+.link{
+    color:#3366BB;
+}
+
+.letter-banner{
+    background-color: #41ADE7;
+    color: white;
+    text-indent: 20px;
+}
+
+.glossary-image{
+    width: 100%;
+}
+
+a { color: inherit; }
+
+.local-nav{
+    background-color: #41ADE7;
+    color: white !important;
+    font-size: x-large;
+}
+
+.underline{
+    text-decoration: underline;
+}

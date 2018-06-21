@@ -1,5 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute, Params, Router} from "@angular/router";
+import {TermService} from "../services/term.service";
+import {Term} from "../model/term";
+import {Multimedia} from "../model/multimedia";
 
+import {environment} from "../../environments/environment";
+import {User} from "../model/user";
+import {UserService} from "../services/user.service";
+import {DataService} from "../services/data/data.service";
 @Component({
   selector: 'app-definition',
   templateUrl: './definition.component.html',
@@ -7,9 +15,58 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DefinitionComponent implements OnInit {
 
-  constructor() { }
+    termId:number;
+    term:Term = null;
+    readyToshow:boolean = false;
+    imagesMultimedia:Multimedia[]=[];
+    videosMultimedia:Multimedia[]=[];
+    assetsUrl: string;
 
-  ngOnInit() {
-  }
+    user: User;
+
+    constructor(private termService: TermService,
+              private route: ActivatedRoute,
+              private router: Router, private userService: UserService, private dataService: DataService) {
+        this.user = this.dataService.getUser();
+        if (!this.user){
+            this.userService.isLoggedIn().subscribe((users: User) => {
+                if(users[0]){
+                    this.dataService.updateUser(users[0]);
+                    this.user = users[0];
+                  }
+            });
+        }
+        this.setData();
+    }
+
+    ngOnInit() {
+
+    }
+
+    setData(){
+        this.assetsUrl = environment.assetsUrl;
+        this.route.params
+            .subscribe((params: Params) => {
+                this.termId = this.route.snapshot.params['definitionId'];
+                console.log(this.termId);
+                this.termService.getATerm(this.termId).subscribe((term:Term) =>{
+                    this.term = term;
+                    this.setMultimedia();
+                    console.log(term);
+                    this.readyToshow = true;
+                })
+            });
+    }
+
+    setMultimedia(){
+        for(let media of this.term.multimedia){
+            if(media.media_type == 0){
+                this.imagesMultimedia.push(media);
+            }
+            // if(media.media_type == 1){
+            //     this.videosMultimedia.push(media);
+            // }
+        }
+    }
 
 }
