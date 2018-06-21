@@ -1,0 +1,83 @@
+.feature-us-area {
+    font-size: 1.5em;
+    background: url("../../assets/images/sites/18/c.png") center;
+    background-size: cover;
+}
+
+.feature-us-area .single-feature {
+    margin-bottom: 80px;
+    text-align: center;
+}
+
+.feature-us-area .single-feature h4 {
+    padding-bottom: 20px;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.feature-us-area .single-feature h3 {
+    color: #FFFFFF;
+    padding-bottom: 20px;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+/*.feature-us-area .single-feature:hover {
+    cursor: pointer;
+}*/
+
+/*.feature-us-area .single-feature:hover h4 {
+    color: #249DD8 !important;
+}*/
+
+.feature-us-area .overlay-bg {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.feature-us-area .single-feature hr {
+    border: none;
+    height: 2px;
+    background-color: white; /* Modern Browsers */
+}
+
+.feature-us-area .single-feature i {
+    padding-top: 0.5em;
+    color: white;
+    text-decoration: none;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+}
+
+.feature-us-area .single-feature a {
+    padding-top: 0.5em;
+    color: white;
+    text-decoration: none;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+}
+
+.feature-us-area .single-feature .lnkin a {
+    !important color: #0077B5;
+    !important background: #0077B5;
+    padding-top: 0.5em;
+    color: white;
+    text-decoration: none;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+}
+
+
+.fa-us {
+    !important color: #0077B5;
+    !important background: #0077B5;
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: 2em;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
