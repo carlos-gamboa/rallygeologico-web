@@ -5,6 +5,10 @@ use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\Utility\Hash;
 use Cake\Auth\DefaultPasswordHasher;
+use Cake\Mailer\Email;
+use Cake\Network\Exception\SocketException;
+use Cake\ORM\TableRegistry;
+use Cake\I18n\Time;
 
 /**
  * Users Controller
@@ -329,6 +333,36 @@ class UsersController extends AppController
             }
         } else {
             $this->set('users', false);
+        }
+        $this->render('/Users/json/template');
+    }
+
+    /**
+     * Method to send an email to recover the account.
+     * Sends a mail to the admin with a message to recover the account.
+     *
+     */
+    public function forgottenPassword () {
+        $email = new Email('default');
+        $tokenNum = bin2hex(random_bytes(32));
+        $tokenTable = TableRegistry::get ('tokens');
+        $token = $tokenTable->newEntity();
+        $token -> tokenNum = $tokenNum;
+        $token -> created  = Time::now();
+        $tokenTable-> save ($token);
+        try {
+            $email
+                ->transport ('gmail')
+                ->from ('soporte.rallygeologico@gmail.com')
+                ->to ('soporte.rallygeologico@gmail.com')
+                ->emailFormat('html')
+                ->subject ('Reestablecimiento de contraseña')
+                ->send ("Para recuperar la contraseña usar el siguiente enlace:\n"
+                    ."http://rutageologica.ucr.ac.cr/users/recover/".$tokenNum);
+            $this->set ('users', true);
+        } catch (\Exception $e) {
+            $this->Flash->error ('No se pudo enviar el correo de recuperación, posiblemente la contraseña de gmail cambió. Pedir a un administrador que coloque la nueva en config/app.php');
+            $this->set ('users', false);
         }
         $this->render('/Users/json/template');
     }
