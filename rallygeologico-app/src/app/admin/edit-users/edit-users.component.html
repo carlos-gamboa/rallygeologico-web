@@ -40,13 +40,13 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let user of showedUsers; let i = index">
-                  <td><h5 >{{user?.username}}</h5></td>
-                  <td><h5 >{{user?.first_name}}</h5></td>
-                  <td><h4 >{{user?.last_name}}</h4></td>
-                  <td>
+                  <td style="vertical-align: middle"><h5 >{{user?.username}}</h5></td>
+                  <td style="vertical-align: middle"><h5 >{{user?.first_name}}</h5></td>
+                  <td style="vertical-align: middle"><h4 >{{user?.last_name}}</h4></td>
+                  <td style="vertical-align: middle">
                     <button title="Editar" class="invite-btn genric-btn circle text-center warning medium wide-button" (click)="edit(i)">Editar</button>
                   </td>
-                  <td>
+                  <td style="vertical-align: middle">
                     <button title="Eliminar" class="invite-btn genric-btn circle text-center danger medium wide-button" (click)="deleteUser(user.id)">Eliminar</button>
                   </td>
                 </tr>

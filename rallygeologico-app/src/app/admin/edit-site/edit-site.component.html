@@ -39,12 +39,12 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let site of showedSites; let i = index">
-                  <td><h5 >{{site?.name}}</h5></td>
-                  <td><h5 >{{site?.district.name}}</h5></td>
-                  <td>
+                  <td style="vertical-align: middle"><h5 >{{site?.name}}</h5></td>
+                  <td style="vertical-align: middle"><h5 >{{site?.district.name}}</h5></td>
+                  <td style="vertical-align: middle">
                     <button title="Editar" class="invite-btn genric-btn circle text-center warning medium wide-button" (click)="edit(i)">Editar</button>
                   </td>
-                  <td>
+                  <td style="vertical-align: middle">
                     <button title="Eliminar" class="invite-btn genric-btn circle text-center danger medium wide-button" (click)="deleteSite(site.id, i)">Eliminar</button>
                   </td>
                 </tr>
@@ -193,8 +193,8 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let rally of showedRallies; let i = index">
-                  <td><h5 >{{rally?.name}}</h5></td>
-                  <td align="center">
+                  <td style="vertical-align: middle"><h5 >{{rally?.name}}</h5></td>
+                  <td align="center" style="vertical-align: middle">
                     <button title="Eliminar" class="invite-btn table-button genric-btn circle text-center danger medium" *ngIf="belongsTo(rally.id)" (click)="deleteRallySite(rally.id)">Eliminar</button>
                     <button title="Agregar" class="invite-btn table-button genric-btn circle text-center info medium" *ngIf="!belongsTo(rally.id)" (click)="addRallySite(rally.id)">Agregar</button>
                   </td>

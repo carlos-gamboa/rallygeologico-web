@@ -40,13 +40,13 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let competition of showedCompetitions; let i = index">
-                  <td><h5 >{{competition?.name}}</h5></td>
-                  <td><h5 >{{competition?.starting_date |  date:'MM/dd/yyyy'}}</h5></td>
-                  <td><h4 >{{competition?.user.username}}</h4></td>
-                  <td>
+                  <td style="vertical-align: middle"><h5 >{{competition?.name}}</h5></td>
+                  <td style="vertical-align: middle"><h5 >{{competition?.starting_date |  date:'MM/dd/yyyy'}}</h5></td>
+                  <td style="vertical-align: middle"><h4 >{{competition?.user.username}}</h4></td>
+                  <td style="vertical-align: middle">
                     <button title="Editar" class="invite-btn genric-btn circle text-center warning medium wide-button" (click)="edit(i)">Editar</button>
                   </td>
-                  <td>
+                  <td style="vertical-align: middle">
                     <button title="Eliminar" class="invite-btn genric-btn circle text-center danger medium wide-button" (click)="deleteCompetition(competition.id)">Eliminar</button>
                   </td>
                 </tr>
@@ -197,7 +197,7 @@
                 <th>Eliminar</th>
                 <tbody *ngFor="let participant of statistics; let i = index">
                 <tr [class.selected-row] = "isUserStatisticClicked(i)" title="Haz click para ver más detalles">
-                  <td (click)="userStatisticClicked(i)" class="cursor-pointer">
+                  <td (click)="userStatisticClicked(i)" class="cursor-pointer" style="vertical-align: middle">
                     <div class="input-group">
                       <h4>{{participant.user.username}}</h4>
                       <span class="input-group-btn ml-2">
@@ -205,9 +205,9 @@
 			            </span>
                     </div>
                   </td>
-                  <td><h5>{{participant.points}}</h5></td>
-                  <td><h5>{{participant.starting_date |  date:'MM/dd/yyyy'}}</h5></td>
-                  <td><button title="Eliminar de la competencia" class="genric-btn circle text-center small" [class.danger]="!isUserStatisticClicked(i)" [class.danger-border]="isUserStatisticClicked(i)" (click)="deleteStatistic(participant.id)">Eliminar</button></td>
+                  <td style="vertical-align: middle"><h5>{{participant.points}}</h5></td>
+                  <td style="vertical-align: middle"><h5>{{participant.starting_date |  date:'MM/dd/yyyy'}}</h5></td>
+                  <td style="vertical-align: middle"><button title="Eliminar de la competencia" class="genric-btn circle text-center small" [class.danger]="!isUserStatisticClicked(i)" [class.danger-border]="isUserStatisticClicked(i)" (click)="deleteStatistic(participant.id)">Eliminar</button></td>
                 </tr>
                 <tr *ngIf="isUserStatisticClicked(i)" class="selected-row-child">
                   <td colspan=4>
@@ -219,10 +219,10 @@
                       <th>Eliminar</th>
                       <tbody *ngFor="let site of participant.site">
                       <tr>
-                        <td><h4>{{site.name}}</h4></td>
-                        <td><h5>{{site.points}}</h5></td>
-                        <td><h5>{{site._joinData.visited_date |  date:'MM/dd/yyyy'}}</h5></td>
-                        <td><button title="Eliminar estadística" class="genric-btn circle text-center small danger" (click)="deleteStatisticSite(site._joinData.id)">Eliminar</button></td>
+                        <td style="vertical-align: middle"><h4>{{site.name}}</h4></td>
+                        <td style="vertical-align: middle"><h5>{{site.points}}</h5></td>
+                        <td style="vertical-align: middle"><h5>{{site._joinData.visited_date |  date:'MM/dd/yyyy'}}</h5></td>
+                        <td style="vertical-align: middle"><button title="Eliminar estadística" class="genric-btn circle text-center small danger" (click)="deleteStatisticSite(site._joinData.id)">Eliminar</button></td>
                       </tr>
                       </tbody>
                     </table>
@@ -234,10 +234,10 @@
                       <th>Eliminar</th>
                       <tbody *ngFor="let activity of participant.activity">
                       <tr>
-                        <td><h4>{{activity.name}}</h4></td>
-                        <td><h5>{{activity._joinData.points_obtained}}</h5></td>
-                        <td><h5>{{activity._joinData.resolved_date |  date:'MM/dd/yyyy'}}</h5></td>
-                        <td><button title="Eliminar estadística" class="genric-btn circle text-center small danger" (click)="deleteStatisticActivity(activity._joinData.id)">Eliminar</button></td>
+                        <td style="vertical-align: middle"><h4>{{activity.name}}</h4></td>
+                        <td style="vertical-align: middle"><h5>{{activity._joinData.points_obtained}}</h5></td>
+                        <td style="vertical-align: middle"><h5>{{activity._joinData.resolved_date |  date:'MM/dd/yyyy'}}</h5></td>
+                        <td style="vertical-align: middle"><button title="Eliminar estadística" class="genric-btn circle text-center small danger" (click)="deleteStatisticActivity(activity._joinData.id)">Eliminar</button></td>
                       </tr>
                       </tbody>
                     </table>
