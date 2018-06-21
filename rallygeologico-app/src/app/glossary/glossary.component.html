@@ -1,4 +1,5 @@
-<app-public-header [activeTab]="2"></app-public-header>
+<app-public-header [activeTab]="2" *ngIf="!user"></app-public-header>
+<app-header [activeTab]="4" *ngIf="user"></app-header>
 <!-- start banner Area -->
 <section class="banner-area relative" id="home">
   <div class="overlay overlay-bg"></div>
@@ -25,7 +26,7 @@
         <h3 id="{{i}}" class="mb-30 letter-banner">{{letter}}</h3>
         <div class="row">
           <div *ngFor="let termItem of allTerms.get(letter); let j = index" class="col-sm-12 col-md-6 col-lg-4 booking-right mb-20">
-            <img *ngIf=" termItem.multimedia.length != 0; else no_image" class="mb-30 center glossary-image" src="{{assetsUrl}}{{termItem.multimedia[0].media_url}}" alt="Icono de Término" width="280">
+            <img *ngIf=" termItem.multimedia.length != 0; else no_image" class="mb-30 center glossary-image" src="{{termItem.multimedia[0].media_url}}" alt="Icono de Término" width="280">
             <ng-template #no_image><img class="mb-30 center" src="{{assetsUrl}}assets/images/no-image.png" alt="No image" width="280"></ng-template>
             <div class="single-defination">
               <a routerLink="/glossary/{{termItem.id}}"><h4 class="mb-20 text-center link">{{termItem.name}}</h4></a>

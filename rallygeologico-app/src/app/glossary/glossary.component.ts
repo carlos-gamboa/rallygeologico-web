@@ -4,6 +4,9 @@ import {Router} from "@angular/router";
 import {Term} from "../model/term";
 
 import {environment} from "../../environments/environment";
+import {User} from "../model/user";
+import {UserService} from "../services/user.service";
+import {DataService} from "../services/data/data.service";
 
 @Component({
   selector: 'app-glossary',
@@ -19,8 +22,20 @@ export class GlossaryComponent implements OnInit {
     MAX_TEXT_SIZE : number = 300;
     assetsUrl: string;
 
+    user: User;
+
     constructor(private termService:TermService,
-                private router : Router) {
+                private router : Router, private userService: UserService, private dataService: DataService) {
+        this.assetsUrl = environment.assetsUrl;
+        this.user = this.dataService.getUser();
+        if (!this.user){
+            this.userService.isLoggedIn().subscribe((users: User) => {
+                if(users[0]){
+                    this.dataService.updateUser(users[0]);
+                    this.user = users[0];
+                }
+            });
+        }
         this.setData();
     }
 

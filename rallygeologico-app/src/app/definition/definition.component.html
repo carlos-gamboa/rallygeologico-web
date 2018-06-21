@@ -1,4 +1,5 @@
-<app-public-header [activeTab]="2"></app-public-header>
+<app-public-header [activeTab]="2" *ngIf="!user"></app-public-header>
+<app-header [activeTab]="4" *ngIf="user"></app-header>
 
 <div *ngIf="readyToshow">
     <!-- start banner Area -->
@@ -27,7 +28,7 @@
         <h3>Imágenes Relacionadas</h3>
         <div class="row gallery-item">
           <div *ngFor="let multimedia of imagesMultimedia" class="col-md-4">
-            <a href="{{assetsUrl}}{{multimedia.media_url}}" class="img-pop-up"><div class="single-gallery-image" [style.background]="'url(' + multimedia.media_url + ')'"></div></a>
+            <a href="{{multimedia.media_url}}" class="img-pop-up"><div class="single-gallery-image" [style.background]="'url(' + multimedia.media_url + ')'"></div></a>
           </div>
         </div>
       </article>
@@ -36,7 +37,7 @@
         <h3 class="mb-30">Video relacionados</h3>
         <div class="row">
           <div *ngFor="let multimedia of videosMultimedia"  class="col-lg-6 about-video-right justify-content-center align-items-center d-flex center">
-            <a class="play-btn" href="{{multimedia.media_url}}"><img class="img-fluid mx-auto" src="../../assets/images/play.png" alt=""></a>
+            <a class="play-btn" href="{{multimedia.media_url}}"><img class="img-fluid mx-auto" src="assets/images/play.png" alt=""></a>
           </div>
         </div>
       </article>
