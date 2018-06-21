@@ -24,7 +24,7 @@
         <p class="text-justify">{{term.description}}</p>
       </article>
       <article *ngIf="imagesMultimedia.length != 0" class="section-top-border">
-        <h3>Imagenes Relacionadas</h3>
+        <h3>Imágenes Relacionadas</h3>
         <div class="row gallery-item">
           <div *ngFor="let multimedia of imagesMultimedia" class="col-md-4">
             <a href="{{assetsUrl}}{{multimedia.media_url}}" class="img-pop-up"><div class="single-gallery-image" [style.background]="'url(' + multimedia.media_url + ')'"></div></a>
