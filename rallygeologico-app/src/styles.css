@@ -2235,7 +2235,7 @@ h1, h2, h3, h4, h5, h6 {
     padding-top: 18px;
     bottom: 0;
     z-index: 998;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(256, 256, 256, 0.85);
     left: -260px;
     width: 260px;
     overflow-y: auto;
@@ -2253,14 +2253,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #mobile-nav ul li a {
-    color: #fff;
+    background-color: #41ADE7 !important;
+    color: white;
+    margin: 7px;
     font-size: 13px;
     text-transform: uppercase;
     overflow: hidden;
-    padding: 10px 22px 10px 15px;
+    padding: 10px 15px 10px 15px;
     position: relative;
     text-decoration: none;
-    width: 100%;
     display: block;
     outline: none;
     font-weight: 700;
