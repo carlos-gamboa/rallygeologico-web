@@ -36,16 +36,18 @@
               <table class="table">
                 <thead>
                 <th><h5 class="text-center">Nombre</h5></th>
+                <th><h5 class="text-center">Imagen</h5></th>
                 <th><h5 class="text-center">Editar</h5></th>
                 <th><h5 class="text-center">Eliminar</h5></th>
                 </thead>
                 <tbody>
                 <tr *ngFor="let multimedia of showedMultimedia; let i = index">
-                  <td><h5 >{{multimedia?.name}}</h5></td>
-                  <td>
+                  <td style="vertical-align: middle"><h5 class="text-center">{{multimedia?.name}}</h5></td>
+                  <td style="vertical-align: middle"><div class="text-center"><img  style="width: 100px" src="{{multimedia?.media_url}}"></div></td>
+                  <td style="vertical-align: middle">
                     <button title="Editar" class="invite-btn table-button genric-btn circle text-center warning medium" (click)="edit(i)">Editar</button>
                   </td>
-                  <td>
+                  <td style="vertical-align: middle">
                     <button title="Eliminar" class="invite-btn table-button genric-btn circle text-center danger medium" (click)="deleteMultimedia(multimedia.id, i)">Eliminar</button>
                   </td>
                 </tr>
@@ -79,11 +81,14 @@
         <button title="Volver a seleccionar" class="invite-btn genric-btn text-center medium info mb-4" (click)="goBack()">Cambiar de multimedia</button>
       </div>
       <div class="row">
-        <div class="col-md-4 offset-2">
+        <div class="col-md-4">
           <button title="Detalles" class="invite-btn genric-btn text-center medium wide-button" [class.primary]="activeTab == 0" [class.primary-border]="activeTab != 0" (click)="changeTab(0)">Detalles del multimedia</button>
         </div>
         <div class="col-md-4">
           <button title="Términos" class="invite-btn genric-btn text-center medium wide-button" [class.primary]="activeTab == 1" [class.primary-border]="activeTab != 1" (click)="changeTab(1)">Administrar términos</button>
+        </div>
+        <div class="col-md-4">
+          <button title="Actividades" class="invite-btn genric-btn text-center medium wide-button" [class.primary]="activeTab == 2" [class.primary-border]="activeTab != 2" (click)="changeTab(2)">Administrar actividades</button>
         </div>
       </div>
     </div>
@@ -160,8 +165,8 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let term of showedTerms; let i = index">
-                  <td><h5 >{{term?.name}}</h5></td>
-                  <td align="center">
+                  <td style="vertical-align: middle"><h5 >{{term?.name}}</h5></td>
+                  <td style="vertical-align: middle" align="center">
                     <button title="Eliminar" class="invite-btn table-button genric-btn circle text-center danger medium" *ngIf="belongsTo(term.id)" (click)="deleteTermMultimedia(i)">Eliminar</button>
                     <button title="Agregar" class="invite-btn table-button genric-btn circle text-center info medium" *ngIf="!belongsTo(term.id)" (click)="addTermMultimedia(i)">Agregar</button>
                   </td>
@@ -183,5 +188,49 @@
     </div>
   </section>
   <!-- End terms Area -->
+
+  <!-- Start activities Area -->
+  <section class="whole-wrap section-gap pt-5" *ngIf="multimediaSelected && activeTab == 2">
+    <div class="container">
+      <div class="row mt-30">
+        <div class="offset-md-2 col-md-8 col-xs-12">
+          <h3 class="text-center mb-3">Seleccione la actividad</h3>
+          <div class="busqueda" id="searchActivityForm">
+            <input [(ngModel)]="searchActivityQuery" type="text" title="Digite aquí el nombre de la actividad" id="searchActivityInput" placeholder="Digite el nombre de la actividad" />
+            <button type="button" id="searchActivity" title="Click aquí para buscar la actividad" (click)="searchActivity()">Buscar</button>
+          </div>
+          <h3 class="text-center mb-3">Resultados</h3>
+          <div align="center">
+            <div class="mt-10 mb-10">
+              <table class="table">
+                <thead>
+                <th><h5 class="text-center">Nombre</h5></th>
+                <th><h5 class="text-center">Agregar/Eliminar</h5></th>
+                </thead>
+                <tbody>
+                <tr *ngFor="let activity of showedActivities; let i = index">
+                  <td style="vertical-align: middle"><h5 >{{activity?.name}}</h5></td>
+                  <td style="vertical-align: middle" align="center">
+                    <button title="Eliminar" class="invite-btn table-button genric-btn circle text-center danger medium" *ngIf="activityBelongsTo(term.id)" (click)="deleteActivityMultimedia(i)">Eliminar</button>
+                    <button title="Agregar" class="invite-btn table-button genric-btn circle text-center info medium" *ngIf="!activityBelongsTo(term.id)" (click)="addActivityMultimedia(i)">Agregar</button>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 mt-10 text-center">
+              <div class="d-inline-block">
+                <ngb-pagination [collectionSize]="totalActivities" [(page)]="currentPageActivity" [maxSize]="5" [pageSize]="pageActivitySize" [rotate]="true"
+                                [ellipses]="true" [boundaryLinks]="false" (pageChange)="activityPageChange()"></ngb-pagination>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End activities Area -->
 
 </div>

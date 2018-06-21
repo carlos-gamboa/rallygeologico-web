@@ -7,6 +7,8 @@ import {Multimedia} from "../../model/multimedia";
 import {MultimediaService} from "../../services/multimedia.service";
 import {TermService} from "../../services/term.service";
 import {Term} from "../../model/term";
+import {Activity} from "../../model/activity";
+import {ActivityService} from "../../services/activity.service";
 
 @Component({
   selector: 'app-edit-multimedia',
@@ -50,6 +52,17 @@ export class EditMultimediaComponent implements OnInit {
     pageTermSize: number;
     currentTermIndex: number;
 
+    otherActivities: Activity[];
+    currentActivities: Activity[];
+    searchActivityQuery = "";
+    activities: Activity[];
+    allActivities: Activity[];
+    showedActivities: Activity[];
+    totalActivities: number;
+    currentPageActivity: number;
+    pageActivitySize: number;
+    currentActivityIndex: number;
+
     name: string;
     media_type: number;
     media_url: string;
@@ -58,11 +71,13 @@ export class EditMultimediaComponent implements OnInit {
      * Creates a EditMultimediaComponent
      *
      * @param {MultimediaService} multimediaService
+     * @param {TermsService} termsService
+     * @param {ActivityService} activityService
      * @param {UserService} userService
      * @param {DataService} dataService
      * @param {Router} router
      */
-    constructor(private multimediaService: MultimediaService, private termsService: TermService, private userService: UserService,
+    constructor(private multimediaService: MultimediaService, private termsService: TermService, private activityService: ActivityService, private userService: UserService,
                 private dataService: DataService, private router: Router) {
         this.readyToShow = false;
         this.activeTab = -1;
@@ -87,7 +102,6 @@ export class EditMultimediaComponent implements OnInit {
 
         this.otherTerms = [];
         this.currentTerms = [];
-
         this.searchTermQuery = "";
         this.terms = [];
         this.allTerms = [];
@@ -96,6 +110,17 @@ export class EditMultimediaComponent implements OnInit {
         this.currentPageTerm = 0;
         this.pageTermSize = 10;
         this.currentTermIndex = 0;
+
+        this.otherActivities = [];
+        this.currentActivities = [];
+        this.searchActivityQuery = "";
+        this.activities = [];
+        this.allActivities = [];
+        this.showedActivities = [];
+        this.totalActivities = 0;
+        this.currentPageActivity = 0;
+        this.pageActivitySize = 10;
+        this.currentActivityIndex = 0;
 
         this.user = this.dataService.getUser();
         if (!this.user) {
@@ -298,10 +323,10 @@ export class EditMultimediaComponent implements OnInit {
         this.allTerms = [];
         this.termsService.getOtherTerms(this.currentMultimedia.id).subscribe((otherTerms: Term[]) => {
             this.otherTerms = otherTerms;
-            console.log(this.otherTerms);
+            //console.log(this.otherTerms);
             this.termsService.getAssociatedTerms(this.currentMultimedia.id).subscribe((currentTerms: Term[]) => {
                 this.currentTerms = currentTerms;
-                console.log(this.currentTerms);
+                //console.log(this.currentTerms);
                 for(let term of this.otherTerms){
                     this.allTerms.push(term);
                 }
@@ -396,5 +421,111 @@ export class EditMultimediaComponent implements OnInit {
             });
         });
     }
+
+  /**
+   * Loads all activities'information
+   */
+  updateActivities(){
+    this.allActivities = [];
+    this.activityService.getOtherActivitiesFromMultimedia(this.currentMultimedia.id).subscribe((otherActivities: Activity[]) => {
+      this.otherActivities = otherActivities;
+      //console.log(this.otherActivities);
+      this.activityService.getAssociatedActivitiesFromMultimedia(this.currentMultimedia.id).subscribe((currentActivities: Activity[]) => {
+        this.currentActivities = currentActivities;
+        //console.log(this.currentActivities);
+        for(let activity of this.otherActivities){
+          this.allActivities.push(activity);
+        }
+        for(let activity of this.currentActivities){
+          this.allActivities.push(activity);
+        }
+        this.reloadActivities(this.allActivities);
+      });
+    });
+  }
+
+  /**
+   * Reloads activities' information for the search table
+   * @param {Activity[]} activities
+   */
+  reloadActivities(activities: Activity[]){
+    this.readyToShow = false;
+    this.activities = activities;
+    this.totalActivities =  activities.length;
+    this.showedActivities = activities.slice(0, this.pageTermSize);
+    this.currentPageActivity = 0;
+    this.readyToShow = true;
+  }
+
+  /**
+   * Manage page changing on the search table
+   */
+  activityPageChange(){
+    if(this.activities) {
+      this.showedActivities = this.activities.slice((this.currentPageActivity - 1) * this.pageActivitySize, ((this.currentPageActivity) * this.pageActivitySize));
+    }
+  }
+
+  /**
+   * Searches an activity by name
+   */
+  searchActivity(){
+    let activitiesToShow = [];
+    if(this.searchActivityQuery.length >= 1) {
+      for (let activity of this.allActivities) {
+        if (activity.name.toLowerCase().startsWith(this.searchTermQuery.toLowerCase())) {
+          activitiesToShow.push(activity);
+        }
+      }
+      this.reloadActivities(activitiesToShow);
+    }else{
+      this.reloadActivities(this.allActivities);
+    }
+  }
+
+  /**
+   * Returns if the specified activity is actually part of the current multimedia
+   *
+   * @param {number} id
+   * @returns {boolean}
+   */
+  activityBelongsTo(id: number): boolean{
+    for(let currentActivity of this.currentActivities){
+      if (id == currentActivity.id){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Adds an activityMultimedia relation between the current multimedia and the activity on the specified position
+   *
+   * @param {number} i
+   */
+  addActivityMultimedia(i : number){
+    this.currentTermIndex = ((this.currentPageTerm - 1) * this.pageTermSize) + i;
+    this.activityService.addActivityMultimedia(this.showedTerms[i].id, this.currentMultimedia.id).subscribe((activity: Activity) =>{
+      if(activity){
+        this.updateActivities();
+      }
+    });
+  }
+
+  /**
+   * Deletes the activityMultimedia relation between the current multimedia and the activity on the specified position
+   *
+   * @param {number} i
+   */
+  deleteActivityMultimedia(i: number){
+    this.currentActivityIndex = ((this.currentPageActivity - 1) * this.pageActivitySize) + i;
+    this.activityService.getActivityMultimedia(this.showedActivities[i].id, this.currentMultimedia.id).subscribe((id: number) => {
+      this.activityService.deleteActivityMultimedia(id).subscribe((deleted: boolean) => {
+        if (deleted) {
+          this.updateActivities();
+        }
+      });
+    });
+  }
 
 }
