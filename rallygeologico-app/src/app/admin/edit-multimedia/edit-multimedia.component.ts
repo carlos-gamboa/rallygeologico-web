@@ -374,10 +374,9 @@ export class EditMultimediaComponent implements OnInit {
      */
     addTermMultimedia(i : number){
         this.currentTermIndex = ((this.currentPageTerm - 1) * this.pageTermSize) + i;
-        this.termsService.addTermMultimedia(this.currentMultimedia.id, this.showedTerms[i].id).subscribe((term: Term) =>{
+        this.termsService.addTermMultimedia(this.showedTerms[i].id, this.currentMultimedia.id).subscribe((term: Term) =>{
             if(term){
                 this.updateTerms();
-                this.reloadTerms(this.allTerms);
             }
         });
     }
@@ -389,11 +388,10 @@ export class EditMultimediaComponent implements OnInit {
      */
     deleteTermMultimedia(i: number){
         this.currentTermIndex = ((this.currentPageTerm - 1) * this.pageTermSize) + i;
-        this.termsService.getTermMultimedia(this.currentMultimedia.id, this.showedTerms[i].id).subscribe((id: number) => {
+        this.termsService.getTermMultimedia(this.showedTerms[i].id, this.currentMultimedia.id).subscribe((id: number) => {
             this.termsService.deleteTermMultimedia(id).subscribe((deleted: boolean) => {
                 if (deleted) {
                     this.updateTerms();
-                    this.reloadTerms(this.allTerms);
                 }
             });
         });
