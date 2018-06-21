@@ -167,4 +167,44 @@ class MultimediaController extends AppController
         $this->set('multimedia', $media);
         $this->render('/Multimedia/json/template');
     }
+
+    /**
+     * Gets all multimedia that isn't associated with the activity
+     *
+     * @param null $activity
+     */
+    public function getOtherMultimediaFromActivity($activityId = null){
+        $this->loadModel('ActivityMultimedia');
+        $media = $this->Multimedia->find('all', [
+            'conditions' => [
+                'Multimedia.id NOT IN ' => $this->ActivityMultimedia->find('all', [
+                    'fields' => ['ActivityMultimedia.multimedia_id'],
+                    'conditions' => ['ActivityMultimedia.activity_id' => $activityId
+                    ]
+                ])
+            ]
+        ]);
+        $this->set('multimedia', $media);
+        $this->render('/Multimedia/json/template');
+    }
+
+    /**
+     * Gets all multimedia associated with the activity
+     *
+     * @param null $activity
+     */
+    public function getAssociatedMultimediaFromActivity($activityId = null){
+        $this->loadModel('ActivityMultimedia');
+        $media = $this->Multimedia->find('all', [
+            'conditions' => [
+                'Multimedia.id NOT IN ' => $this->ActivityMultimedia->find('all', [
+                    'fields' => ['ActivityMultimedia.multimedia_id'],
+                    'conditions' => ['ActivityMultimedia.activity_id' => $activityId
+                    ]
+                ])
+            ]
+        ]);
+        $this->set('multimedia', $media);
+        $this->render('/Multimedia/json/template');
+    }
 }

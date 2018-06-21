@@ -90,4 +90,22 @@ export class MultimediaService {
       return this.http.get<Multimedia>(this.baseUrl + "multimedia/view/"+id+".json");
    }
 
+  /**
+   * Service for getting all the multimedia that isn't part of a term
+   * @param {number} activityId
+   * @returns {Observable<Multimedia>}
+   */
+  getOtherMultimediaFromActivity(activityId: number):Observable<Multimedia[]>{
+    return this.http.get<Multimedia[]>(this.baseUrl + "multimedia/getOtherMultimediaFromActivity/"+activityId+".json");
+  }
+
+  /**
+   * Service for getting all the multimedia that is associated with a term
+   * @param {number} activityId
+   * @returns {Observable<Multimedia>}
+   */
+  getAssociatedMultimediaFromActivity(activityId: number): Observable<Multimedia[]>{
+    return this.http.get<Multimedia[]>(this.baseUrl + "multimedia/getAssociatedMultimediaFromActivity/"+activityId+".json");
+  }
+
 }
