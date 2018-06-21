@@ -16,6 +16,10 @@
 <!-- End banner Area -->
 <div *ngIf="readyToShow"><!-- start banner Area -->
   <div class="whole-wrap">
+        <div class="text-center local-nav pt-10 pb-10"><span class="text-justify" *ngFor="let letterIndex of termKeys; let k = index">
+            <a class="underline" [href]="'glossary#'+k">{{letterIndex}}</a>
+        </span></div>
+
     <div class="container">
       <article *ngFor="let letter of termKeys; let i = index"  class="section-top-border">
         <h3 id="{{i}}" class="mb-30 letter-banner">{{letter}}</h3>
@@ -25,7 +29,7 @@
             <ng-template #no_image><img class="mb-30 center" src="{{assetsUrl}}assets/images/no-image.png" alt="No image" width="280"></ng-template>
             <div class="single-defination">
               <a routerLink="/glossary/{{termItem.id}}"><h4 class="mb-20 text-center link">{{termItem.name}}</h4></a>
-              <p class="text-justify">{{termItem.description}} <a routerLink="/glossary/{{termItem.id}}">Ver más</a></p>
+              <p class="text-justify">{{termItem.description}} <a class="link" routerLink="/glossary/{{termItem.id}}">Ver más</a></p>
             </div>
           </div>
         </div>

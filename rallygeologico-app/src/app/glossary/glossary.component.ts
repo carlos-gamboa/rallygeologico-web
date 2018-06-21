@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {TermService} from "../services/term.service";
 import {Router} from "@angular/router";
 import {Term} from "../model/term";
-import {MAX_LENGTH_VALIDATOR} from "@angular/forms/src/directives/validators";
+
 import {environment} from "../../environments/environment";
 
 @Component({
@@ -13,7 +13,8 @@ import {environment} from "../../environments/environment";
 export class GlossaryComponent implements OnInit {
 
     allTerms : Map<string, Term[]> = new Map();
-    termKeys:IterableIterator<string>;
+    termKeys:string[];
+
     readyToShow:boolean = false;
     MAX_TEXT_SIZE : number = 300;
     assetsUrl: string;
@@ -48,7 +49,7 @@ export class GlossaryComponent implements OnInit {
             letterTerms.push(terms[index]);
             index++;
         }
-        this.termKeys = this.allTerms.keys();
+        this.termKeys = Array.from(this.allTerms.keys());
     }
 
 

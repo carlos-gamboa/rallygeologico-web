@@ -11,3 +11,15 @@
 .glossary-image{
     width: 100%;
 }
+
+a { color: inherit; }
+
+.local-nav{
+    background-color: #41ADE7;
+    color: white !important;
+    font-size: x-large;
+}
+
+.underline{
+    text-decoration: underline;
+}
