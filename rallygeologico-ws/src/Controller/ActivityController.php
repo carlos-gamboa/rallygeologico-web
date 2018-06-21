@@ -126,7 +126,66 @@ class ActivityController extends AppController
         }
 
         //return $this->redirect(['action' => 'index']);
-        $this->render('/Term/json/template');
+        $this->render('/Activity/json/template');
+    }
+
+    /**
+     * Gets the termSite entry with the specified values
+     * @param null $termId
+     */
+    public function getActivity($site_id = null){
+        $activity = $this->Activity->find('all', [
+                'conditions' => ['Activity.site_id' => $site_id]]
+        );
+        $this->set('activity', $activity->extract('id'));
+        $this->render('/Activity/json/template');
+    }
+
+    public function getAllActivities($termId = null){
+        $activities = $this->Activity->find('all', [
+        ]);
+        $this->set('activity', $activities);
+        $this->render('/Activity/json/template');
+    }
+
+    /**
+     * Gets all activities those aren't part of the specified multimedia
+     *
+     * @param null $id
+     */
+    public function getOtherActivitiesFromMultimedia($id = null){
+        $this->loadModel('ActivityMultimedia');
+        $activities = $this->Activity->find('all', [
+            'conditions' => [
+                'Activity.id NOT IN ' => $this->ActivityMultimedia->find('all', [
+                    'fields' => ['ActivityMultimedia.term_id'],
+                    'conditions' => ['ActivityMultimedia.multimedia_id' => $id
+                    ]
+                ])
+            ]
+        ]);
+        $this->set('activity', $activities);
+        $this->render('/Activity/json/template');
+    }
+
+    /**
+     * Gets all activities those are part of the specified multimedia
+     *
+     * @param null $id
+     */
+    public function getAssociatedTermsFromMultimedia($id = null){
+        $this->loadModel('ActivityMultimedia');
+        $activities = $this->Activity->find('all', [
+            'conditions' => [
+                'Activity.id IN ' => $this->ActivityMultimedia->find('all', [
+                    'fields' => ['ActivityMultimedia.term_id'],
+                    'conditions' => ['ActivityMultimedia.multimedia_id' => $id
+                    ]
+                ])
+            ]
+        ]);
+        $this->set('activity', $activities);
+        $this->render('/Activity/json/template');
     }
 
 }

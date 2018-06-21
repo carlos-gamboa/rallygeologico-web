@@ -17,7 +17,7 @@ export class ActivityService {
   }
 
   /**
-   * Adds a new term
+   * Adds a new activity
    * @param name
    * @param description
    * @returns {Observable<Object>}
@@ -33,99 +33,73 @@ export class ActivityService {
   }
 
   /**
-   * Edits the existing term with new information
+   * Edits the existing activity with new information
    * @param id
    * @param name
    * @param description
    * @returns {Observable<Object>}
    */
-  editTerm(id: number, name: string, description: string): Observable<Term>{
-    return this.http.post<Term>(this.baseUrl + "term/edit/"+id+".json",{
-      'name' : name,
-      'description' : description
+  editActivity(id : string, site_id : string, activity_type : string, points_awarded : string, description : string, name : string): Observable<Activity>{
+    return this.http.post<Activity>(this.baseUrl + "activity/edit/"+id+".json",{
+      'site_id':site_id,
+      'activity_type':activity_type,
+      'points_awarded':points_awarded,
+      'description':description,
+      'name':name,
     },{ headers: this.headers, withCredentials: true });
   }
 
   /**
-   * Deletes the specified term
+   * Deletes the specified activity
    * @param id
    * @returns {Observable<Object>}
    */
-  deleteTerm(id: number) : Observable<boolean>{
-    return this.http.post<boolean>(this.baseUrl + "term/delete/"+id+".json", {
+  deleteActivity(id: number) : Observable<boolean>{
+    return this.http.post<boolean>(this.baseUrl + "activity/delete/"+id+".json", {
     },{ headers: this.headers, withCredentials: true });
   }
 
   /**
-   * Gets first twenty terms
-   * @returns {Observable<Object>}
+   * Service for obtaining the activityId
+   *
+   * @param {number} activity_id
+   * @returns {Observable<number>}
    */
-  getTerms() : Observable<Term[]>{
-    return this.http.get<Term[]>(this.baseUrl + "term.json", { headers: this.headers, withCredentials: true })
+  getActivity(activity_id: number): Observable<number>{
+    return this.http.get<number>(this.baseUrl + "activity/getActivity/"+activity_id+".json");
   }
+
 
   /**
    * Gets all the terms
-   * @param termId
+   * @param activityId
    * @returns {Observable<Object>}
    */
-  getAllTerms(termId: number):Observable<Term[]>{
-    return this.http.get<Term[]>(this.baseUrl + "term/getAllTerms/"+termId+".json");
+  getAllActivities(activityId: number):Observable<Activity[]>{ //DOESNT ACTUALLY RECEIVE A PARAMETER
+    return this.http.get<Activity[]>(this.baseUrl + "term/getAllActivities/"+activityId+".json");
   }
+
 
   /**
    * Service for obtaining the termSiteId
    *
-   * @param {number} termId
-   * @param {number} siteId
+   * @param {number} activityId
+   * @param {number} multimediaId
    * @returns {Observable<number>}
    */
-  getTermSite(termId: number, siteId: number): Observable<number>{
-    return this.http.get<number>(this.baseUrl + "termSite/getTermSite/"+termId+"/"+siteId+".json");
+  getActivityMultimedia(activityId: number, multimediaId: number): Observable<number>{
+    return this.http.get<number>(this.baseUrl + "activityMultimedia/getTermMultimedia/"+activityId+"/"+multimediaId+".json");
   }
 
   /**
    * Service for adding a termSite relation
-   * @param {number} termId
-   * @param {number} siteId
-   * @returns {Observable<Site>}
-   */
-  addTermSite(termId: number, siteId: number): Observable<Term>{
-    return this.http.post<Term>(this.baseUrl + "termSite/add.json", {
-      'term_id': termId,
-      'site_id': siteId
-    },{ headers: this.headers, withCredentials: true });
-  }
-
-  /**
-   * Service for deleting the termSite relation
-   * @param {number} id
-   * @returns {Observable<boolean>}
-   */
-  deleteTermSite(id: number): Observable<boolean>{
-    return this.http.delete<boolean>(this.baseUrl + "termSite/delete/"+id+".json");
-  }
-
-  /**
-   * Service for obtaining the termSiteId
-   *
-   * @param {number} termId
+   * @param {number} activityId
    * @param {number} multimediaId
-   * @returns {Observable<number>}
+   * @returns {Observable<Activity>}
    */
-  getTermMultimedia(termId: number, multimediaId: number): Observable<number>{
-    return this.http.get<number>(this.baseUrl + "termMultimedia/getTermMultimedia/"+termId+"/"+multimediaId+".json");
-  }
-
-  /**
-   * Service for adding a termSite relation
-   * @param {number} termId
-   * @param {number} multimediaId
-   * @returns {Observable<Site>}
-   */
-  addTermMultimedia(termId: number, multimediaId: number): Observable<Term>{
-    return this.http.post<Term>(this.baseUrl + "termMultimedia/add.json", {
-      'term_id': termId,
+  addActivityMultimedia(activityId: number, multimediaId: number): Observable<Activity>{
+    return this.http.post<Activity>(this.baseUrl + "activityMultimedia/add.json", {
+      'term_id': activityId,
       'multimedia_id': multimediaId
     },{ headers: this.headers, withCredentials: true });
   }
@@ -135,25 +109,25 @@ export class ActivityService {
    * @param {number} id
    * @returns {Observable<boolean>}
    */
-  deleteTermMultimedia(id: number): Observable<boolean>{
-    return this.http.delete<boolean>(this.baseUrl + "termMultimedia/delete/"+id+".json");
+  deleteActivityMultimedia(id: number): Observable<boolean>{
+    return this.http.delete<boolean>(this.baseUrl + "activityMultimedia/delete/"+id+".json");
   }
 
   /**
    * Service for getting all the terms those aren't part of the specified multimedia
    * @param {number} id
-   * @returns {Observable<Term[]>}
+   * @returns {Observable<Activity[]>}
    */
-  getOtherTerms(id: number): Observable<Term []>{
-    return this.http.get<Term[]>(this.baseUrl + "term/getOtherTermsFromMultimedia/"+id+".json");
+  getOtherActivitiesFromMultimedia(id: number): Observable<Activity []>{
+    return this.http.get<Activity[]>(this.baseUrl + "activity/getOtherActivitiesFromMultimedia/"+id+".json");
   }
 
   /**
-   * Service for getting all the terms those are part of the specified multimedia
+   * Service for getting all the activities that are part of the specified multimedia
    * @param {number} id
-   * @returns {Observable<Term[]>}
+   * @returns {Observable<Activity[]>}
    */
-  getAssociatedTerms(id: number): Observable<Term []>{
-    return this.http.get<Term[]>(this.baseUrl + "term/getAssociatedTermsFromMultimedia/"+id+".json");
+  getAssociatedActivitiesFromMultimedia(id: number): Observable<Activity []>{
+    return this.http.get<Activity[]>(this.baseUrl + "activity/getAssociatedActivitiesFromMultimedia/"+id+".json");
   }
 }

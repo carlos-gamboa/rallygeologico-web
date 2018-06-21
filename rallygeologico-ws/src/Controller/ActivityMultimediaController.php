@@ -96,13 +96,14 @@ class ActivityMultimediaController extends AppController
             if ($this->ActivityMultimedia->save($activityMultimedia)) {
                 $this->Flash->success(__('The activity multimedia has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The activity multimedia could not be saved. Please, try again.'));
         }
         $activity = $this->ActivityMultimedia->Activity->find('list', ['limit' => 200]);
         $multimedia = $this->ActivityMultimedia->Multimedia->find('list', ['limit' => 200]);
         $this->set(compact('activityMultimedia', 'activity', 'multimedia'));
+        $this->render('/Term/json/template');
+
     }
 
     /**
@@ -122,6 +123,6 @@ class ActivityMultimediaController extends AppController
             $this->Flash->error(__('The activity multimedia could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        $this->render('/Term/json/template');
     }
 }
