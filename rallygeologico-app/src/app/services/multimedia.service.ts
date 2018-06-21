@@ -20,10 +20,10 @@ export class MultimediaService {
    * @param {string} name
    * @param {number} media_type
    * @param {string} media_url
-   * @returns {Observable<Multimedia[]>}
+   * @returns {Observable<Multimedia>}
    */
-  addMultimedia(name : string, media_type : number, media_url : string) : Observable<Multimedia[]>{
-    return this.http.post<Multimedia[]>(this.baseUrl + "multimedia/add.json", {
+  addMultimedia(name : string, media_type : number, media_url : string) : Observable<Multimedia>{
+    return this.http.post<Multimedia>(this.baseUrl + "multimedia/add.json", {
       'name':name,
       'media_type':media_type,
       'media_url':media_url

@@ -46,7 +46,7 @@
                     <button title="Editar" class="invite-btn table-button genric-btn circle text-center warning medium" (click)="edit(i)">Editar</button>
                   </td>
                   <td>
-                    <button title="Eliminar" class="invite-btn table-button genric-btn circle text-center danger medium" (click)="deleteMultimedia(i)">Eliminar</button>
+                    <button title="Eliminar" class="invite-btn table-button genric-btn circle text-center danger medium" (click)="deleteMultimedia(multimedia.id, i)">Eliminar</button>
                   </td>
                 </tr>
                 </tbody>
@@ -145,7 +145,7 @@
     <div class="container">
       <div class="row mt-30">
         <div class="offset-md-2 col-md-8 col-xs-12">
-          <h3 class="text-center mb-3">Seleccione el term</h3>
+          <h3 class="text-center mb-3">Seleccione el término</h3>
           <div class="busqueda" id="searchSiteForm">
             <input [(ngModel)]="searchTermQuery" type="text" title="Digite aquí el nombre del término" id="searchTermInput" placeholder="Digite el nombre del término" />
             <button type="button" id="searchTerm" title="Click aquí para buscar el término" (click)="searchTerm()">Buscar</button>

@@ -63,17 +63,20 @@ class MultimediaController extends AppController
      */
     public function add()
     {
+        $associations = ['Term', 'Activity'];
         $multimedia = $this->Multimedia->newEntity();
         if ($this->getRequest()->is('post')) {
             $multimedia = $this->Multimedia->patchEntity($multimedia, $this->getRequest()->getData());
+            //$competition = $this->Competition->loadInto($competition, $associations);
             if ($this->Multimedia->save($multimedia)) {
+                $multimedia = $this->Multimedia->loadInto($multimedia, $associations);
                 $this->Flash->success(__('The multimedia has been saved.'));
             }
             $this->Flash->error(__('The multimedia could not be saved. Please, try again.'));
         }
-        $activity = $this->Multimedia->Activity->find('list', ['limit' => 200]);
-        $term = $this->Multimedia->Term->find('list', ['limit' => 200]);
-        $this->set(compact('multimedia', 'activity', 'term'));
+        //$activity = $this->Multimedia->Activity->find('list', ['limit' => 200]);
+        //$term = $this->Multimedia->Term->find('list', ['limit' => 200]);
+        $this->set('multimedia', $multimedia);
         $this->render('/Multimedia/json/template');
     }
 
@@ -116,13 +119,13 @@ class MultimediaController extends AppController
         $multimedia = $this->Multimedia->get($id);
         if ($this->Multimedia->delete($multimedia)) {
             $this->Flash->success(__('The multimedia has been deleted.'));
-            $this->set('rally', true);
+            $this->set('multimedia', true);
         } else {
             $this->Flash->error(__('The multimedia could not be deleted. Please, try again.'));
-            $this->set('rally', false);
+            $this->set('multimedia', false);
         }
 
-        $this->render('/Rally/json/template');
+        $this->render('/Multimedia/json/template');
     }
 
     /**

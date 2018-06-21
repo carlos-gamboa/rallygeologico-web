@@ -220,9 +220,9 @@ export class EditMultimediaComponent implements OnInit {
             });
         }
         else {
-            this.multimediaService.addMultimedia(this.name, this.media_type, this.media_url).subscribe((multimedia: Multimedia[]) => {
+            this.multimediaService.addMultimedia(this.name, this.media_type, this.media_url).subscribe((multimedia: Multimedia) => {
                 if (multimedia){
-                    this.currentMultimedia = multimedia[0];
+                    this.currentMultimedia = multimedia;
                     this.allMultimedia.push(this.currentMultimedia);
                     this.multimediaCreated = true;
                     this.changesSaved = true;
@@ -239,28 +239,24 @@ export class EditMultimediaComponent implements OnInit {
 
     /**
      * Deletes the multimedia on the specified position of the multimedia array
-     *
+     * @param {number} id
      * @param {number} i
      */
-    deleteMultimedia(i: number){
+    deleteMultimedia(id: number, i: number){
         this.multimediaDeleted = false;
         this.changesSaved = false;
-        this.multimediaService.getMultimedia(this.showedMultimedia[i].id).subscribe((multimedia: Multimedia) => {
-            this.currentMultimedia = multimedia;
-            this.currentMultimediaIndex = ((this.currentPageMultimedia - 1) * this.pageSize) + i;
-            this.multimediaService.deleteMultimedia(this.currentMultimedia.id).subscribe((deleted: boolean) => {
-                this.multimediaDeleted = deleted;
-                if (deleted){
-                    this.currentMultimedia = null;
-                    this.allMultimedia.splice(this.currentMultimediaIndex, 1);
-                    this.reloadMultimedia(this.allMultimedia);
-                    this.messageType = true;
-                    this.alertMessage = "Multimedia se ha eliminado.";
-                } else {
-                    this.messageType = false;
-                    this.alertMessage = "Multimedia no se pudo eliminar.";
-                }
-            });
+        this.multimediaService.deleteMultimedia(id).subscribe((deleted: boolean) => {
+            this.multimediaDeleted = deleted;
+            if (deleted){
+               this.currentMultimedia = null;
+               this.allMultimedia.splice(((this.currentPageMultimedia - 1) * this.pageSize) + i, 1);
+               this.messageType = true;
+               this.alertMessage = "Multimedia se ha eliminado.";
+               this.reloadMultimedia(this.allMultimedia);
+            } else {
+               this.messageType = false;
+               this.alertMessage = "Multimedia no se pudo eliminar.";
+            }
         });
     }
 
