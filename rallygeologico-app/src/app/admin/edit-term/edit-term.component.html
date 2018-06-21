@@ -200,8 +200,8 @@
                 <tbody>
                 <tr *ngFor="let multimedia of showedMultimedia; let i = index">
                   <td style="vertical-align: middle"><h5 class="text-center">{{multimedia?.name}}</h5></td>
-                  <td><div class="text-center"><img  style="width: 100px" src="{{multimedia?.media_url}}"></div></td>
-                  <td align="center">
+                  <td style="vertical-align: middle"><div class="text-center"><img  style="width: 100px" src="{{multimedia?.media_url}}"></div></td>
+                  <td align="center" style="vertical-align: middle">
                     <button title="Eliminar" class="invite-btn table-button genric-btn circle text-center danger medium" *ngIf="multimediaBelongsTo(multimedia.id)" (click)="deleteTermMultimedia(multimedia.id)">Eliminar</button>
                     <button title="Agregar" class="invite-btn table-button genric-btn circle text-center info medium" *ngIf="!multimediaBelongsTo(multimedia.id)" (click)="addTermMultimedia(multimedia.id)">Agregar</button>
                   </td>
