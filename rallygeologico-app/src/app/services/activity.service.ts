@@ -88,7 +88,7 @@ export class ActivityService {
    * @returns {Observable<number>}
    */
   getActivityMultimedia(activityId: number, multimediaId: number): Observable<number>{
-    return this.http.get<number>(this.baseUrl + "activityMultimedia/getTermMultimedia/"+activityId+"/"+multimediaId+".json");
+    return this.http.get<number>(this.baseUrl + "activityMultimedia/getActivityMultimedia/"+activityId+"/"+multimediaId+".json");
   }
 
   /**
@@ -99,7 +99,7 @@ export class ActivityService {
    */
   addActivityMultimedia(activityId: number, multimediaId: number): Observable<Activity>{
     return this.http.post<Activity>(this.baseUrl + "activityMultimedia/add.json", {
-      'term_id': activityId,
+      'activity_id': activityId,
       'multimedia_id': multimediaId
     },{ headers: this.headers, withCredentials: true });
   }

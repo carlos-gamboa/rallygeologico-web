@@ -314,6 +314,13 @@ export class EditMultimediaComponent implements OnInit {
             this.currentTermIndex = 0;
             this.updateTerms();
         }
+        if (i == 2){
+            this.totalActivities = 0;
+            this.currentPageActivity = 0;
+            this.pageActivitySize = 10;
+            this.currentActivityIndex = 0;
+            this.updateActivities();
+        }
     }
 
     /**
@@ -505,7 +512,7 @@ export class EditMultimediaComponent implements OnInit {
    */
   addActivityMultimedia(i : number){
     this.currentTermIndex = ((this.currentPageTerm - 1) * this.pageTermSize) + i;
-    this.activityService.addActivityMultimedia(this.showedTerms[i].id, this.currentMultimedia.id).subscribe((activity: Activity) =>{
+    this.activityService.addActivityMultimedia(this.showedActivities[i].id, this.currentMultimedia.id).subscribe((activity: Activity) =>{
       if(activity){
         this.updateActivities();
       }

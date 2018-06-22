@@ -102,7 +102,7 @@ class ActivityMultimediaController extends AppController
         $activity = $this->ActivityMultimedia->Activity->find('list', ['limit' => 200]);
         $multimedia = $this->ActivityMultimedia->Multimedia->find('list', ['limit' => 200]);
         $this->set(compact('activityMultimedia', 'activity', 'multimedia'));
-        $this->render('/Term/json/template');
+        $this->render('/ActivityMultimedia/json/template');
 
     }
 
@@ -119,10 +119,27 @@ class ActivityMultimediaController extends AppController
         $activityMultimedia = $this->ActivityMultimedia->get($id);
         if ($this->ActivityMultimedia->delete($activityMultimedia)) {
             $this->Flash->success(__('The activity multimedia has been deleted.'));
+            $this->set('activityMultimedia', true);
         } else {
             $this->Flash->error(__('The activity multimedia could not be deleted. Please, try again.'));
+            $this->set('activityMultimedia', true);
         }
 
-        $this->render('/Term/json/template');
+        $this->render('/ActivityMultimedia/json/template');
+    }
+
+    /**
+     * Gets the relation id based on activity and multimedia's ids.
+     *
+     * @param null $activityId
+     * @param null $multimediaId
+     */
+    public function getActivityMultimedia($activityId = null, $multimediaId = null){
+        $activityMultimedia = $this->ActivityMultimedia->find('all', [
+                'conditions' => ['ActivityMultimedia.activity_id' => $activityId,
+                    'ActivityMultimedia.multimedia_id' => $multimediaId]]
+        );
+        $this->set('activityMultimedia', $activityMultimedia->extract('id'));
+        $this->render('/activityMultimedia/json/template');
     }
 }

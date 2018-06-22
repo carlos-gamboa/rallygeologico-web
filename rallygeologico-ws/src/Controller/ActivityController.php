@@ -158,7 +158,7 @@ class ActivityController extends AppController
         $activities = $this->Activity->find('all', [
             'conditions' => [
                 'Activity.id NOT IN ' => $this->ActivityMultimedia->find('all', [
-                    'fields' => ['ActivityMultimedia.term_id'],
+                    'fields' => ['ActivityMultimedia.activity_id'],
                     'conditions' => ['ActivityMultimedia.multimedia_id' => $id
                     ]
                 ])
@@ -173,12 +173,12 @@ class ActivityController extends AppController
      *
      * @param null $id
      */
-    public function getAssociatedTermsFromMultimedia($id = null){
+    public function getAssociatedActivitiesFromMultimedia($id = null){
         $this->loadModel('ActivityMultimedia');
         $activities = $this->Activity->find('all', [
             'conditions' => [
                 'Activity.id IN ' => $this->ActivityMultimedia->find('all', [
-                    'fields' => ['ActivityMultimedia.term_id'],
+                    'fields' => ['ActivityMultimedia.activity_id'],
                     'conditions' => ['ActivityMultimedia.multimedia_id' => $id
                     ]
                 ])
