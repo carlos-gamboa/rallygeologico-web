@@ -349,35 +349,39 @@ class UsersController extends AppController
 
         $user = $this->Users->find('all', [
                 'conditions' => [
-                    'Users.email' => $this->getRequest()->getData()['username'],
+                    'Users.email' => $this->getRequest()->getData()['email'],
                     'Users.login_api' => 3
                 ]
             ]
         );
 
-        $email = new Email('default');
-        $tokenNum = bin2hex(random_bytes(32));
-        $tokenTable = $this->Users->Tokens;
-        $token = $tokenTable->newEntity();
-        $data = [];
-        $data['value'] = $tokenNum;
-        $data['type'] = "forgot";
-        $data['user_id'] = $user->toArray()[0]->id;
-        $token = $token = $tokenTable->patchEntity($token, $data);
-        $tokenTable-> save ($token);
+        if (count($user->toArray()) > 0) {
+            $email = new Email('default');
+            $tokenNum = bin2hex(random_bytes(32));
+            $tokenTable = $this->Users->Tokens;
+            $token = $tokenTable->newEntity();
+            $data = [];
+            $data['value'] = $tokenNum;
+            $data['type'] = "forgot";
+            $data['user_id'] = $user->toArray()[0]->id;
+            $token = $token = $tokenTable->patchEntity($token, $data);
+            $tokenTable->save($token);
 
-        try {
-            $email
-                ->setTransport('gmail')
-                ->setFrom('soporte.rallygeologico@gmail.com', 'Soporte Rally Geológico')
-                ->setTo($this->getRequest()->getData()['username'])
-                ->setEmailFormat('html')
-                ->setSubject('Reestablecimiento de contraseña')
-                ->send ("Para recuperar la contraseña usar el siguiente enlace:\n"
-                    ."http://rutageologica.ucr.ac.cr/users/recover/".$tokenNum);
-            $this->set ('users', true);
-        } catch (\Exception $e) {
-            $this->set ('users', false);
+            try {
+                $email
+                    ->setTransport('gmail')
+                    ->setFrom('soporte.rallygeologico@gmail.com', 'Soporte Rally Geológico')
+                    ->setTo($this->getRequest()->getData()['email'])
+                    ->setEmailFormat('html')
+                    ->setSubject('Reestablecimiento de contraseña')
+                    ->send("Para recuperar la contraseña usar el siguiente enlace:\n"
+                        . "http://rutageologica.ucr.ac.cr/users/recover/" . $tokenNum);
+                $this->set('users', true);
+            } catch (\Exception $e) {
+                $this->set('users', false);
+            }
+        } else {
+            $this->set('users', false);
         }
         $this->render('/Users/json/template');
     }

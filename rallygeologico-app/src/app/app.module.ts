@@ -38,6 +38,8 @@ import {MultimediaService} from "./services/multimedia.service";
 import {DistrictService} from "./services/district.service";
 import {CantonService} from "./services/canton.service";
 import {ProvinceService} from "./services/province.service";
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { TokenLandingComponent } from './token-landing/token-landing.component';
 
 
 @NgModule({
@@ -54,6 +56,8 @@ import {ProvinceService} from "./services/province.service";
       RallyComponent,
       PublicHeaderComponent,
       SiteComponent,
+      ForgotPasswordComponent,
+      TokenLandingComponent,
   ],
   imports: [
       BrowserModule,

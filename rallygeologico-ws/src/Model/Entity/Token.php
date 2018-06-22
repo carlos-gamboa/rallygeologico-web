@@ -10,6 +10,7 @@ use Cake\ORM\Entity;
  * @property string $value
  * @property string $type
  * @property \Cake\I18n\FrozenTime $created
+ * @property int $is_valid
  * @property int $user_id
  *
  * @property \App\Model\Entity\User $user
@@ -31,6 +32,7 @@ class Token extends Entity
         'type' => true,
         'created' => true,
         'user_id' => true,
+        'is_valid' => true,
         'user' => true
     ];
 }

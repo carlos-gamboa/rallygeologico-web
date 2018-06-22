@@ -225,4 +225,10 @@ export class UserService {
             'new_password':newPassword
         },{ headers: this.headers, withCredentials: true });
     }
+
+    forgotPassword(email: string) : Observable<boolean>{
+        return this.http.post<boolean>(this.baseUrl + "users/forgotPassword.json", {
+            'email':email
+        },{ headers: this.headers, withCredentials: true });
+    }
 }

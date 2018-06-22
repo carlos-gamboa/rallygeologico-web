@@ -69,6 +69,9 @@ class TokensTable extends Table
             ->maxLength('type', 10)
             ->allowEmpty('type');
 
+        $validator
+            ->allowEmpty('is_valid');
+
         return $validator;
     }
 
