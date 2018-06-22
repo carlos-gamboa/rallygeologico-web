@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * Tokens Controller
@@ -122,6 +123,35 @@ class TokensController extends AppController
             $this->Flash->error(__('The token could not be deleted. Please, try again.'));
             $this->set('tokens', false);
         }
+
+        $this->render('/Tokens/json/template');
+    }
+
+    public function getTokenByValue(){
+        $data = $this->getRequest()->getData();
+        $value = $data['value'];
+        $tokens = $this->Tokens->find('all', [
+                'conditions' => [
+                    'Tokens.value' => $value
+                ],
+                'contain' => ['Users']
+            ]
+        );
+        $this->set('tokens', $tokens);
+
+        $this->render('/Tokens/json/template');
+    }
+
+    public function invalidateUserToken(){
+        $data = $this->getRequest()->getData();
+        $userId = $data['user_id'];
+        $type = $data['type'];
+        $this->Tokens->updateAll(
+            ['is_valid' => 0],
+            ['user_id' => $userId, 'type' => $type]
+        );
+
+        $this->set('tokens', true);
 
         $this->render('/Tokens/json/template');
     }

@@ -385,4 +385,42 @@ class UsersController extends AppController
         }
         $this->render('/Users/json/template');
     }
+
+    /**
+     * Changes the password of a user
+     */
+    public function forceChangePassword(){
+        $data = $this->getRequest()->getData();
+        $userId = $data['user_id'];
+        $userInfo = $this->Users->get($userId, [
+        ]);
+        $user = $this->Users->patchEntity($userInfo, $data);
+        if ($this->Users->save($user)) {
+            $this->set('users', true);
+        }
+        else {
+            $this->set('users', false);
+        }
+        $this->render('/Users/json/template');
+    }
+
+    /**
+     * Activates an user
+     *
+     * @param null $userId User's id.
+     */
+    public function activateUser($userId = null){
+        $data = $this->getRequest()->getData();
+        $userInfo = $this->Users->get($userId, [
+        ]);
+        $data['is_active'] = 1;
+        $user = $this->Users->patchEntity($userInfo, $data);
+        if ($this->Users->save($user)) {
+            $this->set('users', true);
+        }
+        else {
+            $this->set('users', false);
+        }
+        $this->render('/Users/json/template');
+    }
 }
