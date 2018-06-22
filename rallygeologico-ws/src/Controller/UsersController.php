@@ -315,6 +315,9 @@ class UsersController extends AppController
         $this->render('/Users/json/template');
     }
 
+    /**
+     * Changes the password of a user
+     */
     public function changePassword(){
         $data = $this->getRequest()->getData();
         $userId = $data['id'];
@@ -342,26 +345,38 @@ class UsersController extends AppController
      * Sends a mail to the admin with a message to recover the account.
      *
      */
-    public function forgottenPassword () {
+    public function forgotPassword () {
+
+        $user = $this->Users->find('all', [
+                'conditions' => [
+                    'Users.email' => $this->getRequest()->getData()['username'],
+                    'Users.login_api' => 3
+                ]
+            ]
+        );
+
         $email = new Email('default');
         $tokenNum = bin2hex(random_bytes(32));
-        $tokenTable = TableRegistry::get ('tokens');
+        $tokenTable = $this->Users->Tokens;
         $token = $tokenTable->newEntity();
-        $token -> tokenNum = $tokenNum;
-        $token -> created  = Time::now();
+        $data = [];
+        $data['value'] = $tokenNum;
+        $data['type'] = "forgot";
+        $data['user_id'] = $user->toArray()[0]->id;
+        $token = $token = $tokenTable->patchEntity($token, $data);
         $tokenTable-> save ($token);
+
         try {
             $email
-                ->transport ('gmail')
-                ->from ('soporte.rallygeologico@gmail.com')
-                ->to ('soporte.rallygeologico@gmail.com')
-                ->emailFormat('html')
-                ->subject ('Reestablecimiento de contraseña')
+                ->setTransport('gmail')
+                ->setFrom('soporte.rallygeologico@gmail.com', 'Soporte Rally Geológico')
+                ->setTo($this->getRequest()->getData()['username'])
+                ->setEmailFormat('html')
+                ->setSubject('Reestablecimiento de contraseña')
                 ->send ("Para recuperar la contraseña usar el siguiente enlace:\n"
                     ."http://rutageologica.ucr.ac.cr/users/recover/".$tokenNum);
             $this->set ('users', true);
         } catch (\Exception $e) {
-            $this->Flash->error ('No se pudo enviar el correo de recuperación, posiblemente la contraseña de gmail cambió. Pedir a un administrador que coloque la nueva en config/app.php');
             $this->set ('users', false);
         }
         $this->render('/Users/json/template');
