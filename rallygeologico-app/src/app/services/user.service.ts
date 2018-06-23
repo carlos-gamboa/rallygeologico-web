@@ -6,6 +6,7 @@ import {Configuration} from "./data/constants";
 import {Observable} from "rxjs/Observable";
 import {Headers} from "@angular/http";
 import "rxjs";
+import {Token} from "../model/token";
 
 @Injectable()
 export class UserService {
@@ -224,5 +225,37 @@ export class UserService {
             'password':currentPassword,
             'new_password':newPassword
         },{ headers: this.headers, withCredentials: true });
+    }
+
+    forgotPassword(email: string) : Observable<boolean>{
+        return this.http.post<boolean>(this.baseUrl + "users/forgotPassword.json", {
+            'email':email
+        },{ headers: this.headers, withCredentials: true });
+    }
+
+    getTokenByValue(value: string) : Observable<Token[]>{
+        return this.http.post<Token[]>(this.baseUrl + "tokens/getTokenByValue.json", {
+            'value':value
+        },{ headers: this.headers, withCredentials: true });
+    }
+
+    invalidateUsersToken(userId: number, type: string): Observable<boolean>{
+        return this.http.post<boolean>(this.baseUrl + "tokens/invalidateUserToken.json", {
+            'user_id':userId,
+            'type':type
+        },{ headers: this.headers, withCredentials: true });
+    }
+
+    forceChangePassword(id: number, newPassword: string) : Observable<boolean>{
+        return this.http.post<boolean>(this.baseUrl + "users/forceChangePassword.json", {
+            'user_id':id,
+            'password':newPassword
+        },{ headers: this.headers, withCredentials: true });
+    }
+
+    activateUser(id: number): Observable<boolean> {
+        return this.http.get<boolean>(this.baseUrl + "users/activateUser/" + id + ".json", {
+            headers: this.headers, withCredentials: true
+        });
     }
 }

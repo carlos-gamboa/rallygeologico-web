@@ -10,6 +10,8 @@ import {InstructionsComponent} from "./instructions/instructions.component";
 import {DefinitionComponent} from "./definition/definition.component";
 import {RegisterComponent} from "./register/register.component";
 import {SiteComponent} from "./site/site.component";
+import {ForgotPasswordComponent} from "./forgot-password/forgot-password.component";
+import {TokenLandingComponent} from "./token-landing/token-landing.component";
 
 const routes : Routes = [
     {
@@ -44,6 +46,15 @@ const routes : Routes = [
     },
     {
         path : 'sites/:siteId', component: SiteComponent
+    },
+    {
+        path : 'forgot', component: ForgotPasswordComponent
+    },
+    {
+        path : 'sites/:siteId', component: SiteComponent
+    },
+    {
+        path : 'token/:tokenValue', component: TokenLandingComponent
     }
 ];
 
