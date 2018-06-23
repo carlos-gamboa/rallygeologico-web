@@ -19,11 +19,14 @@
   <div class="whole-wrap">
         <div class="text-center local-nav pt-10 pb-10"><span class="text-justify" *ngFor="let letterIndex of termKeys; let k = index">
             <a class="underline" [href]="'glossary#'+k">{{letterIndex}}</a>
-        </span></div>
+        </span>
+        </div>
 
     <div class="container">
       <article *ngFor="let letter of termKeys; let i = index"  class="section-top-border">
-        <h3 id="{{i}}" class="mb-30 letter-banner">{{letter}}</h3>
+
+        <h3 id="{{i}}" class="letter-banner mb-30 text-left"><a class="fa fa-arrow-up" [href]="'glossary#home'"></a> {{letter}} </h3>
+
         <div class="row">
           <div *ngFor="let termItem of allTerms.get(letter); let j = index" class="col-sm-12 col-md-6 col-lg-4 booking-right mb-20">
             <img *ngIf=" termItem.multimedia.length != 0; else no_image" class="mb-30 center glossary-image" src="{{termItem.multimedia[0].media_url}}" alt="Icono de Término" width="280">
