@@ -20,6 +20,7 @@ export class RegisterComponent implements OnInit {
     email: string;
     username: string;
     password: string;
+    is_active: number;
 
     GId: string;
     GfirstName: string;
@@ -53,6 +54,11 @@ export class RegisterComponent implements OnInit {
 
     constructor(private fb: FacebookService, private router: Router,  private userService: UserService, private _ngZone: NgZone) {
         this.assetsUrl = environment.assetsUrl;
+        if (environment.production){
+            this.is_active = 0;
+        } else {
+            this.is_active = 1;
+        }
         if (this.facebookWorking){
             let initParams: InitParams = {
                 appId: environment.facebookKey,
@@ -253,7 +259,7 @@ export class RegisterComponent implements OnInit {
             if (!emailUsed) {
                 this.userService.usernameExists(this.username).subscribe((usernameTaken: boolean) => {
                     if (!usernameTaken) {
-                        this.userService.register(this.fbId, this.username, this.firstName, this.lastName, this.email, this.photoUrl, 3, this.password, 0,1).subscribe((users: User[]) => {
+                        this.userService.register(this.fbId, this.username, this.firstName, this.lastName, this.email, this.photoUrl, 3, this.password, 0,this.is_active).subscribe((users: User[]) => {
                             if (users) {
                                 this.successful = true;
                                 this.messageType = 0;

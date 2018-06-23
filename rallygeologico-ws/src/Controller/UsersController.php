@@ -78,6 +78,30 @@ class UsersController extends AppController
             $users = $this->Users->patchEntity($users, $this->getRequest()->getData());
             if ($this->Users->save($users)) {
                 $this->Flash->success(__('The user has been saved.'));
+                if ($users->is_active == 0){
+                    $email = new Email('default');
+                    $tokenNum = bin2hex(random_bytes(32));
+                    $tokenTable = $this->Users->Tokens;
+                    $token = $tokenTable->newEntity();
+                    $data = [];
+                    $data['value'] = $tokenNum;
+                    $data['type'] = "activate";
+                    $data['user_id'] = $users->id;
+                    $token = $token = $tokenTable->patchEntity($token, $data);
+                    $tokenTable->save($token);
+                    try {
+                        $email
+                            ->setTransport('gmail')
+                            ->setFrom('soporte.rallygeologico@gmail.com', 'Soporte Rally Geológico')
+                            ->setTo($this->getRequest()->getData()['email'], $this->getRequest()->getData()['first_name'] . " " . $this->getRequest()->getData()['last_name'])
+                            ->setTemplate('activate')
+                            ->setViewVars(['token' => $tokenNum])
+                            ->setEmailFormat('html')
+                            ->setSubject('Confirmar cuenta')
+                            ->send();
+                    } catch (\Exception $e) {
+                    }
+                }
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
@@ -371,11 +395,12 @@ class UsersController extends AppController
                 $email
                     ->setTransport('gmail')
                     ->setFrom('soporte.rallygeologico@gmail.com', 'Soporte Rally Geológico')
-                    ->setTo($this->getRequest()->getData()['email'])
+                    ->setTo($this->getRequest()->getData()['email'], $this->getRequest()->getData()['first_name'] . " " . $this->getRequest()->getData()['last_name'])
+                    ->setTemplate('forgot')
+                    ->setViewVars(['token' => $tokenNum])
                     ->setEmailFormat('html')
-                    ->setSubject('Reestablecimiento de contraseña')
-                    ->send("Para recuperar la contraseña usar el siguiente enlace:\n"
-                        . "http://rutageologica.ucr.ac.cr/users/recover/" . $tokenNum);
+                    ->setSubject('Recuperar contraseña')
+                    ->send();
                 $this->set('users', true);
             } catch (\Exception $e) {
                 $this->set('users', false);
