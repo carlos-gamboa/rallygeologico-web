@@ -42,7 +42,7 @@
               <div class="row mt-10 mb-10">
                 <div class="col-lg-12">
                   <label for="first_name">Nombre</label>
-                  <input class="text-input" type="text" [(ngModel)]="first_name" #firstNameInput="ngModel" id="first_name" name="first_name" placeholder="Nombre" required>
+                  <input class="text-input" type="text" [(ngModel)]="first_name" #firstNameInput="ngModel" id="first_name" name="first_name" placeholder="Nombre" required maxlength="15">
                   <div *ngIf="(firstNameInput?.invalid) && (firstNameInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2 text-center" role="alert">
                     <div *ngIf="firstNameInput.errors.required">
                       <p class="alert-message mb-0">Debe introducir un nombre.</p>
@@ -51,7 +51,7 @@
                 </div>
                 <div class="col-lg-12 mt-3">
                   <label for="last_name">Apellidos</label>
-                  <input class="text-input" type="text" [(ngModel)]="last_name" #lastNameInput="ngModel" id="last_name" name="last_name" placeholder="Apellidos">
+                  <input class="text-input" type="text" [(ngModel)]="last_name" #lastNameInput="ngModel" id="last_name" name="last_name" placeholder="Apellidos" maxlength="30">
                 </div>
                 <div class="col-lg-12 mt-3" align="center" *ngIf="currentUser.login_api == 3">
                   <label for="photo_url">Imagen de perfil</label>
