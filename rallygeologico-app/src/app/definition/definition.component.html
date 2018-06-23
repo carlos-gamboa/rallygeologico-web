@@ -24,14 +24,13 @@
         <h1 class="text-center mb-30">{{term.name}}</h1>
         <p class="text-justify">{{term.description}}</p>
       </article>
-      <article *ngIf="imagesMultimedia.length != 0" class="section-top-border">
-        <h3>Imágenes Relacionadas</h3>
-        <div class="row gallery-item">
-          <div *ngFor="let multimedia of imagesMultimedia" class="col-md-4">
-            <a href="{{multimedia.media_url}}" class="img-pop-up"><div class="single-gallery-image" [style.background]="'url(' + multimedia.media_url + ')'"></div></a>
-          </div>
-        </div>
-      </article>
+
+        <section *ngIf="imagesMultimedia.length != 0" class="section-top-border">
+            <h3>Imágenes Relacionadas</h3>
+            <br>
+            <ks-modal-gallery [modalImages]="imagesHtmlDescriptions" [plainGalleryConfig]="plainGalleryRow"
+                              [description]="customDescription" [buttonsConfig]="customButtonsConfigExtUrlNewTab"></ks-modal-gallery>
+        </section>
 
       <article *ngIf="videosMultimedia.length != 0"  class="section-top-border">
         <h3 class="mb-30">Video relacionados</h3>
