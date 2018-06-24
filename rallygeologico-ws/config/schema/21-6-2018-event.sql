@@ -29,3 +29,5 @@ CREATE TABLE IF NOT EXISTS tokens (
   user_id INT NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 )
+
+ALTER TABLE `multimedia` ADD `external_url` VARCHAR(2000) NULL AFTER `media_url`;
