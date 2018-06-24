@@ -79,3 +79,8 @@
 .linked-in{
   color: #0077B5 !important;
 }
+
+.home-about-left p{
+    !important text-align: justify;
+    !important text-justify: inter-word;
+}
