@@ -26,6 +26,7 @@ class MultimediaController extends AppController
 
         $this->set(compact('multimedia'));
         $this->set('_serialize', 'multimedia');
+        $this->render('/Multimedia/json/template');
     }
 
     /**
@@ -55,6 +56,7 @@ class MultimediaController extends AppController
         ]);
 
         $this->set('multimedia', $multimedia);
+        $this->render('/Multimedia/json/template');
     }
 
     /**
@@ -81,13 +83,27 @@ class MultimediaController extends AppController
         $this->render('/Multimedia/json/template');
     }
 
-    /**
-     * Edit method
-     *
-     * @param string|null $id Multimedia id.
-     * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
+    public function upload($filename = null)
+    {
+        if ($this->request->is('post')) {
+            if(!empty($this->getRequest()->getData()['file']['name'])){
+                $fileName = $filename;
+                $uploadPath = 'uploads/';
+                $uploadFile = $uploadPath . $fileName;
+                if (move_uploaded_file($this->getRequest()->getData()['file']['name'], $uploadFile)) {
+                    $this->set('multimedia', true);
+                    $this->Flash->success(__('File has been uploaded and inserted successfully.'));
+                } else {
+                    $this->set('multimedia', false);
+                    $this->Flash->error(__('Unable to upload file, please try again.'));
+                }
+            } else {
+                $this->set('multimedia', false);
+                $this->Flash->error(__('Please choose a file to upload.'));
+            }
+        }
+    }
+
     public function edit($id = null)
     {
         $multimedia = $this->Multimedia->get($id, [
@@ -97,14 +113,13 @@ class MultimediaController extends AppController
             $multimedia = $this->Multimedia->patchEntity($multimedia, $this->getRequest()->getData());
             if ($this->Multimedia->save($multimedia)) {
                 $this->Flash->success(__('The multimedia has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The multimedia could not be saved. Please, try again.'));
         }
         $activity = $this->Multimedia->Activity->find('list', ['limit' => 200]);
         $term = $this->Multimedia->Term->find('list', ['limit' => 200]);
         $this->set(compact('multimedia', 'activity', 'term'));
+        $this->render('/Multimedia/json/template');
     }
 
     /**

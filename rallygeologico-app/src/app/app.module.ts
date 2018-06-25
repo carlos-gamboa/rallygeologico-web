@@ -43,6 +43,7 @@ import {TokenLandingComponent} from './token-landing/token-landing.component';
 import {ModalGalleryModule} from "angular-modal-gallery";
 import 'hammerjs'
 import 'mousetrap'
+import {ImagesService} from "./services/images.service";
 
 @NgModule({
   declarations: [
@@ -79,7 +80,7 @@ import 'mousetrap'
       AgmSnazzyInfoWindowModule,
       ModalGalleryModule.forRoot()
   ],
-  providers: [DataService, UserService, Configuration, RallyService, InvitationService, CompetitionService, SiteService, CompetitionStatisticsService, TermService, MultimediaService, DistrictService, CantonService, ProvinceService, ActivityService],
+  providers: [DataService, UserService, Configuration, RallyService, InvitationService, CompetitionService, SiteService, CompetitionStatisticsService, TermService, MultimediaService, DistrictService, CantonService, ProvinceService, ActivityService, ImagesService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

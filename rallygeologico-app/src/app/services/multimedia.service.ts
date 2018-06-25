@@ -20,13 +20,15 @@ export class MultimediaService {
    * @param {string} name
    * @param {number} media_type
    * @param {string} media_url
+   * @param {string} external_url
    * @returns {Observable<Multimedia>}
    */
-  addMultimedia(name : string, media_type : number, media_url : string) : Observable<Multimedia>{
+  addMultimedia(name : string, media_type : number, media_url : string, external_url : string) : Observable<Multimedia>{
     return this.http.post<Multimedia>(this.baseUrl + "multimedia/add.json", {
       'name':name,
       'media_type':media_type,
-      'media_url':media_url
+      'media_url':media_url,
+      'external_url':external_url
     },{ headers: this.headers, withCredentials: true });
   }
 
@@ -36,13 +38,15 @@ export class MultimediaService {
    * @param {string} name
    * @param {number} media_type
    * @param {string} media_url
+   * @param {string} external_url
    * @returns {Observable<Multimedia>}
    */
-  editMultimedia(id: number, name : string, media_type : number, media_url : string): Observable<Multimedia>{
+  editMultimedia(id: number, name : string, media_type : number, media_url : string, external_url : string): Observable<Multimedia>{
     return this.http.post<Multimedia>(this.baseUrl + "multimedia/edit/"+id+".json",{
       'name' : name,
       'media_type':media_type,
-      'media_url':media_url
+      'media_url':media_url,
+      'external_url':external_url
     },{ headers: this.headers, withCredentials: true });
   }
 
@@ -89,5 +93,4 @@ export class MultimediaService {
    getMultimedia(id: number) : Observable<Multimedia>{
       return this.http.get<Multimedia>(this.baseUrl + "multimedia/view/"+id+".json");
    }
-
 }

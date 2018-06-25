@@ -1,3 +1,12 @@
+input[type=file] {
+    width: 98%;
+    height: 40px;
+    padding: 4px;
+    color: #555555;
+    border: #777777 solid 1px;
+    background-color: white;
+}
+
 .title{
     color: #FFFFFF;
 }

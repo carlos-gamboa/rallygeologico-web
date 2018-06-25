@@ -9,6 +9,9 @@ import {TermService} from "../../services/term.service";
 import {Term} from "../../model/term";
 import {Activity} from "../../model/activity";
 import {ActivityService} from "../../services/activity.service";
+import {environment} from "../../../environments/environment";
+import {ImagesService} from "../../services/images.service";
+import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'app-edit-multimedia',
@@ -66,6 +69,10 @@ export class EditMultimediaComponent implements OnInit {
     name: string;
     media_type: number;
     media_url: string;
+    external_url: string;
+    file: File;
+
+    assetsUrl: string;
 
     /**
      * Creates a EditMultimediaComponent
@@ -78,9 +85,11 @@ export class EditMultimediaComponent implements OnInit {
      * @param {Router} router
      */
     constructor(private multimediaService: MultimediaService, private termsService: TermService, private activityService: ActivityService, private userService: UserService,
-                private dataService: DataService, private router: Router) {
+                private dataService: DataService, private imageService: ImagesService, private router: Router) {
         this.readyToShow = false;
         this.activeTab = -1;
+
+        this.assetsUrl = environment.assetsUrl;
 
         this.currentMultimedia = null;
         this.multimediaSelected = false;
@@ -221,7 +230,25 @@ export class EditMultimediaComponent implements OnInit {
             this.name = this.currentMultimedia.name;
             this.media_type = this.currentMultimedia.media_type;
             this.media_url = this.currentMultimedia.media_url;
+            this.external_url = this.currentMultimedia.external_url;
         }
+    }
+
+    onFileChanged(event) {
+        this.file  = event.target.files[0];
+        let type = this.file.type;
+        if(this.currentMultimedia != null) {
+            this.media_url = this.currentMultimedia.media_url;
+        } else{
+            this.media_url = "";
+        }
+        if(type == "image/jpeg" || type == "image/png" || type == "image/svg"){
+            this.media_url = this.assetsUrl + "assets/" + this.file.name;
+        } else {
+            this.messageType = false;
+            this.alertMessage = "Formato de imagen inválido.";
+        }
+        console.log("URL " + this.media_url);
     }
 
     /**
@@ -230,13 +257,24 @@ export class EditMultimediaComponent implements OnInit {
     saveChanges(){
         this.changesSaved = false;
         if (this.currentMultimedia) {
-            this.multimediaService.editMultimedia(this.currentMultimedia.id, this.name, this.media_type, this.media_url).subscribe((multimedia: Multimedia) => {
+            this.multimediaService.editMultimedia(this.currentMultimedia.id, this.name, this.media_type, this.media_url, this.external_url).subscribe((multimedia: Multimedia) => {
                 if (multimedia) {
                     this.currentMultimedia = multimedia;
                     this.allMultimedia[this.currentMultimediaIndex] = this.currentMultimedia;
                     this.changesSaved = true;
                     this.messageType = true;
                     this.alertMessage = "Se han guardado los cambios.";
+                    this.imageService.uploadImage(this.file).subscribe((uploaded: boolean) => {
+
+                    });//(file: File) => {
+                    //     if(file){
+                    //         this.messageType = true;
+                    //         this.alertMessage = "Se cargó la imagen correctamente.";
+                    //     } else{
+                    //         this.alertMessage = "No se pudo cargar la imagen.";
+                    //         this.messageType = false;
+                    //     }
+                    // });
                 } else {
                     this.alertMessage = "No se pudo guardar los cambios.";
                     this.messageType = false;
@@ -245,7 +283,7 @@ export class EditMultimediaComponent implements OnInit {
             });
         }
         else {
-            this.multimediaService.addMultimedia(this.name, this.media_type, this.media_url).subscribe((multimedia: Multimedia) => {
+            this.multimediaService.addMultimedia(this.name, this.media_type, this.media_url, this.external_url).subscribe((multimedia: Multimedia) => {
                 if (multimedia){
                     this.currentMultimedia = multimedia;
                     this.allMultimedia.push(this.currentMultimedia);
@@ -254,6 +292,18 @@ export class EditMultimediaComponent implements OnInit {
                     this.newMultimedia = false;
                     this.messageType = true;
                     this.alertMessage = "Multimedia creada.";
+                    this.imageService.uploadImage(this.file).subscribe((uploaded: boolean) => {
+
+                    });//(file: File) => {
+                    //     console.log("imagen subida");
+                    //     if(file){
+                    //         this.messageType = true;
+                    //         this.alertMessage = "Se cargó la imagen correctamente.";
+                    //     } else{
+                    //         this.alertMessage = "No se pudo cargar la imagen.";
+                    //         this.messageType = false;
+                    //     }
+                    // });
                 } else {
                     this.messageType = false;
                     this.alertMessage = "No se pudo crear multimedia.";
@@ -298,6 +348,7 @@ export class EditMultimediaComponent implements OnInit {
         this.name = "";
         this.media_type = 0;
         this.media_url = "";
+        this.external_url = "";
     }
 
     /**

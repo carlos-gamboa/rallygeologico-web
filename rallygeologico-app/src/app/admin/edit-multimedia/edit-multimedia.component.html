@@ -116,20 +116,26 @@
                 <div class="col-lg-6" align="center">
                   <label for="media_type">Tipo de media</label>
                   <select class="select-input" [(ngModel)]="media_type" #mediaTypeInput="ngModel" name="media_type" id="media_type" required>
-                    <option value="0">Imagen</option>
-                    <option value="1">Video</option>
+                    <option value="0" selected>Imagen</option>
+                    <!--<option value="1">Video</option>-->
                   </select>
                   <div *ngIf="(mediaTypeInput?.invalid) && (mediaTypeInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
                     <p class="alert-message">Debe seleccionar el tipo de media.</p>
                   </div>
                 </div>
               </div>
+              <div class="row mt-10 mb-10 mr-0 ml-0">
+                <div class="col-lg-12">
+                  <label for="external_url">Fuente de la imagen</label>
+                  <input class="text-input" type="text" [(ngModel)]="external_url" #ExternalUrlInput="ngModel" id="external_url" name="externalUrl">
+                </div>
+              </div>
               <div class="row mt-10 mb-20 mr-0 ml-0">
                 <div class="col-lg-12">
-                  <label for="media_url">Url de la media</label>
-                  <input class="text-input" type="text" [(ngModel)]="media_url" #UrlInput="ngModel" id="media_url" name="imageUrl" required>
-                  <div *ngIf="(UrlInput?.invalid) && (UrlInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
-                    <p class="alert-message">Debe introducir el url.</p>
+                  <label for="media_url">Imagen</label>
+                  <input type="file" (change)="onFileChanged($event)" #fileInput id="media_url" name="mediaUrl" required>
+                  <div *ngIf="(fileInput?.invalid) && (fileInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
+                    <p class="alert-message">Debe seleccionar una imagen.</p>
                   </div>
                 </div>
               </div>
