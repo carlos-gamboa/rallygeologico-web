@@ -17,12 +17,15 @@ export class ActivityService {
   }
 
   /**
-   * Adds a new activity
-   * @param name
-   * @param description
-   * @returns {Observable<Object>}
+   * Adds an activity
+   * @param {number} site_id
+   * @param {string} activity_type
+   * @param {string} points_awarded
+   * @param {string} description
+   * @param {string} name
+   * @returns {Observable<Activity>}
    */
-  addActivity(site_id : string, activity_type : string, points_awarded : string, description : string, name : string) : Observable<Activity>{
+  addActivity(site_id : number, activity_type : number, points_awarded : number, description : string, name : string) : Observable<Activity>{
     return this.http.post<Activity>(this.baseUrl + "activity/add.json", {
       'site_id':site_id,
       'activity_type':activity_type,
@@ -33,13 +36,16 @@ export class ActivityService {
   }
 
   /**
-   * Edits the existing activity with new information
-   * @param id
-   * @param name
-   * @param description
-   * @returns {Observable<Object>}
+   * Edits an activity
+   * @param {number} id
+   * @param {string} site_id
+   * @param {string} activity_type
+   * @param {string} points_awarded
+   * @param {string} description
+   * @param {string} name
+   * @returns {Observable<Activity>}
    */
-  editActivity(id : string, site_id : string, activity_type : string, points_awarded : string, description : string, name : string): Observable<Activity>{
+  editActivity(id : number, site_id : number, activity_type : number, points_awarded : number, description : string, name : string): Observable<Activity>{
     return this.http.post<Activity>(this.baseUrl + "activity/edit/"+id+".json",{
       'site_id':site_id,
       'activity_type':activity_type,
@@ -76,7 +82,7 @@ export class ActivityService {
    * @returns {Observable<Object>}
    */
   getAllActivities(activityId: number):Observable<Activity[]>{ //DOESNT ACTUALLY RECEIVE A PARAMETER
-    return this.http.get<Activity[]>(this.baseUrl + "term/getAllActivities/"+activityId+".json");
+    return this.http.get<Activity[]>(this.baseUrl + "activity/getAllActivities/"+activityId+".json");
   }
 
 
@@ -99,7 +105,7 @@ export class ActivityService {
    */
   addActivityMultimedia(activityId: number, multimediaId: number): Observable<Activity>{
     return this.http.post<Activity>(this.baseUrl + "activityMultimedia/add.json", {
-      'term_id': activityId,
+      'activity_id': activityId,
       'multimedia_id': multimediaId
     },{ headers: this.headers, withCredentials: true });
   }
