@@ -17,6 +17,7 @@ import { AdminHeaderComponent } from './admin-header/admin-header.component';
 import { EditUsersComponent } from './edit-users/edit-users.component';
 import { EditMultimediaComponent } from './edit-multimedia/edit-multimedia.component';
 import { EditActivityComponent } from './edit-activity/edit-activity.component';
+import {ImageUploadModule} from "angular2-image-upload";
 
 @NgModule({
     imports: [
@@ -28,6 +29,7 @@ import { EditActivityComponent } from './edit-activity/edit-activity.component';
         NgbModule,
         MatDatepickerModule,
         MatNativeDateModule,
+        ImageUploadModule.forRoot(),
     ],
     declarations: [
         LoginComponent,

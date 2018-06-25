@@ -44,6 +44,7 @@ import {ModalGalleryModule} from "angular-modal-gallery";
 import 'hammerjs'
 import 'mousetrap'
 import {ImagesService} from "./services/images.service";
+import {ImageUploadModule} from "angular2-image-upload";
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import {ImagesService} from "./services/images.service";
           apiKey: environment.googleMapsKey
       }),
       AgmSnazzyInfoWindowModule,
-      ModalGalleryModule.forRoot()
+      ModalGalleryModule.forRoot(),
+      ImageUploadModule.forRoot(),
   ],
   providers: [DataService, UserService, Configuration, RallyService, InvitationService, CompetitionService, SiteService, CompetitionStatisticsService, TermService, MultimediaService, DistrictService, CantonService, ProvinceService, ActivityService, ImagesService],
   bootstrap: [AppComponent]

@@ -74,6 +74,34 @@ export class EditMultimediaComponent implements OnInit {
 
     assetsUrl: string;
 
+    customStyle = {
+        selectButton: {
+            "background-color": "#0C344E",
+            "color": "#FFF",
+            "text-transform": "capitalize",
+            "vertical-align": "middle"
+        },
+        clearButton: {
+            "background-color": "#249DD8",
+            "color": "#FFF",
+            "margin": "5px",
+            "text-transform": "capitalize",
+            "vertical-align": "middle"
+        },
+        layout: {
+            "background-color": "#FFF",
+            "color": "#555555",
+            "font-size": "15px",
+            "margin": "10px",
+            "padding-top": "5px",
+            "width": "625px",
+            "border": "#777777 solid 1px"
+        },
+        previewPanel: {
+            "background-color": "#FFF",
+        }
+    };
+
     /**
      * Creates a EditMultimediaComponent
      *
@@ -234,8 +262,10 @@ export class EditMultimediaComponent implements OnInit {
         }
     }
 
-    onFileChanged(event) {
-        this.file  = event.target.files[0];
+    onUploadChanged(event) {
+        this.readyToShow = false;
+        console.log(event);
+        this.file  = event.file;
         let type = this.file.type;
         if(this.currentMultimedia != null) {
             this.media_url = this.currentMultimedia.media_url;
@@ -249,6 +279,7 @@ export class EditMultimediaComponent implements OnInit {
             this.alertMessage = "Formato de imagen inválido.";
         }
         console.log("URL " + this.media_url);
+        this.readyToShow = true;
     }
 
     /**

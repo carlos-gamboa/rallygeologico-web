@@ -85,7 +85,7 @@ class MultimediaController extends AppController
 
     public function upload($filename = null)
     {
-        if ($this->request->is('post')) {
+        if ($this->getRequest()->is('post')) {
             if(!empty($this->getRequest()->getData()['file']['name'])){
                 $fileName = $filename;
                 $uploadPath = 'uploads/';
