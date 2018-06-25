@@ -40,14 +40,9 @@
                 <tr *ngFor="let term of showedTerms; let i = index">
                   <td style="vertical-align: middle"><h5 >{{term?.name}}</h5></td>
                   <td style="vertical-align: middle">
-                    <button title="Editar" class="invite-btn genric-btn circle text-center warning medium wide-button" (click)="edit(i)">Editar</button>
-                  <td><h5 >{{term?.name}}</h5></td>
-                  <td>
                     <button title="Editar" class="invite-btn genric-btn circle text-center warning medium" (click)="edit(i)">Editar</button>
                   </td>
                   <td style="vertical-align: middle">
-                    <button title="Eliminar" class="invite-btn genric-btn circle text-center danger medium wide-button" (click)="deleteTerm(term.id, i)">Eliminar</button>
-                  <td>
                     <button title="Eliminar" class="invite-btn genric-btn circle text-center danger medium" (click)="deleteTerm(term.id, i)">Eliminar</button>
                   </td>
                 </tr>
