@@ -25,7 +25,7 @@
           <form #competitionForm="ngForm">
             <div class="row mt-10 mb-10">
               <div class="col-lg-12">
-                <input class="text-input" type="text" [(ngModel)]="name" #nameInput="ngModel" name="name" placeholder="Nombre de la competencia" required>
+                <input class="text-input" type="text" [(ngModel)]="name" #nameInput="ngModel" name="name" placeholder="Nombre de la competencia" required maxlength="40">
                 <div *ngIf="(nameInput?.invalid) && (nameInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
                   <p class="alert-message">Debe introducir un nombre para la competencia.</p>
                 </div>

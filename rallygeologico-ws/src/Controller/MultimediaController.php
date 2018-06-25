@@ -21,7 +21,8 @@ class MultimediaController extends AppController
      */
     public function index()
     {
-        $multimedia = $this->paginate($this->Multimedia);
+        $multimedia = $this->Multimedia->find('all', [
+        ]);
 
         $this->set(compact('multimedia'));
         $this->set('_serialize', 'multimedia');

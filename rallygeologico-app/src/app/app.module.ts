@@ -40,6 +40,11 @@ import {CantonService} from "./services/canton.service";
 import {ProvinceService} from "./services/province.service";
 import {ActivityService} from "./services/activity.service";
 
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { TokenLandingComponent } from './token-landing/token-landing.component';
+import 'hammerjs'
+import 'mousetrap'
+import {ModalGalleryModule} from "angular-modal-gallery";
 
 @NgModule({
   declarations: [
@@ -55,6 +60,8 @@ import {ActivityService} from "./services/activity.service";
       RallyComponent,
       PublicHeaderComponent,
       SiteComponent,
+      ForgotPasswordComponent,
+      TokenLandingComponent,
   ],
   imports: [
       BrowserModule,
@@ -71,7 +78,8 @@ import {ActivityService} from "./services/activity.service";
       AgmCoreModule.forRoot({
           apiKey: environment.googleMapsKey
       }),
-      AgmSnazzyInfoWindowModule
+      AgmSnazzyInfoWindowModule,
+      ModalGalleryModule.forRoot()
   ],
   providers: [DataService, UserService, Configuration, RallyService, InvitationService, CompetitionService, SiteService, CompetitionStatisticsService, TermService, MultimediaService, DistrictService, CantonService, ProvinceService, ActivityService],
   bootstrap: [AppComponent]

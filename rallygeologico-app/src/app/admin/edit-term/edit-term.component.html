@@ -38,10 +38,15 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let term of showedTerms; let i = index">
+                  <td style="vertical-align: middle"><h5 >{{term?.name}}</h5></td>
+                  <td style="vertical-align: middle">
+                    <button title="Editar" class="invite-btn genric-btn circle text-center warning medium wide-button" (click)="edit(i)">Editar</button>
                   <td><h5 >{{term?.name}}</h5></td>
                   <td>
                     <button title="Editar" class="invite-btn genric-btn circle text-center warning medium" (click)="edit(i)">Editar</button>
                   </td>
+                  <td style="vertical-align: middle">
+                    <button title="Eliminar" class="invite-btn genric-btn circle text-center danger medium wide-button" (click)="deleteTerm(term.id, i)">Eliminar</button>
                   <td>
                     <button title="Eliminar" class="invite-btn genric-btn circle text-center danger medium" (click)="deleteTerm(term.id, i)">Eliminar</button>
                   </td>
@@ -149,8 +154,8 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let site of showedSites; let i = index">
-                  <td><h5 >{{site?.name}}</h5></td>
-                  <td align="center">
+                  <td style="vertical-align: middle"><h5 >{{site?.name}}</h5></td>
+                  <td align="center" style="vertical-align: middle">
                     <button title="Eliminar" class="invite-btn table-button genric-btn circle text-center danger medium" *ngIf="belongsTo(site.id)" (click)="deleteTermSite(site.id)">Eliminar</button>
                     <button title="Agregar" class="invite-btn table-button genric-btn circle text-center info medium" *ngIf="!belongsTo(site.id)" (click)="addTermSite(site.id)">Agregar</button>
                   </td>
@@ -194,12 +199,14 @@
               <table class="table">
                 <thead>
                 <th><h5 class="text-center">Multimedia</h5></th>
+                <th><h5 class="text-center">Imagen</h5></th>
                 <th><h5 class="text-center">Agregar/Eliminar</h5></th>
                 </thead>
                 <tbody>
                 <tr *ngFor="let multimedia of showedMultimedia; let i = index">
-                  <td><h5 >{{multimedia?.name}}</h5></td>
-                  <td align="center">
+                  <td style="vertical-align: middle"><h5 class="text-center">{{multimedia?.name}}</h5></td>
+                  <td style="vertical-align: middle"><div class="text-center"><img  style="width: 100px" src="{{multimedia?.media_url}}"></div></td>
+                  <td align="center" style="vertical-align: middle">
                     <button title="Eliminar" class="invite-btn table-button genric-btn circle text-center danger medium" *ngIf="multimediaBelongsTo(multimedia.id)" (click)="deleteTermMultimedia(multimedia.id)">Eliminar</button>
                     <button title="Agregar" class="invite-btn table-button genric-btn circle text-center info medium" *ngIf="!multimediaBelongsTo(multimedia.id)" (click)="addTermMultimedia(multimedia.id)">Agregar</button>
                   </td>

@@ -260,14 +260,25 @@ export class EditCompetitionComponent implements OnInit {
         this.reloadCompetitions(this.allCompetitions);
     }
 
-    deleteCompetition(id: number, i: number){
+    /**
+     * Loads all competitions' information
+     */
+    updateCompetitions(){
+        this.allCompetitions = [];
+        this.competitionService.getAllCompetitions().subscribe((competitions: Competition[]) => {
+            this.allCompetitions = competitions;
+            this.reloadCompetitions(this.allCompetitions);
+        });
+    }
+
+    deleteCompetition(id: number){
         this.deleted = false;
         this.changesSaved = false;
         this.competitionService.deleteCompetition(id).subscribe((deleted: boolean) => {
             this.deleted = true;
             if (deleted){
                 this.currentCompetition = null;
-                this.allCompetitions.splice(((this.currentPageCompetition - 1) * this.pageSize) + i, 1);
+                this.updateCompetitions();
                 this.messageType = true;
                 this.alertMessage = "Se ha eliminado la competencia.";
                 this.reloadCompetitions(this.allCompetitions);

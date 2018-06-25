@@ -77,7 +77,7 @@ export class LoginComponent implements OnInit {
         this.userService.isLoggedIn().subscribe((users: User) => {
             if (users[0]) {
                 this.dataService.updateUser(users[0]);
-                this.router.navigate(['/admin/competition']);
+                this.router.navigate(['/admin/users']);
             }
         });
     }

@@ -14,8 +14,10 @@ export class AboutUsComponent implements OnInit {
 
   user : User;
   searchQuery : string = "";
+  assetsUrl: string;
 
   constructor(private dataService:DataService, private router: Router, private  userService:UserService) {
+    this.assetsUrl = environment.assetsUrl;
     this.user = this.dataService.getUser();
     if (!this.user){
       this.userService.isLoggedIn().subscribe((users: User) => {

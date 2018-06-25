@@ -1,4 +1,53 @@
-<app-public-header [activeTab]="2"></app-public-header>
-<p>
-  definition works!
-</p>
+<app-public-header [activeTab]="2" *ngIf="!user"></app-public-header>
+<app-header [activeTab]="4" *ngIf="user"></app-header>
+
+<div *ngIf="readyToshow">
+    <!-- start banner Area -->
+    <section class="banner-area relative" id="home">
+        <div class="overlay overlay-bg"></div>
+        <div class="container">
+            <div class="row d-flex align-items-center justify-content-center">
+                <div class="about-content col-lg-12">
+                    <h1 class="text-white">
+                       {{term.name}}
+                    </h1>
+                    <p class="text-white link-nav"><a routerLink="/glossary">Glosario</a>  <span class="lnr lnr-arrow-right"></span>  <a routerLink="/glossary/{{term.name}}">Término</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End banner Area -->
+  <!-- Start contact-page Area -->
+  <section class="about-video-area section-gap">
+    <div class="container">
+      <article class="section-top-border">
+        <h1 class="text-center mb-30">{{term.name}}</h1>
+        <p class="text-justify">{{term.description}}</p>
+      </article>
+
+        <section *ngIf="imagesMultimedia.length != 0" class="section-top-border">
+            <h3>Imágenes Relacionadas</h3>
+            <br>
+            <ks-modal-gallery [modalImages]="imagesHtmlDescriptions" [plainGalleryConfig]="plainGalleryRow"
+                              [description]="customDescription" [buttonsConfig]="customButtonsConfigExtUrlNewTab"></ks-modal-gallery>
+        </section>
+
+      <article *ngIf="videosMultimedia.length != 0"  class="section-top-border">
+        <h3 class="mb-30">Video relacionados</h3>
+        <div class="row">
+          <div *ngFor="let multimedia of videosMultimedia"  class="col-lg-6 about-video-right justify-content-center align-items-center d-flex center">
+            <a class="play-btn" href="{{multimedia.media_url}}"><img class="img-fluid mx-auto" src="assets/images/play.png" alt=""></a>
+          </div>
+        </div>
+      </article>
+
+        <article class="section-top-border">
+            <h3 class="mb-30">Sitios relacionados</h3>
+                <ul class="unordered-list-about-us" *ngFor="let sitio of term.site">
+                    <li>{{sitio.name}}</li>
+                </ul>
+        </article>
+    </div>
+  </section>
+  <!-- End contact-page Area -->
+</div>

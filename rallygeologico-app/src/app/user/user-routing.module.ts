@@ -6,6 +6,7 @@ import {ProfileComponent} from "./profile/profile.component";
 import {CompetitionComponent} from "./competition/competition.component";
 import {CreateCompetitionComponent} from "./create-competition/create-competition.component";
 import {SearchRalliesComponent} from "./search-rallies/search-rallies.component";
+import {EditProfileComponent} from "./edit-profile/edit-profile.component";
 
 const routes : Routes = [
     { path: '', component: UserComponent, children: [
@@ -23,6 +24,9 @@ const routes : Routes = [
             },
             {
                 path : 'search-rallies',component: SearchRalliesComponent
+            },
+            {
+                path: 'edit-profile', component: EditProfileComponent
             }
         ]
     },
