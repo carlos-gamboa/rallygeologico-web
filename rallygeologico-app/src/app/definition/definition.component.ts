@@ -85,8 +85,7 @@ export class DefinitionComponent implements OnInit {
 
         let index = 1;
         for (let image of this.imagesMultimedia){
-            //TODO  cambiar el extUrl
-            let newImage:Image = new Image(index,{img:image.media_url,extUrl:"http://www.google.com",description:image.name});
+            let newImage:Image = new Image(index,{img:image.media_url,extUrl:image.external_url,description:image.name});
             this.imagesHtmlDescriptions.push(newImage);
             index++;
         }

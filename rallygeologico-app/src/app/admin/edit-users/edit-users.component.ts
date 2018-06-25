@@ -126,7 +126,7 @@ export class EditUsersComponent implements OnInit {
                 if (!emailUsed) {
                     this.userService.usernameExists(this.username).subscribe((usernameTaken: boolean) => {
                         if (!usernameTaken) {
-                            this.userService.register(this.api_id, this.username, this.first_name, this.last_name, this.email, this.photo_url, +this.login_api, this.password, +this.password_needs_change, +this.is_active).subscribe((user: User[]) => {
+                            this.userService.register(this.api_id, this.username, this.first_name, this.last_name, this.email, this.photo_url, +this.login_api, this.password, +this.password_needs_change, +this.is_active, +this.is_admin).subscribe((user: User[]) => {
                                 if (user[0]) {
                                     this.currentUser = user[0];
                                     this.allUsers.push(this.currentUser);
@@ -159,7 +159,7 @@ export class EditUsersComponent implements OnInit {
                 if (!emailUsed || this.email == this.currentUser.email) {
                     this.userService.usernameExists(this.username).subscribe((usernameTaken: boolean) => {
                         if (!usernameTaken || this.username == this.currentUser.username) {
-                            this.userService.editUser(this.currentUser.id, this.api_id,this.username,this.first_name,this.last_name,this.email,this.photo_url, +this.login_api,this.password, +this.password_needs_change, +this.is_active).subscribe((user: User) => {
+                            this.userService.editUser(this.currentUser.id, this.api_id,this.username,this.first_name,this.last_name,this.email,this.photo_url, +this.login_api,this.password, +this.password_needs_change, +this.is_active, +this.is_admin).subscribe((user: User) => {
                                 if (user){
                                     this.currentUser = user;
                                     this.allUsers[this.currentUserIndex] = this.currentUser;
