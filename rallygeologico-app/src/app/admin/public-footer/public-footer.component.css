@@ -1,6 +1,5 @@
 .logo{
     width: 200px;
-    vertical-align: middle;
 }
 
 .helper {
@@ -8,4 +7,15 @@
     height: 100%;
     text-align: center;
     line-height: 100%;
+}
+
+.logo-div{
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+
+.logo-anchor{
+    display: table-cell;
+    vertical-align: middle;
 }
