@@ -33,7 +33,8 @@
               <th><h5 class="text-center">Foto de perfil</h5></th>
               <th><h5 class="text-center">Nombre de usuario</h5></th>
               <th><h5 class="text-center">Nombre</h5></th>
-              <th><h5 class="text-center">Apellido</h5></th>
+              <th><h5 class="text-center">Apellidos</h5></th>
+              <th><h5 class="text-center">Ir al perfil</h5></th>
               </thead>
               <tbody>
               <tr *ngFor="let user of showedUsers; let i = index">
@@ -41,6 +42,9 @@
                 <td style="vertical-align: middle"><h5 >{{user?.username}}</h5></td>
                 <td style="vertical-align: middle"><h5 >{{user?.first_name}}</h5></td>
                 <td style="vertical-align: middle"><h4 >{{user?.last_name}}</h4></td>
+                <td style="vertical-align: middle">
+                  <a title="Eliminar" class="invite-btn genric-btn circle text-center info medium wide-button" routerLink="/profile/{{user.id}}">Ir al perfil</a>
+                </td>
               </tr>
               </tbody>
             </table>
