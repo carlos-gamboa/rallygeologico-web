@@ -16,6 +16,7 @@ import {AgmCoreModule} from "@agm/core";
 import {environment} from "../../environments/environment";
 import { SearchRalliesComponent } from './search-rallies/search-rallies.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import {SearchUsersComponent} from "./search-users/search-users.component";
 
 @NgModule({
   imports: [
@@ -41,7 +42,8 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
       CompetitionComponent,
       CreateCompetitionComponent,
       SearchRalliesComponent,
-      EditProfileComponent
+      EditProfileComponent,
+      SearchUsersComponent
   ],
     exports: [
         HeaderComponent,
