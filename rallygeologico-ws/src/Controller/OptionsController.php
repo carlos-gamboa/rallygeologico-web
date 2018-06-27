@@ -126,4 +126,33 @@ class OptionsController extends AppController
         //return $this->redirect(['action' => 'index']);
         $this->render('/Options/json/template');
     }
+
+    /** Gets the option id using the activityId and the optionText
+     * @param null $activityId
+     * @param null $optionText
+     */
+    public function getOption($activityId = null, $optionText = null){
+        $option = $this->Options->find('all', [
+                'conditions' => ['Options.activity_id' => $activityId,
+                    'Options.option_text' => $optionText]]
+        );
+        $this->set('option', $option->extract('id'));
+        $this->render('/Options/json/template');
+    }
+
+    public function getAssociatedOptionsFromActivity($id = null){
+        //$this->loadModel('TermMultimedia');
+        $option = $this->Options->find('all', [
+            'conditions' => [
+                'Options.id IN ' => $this->Options->find('all', [
+                    'fields' => ['Options.id'],
+                    'conditions' => ['Options.activity_id' => $id
+                    ]
+                ])
+            ]
+        ]);
+        $this->set('option', $option);
+        $this->render('/Options/json/template');
+    }
+
 }

@@ -4,6 +4,7 @@ import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
 import {Site} from "../model/site";
 import {Activity} from "../model/activity";
+import {Options} from "../model/options";
 
 @Injectable()
 export class ActivityService {
@@ -94,7 +95,7 @@ export class ActivityService {
    * @returns {Observable<number>}
    */
   getActivityMultimedia(activityId: number, multimediaId: number): Observable<number>{
-    return this.http.get<number>(this.baseUrl + "activityMultimedia/getTermMultimedia/"+activityId+"/"+multimediaId+".json");
+    return this.http.get<number>(this.baseUrl + "activityMultimedia/getActivityMultimedia/"+activityId+"/"+multimediaId+".json");
   }
 
   /**
@@ -136,4 +137,45 @@ export class ActivityService {
   getAssociatedActivitiesFromMultimedia(id: number): Observable<Activity []>{
     return this.http.get<Activity[]>(this.baseUrl + "activity/getAssociatedActivitiesFromMultimedia/"+id+".json");
   }
+
+  addOption(activity_id : number, is_correct : number, option_text : string) : Observable<Options>{
+    return this.http.post<Options>(this.baseUrl + "options/add.json", {
+      'activity_id':activity_id,
+      'is_correct':is_correct,
+      'option_text':option_text
+    },{ headers: this.headers, withCredentials: true });
+  }
+
+  editOption(id : number, activity_id : number, is_correct : number, option_text : string): Observable<Options>{
+    return this.http.post<Options>(this.baseUrl + "options/edit/"+id+".json",{
+      'activity_id':activity_id,
+      'is_correct':is_correct,
+      'option_text':option_text
+    },{ headers: this.headers, withCredentials: true });
+  }
+
+  /**
+   * Deletes the specified option
+   * @param id
+   * @returns {Observable<Object>}
+   */
+  deleteOption(id: number) : Observable<boolean>{
+    return this.http.post<boolean>(this.baseUrl + "options/delete/"+id+".json", {
+    },{ headers: this.headers, withCredentials: true });
+  }
+
+  /**
+   * Service for obtaining the activityId
+   *
+   * @param {number} activity_id
+   * @returns {Observable<number>}
+   */
+  getOption(activity_id: number, option_text: string): Observable<number>{
+    return this.http.get<number>(this.baseUrl + "options/getOption/"+activity_id+"/"+option_text+".json");
+  }
+
+  getAssociatedOptionsFromActivity(id: number): Observable<Options []>{
+    return this.http.get<Options[]>(this.baseUrl + "options/getAssociatedOptionsFromActivity/"+id+".json");
+  }
+
 }

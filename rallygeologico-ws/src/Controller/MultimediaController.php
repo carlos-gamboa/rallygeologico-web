@@ -197,7 +197,7 @@ class MultimediaController extends AppController
         $this->loadModel('ActivityMultimedia');
         $media = $this->Multimedia->find('all', [
             'conditions' => [
-                'Multimedia.id NOT IN ' => $this->ActivityMultimedia->find('all', [
+                'Multimedia.id IN ' => $this->ActivityMultimedia->find('all', [
                     'fields' => ['ActivityMultimedia.multimedia_id'],
                     'conditions' => ['ActivityMultimedia.activity_id' => $activityId
                     ]

@@ -27,6 +27,10 @@ class TermController extends AppController
         $this->set('_serialize', 'term');
     }
 
+    /**Get all the terms
+     * @param null $termId
+     *
+     */
     public function getAllTerms($termId = null){
         $media = $this->Term->find('all', [
         ]);
