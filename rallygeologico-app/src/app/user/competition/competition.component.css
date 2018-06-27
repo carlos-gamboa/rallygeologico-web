@@ -26,6 +26,12 @@
   ;*/
 }
 
+@media only screen and (max-width: 800px) {
+    .busqueda {
+        width:100%;
+    }
+}
+
 .busqueda>input[type=text],
 .busqueda>button {
     display:block;

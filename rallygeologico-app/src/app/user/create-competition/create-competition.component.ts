@@ -36,8 +36,8 @@ export class CreateCompetitionComponent implements OnInit {
     currentCompetition: Competition;
 
     name: string;
-    is_public: string;
-    rally_id: string;
+    is_public: string = "1";
+    rally_id: string = "1";
     description: string;
 
     competitionCreated: boolean;
