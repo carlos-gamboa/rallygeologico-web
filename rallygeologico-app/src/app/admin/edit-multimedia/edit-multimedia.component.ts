@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {UserService} from "../../services/user.service";
 import {User} from "../../model/user";
 import {DataService} from "../../services/data/data.service";
@@ -11,6 +11,7 @@ import {Activity} from "../../model/activity";
 import {ActivityService} from "../../services/activity.service";
 import {ImagesService} from "../../services/images.service";
 import {Configuration} from "../../services/data/constants";
+import {ImageUploadComponent} from "angular2-image-upload";
 
 @Component({
   selector: 'app-edit-multimedia',
@@ -69,11 +70,14 @@ export class EditMultimediaComponent implements OnInit {
     media_type: number;
     media_url: string;
     external_url: string;
+
+    imageEvent: any;
     file: File;
-    fileName: string;
     newFileName: string;
 
     baseUrl: string;
+
+    //@ViewChild('inputImage') inputImage: ImageUploadComponent;
 
     customStyle = {
         selectButton: {
@@ -120,10 +124,12 @@ export class EditMultimediaComponent implements OnInit {
         this.readyToShow = false;
         this.activeTab = -1;
 
+        this.media_type = 0;
+
         this.baseUrl = this._configuration.ServerWithApiUrl+"webroot/img/";
         this.file = null;
-        this.fileName = "";
         this.newFileName = "";
+        this.imageEvent = null;
 
         this.currentMultimedia = null;
         this.multimediaSelected = false;
@@ -274,23 +280,24 @@ export class EditMultimediaComponent implements OnInit {
      */
     onUploadChanged(event) {
         this.readyToShow = false;
+        this.imageEvent = event;
         //console.log(event);
         this.file  = event.file;
+        let fileName = this.file.name;
         let type = this.file.type;
-        this.fileName = this.file.name.trim();
         if(type == "image/jpeg") {
-            if(this.fileName.includes('.jpeg')){
-                this.newFileName = this.fileName.replace('.jpeg','-'+Date.now().toString()+'.jpeg');
-            } else if(this.fileName.includes('.jpg')) {
-                this.newFileName = this.fileName.replace('.jpg', '-' + Date.now().toString() + '.jpg');
+            if(fileName.includes('.jpeg')){
+                this.newFileName = Date.now().toString()+'.jpeg';
+            } else if(fileName.includes('.jpg')) {
+                this.newFileName = Date.now().toString() + '.jpg';
             }
             this.media_url = this.baseUrl + this.newFileName;
         } else if(type == "image/png") {
-            this.newFileName = this.fileName.replace('.png','-'+Date.now().toString()+'.png');
+            this.newFileName = Date.now().toString()+'.png';
             this.media_url = this.baseUrl + this.newFileName;
         }
         else if (type == "image/svg"){
-            this.newFileName = this.fileName.replace('.svg','-'+Date.now().toString()+'.svg');
+            this.newFileName = Date.now().toString()+'.svg';
             this.media_url = this.baseUrl + this.newFileName;
         } else {
             if(this.currentMultimedia != null) {
@@ -305,6 +312,9 @@ export class EditMultimediaComponent implements OnInit {
     onRemoved(event){
         this.readyToShow = false;
         this.media_url = this.currentMultimedia.media_url;
+        // this.inputImage.files.forEach(function (f) { return this.inputImage.removed.emit(f); });
+        // this.inputImage.files = [];
+        // this.inputImage.fileCounter = 0;
         this.readyToShow = true;
     }
 
@@ -320,6 +330,7 @@ export class EditMultimediaComponent implements OnInit {
                         if (multimedia) {
                             this.currentMultimedia = multimedia;
                             this.allMultimedia[this.currentMultimediaIndex] = this.currentMultimedia;
+                            this.imageEvent = null;
                             this.changesSaved = true;
                             this.messageType = true;
                             this.alertMessage = "Se han guardado los cambios.";
@@ -343,6 +354,7 @@ export class EditMultimediaComponent implements OnInit {
                             this.currentMultimedia = multimedia;
                             this.allMultimedia.push(this.currentMultimedia);
                             this.multimediaCreated = true;
+                            this.imageEvent = null;
                             this.changesSaved = true;
                             this.newMultimedia = false;
                             this.messageType = true;
@@ -397,6 +409,8 @@ export class EditMultimediaComponent implements OnInit {
         this.media_type = 0;
         this.media_url = "";
         this.external_url = "";
+        this.newFileName = "";
+        this.imageEvent = null;
     }
 
     /**
