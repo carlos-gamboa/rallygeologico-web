@@ -107,9 +107,9 @@ export class DefinitionComponent implements OnInit {
         layout: new AdvancedLayout(-1, true)
     };
 
-    plainGalleryRow: PlainGalleryConfig = {
+    plainGalleryRow: PlainGalleryConfig  = {
         strategy: PlainGalleryStrategy.ROW,
-        layout: new LineLayout({ width: '80px', height: '80px' }, { length: 2, wrap: true }, 'flex-start')
+        layout: new LineLayout({ width: '80px', height: '80px' }, { length: 13, wrap: true }, 'flex-start')
     };
     plainGalleryRowSpaceAround: PlainGalleryConfig = {
         strategy: PlainGalleryStrategy.ROW,
