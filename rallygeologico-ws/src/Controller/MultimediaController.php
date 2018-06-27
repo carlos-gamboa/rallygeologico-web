@@ -3,6 +3,8 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
+use function Couchbase\fastlzCompress;
+use function MongoDB\BSON\toJSON;
 
 /**
  * Multimedia Controller
@@ -83,14 +85,18 @@ class MultimediaController extends AppController
         $this->render('/Multimedia/json/template');
     }
 
-    public function upload($filename = null)
+    /**
+     * Upload image method
+     *
+     * @param null $filename
+     * @throws \Aura\Intl\Exception
+     */
+    public function uploadImage($filename = null)
     {
         if ($this->getRequest()->is('post')) {
-            if(!empty($this->getRequest()->getData()['file']['name'])){
-                $fileName = $filename;
-                $uploadPath = 'uploads/';
-                $uploadFile = $uploadPath . $fileName;
-                if (move_uploaded_file($this->getRequest()->getData()['file']['name'], $uploadFile)) {
+            if(!empty($this->getRequest()->getData('file'))){
+                $uploadFile = WWW_ROOT. "img/" . $filename;
+                if (move_uploaded_file($this->getRequest()->getData('file')['tmp_name'], $uploadFile)) {
                     $this->set('multimedia', true);
                     $this->Flash->success(__('File has been uploaded and inserted successfully.'));
                 } else {
@@ -102,8 +108,15 @@ class MultimediaController extends AppController
                 $this->Flash->error(__('Please choose a file to upload.'));
             }
         }
+        $this->render('/Multimedia/json/template');
     }
 
+    /**
+     * Edit method
+     *
+     * @param null $id
+     * @throws \Aura\Intl\Exception
+     */
     public function edit($id = null)
     {
         $multimedia = $this->Multimedia->get($id, [
@@ -114,7 +127,9 @@ class MultimediaController extends AppController
             if ($this->Multimedia->save($multimedia)) {
                 $this->Flash->success(__('The multimedia has been saved.'));
             }
-            $this->Flash->error(__('The multimedia could not be saved. Please, try again.'));
+            else{
+                $this->Flash->error(__('The multimedia could not be saved. Please, try again.'));
+            }
         }
         $activity = $this->Multimedia->Activity->find('list', ['limit' => 200]);
         $term = $this->Multimedia->Term->find('list', ['limit' => 200]);

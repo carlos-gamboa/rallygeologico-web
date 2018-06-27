@@ -41,6 +41,7 @@ p, .alert-message{
     height: 40px;
     padding: 10px;
     color: #555555;
+    overflow: scroll;
 }
 
 .date-input{

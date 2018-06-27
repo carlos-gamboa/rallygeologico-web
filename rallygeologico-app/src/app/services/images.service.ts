@@ -1,7 +1,6 @@
-import {Configuration} from "./data/constants";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Injectable} from "@angular/core";
-import {Observable} from "rxjs/Observable";
+import {Configuration} from "./data/constants";
 
 @Injectable()
 export class ImagesService {
@@ -11,20 +10,14 @@ export class ImagesService {
 
     constructor(private http: HttpClient, private _configuration: Configuration) {
         this.baseUrl = this._configuration.ServerWithApiUrl;
+        //this.headers.append('Access-Control-Allow-Origin', ['http://localhost:4200', 'http:/localhost']);
     }
 
-    uploadImage(file: File):Observable<boolean>{
-        if(file.type == "image/jpeg"){
-            this.headers.append('Content-Type', 'image/jpeg');
-        }
-        else if(file.type == "image/png"){
-            this.headers.append('Content-Type', 'image/png');
-        }
-        else if(file.type == "image/svg"){
-            this.headers.append('Content-Type', 'image/svg');
-        }
-        //console.log(this.baseUrl+"rallygeologico/rallygeologico-ws");
-        return this.http.post<boolean>(this.baseUrl+"multimedia/upload/"+file.name, file,
-            { headers: this.headers, withCredentials: true });
+    uploadImage(newFileName: string, file: File) {
+        this.headers.append('Content-Type', 'multipart/form-data');
+        let formData: FormData = new FormData();
+        formData.append('file', file);
+        return this.http.post<boolean>(this.baseUrl + "multimedia/uploadImage/" + newFileName + ".json", formData,
+            { headers: this.headers, withCredentials: true});
     }
 }
