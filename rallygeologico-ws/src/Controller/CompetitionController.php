@@ -192,24 +192,4 @@ class CompetitionController extends AppController
         $this->render('/Competition/json/template');
     }
 
-    /**
-     * Disables the competitions
-     */
-    public function disableCompetitions(){
-        $date = FrozenTime::now();
-        $this->Competition->updateAll(
-            [
-                'is_active' => 0,
-
-            ],
-            [
-                'is_active' => 1,
-                'finishing_date <' => $date
-            ]
-        );
-
-        $this->set('competition', true);
-        $this->render('/Competition/json/template');
-    }
-
 }

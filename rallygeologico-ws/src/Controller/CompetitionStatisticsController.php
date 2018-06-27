@@ -160,6 +160,32 @@ class CompetitionStatisticsController extends AppController
     }
 
     /**
+     * Gets the Competitions and CompetitionStatistics for the competitions that the user is participating.
+     *
+     * @param null $userId User Id.
+     */
+    public function currentActiveCompetitions($userId = null){
+
+        $this->loadModel('Competition');
+
+        $competitionStatistics = $this->CompetitionStatistics->find('all', [
+            'contain' => ['Competition', 'Site', 'Activity'],
+            'conditions' => [
+                'CompetitionStatistics.user_id' => $userId,
+                'CompetitionStatistics.competition_id IN' => $this->Competition->find('all', [
+                    'fields' => ['Competition.id'],
+                    'conditions' => [
+                        'Competition.is_active' => 1
+                    ]
+                ])
+            ]
+        ]);
+
+        $this->set('competitionStatistics', $competitionStatistics);
+        $this->render('/CompetitionStatistics/json/template');
+    }
+
+    /**
      * Gets the overall statistics associated with a rally.
      *
      * @param null $rallyId Rally Id
