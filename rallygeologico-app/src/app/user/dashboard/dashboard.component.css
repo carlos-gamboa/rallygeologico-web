@@ -19,3 +19,26 @@
 .title{
     color: #0e90d2;
 }
+
+.snaggy-title{
+    color: #0e90d2;
+}
+
+@media only screen and (max-width: 800px) {
+    .title {
+        width:100%;
+    }
+
+    .snaggy-title {
+        width:80%;
+    }
+
+    .snaggy-text{
+        width: 80%;
+    }
+
+    .genric-btn{
+        padding: 10px !important;
+        line-height: 10px !important;
+    }
+}

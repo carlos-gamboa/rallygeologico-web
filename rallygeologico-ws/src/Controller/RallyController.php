@@ -21,7 +21,8 @@ class RallyController extends AppController
      */
     public function index()
     {
-        $rally = $this->paginate($this->Rally);
+        $rally = $this->Rally->find('all', [
+        ]);
 
         $this->set(compact('rally'));
         $this->set('_serialize', 'rally');

@@ -18,10 +18,10 @@
 <section class="contact-page-area section-gap">
   <div class="container">
     <div class="row">
-      <div class="menu-content pb-60 col-lg-6">
+      <div class="menu-content pb-60 col-lg-6 col-sm-12">
         <div class="row">
-          <div class="menu-content pb-60 col-lg-12">
-            <div class="title text-center">
+          <div class="menu-content pb-60 col-lg-12 text-center" align="center">
+            <div class="title text-center" style="overflow-x:auto;">
               <h2>Invitaciones</h2>
               <table class="table mt-3">
                 <tbody>
@@ -29,9 +29,9 @@
                 <th>Rally</th>
                 <th>Link</th>
                 <tr *ngFor="let invitation of invitations">
-                  <td><h4>{{invitation.user_send.username}}</h4></td>
-                  <td><p>{{invitation.competition.name}}</p></td>
-                  <td><button class="genric-btn circle info text-center medium" routerLink="/competition/{{invitation.competition_id}}">Ir a rally</button></td>
+                  <td style="vertical-align: middle"><h4>{{invitation.user_send.username}}</h4></td>
+                  <td style="vertical-align: middle"><p class="mb-0">{{invitation.competition.name}}</p></td>
+                  <td style="vertical-align: middle"><button class="genric-btn circle info text-center medium" routerLink="/competition/{{invitation.competition_id}}">Ir a rally</button></td>
                 </tr>
                 </tbody>
               </table>
@@ -39,10 +39,10 @@
           </div>
         </div>
       </div>
-      <div class="menu-content pb-60 col-lg-6">
+      <div class="menu-content pb-60 col-lg-6 col-sm-12">
         <div class="row">
           <div class="menu-content pb-60 col-lg-12">
-            <div class="title text-center">
+            <div class="title text-center" style="overflow-x:auto;">
               <h2>Competencias Activas</h2>
               <table class="table mt-3">
                 <tbody>
@@ -72,7 +72,7 @@
                     <ng-template>
                       <div class="window">
                         <a routerLink="/rallies/{{rally.id}}">
-                          <h5 class="text-center title">{{rally.name}}:</h5>
+                          <h5 class="text-center snaggy-title">{{rally.name}}:</h5>
                           <p class="mt-1 snaggy-text">{{rally.description.substring(0,50) + "..."}}</p>
                         </a>
                       </div>

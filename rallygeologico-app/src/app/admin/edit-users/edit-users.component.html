@@ -1,3 +1,217 @@
-<p>
-  edit-users works!
-</p>
+<app-admin-header [activeTab]="1"></app-admin-header>
+<!-- Start banner Area -->
+<section class="banner-area relative" id="home">
+  <div class="overlay overlay-bg"></div>
+  <div class="container">
+    <div class="row d-flex align-items-center justify-content-center">
+      <div class="about-content col-lg-12">
+        <h1 class="text-white">
+          Administrar Usuarios
+        </h1>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End banner Area -->
+<div *ngIf="readyToShow">
+  <!-- Start choosing Area -->
+  <section class="whole-wrap section-gap" *ngIf="!userSelected">
+    <div class="container">
+      <div class="row">
+        <div class="offset-md-2 col-md-8 col-xs-12">
+          <h3 class="text-center mb-3">Seleccione el usuario que desea editar</h3>
+          <div class="busqueda" id="searchFormEdit">
+            <input [(ngModel)]="searchQuery" type="text" title="Digite aquí el nombre del usuario" placeholder="Digite el nombre del usuario" />
+            <button type="button" id="searchEdit" title="Click aquí para buscar el usuario" (click)="searchUser()">Buscar</button>
+          </div>
+          <div class="text-center">
+            <h4 class="mt-4 mb-0">Resultados</h4>
+            <div class="mt-4 mb-4">
+              <button title="Agregar nueva" class="invite-btn genric-btn text-center primary medium" (click)="edit(-1)">Crear nuevo usuario</button>
+            </div>
+            <div style="overflow-x:auto;">
+              <table class="table">
+                <thead>
+                <th><h5 class="text-center">Nombre de usuario</h5></th>
+                <th><h5 class="text-center">Nombre</h5></th>
+                <th><h5 class="text-center">Apellido</h5></th>
+                <th><h5 class="text-center">Editar</h5></th>
+                <th><h5 class="text-center">Eliminar</h5></th>
+                </thead>
+                <tbody>
+                <tr *ngFor="let user of showedUsers; let i = index">
+                  <td style="vertical-align: middle"><h5 >{{user?.username}}</h5></td>
+                  <td style="vertical-align: middle"><h5 >{{user?.first_name}}</h5></td>
+                  <td style="vertical-align: middle"><h4 >{{user?.last_name}}</h4></td>
+                  <td style="vertical-align: middle">
+                    <button title="Editar" class="invite-btn genric-btn circle text-center warning medium wide-button" (click)="edit(i)">Editar</button>
+                  </td>
+                  <td style="vertical-align: middle">
+                    <button title="Eliminar" class="invite-btn genric-btn circle text-center danger medium wide-button" (click)="deleteUser(user.id)">Eliminar</button>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="row">
+              <div class="col-md-12 mt-10 text-center">
+                <div class="d-inline-block">
+                  <ngb-pagination [collectionSize]="totalUsers" [(page)]="currentPage" [maxSize]="5" [pageSize]="pageSize" [rotate]="true"
+                                  [ellipses]="true" [boundaryLinks]="false" (pageChange)="userPageChange($event)"></ngb-pagination>
+                </div>
+              </div>
+            </div>
+            <div align="center">
+              <div *ngIf="deleted" class="alert col-lg-6 mt-10 text-center" role="alert" [class.alert-success]="messageType" [class.alert-danger]="!messageType">
+                {{alertMessage}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End choosing Area -->
+
+  <!-- Start tab Area -->
+  <section class="whole-wrap section-gap pb-0" *ngIf="userSelected">
+    <div class="container">
+      <div class="text-center">
+        <button title="Volver a seleccionar" class="invite-btn genric-btn text-center medium info mb-4" (click)="goBack()">Cambiar de usuario</button>
+      </div>
+      <div class="row">
+        <div class="col-md-8 offset-md-2">
+          <button title="Detalles" class="invite-btn genric-btn text-center medium wide-button" [class.primary]="activeTab == 0" [class.primary-border]="activeTab != 0" (click)="changeTab(0)">Detalles del usuario</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End tab Area -->
+
+  <!-- Start form Area -->
+  <section class="whole-wrap section-gap pt-5" *ngIf="userSelected && activeTab == 0">
+    <div class="container">
+      <div class="row">
+        <div class="offset-md-2 col-md-8 col-xs-12">
+          <h3 class="text-center mb-3">Detalles del usuario</h3>
+          <div class="booking-right mt-50" align="center">
+            <form #userForm="ngForm">
+
+              <div class="row mt-10 mb-10">
+                <div class="col-lg-6">
+                  <label for="username">Nombre de usuario</label>
+                  <input class="text-input" type="text" [(ngModel)]="username" #usernameInput="ngModel" id="username" name="username" placeholder="Nombre de usuario" required minlength="3">
+                  <div *ngIf="(usernameInput?.invalid) && (usernameInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
+                    <div *ngIf="usernameInput.errors.required">
+                      <p class="alert-message mb-0">Debe introducir un nombre de usuario.</p>
+                    </div>
+                    <div *ngIf="usernameInput.errors.minlength">
+                      <p class="alert-message mb-0">El nombre de usuario debe ser de mínimo 3 caracteres.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <label for="first_name">Nombre</label>
+                  <input class="text-input" type="text" [(ngModel)]="first_name" #firstNameInput="ngModel" id="first_name" name="first_name" placeholder="Nombre" required>
+                  <div *ngIf="(firstNameInput?.invalid) && (firstNameInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2 text-center" role="alert">
+                    <div *ngIf="firstNameInput.errors.required">
+                      <p class="alert-message mb-0">Debe introducir un nombre.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 mt-3">
+                  <label for="last_name">Apellidos</label>
+                  <input class="text-input" type="text" [(ngModel)]="last_name" #lastNameInput="ngModel" id="last_name" name="last_name" placeholder="Apellidos">
+                </div>
+                <div class="col-lg-6 mt-3">
+                  <label for="email">Email</label>
+                  <input class="text-input" type="text" [(ngModel)]="email" #emailInput="ngModel" id="email" name="email" placeholder="Email" required pattern="(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*)@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])" >
+                  <div *ngIf="(emailInput?.invalid) && (emailInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2 text-center" role="alert">
+                    <div *ngIf="emailInput.errors.required">
+                      <p class="alert-message mb-0">Debe introducir un correo electrónico.</p>
+                    </div>
+                    <div *ngIf="emailInput.errors.pattern">
+                      <p class="alert-message mb-0">Debe introducir un correo electrónico válido.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 mt-3">
+                  <label for="photo_url">Url de foto de perfil</label>
+                  <input class="text-input" type="text" [(ngModel)]="photo_url" #photoUrlInput="ngModel" id="photo_url" name="photo_url" placeholder="URL de foto de perfil">
+                </div>
+                <div class="col-lg-6 mt-3" *ngIf="isPasswordLogin()">
+                  <label for="password">Contraseña</label>
+                  <input class="text-input" type="text" [(ngModel)]="password" #passwordInput="ngModel" id="password" name="password" placeholder="Contraseña" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$">
+                  <div *ngIf="(passwordInput?.invalid) && (passwordInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2 text-center" role="alert">
+                    <div *ngIf="passwordInput.errors.pattern">
+                      <p class="alert-message mb-0">La contraseña debe ser de mínimo 6 caracteres, y poseer al menos una letra y un número.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-10">
+                <div class="col-lg-6 mt-3" align="center">
+                  <label for="is_admin">¿Es administrador?</label>
+                  <select class="select-input" [(ngModel)]="is_admin" #isAdminInput="ngModel" name="is_admin" id="is_admin" required>
+                    <option value="1" selected>Sí</option>
+                    <option value="0">No</option>
+                  </select>
+                  <div *ngIf="(isAdminInput?.invalid) && (isAdminInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
+                    <p class="alert-message">Debe seleccionar si el usuario es administrador.</p>
+                  </div>
+                </div>
+                <div class="col-lg-6 mt-3" align="center">
+                  <label for="is_active">¿Está activo?</label>
+                  <select class="select-input" [(ngModel)]="is_active" #isActiveInput="ngModel" name="is_active" id="is_active" required>
+                    <option value="1" selected>Sí</option>
+                    <option value="0">No</option>
+                  </select>
+                  <div *ngIf="(isActiveInput?.invalid) && (isActiveInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
+                    <p class="alert-message">Debe seleccionar si el usuario está activo.</p>
+                  </div>
+                </div>
+                <div class="col-lg-6 mt-3" align="center">
+                  <label for="login_api">Método de iniciar sesión</label>
+                  <select class="select-input" [(ngModel)]="login_api" #loginApiInput="ngModel" name="login_api" id="login_api" required>
+                    <option value="0">Facebook</option>
+                    <option value="1">Google</option>
+                    <option value="3">Contraseña</option>
+                  </select>
+                  <div *ngIf="(loginApiInput?.invalid) && (loginApiInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
+                    <p class="alert-message">Debe seleccionar el método de login.</p>
+                  </div>
+                </div>
+                <div class="col-lg-6 mt-3" align="center" *ngIf="isPasswordLogin()">
+                  <label for="password_needs_change">¿Debe cambiar contraseña?</label>
+                  <select class="select-input" [(ngModel)]="password_needs_change" #passwordNeedsChangeInput="ngModel" name="password_needs_change" id="password_needs_change" required>
+                    <option value="1" selected>Sí</option>
+                    <option value="0">No</option>
+                  </select>
+                  <div *ngIf="(passwordNeedsChangeInput?.invalid) && (passwordNeedsChangeInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
+                    <p class="alert-message">Debe indicar si el usuario debe cambiar contraseña.</p>
+                  </div>
+                </div>
+                <div class="col-lg-12 mt-3" *ngIf="!isPasswordLogin()">
+                  <label for="api_id">ID del API</label>
+                  <input class="text-input" type="text" [(ngModel)]="api_id" #apiIdInput="ngModel" id="api_id" name="api_id" placeholder="ID del API" required>
+                  <div *ngIf="(apiIdInput?.invalid) && (apiIdInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
+                    <div *ngIf="apiIdInput.errors.required">
+                      <p class="alert-message mb-0">Debe introducir el ID del API.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="mt-50" align="center">
+            <button title="Crear Competencia" class="btn genric-btn success col-lg-6" style="font-size: 16px" (click)="saveChanges()" [disabled]="userForm.invalid" *ngIf="newUser || currentUser">Guardar cambios</button>
+            <div *ngIf="changesSaved" class="alert col-lg-6 mt-10" role="alert" [class.alert-success]="messageType" [class.alert-danger]="!messageType">
+              {{alertMessage}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End form Area -->
+</div>

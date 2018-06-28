@@ -10,6 +10,7 @@ use Cake\Validation\Validator;
  * Term Model
  *
  * @property \App\Model\Table\SiteTable|\Cake\ORM\Association\BelongsToMany $Site
+ * @property \App\Model\Table\SiteTable|\Cake\ORM\Association\BelongsToMany $Multimedia
  *
  * @method \App\Model\Entity\Term get($primaryKey, $options = [])
  * @method \App\Model\Entity\Term newEntity($data = null, array $options = [])
@@ -40,6 +41,12 @@ class TermTable extends Table
             'foreignKey' => 'term_id',
             'targetForeignKey' => 'site_id',
             'joinTable' => 'term_site'
+        ]);
+
+        $this->belongsToMany('Multimedia', [
+            'foreignKey' => 'term_id',
+            'targetForeignKey' => 'multimedia_id',
+            'joinTable' => 'term_multimedia'
         ]);
     }
 

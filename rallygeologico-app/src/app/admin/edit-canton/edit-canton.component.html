@@ -30,7 +30,7 @@
             <div class="mt-4 mb-4">
               <button title="Agregar nuevo" class="invite-btn genric-btn text-center primary medium" (click)="edit(-1)">Crear nuevo cantón</button>
             </div>
-            <div>
+            <div style="overflow-x:auto;">
               <table class="table">
                 <thead>
                 <th><h5 class="text-center">Nombre</h5></th>
@@ -39,11 +39,11 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let canton of showedCantons; let i = index">
-                  <td><h5 >{{canton?.name}}</h5></td>
-                  <td>
+                  <td style="vertical-align: middle"><h5 >{{canton?.name}}</h5></td>
+                  <td style="vertical-align: middle">
                     <button title="Editar" class="invite-btn genric-btn circle text-center warning medium " (click)="edit(i)">Editar</button>
                   </td>
-                  <td>
+                  <td style="vertical-align: middle">
                     <button title="Eliminar" class="invite-btn genric-btn circle text-center danger medium " (click)="deleteCanton(canton.id, i)">Eliminar</button>
                   </td>
                 </tr>

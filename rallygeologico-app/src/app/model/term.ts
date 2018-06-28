@@ -5,12 +5,14 @@ export class Term {
   id : number;
   name : string;
   description: string;
-  media : Multimedia[];
-  sites : Site[];
+  multimedia : Multimedia[];
+  site : Site[];
 
   constructor(term: any){
     this.id = term.id;
     this.name = term.name;
     this.description = term.description;
+    this.multimedia = term.multimedia;
+    this.site = term.site;
   }
 }

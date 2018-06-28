@@ -14,6 +14,7 @@ use Cake\Auth\DefaultPasswordHasher;
  * @property \App\Model\Table\InvitationTable|\Cake\ORM\Association\HasMany $InvitationSend
  * @property \App\Model\Table\InvitationTable|\Cake\ORM\Association\HasMany $InvitationReceive
  * @property \App\Model\Table\CompetitionTable|\Cake\ORM\Association\HasMany $Competition
+ * @property \App\Model\Table\ActivityTable|\Cake\ORM\Association\HasMany $Tokens
  *
  * @method \App\Model\Entity\User get($primaryKey, $options = [])
  * @method \App\Model\Entity\User newEntity($data = null, array $options = [])
@@ -53,6 +54,9 @@ class UsersTable extends Table
             'foreignKey' => 'user_id_receive'
         ]);
         $this->hasMany('CompetitionStatistics', [
+            'foreignKey' => 'user_id'
+        ]);
+        $this->hasMany('Tokens', [
             'foreignKey' => 'user_id'
         ]);
     }

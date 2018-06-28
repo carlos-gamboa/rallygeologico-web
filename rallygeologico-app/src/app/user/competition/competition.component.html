@@ -47,9 +47,9 @@
               <li><strong>Jugador con más puntos: </strong> {{statistics[0].user.username}} <i class="fa fa-trophy"></i></li>
             </ul>
             <div class="row mt-3" *ngIf="invitation">
-              <div class="col-md-6 offset-3" *ngIf="invitation.accepted == 0 && invitation.rejected == 0">
+              <div class="col-md-6 offset-md-3 offset-sm-0" *ngIf="invitation.accepted == 0 && invitation.rejected == 0">
                 <div class="row">
-                  <div class="col-md-6">
+                  <div class="col-md-6 mb-3">
                     <button title="Aceptar" (click)="acceptInvitation()" class="genric-btn success circle btn-inv text-center">Aceptar</button>
                   </div>
                   <div class="col-md-6">
@@ -72,7 +72,7 @@
             <hr>
             <h3>Estadísticas</h3> <br>
             <h4>Tabla de líderes</h4> <br>
-            <div>
+            <div style="overflow-x:auto;">
               <table class="table">
                 <th>Usuario</th>
                 <th>Puntos</th>
@@ -80,7 +80,7 @@
                 <th>Perfil</th>
                 <tbody *ngFor="let participant of statistics; let i = index">
                   <tr [class.selected-row] = "isUserStatisticClicked(i)" title="Haz click para ver más detalles">
-                    <td (click)="userStatisticClicked(i)" class="cursor-pointer">
+                    <td style="vertical-align: middle" (click)="userStatisticClicked(i)" class="cursor-pointer">
                       <div class="input-group">
                         <h4>{{participant.user.username}}</h4>
                         <span class="input-group-btn ml-2">
@@ -88,9 +88,9 @@
 			            </span>
                       </div>
                     </td>
-                    <td><h5>{{participant.points}}</h5></td>
-                    <td><h5>{{participant.starting_date |  date:'MM/dd/yyyy'}}</h5></td>
-                    <td><button routerLink="/profile/{{participant.user_id}}" title="Ir al perfil de este usuario" class="genric-btn circle text-center small" [class.info]="!isUserStatisticClicked(i)" [class.primary-border]="isUserStatisticClicked(i)">Ir al perfil</button></td>
+                    <td style="vertical-align: middle"><h5>{{participant.points}}</h5></td>
+                    <td style="vertical-align: middle"><h5>{{participant.starting_date |  date:'MM/dd/yyyy'}}</h5></td>
+                    <td style="vertical-align: middle"><button routerLink="/profile/{{participant.user_id}}" title="Ir al perfil de este usuario" class="genric-btn circle text-center small" [class.info]="!isUserStatisticClicked(i)" [class.primary-border]="isUserStatisticClicked(i)">Ir al perfil</button></td>
                   </tr>
                   <tr *ngIf="isUserStatisticClicked(i)" class="selected-row-child">
                     <td colspan=4>
@@ -101,9 +101,9 @@
                         <th>Fecha</th>
                         <tbody *ngFor="let site of participant.site">
                         <tr>
-                          <td><h4>{{site.name}}</h4></td>
-                          <td><h5>{{site.points}}</h5></td>
-                          <td><h5>{{site._joinData.visited_date |  date:'MM/dd/yyyy'}}</h5></td>
+                          <td style="vertical-align: middle"><h4>{{site.name}}</h4></td>
+                          <td style="vertical-align: middle"><h5>{{site.points}}</h5></td>
+                          <td style="vertical-align: middle"><h5>{{site._joinData.visited_date |  date:'MM/dd/yyyy'}}</h5></td>
                         </tr>
                         </tbody>
                       </table>
@@ -114,9 +114,9 @@
                         <th>Fecha</th>
                         <tbody *ngFor="let activity of participant.activity">
                         <tr>
-                          <td><h4>{{activity.name}}</h4></td>
-                          <td><h5>{{activity._joinData.points_obtained}}</h5></td>
-                          <td><h5>{{activity._joinData.resolved_date |  date:'MM/dd/yyyy'}}</h5></td>
+                          <td style="vertical-align: middle"><h4>{{activity.name}}</h4></td>
+                          <td style="vertical-align: middle"><h5>{{activity._joinData.points_obtained}}</h5></td>
+                          <td style="vertical-align: middle"><h5>{{activity._joinData.resolved_date |  date:'MM/dd/yyyy'}}</h5></td>
                         </tr>
                         </tbody>
                       </table>
@@ -143,7 +143,7 @@
         <div>
           <div>
             <h4>Resultados</h4> <br>
-            <div>
+            <div style="overflow-x:auto;">
               <table class="table">
                 <tbody>
                 <th>Foto</th>
@@ -151,10 +151,10 @@
                 <th>Nombre</th>
                 <th>Invitar</th>
                 <tr *ngFor="let user of showedUsers; let i = index">
-                  <td><img class="user-image" src="{{user.photo_url}}"></td>
-                  <td><h5>{{user.username}}</h5></td>
-                  <td><h4>{{user.first_name}} {{user.last_name}}</h4></td>
-                  <td>
+                  <td style="vertical-align: middle"><img class="user-image" src="{{user.photo_url}}"></td>
+                  <td style="vertical-align: middle"><h5>{{user.username}}</h5></td>
+                  <td style="vertical-align: middle"><h4>{{user.first_name}} {{user.last_name}}</h4></td>
+                  <td style="vertical-align: middle">
                       <button class="genric-btn circle text-center warning-border medium wide-button" [disabled]="true" *ngIf="invitedUsers.includes(user.id)">Invitado</button>
                       <button title="Invitar" class="genric-btn circle text-center warning medium wide-button" (click)="invite(i)" *ngIf="!invitedUsers.includes(user.id)">Invitar</button>
                   </td>

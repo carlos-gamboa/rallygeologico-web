@@ -21,10 +21,9 @@ class ActivityMultimediaController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
+        $activityMultimedia = $this->ActivityMultimedia->find('all', [
             'contain' => ['Activity', 'Multimedia']
-        ];
-        $activityMultimedia = $this->paginate($this->ActivityMultimedia);
+        ]);
 
         $this->set(compact('activityMultimedia'));
     }

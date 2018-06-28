@@ -63,7 +63,7 @@ class LoginController extends AppController
             
             if ($loginApi == 3){
                 $users = $this->Auth->identify();
-                if(!$users) {
+                if(!$users || $users['is_active'] == 0) {
                     throw new UnauthorizedException("Invalid login");
                 }
 
@@ -78,7 +78,8 @@ class LoginController extends AppController
                 $users = $this->Users->find('all', [
                     'conditions' => [
                         'Users.api_id' => $apiId,
-                        'Users.login_api' => $loginApi
+                        'Users.login_api' => $loginApi,
+                        'Users.is_active' => 1
                     ]
                 ]);
                 if(!$users) {

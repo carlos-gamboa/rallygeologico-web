@@ -55,7 +55,7 @@ export class DashboardComponent implements OnInit {
     setupData(){
         this.invitationService.getInvitations(this.user.id).subscribe((invitations: Invitation[]) =>{
             this.invitations = invitations;
-            this.competitionStatisticsService.getCurrentCompetitions(this.user.id).subscribe((stats: CompetitionStatistics[]) =>{
+            this.competitionStatisticsService.getCurrentActiveCompetitions(this.user.id).subscribe((stats: CompetitionStatistics[]) =>{
                 this.competitionsStatistics = stats;
                 this.rallyService.getAllRallies().subscribe((rallies: Rally[]) =>{
                     this.ralliesToShow = rallies;
