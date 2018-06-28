@@ -57,7 +57,7 @@ export class RegisterComponent implements OnInit {
         if (environment.production){
             this.is_active = 0;
         } else {
-            this.is_active = 1;
+            this.is_active = 0;
         }
         if (this.facebookWorking){
             let initParams: InitParams = {
