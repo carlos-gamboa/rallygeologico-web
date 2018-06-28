@@ -11,6 +11,8 @@ import {Site} from "../../model/site";
 import {SiteService} from "../../services/site.service";
 import {Activity} from "../../model/activity";
 import {ActivityService} from "../../services/activity.service";
+import {Options} from "../../model/options";
+import {FormControl, Validators, ReactiveFormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-activity-term',
@@ -30,18 +32,20 @@ export class EditActivityComponent implements OnInit {
   searchSiteQuery : string = "";
   alertMessage : string = "";
   searchMultimediaQuery = "";
+  searchOptionsQuery = "";
 
   user: User;
   pageSize : number = 10;
   activeTab : number;
 
-  activities : Activity[];
-  allActivities : Activity[];
-  showedActivities : Activity[];
+  activities : Activity[] = [];
+  allActivities : Activity[] = [];
+  showedActivities : Activity[] = [];
   totalActivities : number;
   currentPageActivity : number;
   currentPageSite : number;
   currentPageMultimedia : number;
+  currentPageOptions : number;
 
   multimedia : Multimedia[];
   allMultimedia : Multimedia[];
@@ -60,7 +64,22 @@ export class EditActivityComponent implements OnInit {
   description : string;
   name : string;
 
+  option_text : string;
+  is_correct : number;
+  optionsSelected : boolean;
+  optionsChangesSaved : boolean;
+  optionsDeleted : boolean;
+  isEditOptions : boolean = false;
 
+  currentOption : Options;
+  currentOptionsIndex: number;
+
+  options : Options[] = [];
+  allOptions : Options[] = [];
+  showedOptions : Options[] = [];
+  totalOptions : number = 0;
+  otherOptions : Options[];
+  currentOptions : Options[] = [];
 
   sites : Site[];
   allSites : Site[];
@@ -68,6 +87,7 @@ export class EditActivityComponent implements OnInit {
   totalSites : number = 0;
   otherSites : Site[];
   currentSites : Site[];
+
 
   constructor(private dataService: DataService,
               private activityService: ActivityService,
@@ -134,6 +154,13 @@ export class EditActivityComponent implements OnInit {
     this.currentPageMultimedia = 0;
   }
 
+  reloadOptions(options : Options[]) : void{
+    this.options = options;
+    this.totalOptions = options.length;
+    this.showedOptions = options.slice(0, this.pageSize);
+    this.currentPageOptions = 0;
+  }
+
   searchActivity(){
     let termsToShow = [];
     if(this.searchQuery.length >= 1) {
@@ -166,6 +193,12 @@ export class EditActivityComponent implements OnInit {
     }
   }
 
+  optionsPageChange() : void{
+    if(this.options) {
+      this.showedOptions = this.options.slice((this.currentPageOptions - 1) * this.pageSize, ((this.currentPageOptions) * this.pageSize));
+    }
+  }
+
   searchSite(){
     let sitesToShow = [];
     if(this.searchSiteQuery.length >= 1) {
@@ -194,8 +227,40 @@ export class EditActivityComponent implements OnInit {
     }
   }
 
+  searchOptions(){
+    let optionsToShow = [];
+    if(this.searchOptionsQuery.length >= 1) {
+      for (let option of this.allOptions) {
+        if (option.option_text.toLowerCase().startsWith(this.searchOptionsQuery.toLowerCase())) {
+          optionsToShow.push(option);
+        }
+      }
+      this.reloadOptions(optionsToShow);
+    }else{
+      this.reloadOptions(this.allOptions);
+    }
+  }
 
-  deleteTerm(id: number, i: number){
+
+  deleteOptions(id: number, i: number){
+    this.optionsDeleted = false;
+    this.optionsChangesSaved = false;
+    this.activityService.deleteOption(id).subscribe((deleted: boolean) => {
+      this.deleted = true;
+      if (deleted){
+        this.currentOption = null;
+        this.allOptions.splice(((this.currentPageOptions - 1) * this.pageSize) + i, 1);
+        this.messageType = true;
+        this.alertMessage = "Se ha eliminado la opción";
+        this.reloadOptions(this.allOptions);
+      } else {
+        this.messageType = false;
+        this.alertMessage = "No se pudo eliminar la opción";
+      }
+    });
+  }
+
+  deleteActivity(id: number, i: number){
     this.deleted = false;
     this.changesSaved = false;
     this.activityService.deleteActivity(id).subscribe((deleted: boolean) => {
@@ -204,11 +269,11 @@ export class EditActivityComponent implements OnInit {
         this.currentActivity = null;
         this.allActivities.splice(((this.currentPageActivity - 1) * this.pageSize) + i, 1);
         this.messageType = true;
-        this.alertMessage = "Se ha eliminado el término.";
+        this.alertMessage = "Se ha eliminado la actividad.";
         this.reloadActivities(this.allActivities);
       } else {
         this.messageType = false;
-        this.alertMessage = "No se pudo eliminar el término.";
+        this.alertMessage = "No se pudo eliminar la actividad.";
       }
     });
   }
@@ -226,7 +291,11 @@ export class EditActivityComponent implements OnInit {
     } else {
       this.currentActivity = this.showedActivities[i];
       this.currentActivityIndex = ((this.currentPageActivity - 1) * this.pageSize) + i;
-    }
+      this.activityService.getAssociatedOptionsFromActivity(this.currentActivity.id).subscribe((options: Options[]) => {
+        this.allOptions = options;
+        this.reloadOptions(this.allOptions);
+        });
+      }
     this.editTermChange();
   }
 
@@ -244,13 +313,51 @@ export class EditActivityComponent implements OnInit {
     this.readyToShow = true;
   }
 
+  editOptions(i: number){
+    this.readyToShow = false;
+    //this.activeTab = 0;
+    this.optionsSelected = true;
+    this.optionsChangesSaved = false;
+    this.optionsDeleted = false;
+    if (i == -1){
+      this.currentOption = null;
+    } else {
+      this.isEditOptions = true;
+      this.currentOption = this.showedOptions[i];
+      this.currentOptionsIndex = ((this.currentPageOptions - 1) * this.pageSize) + i;
+    }
+    this.editOptionsChange();
+  }
+
+  editOptionsChange(){
+    if (!this.currentOption){
+      this.option_text = "";
+      this.is_correct = null;
+    } else {
+      this.option_text = this.currentOption.option_text;
+      this.is_correct = this.currentOption.is_correct;
+    }
+    this.readyToShow = true;
+  }
+
   goBack(){
     this.activitySelected = false;
     this.currentActivity = null;
     this.reloadActivities(this.allActivities);
+    this.site_id = null;
+    this.activity_type = null;
+    this.points_awarded = null;
+    this.description = null;
+    this.name = null;
+    this.isEditOptions = false;
+    this.option_text = null;
+    this.is_correct = null;
   }
 
   changeTab(i: number){
+    this.isEditOptions = false;
+    this.option_text = null;
+    this.is_correct = null;
     this.activeTab = i;
     this.changesSaved = false;
     this.deleted = false;
@@ -297,11 +404,22 @@ export class EditActivityComponent implements OnInit {
     });
   }
 
+  updateOptions(){
+    this.allOptions = [];
+    this.activityService.getAssociatedOptionsFromActivity(this.currentActivity.id).subscribe((options: Options[]) => {
+      this.currentOptions = options;
+      for(let option of this.currentOptions){
+        this.allOptions.push(option);
+      }
+      this.reloadOptions(this.allOptions);
+    });
+  }
+
   saveChanges(){
     this.changesSaved = false;
     this.deleted = false;
     if (!this.currentActivity){
-      this.activityService.addActivity(this.site_id, this.activity_type, this.points_awarded, this.name, this.description).subscribe((activity: Activity) => {
+      this.activityService.addActivity(this.site_id, this.activity_type, this.points_awarded, this.description, this.name).subscribe((activity: Activity) => {
         if (activity){
           this.currentActivity = activity;
           this.allActivities.push(this.currentActivity);
@@ -322,6 +440,47 @@ export class EditActivityComponent implements OnInit {
           this.allActivities[this.currentActivityIndex] = this.currentActivity;
           this.messageType = true;
           this.alertMessage = "Se han guardado los cambios.";
+        } else {
+          this.alertMessage = "No se pudo guardar los cambios.";
+          this.messageType = false;
+        }
+      });
+    }
+  }
+
+  saveOptionChanges(){
+    this.optionsChangesSaved = false;
+    this.optionsDeleted = false;
+    if (!this.currentOption){
+      this.activityService.addOption(this.currentActivity.id, this.is_correct, this.option_text).subscribe((option: Options) => {
+        if (option){
+          this.currentOption = option;
+          this.allOptions.push(this.currentOption);
+          this.optionsChangesSaved = true;
+          this.messageType = true;
+          //this.newActivity = false;
+          this.alertMessage = "La opción ha sido creada.";
+          this.activityService.getAssociatedOptionsFromActivity(this.currentActivity.id).subscribe((options: Options[]) => {
+            this.allOptions = options;
+            this.reloadOptions(this.allOptions);
+          });
+        } else {
+          this.messageType = false;
+          this.alertMessage = "No se pudo crear la opción.";
+        }
+      });
+    } else {
+      this.activityService.editOption(this.currentOption.id, this.currentActivity.id, this.is_correct, this.option_text).subscribe((option: Options) => {
+        this.optionsChangesSaved = true;
+        if (option){
+          this.currentOption = option;
+          this.allOptions[this.currentOptionsIndex] = this.currentOption;
+          this.messageType = true;
+          this.alertMessage = "Se han guardado los cambios.";
+          this.activityService.getAssociatedOptionsFromActivity(this.currentActivity.id).subscribe((options: Options[]) => {
+            this.allOptions = options;
+            this.reloadOptions(this.allOptions);
+          });
         } else {
           this.alertMessage = "No se pudo guardar los cambios.";
           this.messageType = false;

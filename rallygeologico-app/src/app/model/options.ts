@@ -5,9 +5,9 @@ export class Options {
 	option_text: string;
 
 	constructor(options: any){
-		this.id = option.id;
-		this.activity_id = option.activity_id;
-		this.is_correct = option.is_correct;
-		this.option_text = option.option_text;
+		this.id = options.id;
+		this.activity_id = options.activity_id;
+		this.is_correct = options.is_correct;
+		this.option_text = options.option_text;
 	}
 }
