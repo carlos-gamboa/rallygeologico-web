@@ -88,6 +88,10 @@ export class EditActivityComponent implements OnInit {
   otherSites : Site[];
   currentSites : Site[];
 
+  // Get the input field
+  input = document.getElementById("searchTermEdit");
+
+
 
   constructor(private dataService: DataService,
               private activityService: ActivityService,

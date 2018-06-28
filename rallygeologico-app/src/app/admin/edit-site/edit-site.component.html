@@ -21,7 +21,7 @@
         <div class="offset-md-2 col-md-8 col-xs-12">
           <h3 class="text-center mb-3">Seleccione el sitio que desea editar</h3>
           <div class="busqueda" id="searchFormEdit">
-            <input [(ngModel)]="searchSiteQuery" type="text" title="Digite aquí el nombre del sitio" id="searchTermEdit" placeholder="Digite el nombre del sitio" />
+            <input [(ngModel)]="searchSiteQuery" type="text" title="Digite aquí el nombre del sitio" id="searchTermEdit" placeholder="Digite el nombre del sitio" (keydown.enter)="searchSite()"/>
             <button type="button" id="searchEdit" title="Click aquí para buscar el sitio" (click)="searchSite()">Buscar</button>
           </div>
           <div class="text-center">
@@ -180,7 +180,7 @@
         <div class="offset-md-2 col-md-8 col-xs-12">
           <h3 class="text-center mb-3">Seleccione el rally</h3>
           <div class="busqueda" id="searchRallyForm">
-            <input [(ngModel)]="searchRallyQuery" type="text" title="Digite aquí el nombre del rally" id="searchRallyInput" placeholder="Digite el nombre del rally" />
+            <input [(ngModel)]="searchRallyQuery" type="text" title="Digite aquí el nombre del rally" id="searchRallyInput" placeholder="Digite el nombre del rally" (keydown.enter)="searchRally()" />
             <button type="button" id="searchSite" title="Click aquí para buscar el sitio" (click)="searchRally()">Buscar</button>
           </div>
           <h3 class="text-center mb-3">Resultados</h3>
