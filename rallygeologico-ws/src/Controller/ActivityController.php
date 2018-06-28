@@ -21,12 +21,12 @@ class ActivityController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
+        $activity = $this->Activity->find('all', [
             'contain' => ['Site']
-        ];
-        $activity = $this->paginate($this->Activity);
+        ]);
 
         $this->set(compact('activity'));
+        $this->render('/Activity/json/template');
     }
 
     /**
@@ -56,6 +56,7 @@ class ActivityController extends AppController
         ]);
 
         $this->set('activity', $activity);
+        $this->render('/Activity/json/template');
     }
 
     /**

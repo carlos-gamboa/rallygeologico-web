@@ -5,6 +5,7 @@ use App\Controller\AppController;
 use App\Model\Entity\Invitation;
 use Cake\Event\Event;
 use Cake\Utility\Hash;
+use Cake\I18n\FrozenTime;
 
 /**
  * Competition Controller
@@ -23,10 +24,9 @@ class CompetitionController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
+        $competition = $this->Competition->find('all', [
             'contain' => ['Users', 'Rally']
-        ];
-        $competition = $this->paginate($this->Competition);
+        ]);
 
         $this->set(compact('competition'));
         $this->set('_serialize', 'competition');
@@ -92,6 +92,7 @@ class CompetitionController extends AppController
      */
     public function edit($id = null)
     {
+        $associations = ['CompetitionStatistics', 'Users'];
         $competition = $this->Competition->get($id, [
             'contain' => []
         ]);
@@ -99,6 +100,7 @@ class CompetitionController extends AppController
             $competition = $this->Competition->patchEntity($competition, $this->getRequest()->getData());
             if ($this->Competition->save($competition)) {
                 $this->Flash->success(__('The competition has been saved.'));
+                $competition = $this->Competition->loadInto($competition, $associations);
             }
             $this->Flash->error(__('The competition could not be saved. Please, try again.'));
         }
@@ -189,5 +191,5 @@ class CompetitionController extends AppController
         $this->set('competition', $competitions);
         $this->render('/Competition/json/template');
     }
-    
+
 }

@@ -61,11 +61,11 @@ export class HeaderComponent implements OnInit {
     }
 
     async ngAfterViewInit() {
-        await this.loadScript(this.assetsUrl + "../assets/js/jquery-2.2.4.min.js");
-        await this.loadScript(this.assetsUrl + "../assets/js/superfish.min.js");
-        await this.loadScript(this.assetsUrl + "../assets/js/jquery.magnific-popup.min.js");
-        await this.loadScript(this.assetsUrl + "../assets/js/jquery.counterup.min.js");
-        await this.loadScript(this.assetsUrl + "../assets/js/main.js");
+        await this.loadScript(this.assetsUrl + "assets/js/jquery-2.2.4.min.js");
+        await this.loadScript(this.assetsUrl + "assets/js/superfish.min.js");
+        await this.loadScript(this.assetsUrl + "assets/js/jquery.magnific-popup.min.js");
+        await this.loadScript(this.assetsUrl + "assets/js/jquery.counterup.min.js");
+        await this.loadScript(this.assetsUrl + "assets/js/main.js");
     }
 
     private loadScript(scriptUrl: string) {

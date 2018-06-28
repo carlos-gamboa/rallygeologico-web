@@ -29,8 +29,14 @@
 }
 
 .login-title{
-  background-color: #249DD8;
+  background-color: #0C344E;
   color: white;
+  padding: 10px 0;
+  box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+  -ms-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
 }
 
 .txt1 {
@@ -115,4 +121,14 @@
 .disabled-color{
   opacity: 0.75;
   cursor: not-allowed !important;
+}
+
+.api-button{
+  width:14em;
+}
+
+@media only screen and (max-width: 800px) {
+  .api-button {
+    width: 12em;
+  }
 }

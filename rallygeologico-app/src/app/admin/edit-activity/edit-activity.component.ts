@@ -15,7 +15,7 @@ import {Options} from "../../model/options";
 import {FormControl, Validators, ReactiveFormsModule} from "@angular/forms";
 
 @Component({
-  selector: 'app-activity-term',
+  selector: 'app-edit-activity',
   templateUrl: './edit-activity.component.html',
   styleUrls: ['./edit-activity.component.css']
 })
@@ -112,8 +112,10 @@ export class EditActivityComponent implements OnInit {
     }
   }
 
+
   ngOnInit() {
   }
+
 
   setupData(){
     this.activityService.getAllActivities(1).subscribe((activities: Activity[]) => {
@@ -628,8 +630,4 @@ export class EditActivityComponent implements OnInit {
       });
     });
   }
-
-
-
-
 }

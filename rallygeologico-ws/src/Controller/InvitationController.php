@@ -21,10 +21,9 @@ class InvitationController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
+        $invitation = $this->Invitation->find('all', [
             'contain' => ['Competition', 'UserSend', 'UserReceive']
-        ];
-        $invitation = $this->paginate($this->Invitation);
+        ]);
 
         $this->set(compact('invitation'));
         $this->set('_serialize', 'invitation');

@@ -21,10 +21,9 @@ class DistrictController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
+        $district = $this->District->find('all', [
             'contain' => ['Canton']
-        ];
-        $district = $this->paginate($this->District);
+        ]);
 
         $this->set(compact('district'));
         $this->set('_serialize', 'district');

@@ -11,3 +11,12 @@
     list-style-type:square;
     margin-left: 35px;
 }
+
+.instruction-image{
+    width: 45%;
+}
+
+.box {
+    display: flex;
+    align-items:center;
+}

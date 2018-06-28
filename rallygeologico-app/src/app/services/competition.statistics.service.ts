@@ -56,6 +56,15 @@ export class CompetitionStatisticsService {
         return this.http.get<CompetitionStatistics[]>(this.baseUrl + "competitionStatistics/currentCompetitions/"+ userId +".json",{ headers: this.headers, withCredentials: true });
     }
 
+    /**
+     * Service for getting the current competitions a user is participating in.
+     * @param {number} userId Id of the user.
+     * @returns {Observable<CompetitionStatistics[]>}
+     */
+    getCurrentActiveCompetitions(userId: number): Observable<CompetitionStatistics[]>{
+        return this.http.get<CompetitionStatistics[]>(this.baseUrl + "competitionStatistics/currentActiveCompetitions/"+ userId +".json",{ headers: this.headers, withCredentials: true });
+    }
+
     getVisitedSites(userId: number) : Observable<any> {
         return this.http.get<any>(this.baseUrl + "competitionStatisticsSite/getVisitedSites/"+ userId +".json",{ headers: this.headers, withCredentials: true } );
     }

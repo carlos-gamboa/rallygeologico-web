@@ -11,3 +11,13 @@
 .snaggy-text{
     color: black;
 }
+
+@media only screen and (max-width: 800px) {
+    .title {
+        width:80%;
+    }
+
+    .snaggy-text{
+        width: 80%;
+    }
+}

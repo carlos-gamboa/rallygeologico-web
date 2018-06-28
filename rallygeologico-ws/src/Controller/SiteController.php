@@ -21,10 +21,9 @@ class SiteController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
+        $site = $this->Site->find('all', [
             'contain' => ['District', 'Rally']
-        ];
-        $site = $this->paginate($this->Site);
+        ]);
 
         $this->set(compact('site'));
         $this->set('_serialize', 'site');

@@ -6,6 +6,7 @@ import {Configuration} from "./data/constants";
 import {Observable} from "rxjs/Observable";
 import {Headers} from "@angular/http";
 import "rxjs";
+import {Token} from "../model/token";
 
 @Injectable()
 export class UserService {
@@ -59,10 +60,12 @@ export class UserService {
      * @param {string} photoUrl User's photo url.
      * @param {number} loginApi User's login API.
      * @param {string} password User's password.
+     * @param {string} passwordNeedsChange User's password.
      * @param {number} isActive If the user is confirmed.
+     * @param {number} isAdmin If the user is confirmed.
      * @returns {Observable<User[]>}
      */
-    register(apiId : string, username : string, firstName : string, lastName : string, email : string, photoUrl : string, loginApi: number, password: string, isActive: number) : Observable<User[]>{
+    register(apiId : string, username : string, firstName : string, lastName : string, email : string, photoUrl : string, loginApi: number, password: string, passwordNeedsChange: number, isActive: number, isAdmin: number) : Observable<User[]>{
         if (password){
             return this.http.post<User[]>(this.baseUrl + "users/add.json", {
                 'api_id':apiId,
@@ -73,7 +76,9 @@ export class UserService {
                 'photo_url':photoUrl,
                 'login_api':loginApi,
                 'is_active':isActive,
-                'password':password
+                'password':password,
+                'password_needs_change':passwordNeedsChange,
+                'is_admin': isAdmin
             },{ headers: this.headers, withCredentials: true });
         } else {
             return this.http.post<User[]>(this.baseUrl + "users/add.json", {
@@ -84,10 +89,11 @@ export class UserService {
                 'email':email,
                 'photo_url':photoUrl,
                 'login_api':loginApi,
-                'is_active':isActive
+                'is_active':isActive,
+                'password_needs_change':passwordNeedsChange,
+                'is_admin': isAdmin
             },{ headers: this.headers, withCredentials: true });
         }
-
     }
 
     /**
@@ -155,6 +161,12 @@ export class UserService {
       },{ headers: this.headers, withCredentials: true });
     }
 
+    /**
+     * Logs in with password
+     * @param {string} username
+     * @param {string} password
+     * @returns {Observable<User>}
+     */
     loginWithPassword(username: string, password: string): Observable<User>{
         return this.http.post<User>(this.baseUrl + "login.json", {
             'username':username,
@@ -163,4 +175,92 @@ export class UserService {
         },{ headers: this.headers, withCredentials: true });
     }
 
+    editUser(id: number, apiId : string, username : string, firstName : string, lastName : string, email : string, photoUrl : string, loginApi: number, password: string, passwordNeedsChange:number, isActive: number, isAdmin: number) : Observable<User>{
+        if (password){
+            return this.http.post<User>(this.baseUrl + "users/edit/" + id +".json", {
+                'api_id':apiId,
+                'username':username,
+                'first_name':firstName,
+                'last_name':lastName,
+                'email':email,
+                'photo_url':photoUrl,
+                'login_api':loginApi,
+                'is_active':isActive,
+                'password':password,
+                'password_needs_change':passwordNeedsChange,
+                'is_admin': isAdmin
+            },{ headers: this.headers, withCredentials: true });
+        } else {
+            return this.http.post<User>(this.baseUrl + "users/edit/" + id +".json", {
+                'api_id':apiId,
+                'username':username,
+                'first_name':firstName,
+                'last_name':lastName,
+                'email':email,
+                'photo_url':photoUrl,
+                'login_api':loginApi,
+                'is_active':isActive,
+                'password_needs_change':passwordNeedsChange,
+                'is_admin': isAdmin
+            },{ headers: this.headers, withCredentials: true });
+        }
+    }
+
+    /**
+     * Deletes the specified user
+     * @param id
+     * @returns {Observable<Object>}
+     */
+    deleteUser(id: number) : Observable<boolean>{
+        return this.http.post<boolean>(this.baseUrl + "users/delete/"+id+".json", {
+        },{ headers: this.headers, withCredentials: true });
+    }
+
+    editProfile(id: number, firstName : string, lastName : string, photoUrl : string) : Observable<User>{
+        return this.http.post<User>(this.baseUrl + "users/edit/" + id +".json", {
+            'first_name':firstName,
+            'last_name':lastName,
+            'photo_url':photoUrl
+        },{ headers: this.headers, withCredentials: true });
+    }
+
+    updatePassword(id: number, currentPassword: string, newPassword: string) : Observable<boolean>{
+        return this.http.post<boolean>(this.baseUrl + "users/changePassword.json", {
+            'id':id,
+            'password':currentPassword,
+            'new_password':newPassword
+        },{ headers: this.headers, withCredentials: true });
+    }
+
+    forgotPassword(email: string) : Observable<boolean>{
+        return this.http.post<boolean>(this.baseUrl + "users/forgotPassword.json", {
+            'email':email
+        },{ headers: this.headers, withCredentials: true });
+    }
+
+    getTokenByValue(value: string) : Observable<Token[]>{
+        return this.http.post<Token[]>(this.baseUrl + "tokens/getTokenByValue.json", {
+            'value':value
+        },{ headers: this.headers, withCredentials: true });
+    }
+
+    invalidateUsersToken(userId: number, type: string): Observable<boolean>{
+        return this.http.post<boolean>(this.baseUrl + "tokens/invalidateUserToken.json", {
+            'user_id':userId,
+            'type':type
+        },{ headers: this.headers, withCredentials: true });
+    }
+
+    forceChangePassword(id: number, newPassword: string) : Observable<boolean>{
+        return this.http.post<boolean>(this.baseUrl + "users/forceChangePassword.json", {
+            'user_id':id,
+            'password':newPassword
+        },{ headers: this.headers, withCredentials: true });
+    }
+
+    activateUser(id: number): Observable<boolean> {
+        return this.http.get<boolean>(this.baseUrl + "users/activateUser/" + id + ".json", {
+            headers: this.headers, withCredentials: true
+        });
+    }
 }

@@ -50,7 +50,6 @@ export class SearchRalliesComponent implements OnInit {
       this.competitionService.getAllPublicCompetitions(this.user.id).subscribe((competitions : Competition[]) =>{
           this.allCompetitions = competitions;
           this.reloadCompetitions(competitions);
-          console.log(this.allCompetitions);
       });
   }
 
