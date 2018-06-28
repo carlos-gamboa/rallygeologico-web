@@ -1,3 +1,5 @@
+import {Term} from "./term";
+
 export class Multimedia {
   id : number;
   name : string;
