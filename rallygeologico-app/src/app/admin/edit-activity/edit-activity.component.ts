@@ -251,8 +251,12 @@ export class EditActivityComponent implements OnInit {
         this.currentOption = null;
         this.allOptions.splice(((this.currentPageOptions - 1) * this.pageSize) + i, 1);
         this.messageType = true;
+        this.optionsDeleted = true;
         this.alertMessage = "Se ha eliminado la opción";
         this.reloadOptions(this.allOptions);
+        setTimeout(()=>{
+          this.optionsDeleted = false;
+        }, 2000);
       } else {
         this.messageType = false;
         this.alertMessage = "No se pudo eliminar la opción";
@@ -361,6 +365,10 @@ export class EditActivityComponent implements OnInit {
     this.activeTab = i;
     this.changesSaved = false;
     this.deleted = false;
+    this.isEditOptions = false;
+    this.currentOption = null;
+    this.is_correct = null;
+    this.option_text = null;
     if (i == 1){
       this.updateSites();
     }
@@ -463,6 +471,13 @@ export class EditActivityComponent implements OnInit {
           this.activityService.getAssociatedOptionsFromActivity(this.currentActivity.id).subscribe((options: Options[]) => {
             this.allOptions = options;
             this.reloadOptions(this.allOptions);
+            this.isEditOptions = false;
+            this.currentOption = null;
+            this.is_correct = null;
+            this.option_text = null;
+            setTimeout(()=>{
+              this.optionsChangesSaved = false;
+            }, 2000);
           });
         } else {
           this.messageType = false;
@@ -480,6 +495,13 @@ export class EditActivityComponent implements OnInit {
           this.activityService.getAssociatedOptionsFromActivity(this.currentActivity.id).subscribe((options: Options[]) => {
             this.allOptions = options;
             this.reloadOptions(this.allOptions);
+            this.isEditOptions = false;
+            this.currentOption = null;
+            this.is_correct = null;
+            this.option_text = null;
+            setTimeout(()=>{
+              this.optionsChangesSaved = false;
+            }, 2000);
           });
         } else {
           this.alertMessage = "No se pudo guardar los cambios.";
@@ -576,10 +598,10 @@ export class EditActivityComponent implements OnInit {
         this.updateMultimedia();
         this.reloadMultimedia(this.allMultimedia);
         this.messageType = true;
-        this.alertMessage = "Se ha agregado el sitio al rally seleccionado."
+        this.alertMessage = "Se ha agregado la multimedia a la actividad."
       } else {
         this.messageType = false;
-        this.alertMessage = "No se pudo agregar el sitio al rally seleccionado."
+        this.alertMessage = "Se ha agregado la multimedia a la actividad."
       }
     });
   }
