@@ -9,12 +9,12 @@
 
           <div class="btn-group margbutton" *ngIf="loginWithFacebook && !isNotRegistered" (click)="loginWithOptions()">
             <span class='btn facebookcolor disabled'><i class="fa fa-facebook"></i></span>
-            <span class='btn facebookcolor ' [class.disabled-color]="!facebookWorking" href='' style="width:14em"> {{facebookText}}</span>
+            <span class='btn facebookcolor api-button' [class.disabled-color]="!facebookWorking" href=''> {{facebookText}}</span>
           </div>
 
           <div class="btn-group margbutton" *ngIf="loginWithGoogle && !isNotRegistered" (click)="googleSignIn()">
             <span class='btn btn-danger disabled'><i class="fa fa-google" style="color:white; width:16px; height:20px"></i></span>
-            <span class='btn btn-danger' [class.disabled-color]="!googleWorking" href='' style="width:14em;"> {{googleText}}</span>
+            <span class='btn btn-danger api-button' [class.disabled-color]="!googleWorking" href='' > {{googleText}}</span>
           </div>
 
           <div *ngIf="loginWithPassword && !isNotRegistered">

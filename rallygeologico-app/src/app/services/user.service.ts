@@ -62,9 +62,10 @@ export class UserService {
      * @param {string} password User's password.
      * @param {string} passwordNeedsChange User's password.
      * @param {number} isActive If the user is confirmed.
+     * @param {number} isAdmin If the user is confirmed.
      * @returns {Observable<User[]>}
      */
-    register(apiId : string, username : string, firstName : string, lastName : string, email : string, photoUrl : string, loginApi: number, password: string, passwordNeedsChange: number, isActive: number) : Observable<User[]>{
+    register(apiId : string, username : string, firstName : string, lastName : string, email : string, photoUrl : string, loginApi: number, password: string, passwordNeedsChange: number, isActive: number, isAdmin: number) : Observable<User[]>{
         if (password){
             return this.http.post<User[]>(this.baseUrl + "users/add.json", {
                 'api_id':apiId,
@@ -76,7 +77,8 @@ export class UserService {
                 'login_api':loginApi,
                 'is_active':isActive,
                 'password':password,
-                'password_needs_change':passwordNeedsChange
+                'password_needs_change':passwordNeedsChange,
+                'is_admin': isAdmin
             },{ headers: this.headers, withCredentials: true });
         } else {
             return this.http.post<User[]>(this.baseUrl + "users/add.json", {
@@ -88,7 +90,8 @@ export class UserService {
                 'photo_url':photoUrl,
                 'login_api':loginApi,
                 'is_active':isActive,
-                'password_needs_change':passwordNeedsChange
+                'password_needs_change':passwordNeedsChange,
+                'is_admin': isAdmin
             },{ headers: this.headers, withCredentials: true });
         }
     }
@@ -172,7 +175,7 @@ export class UserService {
         },{ headers: this.headers, withCredentials: true });
     }
 
-    editUser(id: number, apiId : string, username : string, firstName : string, lastName : string, email : string, photoUrl : string, loginApi: number, password: string, passwordNeedsChange:number, isActive: number) : Observable<User>{
+    editUser(id: number, apiId : string, username : string, firstName : string, lastName : string, email : string, photoUrl : string, loginApi: number, password: string, passwordNeedsChange:number, isActive: number, isAdmin: number) : Observable<User>{
         if (password){
             return this.http.post<User>(this.baseUrl + "users/edit/" + id +".json", {
                 'api_id':apiId,
@@ -184,7 +187,8 @@ export class UserService {
                 'login_api':loginApi,
                 'is_active':isActive,
                 'password':password,
-                'password_needs_change':passwordNeedsChange
+                'password_needs_change':passwordNeedsChange,
+                'is_admin': isAdmin
             },{ headers: this.headers, withCredentials: true });
         } else {
             return this.http.post<User>(this.baseUrl + "users/edit/" + id +".json", {
@@ -196,7 +200,8 @@ export class UserService {
                 'photo_url':photoUrl,
                 'login_api':loginApi,
                 'is_active':isActive,
-                'password_needs_change':passwordNeedsChange
+                'password_needs_change':passwordNeedsChange,
+                'is_admin': isAdmin
             },{ headers: this.headers, withCredentials: true });
         }
     }

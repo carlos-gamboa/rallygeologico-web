@@ -85,8 +85,7 @@ export class DefinitionComponent implements OnInit {
 
         let index = 1;
         for (let image of this.imagesMultimedia){
-            //TODO  cambiar el extUrl
-            let newImage:Image = new Image(index,{img:image.media_url,extUrl:"http://www.google.com",description:image.name});
+            let newImage:Image = new Image(index,{img:image.media_url,extUrl:image.external_url,description:image.name});
             this.imagesHtmlDescriptions.push(newImage);
             index++;
         }
@@ -108,9 +107,9 @@ export class DefinitionComponent implements OnInit {
         layout: new AdvancedLayout(-1, true)
     };
 
-    plainGalleryRow: PlainGalleryConfig = {
+    plainGalleryRow: PlainGalleryConfig  = {
         strategy: PlainGalleryStrategy.ROW,
-        layout: new LineLayout({ width: '80px', height: '80px' }, { length: 2, wrap: true }, 'flex-start')
+        layout: new LineLayout({ width: '80px', height: '80px' }, { length: 13, wrap: true }, 'flex-start')
     };
     plainGalleryRowSpaceAround: PlainGalleryConfig = {
         strategy: PlainGalleryStrategy.ROW,

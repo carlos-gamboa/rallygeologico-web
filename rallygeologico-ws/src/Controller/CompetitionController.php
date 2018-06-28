@@ -5,6 +5,7 @@ use App\Controller\AppController;
 use App\Model\Entity\Invitation;
 use Cake\Event\Event;
 use Cake\Utility\Hash;
+use Cake\I18n\FrozenTime;
 
 /**
  * Competition Controller
@@ -190,5 +191,5 @@ class CompetitionController extends AppController
         $this->set('competition', $competitions);
         $this->render('/Competition/json/template');
     }
-    
+
 }
