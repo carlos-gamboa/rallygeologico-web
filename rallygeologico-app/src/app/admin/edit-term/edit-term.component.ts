@@ -96,7 +96,7 @@ export class EditTermComponent implements OnInit {
       this.allTerms = terms;
       this.reloadTerms(this.allTerms);
       this.allMultimedia = [];
-      this.multimediaService.getMultimedia().subscribe((multimedia: Multimedia[]) => {
+      this.multimediaService.getAllMultimedia().subscribe((multimedia: Multimedia[]) => {
         this.allMultimedia = multimedia;
         this.siteService.getSites().subscribe((sites: Site[]) => {
           this.allSites = sites;
@@ -256,9 +256,9 @@ export class EditTermComponent implements OnInit {
 
   updateSites(){
     this.allSites = [];
-    this.siteService.getOtherSitesFromTerm(this.currentTerm.id).subscribe((otherSites: Site[]) => { //TODO Change this services because the use rallyId, not termId
+    this.siteService.getOtherSitesFromTerm(this.currentTerm.id).subscribe((otherSites: Site[]) => {
       this.otherSites = otherSites;
-      this.siteService.getAssociatedSitesFromTerm(this.currentTerm.id).subscribe((currentSites: Site[]) => { //TODO Change this services because the use rallyId, not termId
+      this.siteService.getAssociatedSitesFromTerm(this.currentTerm.id).subscribe((currentSites: Site[]) => {
         this.currentSites = currentSites;
         for(let site of this.otherSites){
           this.allSites.push(site);

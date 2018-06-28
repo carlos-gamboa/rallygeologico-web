@@ -38,6 +38,7 @@ import {MultimediaService} from "./services/multimedia.service";
 import {DistrictService} from "./services/district.service";
 import {CantonService} from "./services/canton.service";
 import {ProvinceService} from "./services/province.service";
+import {ActivityService} from "./services/activity.service";
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { TokenLandingComponent } from './token-landing/token-landing.component';
 import 'hammerjs'
@@ -79,7 +80,7 @@ import {ModalGalleryModule} from "angular-modal-gallery";
       AgmSnazzyInfoWindowModule,
       ModalGalleryModule.forRoot()
   ],
-  providers: [DataService, UserService, Configuration, RallyService, InvitationService, CompetitionService, SiteService, CompetitionStatisticsService, TermService, MultimediaService, DistrictService, CantonService, ProvinceService],
+  providers: [DataService, UserService, Configuration, RallyService, InvitationService, CompetitionService, SiteService, CompetitionStatisticsService, TermService, MultimediaService, DistrictService, CantonService, ProvinceService, ActivityService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

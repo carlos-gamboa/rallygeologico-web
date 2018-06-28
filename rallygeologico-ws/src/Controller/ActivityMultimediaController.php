@@ -95,13 +95,14 @@ class ActivityMultimediaController extends AppController
             if ($this->ActivityMultimedia->save($activityMultimedia)) {
                 $this->Flash->success(__('The activity multimedia has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The activity multimedia could not be saved. Please, try again.'));
         }
         $activity = $this->ActivityMultimedia->Activity->find('list', ['limit' => 200]);
         $multimedia = $this->ActivityMultimedia->Multimedia->find('list', ['limit' => 200]);
         $this->set(compact('activityMultimedia', 'activity', 'multimedia'));
+        $this->render('/ActivityMultimedia/json/template');
+
     }
 
     /**
@@ -117,10 +118,21 @@ class ActivityMultimediaController extends AppController
         $activityMultimedia = $this->ActivityMultimedia->get($id);
         if ($this->ActivityMultimedia->delete($activityMultimedia)) {
             $this->Flash->success(__('The activity multimedia has been deleted.'));
+            $this->set('activityMultimedia', true);
         } else {
             $this->Flash->error(__('The activity multimedia could not be deleted. Please, try again.'));
+            $this->set('activityMultimedia', false);
         }
 
-        return $this->redirect(['action' => 'index']);
+        $this->render('/ActivityMultimedia/json/template');
+    }
+
+    public function getActivityMultimedia($activityId = null, $multimediaId = null){
+        $activityMultimedia = $this->ActivityMultimedia->find('all', [
+                'conditions' => ['ActivityMultimedia.activity_id' => $activityId,
+                    'ActivityMultimedia.multimedia_id' => $multimediaId]]
+        );
+        $this->set('activityMultimedia', $activityMultimedia->extract('id'));
+        $this->render('/ActivityMultimedia/json/template');
     }
 }

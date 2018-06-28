@@ -77,6 +77,7 @@ class OptionsController extends AppController
         $this->render('/Options/json/template');
     }
 
+
     /**
      * Edit method
      *
@@ -94,12 +95,12 @@ class OptionsController extends AppController
             if ($this->Options->save($option)) {
                 $this->Flash->success(__('The option has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The option could not be saved. Please, try again.'));
         }
         $activity = $this->Options->Activity->find('list', ['limit' => 200]);
         $this->set(compact('option', 'activity'));
+        $this->render('/Options/json/template');
     }
 
     /**
@@ -115,10 +116,42 @@ class OptionsController extends AppController
         $option = $this->Options->get($id);
         if ($this->Options->delete($option)) {
             $this->Flash->success(__('The option has been deleted.'));
+            $this->set('option', true);
         } else {
             $this->Flash->error(__('The option could not be deleted. Please, try again.'));
+            $this->set('false', true);
         }
 
-        return $this->redirect(['action' => 'index']);
+        //return $this->redirect(['action' => 'index']);
+        $this->render('/Options/json/template');
     }
+
+    /** Gets the option id using the activityId and the optionText
+     * @param null $activityId
+     * @param null $optionText
+     */
+    public function getOption($activityId = null, $optionText = null){
+        $option = $this->Options->find('all', [
+                'conditions' => ['Options.activity_id' => $activityId,
+                    'Options.option_text' => $optionText]]
+        );
+        $this->set('option', $option->extract('id'));
+        $this->render('/Options/json/template');
+    }
+
+    public function getAssociatedOptionsFromActivity($id = null){
+        //$this->loadModel('TermMultimedia');
+        $option = $this->Options->find('all', [
+            'conditions' => [
+                'Options.id IN ' => $this->Options->find('all', [
+                    'fields' => ['Options.id'],
+                    'conditions' => ['Options.activity_id' => $id
+                    ]
+                ])
+            ]
+        ]);
+        $this->set('option', $option);
+        $this->render('/Options/json/template');
+    }
+
 }

@@ -28,6 +28,17 @@ class TermController extends AppController
         $this->set('_serialize', 'term');
     }
 
+    /**Get all the terms
+     * @param null $termId
+     *
+     */
+    public function getAllTerms($termId = null){
+        $media = $this->Term->find('all', [
+        ]);
+        $this->set('term', $media);
+        $this->render('/Term/json/template');
+    }
+
     /**
      * Allows public access to the web services.
      *
@@ -124,6 +135,25 @@ class TermController extends AppController
     }
 
     /**
+     * Gets all terms those aren't part of the specified multimedia
+     *
+     * @param null $id
+     */
+    public function getOtherTermsFromMultimedia($id = null){
+        $this->loadModel('TermMultimedia');
+        $terms = $this->Term->find('all', [
+            'conditions' => [
+                'Term.id NOT IN ' => $this->TermMultimedia->find('all', [
+                    'fields' => ['TermMultimedia.term_id'],
+                    'conditions' => ['TermMultimedia.multimedia_id' => $id
+                    ]
+                ])
+            ]
+        ]);
+        $this->set('term', $terms);
+      $this->render('/Term/json/template');
+    }
+
      * Gets all the terms
      *
      */
@@ -131,10 +161,30 @@ class TermController extends AppController
         $term = $this->Term->find('all', [
         ]);
         $this->set('term', $term);
+
         $this->render('/Term/json/template');
     }
 
     /**
+     * Gets all terms those are part of the specified multimedia
+     *
+     * @param null $id
+     */
+    public function getAssociatedTermsFromMultimedia($id = null){
+        $this->loadModel('TermMultimedia');
+        $terms = $this->Term->find('all', [
+            'conditions' => [
+                'Term.id IN ' => $this->TermMultimedia->find('all', [
+                    'fields' => ['TermMultimedia.term_id'],
+                    'conditions' => ['TermMultimedia.multimedia_id' => $id
+                    ]
+                ])
+            ]
+        ]);
+        $this->set('term', $terms);
+      $this->render('/Term/json/template');
+    }
+
      * Gets all the terms ordered by letter
      */
     public function getAllTermsOrdered(){

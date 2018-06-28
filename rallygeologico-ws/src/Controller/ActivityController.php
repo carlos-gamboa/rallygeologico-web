@@ -67,7 +67,7 @@ class ActivityController extends AppController
     public function add()
     {
         $activity = $this->Activity->newEntity();
-        if ($this->request->is('post')) {
+        if ($this->getRequest()->is('post')) {
             $activity = $this->Activity->patchEntity($activity, $this->request->getData());
             if ($this->Activity->save($activity)) {
                 $this->Flash->success(__('The activity has been saved.'));
@@ -92,19 +92,20 @@ class ActivityController extends AppController
         $activity = $this->Activity->get($id, [
             'contain' => ['Multimedia']
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
+        if ($this->getRequest()->is(['patch', 'post', 'put'])) {
             $activity = $this->Activity->patchEntity($activity, $this->request->getData());
             if ($this->Activity->save($activity)) {
                 $this->Flash->success(__('The activity has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The activity could not be saved. Please, try again.'));
         }
         $site = $this->Activity->Site->find('list', ['limit' => 200]);
         $multimedia = $this->Activity->Multimedia->find('list', ['limit' => 200]);
         $this->set(compact('activity', 'site', 'multimedia'));
+        $this->render('/Activity/json/template');
     }
+
 
     /**
      * Delete method
@@ -115,14 +116,77 @@ class ActivityController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->getRequest()->allowMethod(['post', 'delete']);
         $activity = $this->Activity->get($id);
         if ($this->Activity->delete($activity)) {
             $this->Flash->success(__('The activity has been deleted.'));
+            $this->set('activity', true);
         } else {
             $this->Flash->error(__('The activity could not be deleted. Please, try again.'));
+            $this->set('activity', false);
         }
 
-        return $this->redirect(['action' => 'index']);
+        //return $this->redirect(['action' => 'index']);
+        $this->render('/Activity/json/template');
     }
+
+    /**
+     * Gets the termSite entry with the specified values
+     * @param null $termId
+     */
+    public function getActivity($site_id = null){
+        $activity = $this->Activity->find('all', [
+                'conditions' => ['Activity.site_id' => $site_id]]
+        );
+        $this->set('activity', $activity->extract('id'));
+        $this->render('/Activity/json/template');
+    }
+
+    public function getAllActivities($termId = null){
+        $activities = $this->Activity->find('all', [
+        ]);
+        $this->set('activity', $activities);
+        $this->render('/Activity/json/template');
+    }
+
+    /**
+     * Gets all activities those aren't part of the specified multimedia
+     *
+     * @param null $id
+     */
+    public function getOtherActivitiesFromMultimedia($id = null){
+        $this->loadModel('ActivityMultimedia');
+        $activities = $this->Activity->find('all', [
+            'conditions' => [
+                'Activity.id NOT IN ' => $this->ActivityMultimedia->find('all', [
+                    'fields' => ['ActivityMultimedia.term_id'],
+                    'conditions' => ['ActivityMultimedia.multimedia_id' => $id
+                    ]
+                ])
+            ]
+        ]);
+        $this->set('activity', $activities);
+        $this->render('/Activity/json/template');
+    }
+
+    /**
+     * Gets all activities those are part of the specified multimedia
+     *
+     * @param null $id
+     */
+    public function getAssociatedTermsFromMultimedia($id = null){
+        $this->loadModel('ActivityMultimedia');
+        $activities = $this->Activity->find('all', [
+            'conditions' => [
+                'Activity.id IN ' => $this->ActivityMultimedia->find('all', [
+                    'fields' => ['ActivityMultimedia.term_id'],
+                    'conditions' => ['ActivityMultimedia.multimedia_id' => $id
+                    ]
+                ])
+            ]
+        ]);
+        $this->set('activity', $activities);
+        $this->render('/Activity/json/template');
+    }
+
 }

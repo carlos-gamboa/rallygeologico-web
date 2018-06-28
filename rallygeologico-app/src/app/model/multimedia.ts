@@ -3,6 +3,7 @@ export class Multimedia {
   name : string;
   media_type: number;
   media_url : string;
+  terms: Term[];
   external_url: string;
 
   constructor(multimedia: any){
