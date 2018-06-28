@@ -1,7 +1,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {environment} from "../../../environments/environment";
 import {Configuration} from "../../services/data/constants";
 import {ImageUploadComponent} from "angular2-image-upload";
+import {ImagesService} from "../../services/images.service";
+import {environment} from "../../../environments/environment";
+import {MultimediaService} from "../../services/multimedia.service";
+import {Multimedia} from "../../model/multimedia";
 
 @Component({
   selector: 'app-admin-footer',
@@ -22,6 +25,8 @@ export class AdminFooterComponent implements OnInit {
     imageEvent: any;
     file: File;
     newFileName: string;
+    error: boolean;
+    qr: Multimedia;
 
     @ViewChild('inputImage') inputImage: ImageUploadComponent;
 
@@ -54,13 +59,25 @@ export class AdminFooterComponent implements OnInit {
         }
     };
 
-    constructor(private _configuration: Configuration) {
+    constructor(private _configuration: Configuration, private imageService: ImagesService, private multimediaService: MultimediaService) {
         this.assetsUrl = environment.assetsUrl;
         this.baseUrl = _configuration.ServerWithApiUrl+"webroot/img/";
-        this.qrUrl = this.assetsUrl+"../assets/images/qr.png";
-        this.link = "http://www.google.co.cr";
+        this.multimediaService.getQrMultimedia().subscribe((multimedia: Multimedia[]) => {
+            if(multimedia){
+                this.qr = multimedia[0];
+                this.qrUrl = this.qr.media_url;
+                this.link = this.qr.external_url;
+            } else {
+                this.error = true;
+                this.messageType = false;
+                this.alertMessage = "Error al cargar el Qr.";
+            }
+
+        });
         this.editMode = false;
+        this.changesSaved = false;
         this.readyToShow = true;
+
     }
 
     ngOnInit() {
@@ -69,6 +86,7 @@ export class AdminFooterComponent implements OnInit {
     adminQr(){
         this.readyToShow = false;
         this.editMode = true;
+        this.changesSaved = false;
         this.readyToShow = true;
     }
 
@@ -78,6 +96,7 @@ export class AdminFooterComponent implements OnInit {
      */
     onUpload(event) {
         this.readyToShow = false;
+        this.error = false;
         this.changesSaved = false;
         this.imageEvent = event;
         this.file  = event.file;
@@ -98,11 +117,12 @@ export class AdminFooterComponent implements OnInit {
             this.newFileName = Date.now().toString()+'.svg';
             this.qrUrl = this.baseUrl + this.newFileName;
         } else {
-            // if(this.currentQr != null) {
-            //     this.qrUrl = this.currentQr.qrUrl;
-            // } else{
+            if(this.qr != null) {
+                this.qrUrl = this.qr.media_url;
+                this.imageEvent = null;
+            } else{
                 this.qrUrl = "";
-            //}
+            }
         }
         this.readyToShow = true;
     }
@@ -114,29 +134,51 @@ export class AdminFooterComponent implements OnInit {
     updateUrl(event){
         this.readyToShow = false;
         if (this.inputImage.fileCounter == 0){
-            // if (this.currentQr){
-            //     this.qrUrl = this.currentQr.media_url;
-            // } else {
+            if(this.qr != null) {
+                this.qrUrl = this.qr.media_url;
+                this.imageEvent = null;
+            } else{
                 this.qrUrl = "";
-            // }
-            this.imageEvent = null;
+                this.imageEvent = null;
+            }
         }
         this.readyToShow = true;
     }
 
     saveChanges(){
+        this.readyToShow = false;
         this.changesSaved = false;
         if(this.qrUrl == null || this.qrUrl == ""){
             this.alertMessage = "No se pudo guardar los cambios, debe seleccionar una imagen.";
             this.messageType = false;
             this.changesSaved = true;
-        } else {
-            // if(this.currentQr){
-                //Edit service
-                this.changesSaved = true;
-                this.editMode = false;
-                this.readyToShow = true;
-            // }
         }
+        else {
+            this.imageService.uploadImage(this.newFileName, this.file).subscribe((uploaded: boolean) => {
+                if (uploaded) {
+                    this.multimediaService.editMultimedia(this.qr.id, this.qr.name, this.qr.media_type, this.qrUrl, this.link).subscribe((multimedia: Multimedia) => {
+                        if (multimedia) {
+                            this.qr = multimedia;
+                            this.qrUrl = this.qr.media_url;
+                            this.link = this.qr.external_url;
+                            this.imageEvent = null;
+                            this.changesSaved = true;
+                            this.messageType = true;
+                            this.alertMessage = "Se han guardado los cambios.";
+                        } else {
+                            this.alertMessage = "No se pudo guardar los cambios.";
+                            this.messageType = false;
+
+                        }
+                    });
+                } else {
+                    this.error = true;
+                    this.messageType = false;
+                    this.alertMessage = "No se pudo cargar la imagen.";
+                }
+            });
+        }
+        this.editMode = false;
+        this.readyToShow = true;
     }
 }

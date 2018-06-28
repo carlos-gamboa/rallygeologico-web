@@ -5,30 +5,32 @@
       <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="single-footer-widget">
           <img class="mx-auto d-block img-fluid" src="{{qrUrl}}" alt="" width="30%" height="auto" *ngIf="!imageEvent">
-          <img class="mx-auto d-block img-fluid" src="{{imageEvent.src}}" alt="" width="30%" height="auto" *ngIf="imageEvent"><span class="fa fa-edit mt-3" (click)="adminQr()" *ngIf="!editMode"></span>
+          <img class="mx-auto d-block img-fluid" src="{{imageEvent.src}}" alt="" width="30%" height="auto" *ngIf="imageEvent">
           <div class="title text-center mb-5 mt-3">
-            <h3 class="mb-10"><a style="color: black" href="{{link}}"><span class="fa fa-android checked"></span>  Descarga la aplicación para Android</a></h3>
+            <h3 class="mb-10"><a style="color: black" href="{{link}}"><span class="fa fa-android checked"></span>  Descarga la aplicación para Android</a>  <span class="fa fa-edit mt-3" (click)="adminQr()" *ngIf="!editMode"></span></h3>
           </div>
         </div>
       </div>
       <div class="col-12 mb-30" *ngIf="editMode">
-        <form class="row" #multimediaForm="ngForm">
+        <div class="row">
+        <!--<form class="row" #multimediaForm="ngForm">-->
           <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-sm-12">
-            <label for="qr" class="mb-0">Qr</label>
-            <image-upload #inputImage [style]="customStyle" id="qr" [max]="1" [extensions]="['jpeg','png', 'jpg', 'svg']" buttonCaption="Seleccione"
-                          dropBoxMessage="O arrastre una imagen" clearButtonCaption="Quitar imagen" fileTooLargeMessage="Imagen demasiado grande" (click)="updateUrl($event)" (uploadFinished)="onUpload($event)" required></image-upload>
+            <label for="qr" class="mb-0">Seleccione el nuevo Qr</label>
+            <image-upload #inputImage [style]="customStyle" id="qr" [max]="1" [extensions]="['png']" buttonCaption="Seleccione"
+                          dropBoxMessage="O arrastre una imagen" clearButtonCaption="Quitar imagen" fileTooLargeMessage="Imagen demasiado grande" (click)="updateUrl($event)" (uploadFinished)="onUpload($event)"></image-upload>
           </div>
           <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-sm-12">
             <label for="link">Link de descarga</label>
-            <input class="text-input" type="text" [(ngModel)]="link" #linkInput="ngModel" id="link" name="link" required>
+            <input class="text-input" type="text" [(ngModel)]="link" #linkInput="ngModel" id="link" name="link">
           </div>
           <div class="col-lg-6 offset-lg-3 col-md-6 offset-md-3 col-sm-12 mt-20" align="center">
-            <button title="Actualizar Qr" class="btn genric-btn success col-lg-6 mb-2 text-center" style="font-size: 16px; border-radius: 0px; vertical-align: middle" (click)="saveChanges()" [disabled]="multimediaForm.invalid">Guardar cambios</button>
+            <button title="Actualizar Qr" class="btn genric-btn success col-lg-6 mb-2 text-center" style="font-size: 16px; border-radius: 0px; vertical-align: middle" (click)="saveChanges()">Guardar cambios</button>
             <div *ngIf="changesSaved" class="alert col-lg-6 mt-10" role="alert" [class.alert-success]="messageType" [class.alert-danger]="!messageType">
               {{alertMessage}}
             </div>
           </div>
-        </form>
+        <!--</form>-->
+        </div>
       </div>
     </div>
     <div class="row">

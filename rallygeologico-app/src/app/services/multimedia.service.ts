@@ -65,7 +65,7 @@ export class MultimediaService {
    * @returns {Observable<Multimedia[]>}
    */
   getAllMultimedia() : Observable<Multimedia[]>{
-    return this.http.get<Multimedia[]>(this.baseUrl + "multimedia.json");
+    return this.http.get<Multimedia[]>(this.baseUrl + "multimedia.json",{ headers: this.headers, withCredentials: true });
   }
 
   /**
@@ -74,7 +74,7 @@ export class MultimediaService {
    * @returns {Observable<Multimedia>}
    */
   getOtherMultimedia(termId: number):Observable<Multimedia[]>{
-    return this.http.get<Multimedia[]>(this.baseUrl + "multimedia/getOtherMultimedia/"+termId+".json");
+    return this.http.get<Multimedia[]>(this.baseUrl + "multimedia/getOtherMultimedia/"+termId+".json",{ headers: this.headers, withCredentials: true });
   }
 
   /**
@@ -83,7 +83,7 @@ export class MultimediaService {
    * @returns {Observable<Multimedia>}
    */
   getAssociatedMultimedia(termId: number): Observable<Multimedia[]>{
-    return this.http.get<Multimedia[]>(this.baseUrl + "multimedia/getAssociatedMultimedia/"+termId+".json");
+    return this.http.get<Multimedia[]>(this.baseUrl + "multimedia/getAssociatedMultimedia/"+termId+".json",{ headers: this.headers, withCredentials: true });
   }
 
   /**
@@ -91,6 +91,14 @@ export class MultimediaService {
    * @returns {Observable<Multimedia>}
    */
    getMultimedia(id: number) : Observable<Multimedia>{
-      return this.http.get<Multimedia>(this.baseUrl + "multimedia/view/"+id+".json");
+      return this.http.get<Multimedia>(this.baseUrl + "multimedia/view/"+id+".json",{ headers: this.headers, withCredentials: true });
+   }
+
+    /**
+     * Gets the last Qr multimedia
+     * @returns {Observable<Multimedia>}
+     */
+   getQrMultimedia() : Observable<Multimedia[]>{
+     return this.http.get<Multimedia[]>(this.baseUrl + "multimedia/getQrMultimedia.json",{ headers: this.headers, withCredentials: true });
    }
 }

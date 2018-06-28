@@ -198,4 +198,22 @@ class MultimediaController extends AppController
         $this->set('multimedia', $media);
         $this->render('/Multimedia/json/template');
     }
+
+    /**
+     * Gets the last Qr multimedia
+     */
+    public function getQrMultimedia()
+    {
+        $media = $this->Multimedia->find('all', [
+            'conditions' => [
+                'Multimedia.id IN ' => $this->Multimedia->find('all', [
+                    'fields' => ['id' => 'MAX(Multimedia.id)'],
+                    'conditions' => ['Multimedia.media_type' => 10
+                    ]
+                ])
+            ]
+        ]);
+        $this->set('multimedia', $media);
+        $this->render('/Multimedia/json/template');
+    }
 }
