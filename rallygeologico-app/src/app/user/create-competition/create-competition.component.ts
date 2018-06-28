@@ -12,6 +12,7 @@ import {CompetitionStatisticsService} from "../../services/competition.statistic
 import {CompetitionStatistics} from "../../model/competition.statistics";
 import {Router} from "@angular/router";
 import {NgForm} from "@angular/forms";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-create-competition',
@@ -43,6 +44,7 @@ export class CreateCompetitionComponent implements OnInit {
     competitionCreated: boolean;
 
     invitedUsers: number[] = [];
+    assetsUrl: string;
 
     /**
      * Creates a CreateCompetitionComponent, initialize the components
@@ -58,7 +60,8 @@ export class CreateCompetitionComponent implements OnInit {
               private dataService: DataService, private competitionService: CompetitionService,
               private invitationService: InvitationService,
               private competitionStatisticsService: CompetitionStatisticsService,  private router: Router) {
-        this.competitionCreated = false;
+      this.assetsUrl = environment.assetsUrl;
+      this.competitionCreated = false;
         this.user = this.dataService.getUser();
         if (!this.user) {
             this.userService.isLoggedIn().subscribe((users: User) => {
@@ -177,5 +180,23 @@ export class CreateCompetitionComponent implements OnInit {
           });
       }
   }
+
+    async ngAfterViewInit() {
+        await this.loadScript(this.assetsUrl+"assets/js/jquery-2.2.4.min.js");
+        await this.loadScript(this.assetsUrl+"assets/js/superfish.min.js");
+        await this.loadScript(this.assetsUrl+"assets/js/jquery.magnific-popup.min.js");
+        await this.loadScript(this.assetsUrl+"assets/js/jquery.counterup.min.js");
+        await this.loadScript(this.assetsUrl+"assets/js/main.js");
+    }
+
+    private loadScript(scriptUrl: string) {
+        return new Promise((resolve, reject) => {
+            const scriptElement = document.createElement('script');
+            scriptElement.src = scriptUrl;
+            scriptElement.type = "text/javascript";
+            scriptElement.onload = resolve;
+            document.body.appendChild(scriptElement);
+        })
+    }
 
 }

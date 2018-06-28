@@ -9,6 +9,7 @@ import {MultimediaService} from "../../services/multimedia.service";
 import {Multimedia} from "../../model/multimedia";
 import {Site} from "../../model/site";
 import {SiteService} from "../../services/site.service";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-edit-term',
@@ -63,6 +64,7 @@ export class EditTermComponent implements OnInit {
   totalSites : number = 0;
   otherSites : Site[];
   currentSites : Site[];
+  assetsUrl: string;
 
   constructor(private dataService: DataService,
               private termService: TermService,
@@ -71,6 +73,7 @@ export class EditTermComponent implements OnInit {
               private multimediaService : MultimediaService,
               private siteService : SiteService) {
     this.readyToShow = false;
+      this.assetsUrl = environment.assetsUrl;
     this.user = this.dataService.getUser();
     if (!this.user) {
       this.userService.isLoggedIn().subscribe((users: User) => {
@@ -440,7 +443,23 @@ export class EditTermComponent implements OnInit {
       });
     }
 
+    async ngAfterViewInit() {
+        await this.loadScript(this.assetsUrl+"assets/js/jquery-2.2.4.min.js");
+        await this.loadScript(this.assetsUrl+"assets/js/superfish.min.js");
+        await this.loadScript(this.assetsUrl+"assets/js/jquery.magnific-popup.min.js");
+        await this.loadScript(this.assetsUrl+"assets/js/jquery.counterup.min.js");
+        await this.loadScript(this.assetsUrl+"assets/js/main.js");
+    }
 
+    private loadScript(scriptUrl: string) {
+        return new Promise((resolve, reject) => {
+            const scriptElement = document.createElement('script');
+            scriptElement.src = scriptUrl;
+            scriptElement.type = "text/javascript";
+            scriptElement.onload = resolve;
+            document.body.appendChild(scriptElement);
+        })
+    }
 
 
 }

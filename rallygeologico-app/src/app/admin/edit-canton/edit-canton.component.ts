@@ -7,6 +7,7 @@ import {CantonService} from "../../services/canton.service";
 import {Canton} from "../../model/canton";
 import {Province} from "../../model/province";
 import {ProvinceService} from "../../services/province.service";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-edit-canton',
@@ -42,6 +43,7 @@ export class EditCantonComponent implements OnInit {
 
     name: string;
     province_id: number;
+    assetsUrl: string;
 
     constructor(private cantonService: CantonService,
                 private provinceService : ProvinceService,
@@ -49,6 +51,7 @@ export class EditCantonComponent implements OnInit {
                 private dataService: DataService,
                 private router:Router) {
         this.readyToShow = false;
+        this.assetsUrl = environment.assetsUrl;
         this.user = this.dataService.getUser();
         if (!this.user) {
             this.userService.isLoggedIn().subscribe((users: User) => {
@@ -223,6 +226,24 @@ export class EditCantonComponent implements OnInit {
                 }
             });
         }
+    }
+
+    async ngAfterViewInit() {
+        await this.loadScript(this.assetsUrl+"assets/js/jquery-2.2.4.min.js");
+        await this.loadScript(this.assetsUrl+"assets/js/superfish.min.js");
+        await this.loadScript(this.assetsUrl+"assets/js/jquery.magnific-popup.min.js");
+        await this.loadScript(this.assetsUrl+"assets/js/jquery.counterup.min.js");
+        await this.loadScript(this.assetsUrl+"assets/js/main.js");
+    }
+
+    private loadScript(scriptUrl: string) {
+        return new Promise((resolve, reject) => {
+            const scriptElement = document.createElement('script');
+            scriptElement.src = scriptUrl;
+            scriptElement.type = "text/javascript";
+            scriptElement.onload = resolve;
+            document.body.appendChild(scriptElement);
+        })
     }
 
 }

@@ -3,6 +3,7 @@ import {DataService} from "../../services/data/data.service";
 import {UserService} from "../../services/user.service";
 import {User} from "../../model/user";
 import {Router} from "@angular/router";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-edit-users',
@@ -48,11 +49,13 @@ export class EditUsersComponent implements OnInit {
     userSelected: boolean;
     readyToShow: boolean;
     activeTab: number;
+    assetsUrl: string;
 
     constructor(private userService: UserService,
                 private dataService: DataService,
                 private router: Router) {
         this.readyToShow = false;
+        this.assetsUrl = environment.assetsUrl;
         this.user = this.dataService.getUser();
         if (!this.user) {
             this.userService.isLoggedIn().subscribe((users: User) => {
@@ -275,6 +278,24 @@ export class EditUsersComponent implements OnInit {
 
     isPasswordLogin(){
         return (this.login_api == "3");
+    }
+
+    async ngAfterViewInit() {
+        await this.loadScript(this.assetsUrl+"assets/js/jquery-2.2.4.min.js");
+        await this.loadScript(this.assetsUrl+"assets/js/superfish.min.js");
+        await this.loadScript(this.assetsUrl+"assets/js/jquery.magnific-popup.min.js");
+        await this.loadScript(this.assetsUrl+"assets/js/jquery.counterup.min.js");
+        await this.loadScript(this.assetsUrl+"assets/js/main.js");
+    }
+
+    private loadScript(scriptUrl: string) {
+        return new Promise((resolve, reject) => {
+            const scriptElement = document.createElement('script');
+            scriptElement.src = scriptUrl;
+            scriptElement.type = "text/javascript";
+            scriptElement.onload = resolve;
+            document.body.appendChild(scriptElement);
+        })
     }
 
 }

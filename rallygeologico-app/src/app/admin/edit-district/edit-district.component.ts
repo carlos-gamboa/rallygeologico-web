@@ -7,6 +7,7 @@ import {DistrictService} from "../../services/district.service";
 import {DataService} from "../../services/data/data.service";
 import {Canton} from "../../model/canton";
 import {CantonService} from "../../services/canton.service";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-edit-district',
@@ -35,7 +36,6 @@ export class EditDistrictComponent implements OnInit {
     totalDistricts : number;
     currentPageDistrict : number;
 
-
     currentDistrict : District;
     currentDistrictIndex: number;
 
@@ -43,6 +43,7 @@ export class EditDistrictComponent implements OnInit {
     canton_id: number;
 
     allCantons : Canton[];
+    assetsUrl: string;
 
     constructor(private dataService: DataService,
                 private districtService: DistrictService,
@@ -50,6 +51,7 @@ export class EditDistrictComponent implements OnInit {
                 private router: Router,
                 private userService : UserService) {
         this.readyToShow = false;
+        this.assetsUrl = environment.assetsUrl;
         this.user = this.dataService.getUser();
         if (!this.user) {
             this.userService.isLoggedIn().subscribe((users: User) => {
@@ -224,5 +226,21 @@ export class EditDistrictComponent implements OnInit {
         }
     }
 
+    async ngAfterViewInit() {
+        await this.loadScript(this.assetsUrl+"assets/js/jquery-2.2.4.min.js");
+        await this.loadScript(this.assetsUrl+"assets/js/superfish.min.js");
+        await this.loadScript(this.assetsUrl+"assets/js/jquery.magnific-popup.min.js");
+        await this.loadScript(this.assetsUrl+"assets/js/jquery.counterup.min.js");
+        await this.loadScript(this.assetsUrl+"assets/js/main.js");
+    }
 
+    private loadScript(scriptUrl: string) {
+        return new Promise((resolve, reject) => {
+            const scriptElement = document.createElement('script');
+            scriptElement.src = scriptUrl;
+            scriptElement.type = "text/javascript";
+            scriptElement.onload = resolve;
+            document.body.appendChild(scriptElement);
+        })
+    }
 }

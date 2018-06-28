@@ -7,6 +7,7 @@ import {Router} from "@angular/router";
 import {User} from "../../model/user";
 import {Site} from "../../model/site";
 import {SiteService} from "../../services/site.service";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-edit-rally',
@@ -56,6 +57,7 @@ export class EditRallyComponent implements OnInit {
     description: string;
     latitude: number;
     longitude: number;
+    assetsUrl: string;
 
     /**
      * Creates a EditRallyComponent
@@ -70,6 +72,7 @@ export class EditRallyComponent implements OnInit {
               private dataService: DataService, private router: Router) {
         this.readyToShow = false;
         this.activeTab = -1;
+        this.assetsUrl = environment.assetsUrl;
 
         this.currentRally = null;
         this.rallySelected = false;
@@ -411,5 +414,23 @@ export class EditRallyComponent implements OnInit {
                 }
             });
         });
+    }
+
+    async ngAfterViewInit() {
+        await this.loadScript(this.assetsUrl+"assets/js/jquery-2.2.4.min.js");
+        await this.loadScript(this.assetsUrl+"assets/js/superfish.min.js");
+        await this.loadScript(this.assetsUrl+"assets/js/jquery.magnific-popup.min.js");
+        await this.loadScript(this.assetsUrl+"assets/js/jquery.counterup.min.js");
+        await this.loadScript(this.assetsUrl+"assets/js/main.js");
+    }
+
+    private loadScript(scriptUrl: string) {
+        return new Promise((resolve, reject) => {
+            const scriptElement = document.createElement('script');
+            scriptElement.src = scriptUrl;
+            scriptElement.type = "text/javascript";
+            scriptElement.onload = resolve;
+            document.body.appendChild(scriptElement);
+        })
     }
 }
