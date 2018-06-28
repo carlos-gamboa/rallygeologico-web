@@ -134,3 +134,9 @@ table thead{
   opacity: 1;
   padding: 10px;
 }
+
+@media only screen and (max-width: 800px) {
+  .busqueda {
+    width: 100%;
+  }
+}
