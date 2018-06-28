@@ -141,7 +141,7 @@
               <div class="row mt-10 mb-20 mr-0 ml-0">
                 <div class="col-lg-12">
                   <label for="media">Imagen</label>
-                  <image-upload #inputImage [style]="customStyle" id="media"[max]="1" [extensions]="['jpeg','png', 'jpg', 'svg']" buttonCaption="Seleccione una imagen"
+                  <image-upload #inputImage [style]="customStyle" id="media" [max]="1" [extensions]="['jpeg','png', 'jpg', 'svg']" buttonCaption="Seleccione una imagen"
                                 dropBoxMessage="O arrastre una imagen" clearButtonCaption="Quitar imagen" fileTooLargeMessage="Imagen demasiado grande" (click)="updateUrl($event)" (uploadFinished)="onUpload($event)" required></image-upload>
                   <div *ngIf="(inputImage?.invalid) && (inputImage?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
                     <p class="alert-message">Debe seleccionar una imagen.</p>
