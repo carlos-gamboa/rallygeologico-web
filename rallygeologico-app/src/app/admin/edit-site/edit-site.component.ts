@@ -10,7 +10,6 @@ import {District} from "../../model/district";
 import {Site} from "../../model/site";
 import {SiteService} from "../../services/site.service";
 import {DistrictService} from "../../services/district.service";
-import {environment} from "../../../environments/environment";
 
 @Component({
     selector: 'app-edit-site',
@@ -66,13 +65,11 @@ export class EditSiteComponent implements OnInit {
     siteSelected: boolean;
     readyToShow: boolean;
     activeTab: number;
-    assetsUrl: string;
 
     constructor(private rallyService: RallyService, private siteService: SiteService,
                 private dataService: DataService, private districtService: DistrictService,
                 private router: Router, private dataPipe: DatePipe, private userService: UserService) {
         this.readyToShow = false;
-        this.assetsUrl = environment.assetsUrl;
         this.user = this.dataService.getUser();
         if (!this.user) {
             this.userService.isLoggedIn().subscribe((users: User) => {
@@ -365,24 +362,6 @@ export class EditSiteComponent implements OnInit {
                 }
             });
         });
-    }
-
-    async ngAfterViewInit() {
-        await this.loadScript(this.assetsUrl+"assets/js/jquery-2.2.4.min.js");
-        await this.loadScript(this.assetsUrl+"assets/js/superfish.min.js");
-        await this.loadScript(this.assetsUrl+"assets/js/jquery.magnific-popup.min.js");
-        await this.loadScript(this.assetsUrl+"assets/js/jquery.counterup.min.js");
-        await this.loadScript(this.assetsUrl+"assets/js/main.js");
-    }
-
-    private loadScript(scriptUrl: string) {
-        return new Promise((resolve, reject) => {
-            const scriptElement = document.createElement('script');
-            scriptElement.src = scriptUrl;
-            scriptElement.type = "text/javascript";
-            scriptElement.onload = resolve;
-            document.body.appendChild(scriptElement);
-        })
     }
 
 }

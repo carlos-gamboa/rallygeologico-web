@@ -134,14 +134,3 @@
   opacity: 0.75;
   cursor: not-allowed !important;
 }
-
-
-.api-button{
-  width:14em;
-}
-
-@media only screen and (max-width: 800px) {
-  .api-button {
-    width: 12em;
-  }
-}

@@ -7,7 +7,6 @@ import {CompetitionStatistics} from "../model/competition.statistics";
 import {User} from "../model/user";
 import {DataService} from "../services/data/data.service";
 import {UserService} from "../services/user.service";
-import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-rally',
@@ -35,11 +34,10 @@ export class RallyComponent implements OnInit {
   activeTotalPoints : number;
 
   user: User;
-  assetsUrl: string;
 
   constructor(private dataService: DataService, private userService: UserService, private rallyService: RallyService,private competitionStatService : CompetitionStatisticsService, private route: ActivatedRoute, private router: Router){
     this.zoom = 9;
-    this.assetsUrl = environment.assetsUrl;
+
   }
 
   ngOnInit() {
@@ -90,22 +88,4 @@ export class RallyComponent implements OnInit {
         });
     });
   }
-
-    async ngAfterViewInit() {
-        await this.loadScript(this.assetsUrl+"assets/js/jquery-2.2.4.min.js");
-        await this.loadScript(this.assetsUrl+"assets/js/superfish.min.js");
-        await this.loadScript(this.assetsUrl+"assets/js/jquery.magnific-popup.min.js");
-        await this.loadScript(this.assetsUrl+"assets/js/jquery.counterup.min.js");
-        await this.loadScript(this.assetsUrl+"assets/js/main.js");
-    }
-
-    private loadScript(scriptUrl: string) {
-        return new Promise((resolve, reject) => {
-            const scriptElement = document.createElement('script');
-            scriptElement.src = scriptUrl;
-            scriptElement.type = "text/javascript";
-            scriptElement.onload = resolve;
-            document.body.appendChild(scriptElement);
-        })
-    }
 }

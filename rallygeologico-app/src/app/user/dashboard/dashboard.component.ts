@@ -11,7 +11,6 @@ import {RallyService} from "../../services/rally.service";
 import {Rally} from "../../model/rally";
 import {CompetitionStatisticsService} from "../../services/competition.statistics.service";
 import {CompetitionStatistics} from "../../model/competition.statistics";
-import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-dashboard',
@@ -28,13 +27,12 @@ export class DashboardComponent implements OnInit {
     initialLongitude: number;
     zoom: number;
     readyToShow: boolean = false;
-    assetsUrl: string;
 
     constructor(private userService: UserService, private dataService: DataService,
                 private invitationService: InvitationService,
                 private competitionStatisticsService: CompetitionStatisticsService,
                 private rallyService: RallyService, private router: Router) {
-        this.assetsUrl = environment.assetsUrl;
+
         this.user = this.dataService.getUser();
         if (!this.user){
             this.userService.isLoggedIn().subscribe((users: User) => {
@@ -68,24 +66,6 @@ export class DashboardComponent implements OnInit {
     }
 
     ngOnInit() {
-    }
-
-    async ngAfterViewInit() {
-        await this.loadScript(this.assetsUrl+"assets/js/jquery-2.2.4.min.js");
-        await this.loadScript(this.assetsUrl+"assets/js/superfish.min.js");
-        await this.loadScript(this.assetsUrl+"assets/js/jquery.magnific-popup.min.js");
-        await this.loadScript(this.assetsUrl+"assets/js/jquery.counterup.min.js");
-        await this.loadScript(this.assetsUrl+"assets/js/main.js");
-    }
-
-    private loadScript(scriptUrl: string) {
-        return new Promise((resolve, reject) => {
-            const scriptElement = document.createElement('script');
-            scriptElement.src = scriptUrl;
-            scriptElement.type = "text/javascript";
-            scriptElement.onload = resolve;
-            document.body.appendChild(scriptElement);
-        })
     }
 
 }

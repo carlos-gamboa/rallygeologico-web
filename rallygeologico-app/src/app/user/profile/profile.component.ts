@@ -5,7 +5,6 @@ import {DataService} from "../../services/data/data.service";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {CompetitionStatistics} from "../../model/competition.statistics";
 import {CompetitionStatisticsService} from "../../services/competition.statistics.service";
-import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-profile',
@@ -32,14 +31,12 @@ export class ProfileComponent implements OnInit {
     statistics: CompetitionStatistics[] = [];
     showedStatistics: CompetitionStatistics[];
     clickedStatistic: number = -1;
-    assetsUrl: string;
 
     constructor(private dataService: DataService,
               private userService: UserService,
               private statisticsService : CompetitionStatisticsService,
               private route: ActivatedRoute,
               private router: Router) {
-        this.assetsUrl = environment.assetsUrl;
         this.currentUser = this.dataService.getUser();
         if (!this.currentUser) {
             this.userService.isLoggedIn().subscribe((users: User) => {
@@ -142,23 +139,5 @@ export class ProfileComponent implements OnInit {
             this.showedStatistics = this.statistics.slice((this.currentPage - 1) * this.pageSize, ((this.currentPage) * this.pageSize));
             this.clickedStatistic = -1;
         }
-    }
-
-    async ngAfterViewInit() {
-        await this.loadScript(this.assetsUrl+"assets/js/jquery-2.2.4.min.js");
-        await this.loadScript(this.assetsUrl+"assets/js/superfish.min.js");
-        await this.loadScript(this.assetsUrl+"assets/js/jquery.magnific-popup.min.js");
-        await this.loadScript(this.assetsUrl+"assets/js/jquery.counterup.min.js");
-        await this.loadScript(this.assetsUrl+"assets/js/main.js");
-    }
-
-    private loadScript(scriptUrl: string) {
-        return new Promise((resolve, reject) => {
-            const scriptElement = document.createElement('script');
-            scriptElement.src = scriptUrl;
-            scriptElement.type = "text/javascript";
-            scriptElement.onload = resolve;
-            document.body.appendChild(scriptElement);
-        })
     }
 }
