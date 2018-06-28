@@ -21,7 +21,7 @@
         <div class="offset-md-2 col-md-8 col-xs-12">
           <h3 class="text-center mb-3">Seleccione la actividad que desea editar</h3>
           <div class="busqueda" id="searchFormEdit">
-            <input [(ngModel)]="searchQuery" type="text" title="Digite aquí el nombre de la actividad" id="searchTermEdit" placeholder="Digite el nombre de la actividad" />
+            <input [(ngModel)]="searchQuery" type="text" title="Digite aquí el nombre de la actividad" id="searchTermEdit" (keydown.enter)="searchActivity()"  placeholder="Digite el nombre de la actividad" />
             <button type="button" id="searchEdit" title="Click aquí para buscar la actividad" (click)="searchActivity()">Buscar</button>
           </div>
           <div class="text-center">
@@ -166,7 +166,7 @@
         <div class="offset-md-2 col-md-8 col-xs-12">
           <h3 class="text-center mb-3">Seleccione la opción</h3>
           <div class="busqueda" id="searchSiteForm">
-            <input [(ngModel)]="searchOptionsQuery" type="text" title="Digite aquí el texto de la opcion" id="searchOptionsInput" placeholder="Digite el el texto de la opcion" />
+            <input [(ngModel)]="searchOptionsQuery" type="text" title="Digite aquí el texto de la opcion" id="searchOptionsInput" placeholder="Digite el el texto de la opcion" (keydown.enter)="searchOptions()"/>
             <button type="button" id="searchOptions" title="Click aquí para buscar la opción" (click)="searchOptions()">Buscar</button>
           </div>
           <h3 class="text-center mb-3">Resultados</h3>
@@ -261,7 +261,7 @@
         <div class="offset-md-2 col-md-8 col-xs-12">
           <h3 class="text-center mb-3">Seleccione la multimedia</h3>
           <div class="busqueda" id="searchMultimediaForm">
-            <input [(ngModel)]="searchMultimediaQuery" type="text" title="Digite aquí el nombre de la multimedia" id="searchMultimediaInput" placeholder="Digite el nombre del multimedia" />
+            <input [(ngModel)]="searchMultimediaQuery" type="text" title="Digite aquí el nombre de la multimedia" id="searchMultimediaInput" placeholder="Digite el nombre del multimedia" (keydown.enter)="searchMultimedia()"/>
             <button type="button" id="searchMultimedia" title="Click aquí para buscar la multimedia" (click)="searchMultimedia()">Buscar</button>
           </div>
           <h3 class="text-center mb-3">Resultados</h3>

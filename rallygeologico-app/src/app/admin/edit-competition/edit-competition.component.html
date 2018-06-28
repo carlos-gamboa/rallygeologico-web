@@ -21,7 +21,7 @@
         <div class="offset-md-2 col-md-8 col-xs-12">
           <h3 class="text-center mb-3">Seleccione la competencia que desea editar</h3>
           <div class="busqueda" id="searchFormEdit">
-            <input [(ngModel)]="searchQuery" type="text" title="Digite aquí el nombre de la competencia" id="searchTermEdit" placeholder="Digite el nombre de la competencia" />
+            <input [(ngModel)]="searchQuery" type="text" title="Digite aquí el nombre de la competencia" id="searchTermEdit" placeholder="Digite el nombre de la competencia" (keydown.enter)="searchCompetition()"/>
             <button type="button" id="searchEdit" title="Click aquí para buscar la competencia" (click)="searchCompetition()">Buscar</button>
           </div>
           <div class="text-center">
