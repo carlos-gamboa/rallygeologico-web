@@ -123,36 +123,14 @@ class TermController extends AppController
         $this->render('/Term/json/template');
     }
 
-    /**
-     * Gets all the terms
+    /**Get all the terms
+     * @param null $termId
      *
      */
-    public function getAllTerms(){
-        $term = $this->Term->find('all', [
+    public function getAllTerms($termId = null){
+        $media = $this->Term->find('all', [
         ]);
-        $this->set('term', $term);
-        $this->render('/Term/json/template');
-    }
-
-    /**
-     * Gets all the terms ordered by letter
-     */
-    public function getAllTermsOrdered(){
-        $term = $this->Term->find('all', [
-                'order' => ['Term.name' => 'ASC'],
-                'contain' => ['Multimedia', 'Site']
-            ]
-        );
-        $this->set('term', $term);
-        $this->render('/Term/json/template');
-    }
-
-    public function getATerm($id = null){
-        $term = $this->Term->get($id, [
-                'contain' => ['Multimedia','Site']
-            ]
-        );
-        $this->set('term', $term);
+        $this->set('term', $media);
         $this->render('/Term/json/template');
     }
 
@@ -193,6 +171,28 @@ class TermController extends AppController
             ]
         ]);
         $this->set('term', $terms);
+      $this->render('/Term/json/template');
+    }
+
+    /**
+    * Gets all the terms ordered by letter
+     */
+    public function getAllTermsOrdered(){
+        $term = $this->Term->find('all', [
+                'order' => ['Term.name' => 'ASC'],
+                'contain' => ['Multimedia', 'Site']
+            ]
+        );
+        $this->set('term', $term);
+        $this->render('/Term/json/template');
+    }
+
+    public function getATerm($id = null){
+        $term = $this->Term->get($id, [
+                'contain' => ['Multimedia','Site']
+            ]
+        );
+        $this->set('term', $term);
         $this->render('/Term/json/template');
     }
 

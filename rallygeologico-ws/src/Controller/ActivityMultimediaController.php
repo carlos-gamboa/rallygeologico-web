@@ -121,7 +121,7 @@ class ActivityMultimediaController extends AppController
             $this->set('activityMultimedia', true);
         } else {
             $this->Flash->error(__('The activity multimedia could not be deleted. Please, try again.'));
-            $this->set('activityMultimedia', true);
+            $this->set('activityMultimedia', false);
         }
 
         $this->render('/ActivityMultimedia/json/template');

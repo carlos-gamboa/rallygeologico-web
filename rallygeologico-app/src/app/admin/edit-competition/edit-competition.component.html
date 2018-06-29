@@ -21,7 +21,7 @@
         <div class="offset-md-2 col-md-8 col-xs-12">
           <h3 class="text-center mb-3">Seleccione la competencia que desea editar</h3>
           <div class="busqueda" id="searchFormEdit">
-            <input [(ngModel)]="searchQuery" type="text" title="Digite aquí el nombre de la competencia" id="searchTermEdit" placeholder="Digite el nombre de la competencia" />
+            <input [(ngModel)]="searchQuery" type="text" title="Digite aquí el nombre de la competencia" id="searchTermEdit" placeholder="Digite el nombre de la competencia" (keydown.enter)="searchCompetition()"/>
             <button type="button" id="searchEdit" title="Click aquí para buscar la competencia" (click)="searchCompetition()">Buscar</button>
           </div>
           <div class="text-center">
@@ -29,7 +29,7 @@
             <div class="mt-4 mb-4">
               <button title="Agregar nueva" class="invite-btn genric-btn text-center primary medium" (click)="edit(-1)">Crear nueva competencia</button>
             </div>
-            <div>
+            <div style="overflow-x:auto;">
               <table class="table">
                 <thead>
                 <th><h5 class="text-center">Nombre</h5></th>
@@ -189,7 +189,7 @@
         <div class="offset-md-2 col-md-8 col-xs-12">
           <h3 class="text-center mb-3">Detalles de los participantes</h3>
           <div align="center">
-            <div>
+            <div style="overflow-x:auto;">
               <table class="table">
                 <th>Usuario</th>
                 <th>Puntos</th>

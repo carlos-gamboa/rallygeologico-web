@@ -1,8 +1,11 @@
+import {Term} from "./term";
+
 export class Multimedia {
   id : number;
   name : string;
   media_type: number;
   media_url : string;
+  terms: Term[];
   external_url: string;
 
   constructor(multimedia: any){

@@ -24,7 +24,7 @@
         <div class="offset-md-2 col-md-8 col-xs-12">
           <h3 class="text-center mb-3">Seleccione multimedia</h3>
           <div class="busqueda" id="searchFormEdit">
-            <input [(ngModel)]="searchQuery" type="text" title="Digite aquí el nombre asociado al multimedia" id="searchTermEdit" placeholder="Digite el nombre asociado al multimedia" />
+            <input [(ngModel)]="searchQuery" type="text" title="Digite aquí el nombre asociado al multimedia" id="searchTermEdit" placeholder="Digite el nombre asociado al multimedia" (keydown.enter)="searchMultimedia()"/>
             <button type="button" id="searchEdit" title="Click aquí para buscar multimedia" (click)="searchMultimedia()">Buscar</button>
           </div>
           <div class="text-center">
@@ -169,7 +169,7 @@
         <div class="offset-md-2 col-md-8 col-xs-12">
           <h3 class="text-center mb-3">Seleccione el término</h3>
           <div class="busqueda" id="searchSiteForm">
-            <input [(ngModel)]="searchTermQuery" type="text" title="Digite aquí el nombre del término" id="searchTermInput" placeholder="Digite el nombre del término" />
+            <input [(ngModel)]="searchTermQuery" type="text" title="Digite aquí el nombre del término" id="searchTermInput" placeholder="Digite el nombre del término" (keydown.enter)="searchTerm()"/>
             <button type="button" id="searchTerm" title="Click aquí para buscar el término" (click)="searchTerm()">Buscar</button>
           </div>
           <h3 class="text-center mb-3">Resultados</h3>
@@ -251,3 +251,4 @@
   <!-- End activities Area -->
 
 </div>
+
