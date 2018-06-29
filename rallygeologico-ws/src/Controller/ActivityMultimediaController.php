@@ -127,12 +127,18 @@ class ActivityMultimediaController extends AppController
         $this->render('/ActivityMultimedia/json/template');
     }
 
+    /**
+     * Gets the relation id based on activity and multimedia's ids.
+     *
+     * @param null $activityId
+     * @param null $multimediaId
+     */
     public function getActivityMultimedia($activityId = null, $multimediaId = null){
         $activityMultimedia = $this->ActivityMultimedia->find('all', [
                 'conditions' => ['ActivityMultimedia.activity_id' => $activityId,
                     'ActivityMultimedia.multimedia_id' => $multimediaId]]
         );
         $this->set('activityMultimedia', $activityMultimedia->extract('id'));
-        $this->render('/ActivityMultimedia/json/template');
+        $this->render('/activityMultimedia/json/template');
     }
 }

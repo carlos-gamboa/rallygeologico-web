@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {UserService} from "../../services/user.service";
 import {User} from "../../model/user";
 import {DataService} from "../../services/data/data.service";
@@ -7,6 +7,11 @@ import {Multimedia} from "../../model/multimedia";
 import {MultimediaService} from "../../services/multimedia.service";
 import {TermService} from "../../services/term.service";
 import {Term} from "../../model/term";
+import {Activity} from "../../model/activity";
+import {ActivityService} from "../../services/activity.service";
+import {ImagesService} from "../../services/images.service";
+import {Configuration} from "../../services/data/constants";
+import {ImageUploadComponent} from "angular2-image-upload";
 
 @Component({
   selector: 'app-edit-multimedia',
@@ -50,22 +55,81 @@ export class EditMultimediaComponent implements OnInit {
     pageTermSize: number;
     currentTermIndex: number;
 
+    otherActivities: Activity[];
+    currentActivities: Activity[];
+    searchActivityQuery = "";
+    activities: Activity[];
+    allActivities: Activity[];
+    showedActivities: Activity[];
+    totalActivities: number;
+    currentPageActivity: number;
+    pageActivitySize: number;
+    currentActivityIndex: number;
+
     name: string;
     media_type: number;
     media_url: string;
+    external_url: string;
+
+    imageEvent: any;
+    file: File;
+    newFileName: string;
+
+    baseUrl: string;
+
+    @ViewChild('inputImage') inputImage: ImageUploadComponent;
+
+    customStyle = {
+        selectButton: {
+            "background-color": "#0C344E",
+            "color": "#FFF",
+            "font-size": "14px",
+            "text-transform": "capitalize",
+        },
+        clearButton: {
+            "background-color": "#249DD8",
+            "color": "#FFF",
+            "font-size": "14px",
+            "margin": "5px",
+            "text-transform": "capitalize",
+        },
+        layout: {
+            "background-color": "#FFF",
+            "color": "#555555",
+            "font-size": "14px",
+            "margin": "10px",
+            "padding-top": "5px",
+            "width": "98%",
+            "border": "#777777 solid 1px",
+            "border-radius": "0px"
+        },
+        previewPanel: {
+            "background-color": "#FFF",
+        }
+    };
 
     /**
      * Creates a EditMultimediaComponent
      *
      * @param {MultimediaService} multimediaService
+     * @param {TermsService} termsService
+     * @param {ActivityService} activityService
      * @param {UserService} userService
      * @param {DataService} dataService
+     * @param {ImagesService} imageService
      * @param {Router} router
      */
-    constructor(private multimediaService: MultimediaService, private termsService: TermService, private userService: UserService,
-                private dataService: DataService, private router: Router) {
+    constructor(private multimediaService: MultimediaService, private termsService: TermService, private activityService: ActivityService, private userService: UserService,
+                private dataService: DataService, private imageService: ImagesService, private _configuration: Configuration, private router: Router) {
         this.readyToShow = false;
         this.activeTab = -1;
+
+        this.media_type = 0;
+
+        this.baseUrl = this._configuration.ServerWithApiUrl+"webroot/img/";
+        this.file = null;
+        this.newFileName = "";
+        this.imageEvent = null;
 
         this.currentMultimedia = null;
         this.multimediaSelected = false;
@@ -87,7 +151,6 @@ export class EditMultimediaComponent implements OnInit {
 
         this.otherTerms = [];
         this.currentTerms = [];
-
         this.searchTermQuery = "";
         this.terms = [];
         this.allTerms = [];
@@ -96,6 +159,17 @@ export class EditMultimediaComponent implements OnInit {
         this.currentPageTerm = 0;
         this.pageTermSize = 10;
         this.currentTermIndex = 0;
+
+        this.otherActivities = [];
+        this.currentActivities = [];
+        this.searchActivityQuery = "";
+        this.activities = [];
+        this.allActivities = [];
+        this.showedActivities = [];
+        this.totalActivities = 0;
+        this.currentPageActivity = 0;
+        this.pageActivitySize = 10;
+        this.currentActivityIndex = 0;
 
         this.user = this.dataService.getUser();
         if (!this.user) {
@@ -196,7 +270,61 @@ export class EditMultimediaComponent implements OnInit {
             this.name = this.currentMultimedia.name;
             this.media_type = this.currentMultimedia.media_type;
             this.media_url = this.currentMultimedia.media_url;
+            this.external_url = this.currentMultimedia.external_url;
         }
+    }
+
+    /**
+     * Gets the selected file and creates its url
+     * @param event
+     */
+    onUpload(event) {
+        this.readyToShow = false;
+        this.changesSaved = false;
+        this.imageEvent = event;
+        //console.log(event);
+        this.file  = event.file;
+        let fileName = this.file.name;
+        let type = this.file.type;
+        if(type == "image/jpeg") {
+            if(fileName.includes('.jpeg')){
+                this.newFileName = Date.now().toString()+'.jpeg';
+            } else if(fileName.includes('.jpg')) {
+                this.newFileName = Date.now().toString() + '.jpg';
+            }
+            this.media_url = this.baseUrl + this.newFileName;
+        } else if(type == "image/png") {
+            this.newFileName = Date.now().toString()+'.png';
+            this.media_url = this.baseUrl + this.newFileName;
+        }
+        else if (type == "image/svg"){
+            this.newFileName = Date.now().toString()+'.svg';
+            this.media_url = this.baseUrl + this.newFileName;
+        } else {
+            if(this.currentMultimedia != null) {
+                this.media_url = this.currentMultimedia.media_url;
+            } else{
+                this.media_url = "";
+            }
+        }
+        this.readyToShow = true;
+    }
+
+    /**
+     * Verifies if there is a selected file, otherwise change to the initial url
+     * @param event
+     */
+    updateUrl(event){
+        this.readyToShow = false;
+        if (this.inputImage.fileCounter == 0){
+            if (this.currentMultimedia){
+                this.media_url = this.currentMultimedia.media_url;
+            } else {
+                this.media_url = "";
+            }
+            this.imageEvent = null;
+        }
+        this.readyToShow = true;
     }
 
     /**
@@ -204,36 +332,59 @@ export class EditMultimediaComponent implements OnInit {
      */
     saveChanges(){
         this.changesSaved = false;
-        if (this.currentMultimedia) {
-            this.multimediaService.editMultimedia(this.currentMultimedia.id, this.name, this.media_type, this.media_url).subscribe((multimedia: Multimedia) => {
-                if (multimedia) {
-                    this.currentMultimedia = multimedia;
-                    this.allMultimedia[this.currentMultimediaIndex] = this.currentMultimedia;
-                    this.changesSaved = true;
-                    this.messageType = true;
-                    this.alertMessage = "Se han guardado los cambios.";
-                } else {
-                    this.alertMessage = "No se pudo guardar los cambios.";
-                    this.messageType = false;
-
-                }
-            });
+        if(this.media_url == null || this.media_url == ""){
+            this.alertMessage = "No se pudo guardar los cambios, debe seleccionar una imagen.";
+            this.messageType = false;
+            this.changesSaved = true;
         }
         else {
-            this.multimediaService.addMultimedia(this.name, this.media_type, this.media_url).subscribe((multimedia: Multimedia) => {
-                if (multimedia){
-                    this.currentMultimedia = multimedia;
-                    this.allMultimedia.push(this.currentMultimedia);
-                    this.multimediaCreated = true;
-                    this.changesSaved = true;
-                    this.newMultimedia = false;
-                    this.messageType = true;
-                    this.alertMessage = "Multimedia creada.";
-                } else {
-                    this.messageType = false;
-                    this.alertMessage = "No se pudo crear multimedia.";
-                }
-            });
+            if (this.currentMultimedia) {
+                this.imageService.uploadImage(this.newFileName, this.file).subscribe((uploaded: boolean) => {
+                    if (uploaded) {
+                        this.multimediaService.editMultimedia(this.currentMultimedia.id, this.name, this.media_type, this.media_url, this.external_url).subscribe((multimedia: Multimedia) => {
+                            if (multimedia) {
+                                this.currentMultimedia = multimedia;
+                                this.allMultimedia[this.currentMultimediaIndex] = this.currentMultimedia;
+                                this.imageEvent = null;
+                                this.changesSaved = true;
+                                this.messageType = true;
+                                this.alertMessage = "Se han guardado los cambios.";
+                            } else {
+                                this.alertMessage = "No se pudo guardar los cambios.";
+                                this.messageType = false;
+
+                            }
+                        });
+                    } else {
+                        this.messageType = false;
+                        this.alertMessage = "No se pudo cargar la imagen.";
+                    }
+                });
+            }
+            else {
+                this.imageService.uploadImage(this.newFileName, this.file).subscribe((uploaded: boolean) => {
+                    if (uploaded) {
+                        this.multimediaService.addMultimedia(this.name, this.media_type, this.media_url, this.external_url).subscribe((multimedia: Multimedia) => {
+                            if (multimedia) {
+                                this.currentMultimedia = multimedia;
+                                this.allMultimedia.push(this.currentMultimedia);
+                                this.multimediaCreated = true;
+                                this.imageEvent = null;
+                                this.changesSaved = true;
+                                this.newMultimedia = false;
+                                this.messageType = true;
+                                this.alertMessage = "Multimedia creada.";
+                            } else {
+                                this.messageType = false;
+                                this.alertMessage = "No se pudo crear multimedia.";
+                            }
+                        });
+                    } else {
+                        this.messageType = false;
+                        this.alertMessage = "No se pudo cargar la imagen.";
+                    }
+                });
+            }
         }
     }
 
@@ -273,6 +424,9 @@ export class EditMultimediaComponent implements OnInit {
         this.name = "";
         this.media_type = 0;
         this.media_url = "";
+        this.external_url = "";
+        this.newFileName = "";
+        this.imageEvent = null;
     }
 
     /**
@@ -289,6 +443,13 @@ export class EditMultimediaComponent implements OnInit {
             this.currentTermIndex = 0;
             this.updateTerms();
         }
+        if (i == 2){
+            this.totalActivities = 0;
+            this.currentPageActivity = 0;
+            this.pageActivitySize = 10;
+            this.currentActivityIndex = 0;
+            this.updateActivities();
+        }
     }
 
     /**
@@ -298,10 +459,10 @@ export class EditMultimediaComponent implements OnInit {
         this.allTerms = [];
         this.termsService.getOtherTerms(this.currentMultimedia.id).subscribe((otherTerms: Term[]) => {
             this.otherTerms = otherTerms;
-            console.log(this.otherTerms);
+            //console.log(this.otherTerms);
             this.termsService.getAssociatedTerms(this.currentMultimedia.id).subscribe((currentTerms: Term[]) => {
                 this.currentTerms = currentTerms;
-                console.log(this.currentTerms);
+                //console.log(this.currentTerms);
                 for(let term of this.otherTerms){
                     this.allTerms.push(term);
                 }
@@ -396,5 +557,111 @@ export class EditMultimediaComponent implements OnInit {
             });
         });
     }
+
+  /**
+   * Loads all activities'information
+   */
+  updateActivities(){
+    this.allActivities = [];
+    this.activityService.getOtherActivitiesFromMultimedia(this.currentMultimedia.id).subscribe((otherActivities: Activity[]) => {
+      this.otherActivities = otherActivities;
+      //console.log(this.otherActivities);
+      this.activityService.getAssociatedActivitiesFromMultimedia(this.currentMultimedia.id).subscribe((currentActivities: Activity[]) => {
+        this.currentActivities = currentActivities;
+        //console.log(this.currentActivities);
+        for(let activity of this.otherActivities){
+          this.allActivities.push(activity);
+        }
+        for(let activity of this.currentActivities){
+          this.allActivities.push(activity);
+        }
+        this.reloadActivities(this.allActivities);
+      });
+    });
+  }
+
+  /**
+   * Reloads activities' information for the search table
+   * @param {Activity[]} activities
+   */
+  reloadActivities(activities: Activity[]){
+    this.readyToShow = false;
+    this.activities = activities;
+    this.totalActivities =  activities.length;
+    this.showedActivities = activities.slice(0, this.pageTermSize);
+    this.currentPageActivity = 0;
+    this.readyToShow = true;
+  }
+
+  /**
+   * Manage page changing on the search table
+   */
+  activityPageChange(){
+    if(this.activities) {
+      this.showedActivities = this.activities.slice((this.currentPageActivity - 1) * this.pageActivitySize, ((this.currentPageActivity) * this.pageActivitySize));
+    }
+  }
+
+  /**
+   * Searches an activity by name
+   */
+  searchActivity(){
+    let activitiesToShow = [];
+    if(this.searchActivityQuery.length >= 1) {
+      for (let activity of this.allActivities) {
+        if (activity.name.toLowerCase().startsWith(this.searchTermQuery.toLowerCase())) {
+          activitiesToShow.push(activity);
+        }
+      }
+      this.reloadActivities(activitiesToShow);
+    }else{
+      this.reloadActivities(this.allActivities);
+    }
+  }
+
+  /**
+   * Returns if the specified activity is actually part of the current multimedia
+   *
+   * @param {number} id
+   * @returns {boolean}
+   */
+  activityBelongsTo(id: number): boolean{
+    for(let currentActivity of this.currentActivities){
+      if (id == currentActivity.id){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Adds an activityMultimedia relation between the current multimedia and the activity on the specified position
+   *
+   * @param {number} i
+   */
+  addActivityMultimedia(i : number){
+    this.currentTermIndex = ((this.currentPageTerm - 1) * this.pageTermSize) + i;
+    this.activityService.addActivityMultimedia(this.showedActivities[i].id, this.currentMultimedia.id).subscribe((activity: Activity) =>{
+      if(activity){
+        this.updateActivities();
+      }
+    });
+  }
+
+  /**
+   * Deletes the activityMultimedia relation between the current multimedia and the activity on the specified position
+   *
+   * @param {number} i
+   */
+  deleteActivityMultimedia(i: number){
+    this.currentActivityIndex = ((this.currentPageActivity - 1) * this.pageActivitySize) + i;
+    this.activityService.getActivityMultimedia(this.showedActivities[i].id, this.currentMultimedia.id).subscribe((id: number) => {
+      this.activityService.deleteActivityMultimedia(id).subscribe((deleted: boolean) => {
+        if (deleted) {
+          this.updateActivities();
+        }
+      });
+    });
+  }
 
 }

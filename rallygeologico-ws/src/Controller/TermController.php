@@ -151,7 +151,7 @@ class TermController extends AppController
             ]
         ]);
         $this->set('term', $terms);
-      $this->render('/Term/json/template');
+        $this->render('/Term/json/template');
     }
 
     /**

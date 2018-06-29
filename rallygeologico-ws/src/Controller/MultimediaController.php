@@ -3,6 +3,8 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
+use function Couchbase\fastlzCompress;
+use function MongoDB\BSON\toJSON;
 
 /**
  * Multimedia Controller
@@ -26,6 +28,7 @@ class MultimediaController extends AppController
 
         $this->set(compact('multimedia'));
         $this->set('_serialize', 'multimedia');
+        $this->render('/Multimedia/json/template');
     }
 
     /**
@@ -55,6 +58,7 @@ class MultimediaController extends AppController
         ]);
 
         $this->set('multimedia', $multimedia);
+        $this->render('/Multimedia/json/template');
     }
 
     /**
@@ -82,11 +86,36 @@ class MultimediaController extends AppController
     }
 
     /**
+     * Upload image method
+     *
+     * @param null $filename
+     * @throws \Aura\Intl\Exception
+     */
+    public function uploadImage($filename = null)
+    {
+        if ($this->getRequest()->is('post')) {
+            if(!empty($this->getRequest()->getData('file'))){
+                $uploadFile = WWW_ROOT. "img/" . $filename;
+                if (move_uploaded_file($this->getRequest()->getData('file')['tmp_name'], $uploadFile)) {
+                    $this->set('multimedia', true);
+                    $this->Flash->success(__('File has been uploaded and inserted successfully.'));
+                } else {
+                    $this->set('multimedia', false);
+                    $this->Flash->error(__('Unable to upload file, please try again.'));
+                }
+            } else {
+                $this->set('multimedia', false);
+                $this->Flash->error(__('Please choose a file to upload.'));
+            }
+        }
+        $this->render('/Multimedia/json/template');
+    }
+
+    /**
      * Edit method
      *
-     * @param string|null $id Multimedia id.
-     * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @param null $id
+     * @throws \Aura\Intl\Exception
      */
     public function edit($id = null)
     {
@@ -97,14 +126,15 @@ class MultimediaController extends AppController
             $multimedia = $this->Multimedia->patchEntity($multimedia, $this->getRequest()->getData());
             if ($this->Multimedia->save($multimedia)) {
                 $this->Flash->success(__('The multimedia has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The multimedia could not be saved. Please, try again.'));
+            else{
+                $this->Flash->error(__('The multimedia could not be saved. Please, try again.'));
+            }
         }
         $activity = $this->Multimedia->Activity->find('list', ['limit' => 200]);
         $term = $this->Multimedia->Term->find('list', ['limit' => 200]);
         $this->set(compact('multimedia', 'activity', 'term'));
+        $this->render('/Multimedia/json/template');
     }
 
     /**
@@ -201,6 +231,24 @@ class MultimediaController extends AppController
                 'Multimedia.id IN ' => $this->ActivityMultimedia->find('all', [
                     'fields' => ['ActivityMultimedia.multimedia_id'],
                     'conditions' => ['ActivityMultimedia.activity_id' => $activityId
+                    ]
+                ])
+            ]
+        ]);
+        $this->set('multimedia', $media);
+        $this->render('/Multimedia/json/template');
+    }
+
+    /**
+     * Gets the last Qr multimedia
+     */
+    public function getQrMultimedia()
+    {
+        $media = $this->Multimedia->find('all', [
+            'conditions' => [
+                'Multimedia.id IN ' => $this->Multimedia->find('all', [
+                    'fields' => ['id' => 'MAX(Multimedia.id)'],
+                    'conditions' => ['Multimedia.media_type' => 10
                     ]
                 ])
             ]

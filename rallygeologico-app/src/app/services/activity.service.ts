@@ -2,7 +2,6 @@ import {Configuration} from "./data/constants";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
-import {Site} from "../model/site";
 import {Activity} from "../model/activity";
 import {Options} from "../model/options";
 

@@ -17,6 +17,8 @@ import { AdminHeaderComponent } from './admin-header/admin-header.component';
 import { EditUsersComponent } from './edit-users/edit-users.component';
 import { EditMultimediaComponent } from './edit-multimedia/edit-multimedia.component';
 import { EditActivityComponent } from './edit-activity/edit-activity.component';
+import {ImageUploadModule} from "angular2-image-upload";
+import {AdminFooterComponent} from "./admin-footer/admin-footer.component";
 
 @NgModule({
     imports: [
@@ -28,6 +30,7 @@ import { EditActivityComponent } from './edit-activity/edit-activity.component';
         NgbModule,
         MatDatepickerModule,
         MatNativeDateModule,
+        ImageUploadModule.forRoot(),
     ],
     declarations: [
         LoginComponent,
@@ -42,7 +45,8 @@ import { EditActivityComponent } from './edit-activity/edit-activity.component';
         AdminHeaderComponent,
         EditUsersComponent,
         EditMultimediaComponent,
-        EditActivityComponent
+        EditActivityComponent,
+        AdminFooterComponent
     ],
     exports: [
         PublicFooterComponent

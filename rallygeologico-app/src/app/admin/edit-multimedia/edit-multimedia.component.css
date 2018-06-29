@@ -1,3 +1,16 @@
+.custom-class{
+    text-transform: lowercase;
+}
+
+input[type=file] {
+    width: 98%;
+    height: 40px;
+    padding: 4px;
+    color: #555555;
+    border: #777777 solid 1px;
+    background-color: white;
+}
+
 .title{
     color: #FFFFFF;
 }
@@ -28,6 +41,7 @@ p, .alert-message{
     height: 40px;
     padding: 10px;
     color: #555555;
+    overflow: scroll;
 }
 
 .date-input{
@@ -61,6 +75,12 @@ p, .alert-message{
       1px 1px 0 #EBA71C,
       2px 2px 0 #EBA71C
   ;*/
+}
+
+@media only screen and (max-width: 800px) {
+    .busqueda {
+        width:100%;
+    }
 }
 
 .busqueda>input[type=text],

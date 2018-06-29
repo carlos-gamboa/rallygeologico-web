@@ -626,10 +626,10 @@ export class EditActivityComponent implements OnInit {
           this.updateMultimedia();
           this.reloadMultimedia(this.allMultimedia);
           this.messageType = true;
-          this.alertMessage = "Se ha eliminado el sitio del rally seleccionado."
+          this.alertMessage = "Se ha eliminado el sitio de la actividad seleccionada."
         } else {
           this.messageType = false;
-          this.alertMessage = "No se pudo eliminal el sitio del rally seleccionado."
+          this.alertMessage = "No se pudo eliminar el sitio de la actividad seleccionada."
         }
       });
     });
