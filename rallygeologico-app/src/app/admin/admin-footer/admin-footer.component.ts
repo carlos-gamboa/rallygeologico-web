@@ -63,7 +63,7 @@ export class AdminFooterComponent implements OnInit {
         this.assetsUrl = environment.assetsUrl;
         this.baseUrl = _configuration.ServerWithApiUrl+"webroot/img/";
         this.multimediaService.getQrMultimedia().subscribe((multimedia: Multimedia[]) => {
-            if(multimedia){
+            if(multimedia[0]){
                 this.qr = multimedia[0];
                 this.qrUrl = this.qr.media_url;
                 this.link = this.qr.external_url;

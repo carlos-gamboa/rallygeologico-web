@@ -4,10 +4,10 @@
     <div class="row" align="center">
       <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="single-footer-widget">
-          <img class="mx-auto d-block img-fluid" src="{{qrUrl}}" alt="" width="30%" height="auto" *ngIf="!imageEvent">
-          <img class="mx-auto d-block img-fluid" src="{{imageEvent.src}}" alt="" width="30%" height="auto" *ngIf="imageEvent">
+          <img class="mx-auto d-block img-fluid" src="{{qr?.media_url}}" alt="" width="30%" height="auto" *ngIf="!imageEvent">
+          <img class="mx-auto d-block img-fluid" src="{{imageEvent?.src}}" alt="" width="30%" height="auto" *ngIf="imageEvent">
           <div class="title text-center mb-5 mt-3">
-            <h3 class="mb-10"><a style="color: black" href="{{link}}"><span class="fa fa-android checked"></span>  Descarga la aplicación para Android</a>  <span class="fa fa-edit mt-3" (click)="adminQr()" *ngIf="!editMode"></span></h3>
+            <h3 class="mb-10"><a style="color: black" href="{{qr?.external_url}}"><span class="fa fa-android checked"></span>  Descarga la aplicación para Android</a>  <span class="fa fa-edit mt-3" (click)="adminQr()" *ngIf="!editMode"></span></h3>
           </div>
         </div>
       </div>
