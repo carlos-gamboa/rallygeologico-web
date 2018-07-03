@@ -91,8 +91,8 @@ class UsersController extends AppController
                     $tokenTable->save($token);
                     try {
                         $email
-                            ->setTransport('gmail')
-                            ->setFrom('soporte.rallygeologico@gmail.com', 'Soporte Rally Geológico')
+                            ->setTransport('ucr')
+                            ->setFrom('rallygeologico@ucr.ac.cr', 'Soporte Rally Geológico')
                             ->setTo($this->getRequest()->getData()['email'], $this->getRequest()->getData()['first_name'] . " " . $this->getRequest()->getData()['last_name'])
                             ->setTemplate('activate')
                             ->setViewVars(['token' => $tokenNum])
@@ -393,8 +393,8 @@ class UsersController extends AppController
 
             try {
                 $email
-                    ->setTransport('gmail')
-                    ->setFrom('soporte.rallygeologico@gmail.com', 'Soporte Rally Geológico')
+                    ->setTransport('ucr')
+                    ->setFrom('rallygeologico@ucr.ac.cr', 'Soporte Rally Geológico')
                     ->setTo($this->getRequest()->getData()['email'], $this->getRequest()->getData()['first_name'] . " " . $this->getRequest()->getData()['last_name'])
                     ->setTemplate('forgot')
                     ->setViewVars(['token' => $tokenNum])

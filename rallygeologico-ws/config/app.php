@@ -206,8 +206,8 @@ return [
             'tls' => null,
             'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
         ],
-        'gmail'=> [
-            'host' => 'ssl://smtp.gmail.com',
+        'ucr'=> [
+            'host' => 'ssl://smtp.ucr.ac.cr',
             'port' => 465,
             'username' => env('EMAIL_USERNAME', null),
             'password' => env('EMAIL_PASSWORD', null),
