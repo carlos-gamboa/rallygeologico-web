@@ -57,7 +57,7 @@ export class RegisterComponent implements OnInit {
         if (environment.production){
             this.is_active = 0;
         } else {
-            this.is_active = 0;
+            this.is_active = 1;
         }
         if (this.facebookWorking){
             let initParams: InitParams = {
@@ -263,7 +263,7 @@ export class RegisterComponent implements OnInit {
                             if (users) {
                                 this.successful = true;
                                 this.messageType = 0;
-                                this.alertMessage = "Se ha registrado con éxito.";
+                                this.alertMessage = "Se ha registrado con éxito. Se ha enviado un correo de confirmación.";
                             } else {
                                 this.messageType = 1;
                                 this.alertMessage = "Hubo un error, no se ha podido registrar.";
