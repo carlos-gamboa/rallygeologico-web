@@ -46,6 +46,8 @@ export class CreateCompetitionComponent implements OnInit {
 
     invalidForm: boolean;
 
+
+
     /**
      * Creates a CreateCompetitionComponent, initialize the components
      * @param {RallyService} rallyService
@@ -140,9 +142,9 @@ export class CreateCompetitionComponent implements OnInit {
     /**
      * Creates a competition calling the corresponding service
      */
-  createCompetition(){
-      if(this.name.length < 1 || this.is_public.length < 1 || this.rally_id.length < 1){
-          this.invalidForm = true;
+  createCompetition(form: NgForm){
+      if(!form.valid){
+           this.invalidForm = true;
       } else {
           this.competitionService.createCompetition(this.is_public, this.user.id, this.description, this.name, this.rally_id).subscribe((competition: Competition) => {
               if (competition) {
@@ -158,7 +160,7 @@ export class CreateCompetitionComponent implements OnInit {
                   console.log("Couldn't create competition");
               }
           });
-      }
+       }
   }
 
   addOtherCompetition(competitionForm: NgForm){
