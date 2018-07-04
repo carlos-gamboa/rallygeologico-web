@@ -7,6 +7,7 @@ import {Router} from "@angular/router";
 import {User} from "../../model/user";
 import {Site} from "../../model/site";
 import {SiteService} from "../../services/site.service";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-edit-rally',
@@ -209,38 +210,44 @@ export class EditRallyComponent implements OnInit {
     /**
      * Saves the changes of an existent rally or adds a new one if it doesn't exist
      */
-    saveChanges(){
-        this.changesSaved = false;
-        if (this.currentRally) {
-            this.rallyService.editRally(this.currentRally.id, this.name, this.points, this.latitude, this.longitude, this.imageUrl, this.description).subscribe((rally: Rally) => {
-                if (rally) {
-                    this.currentRally = rally;
-                    this.allRallies[this.currentRallyIndex] = this.currentRally;
-                    this.changesSaved = true;
-                    this.messageType = true;
-                    this.alertMessage = "Se han guardado los cambios.";
-                } else {
-                    this.alertMessage = "No se pudo guardar los cambios.";
-                    this.messageType = false;
+    saveChanges(form: NgForm) {
+        if (!form.valid) {
+            this.changesSaved = true;
+            this.alertMessage = "No se pueden guardar los cambios.";
+            this.messageType = false;
+        } else {
+            this.changesSaved = false;
+            if (this.currentRally) {
+                this.rallyService.editRally(this.currentRally.id, this.name, this.points, this.latitude, this.longitude, this.imageUrl, this.description).subscribe((rally: Rally) => {
+                    if (rally) {
+                        this.currentRally = rally;
+                        this.allRallies[this.currentRallyIndex] = this.currentRally;
+                        this.changesSaved = true;
+                        this.messageType = true;
+                        this.alertMessage = "Se han guardado los cambios.";
+                    } else {
+                        this.alertMessage = "No se pudo guardar los cambios.";
+                        this.messageType = false;
 
-                }
-            });
-        }
-        else {
-            this.rallyService.addRally(this.name, this.points, this.latitude, this.longitude, this.imageUrl, this.description).subscribe((rally: Rally) => {
-                if (rally){
-                    this.currentRally = rally;
-                    this.allRallies.push(this.currentRally);
-                    this.rallyCreated = true;
-                    this.changesSaved = true;
-                    this.newRally = false;
-                    this.messageType = true;
-                    this.alertMessage = "El rally ha sido creado.";
-                } else {
-                    this.messageType = false;
-                    this.alertMessage = "No se pudo crear el rally.";
-                }
-            });
+                    }
+                });
+            }
+            else {
+                this.rallyService.addRally(this.name, this.points, this.latitude, this.longitude, this.imageUrl, this.description).subscribe((rally: Rally) => {
+                    if (rally){
+                        this.currentRally = rally;
+                        this.allRallies.push(this.currentRally);
+                        this.rallyCreated = true;
+                        this.changesSaved = true;
+                        this.newRally = false;
+                        this.messageType = true;
+                        this.alertMessage = "El rally ha sido creado.";
+                    } else {
+                        this.messageType = false;
+                        this.alertMessage = "No se pudo crear el rally.";
+                    }
+                });
+            }
         }
     }
 

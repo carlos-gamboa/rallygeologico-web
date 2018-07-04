@@ -7,6 +7,7 @@ import {CantonService} from "../../services/canton.service";
 import {Canton} from "../../model/canton";
 import {Province} from "../../model/province";
 import {ProvinceService} from "../../services/province.service";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-edit-canton',
@@ -192,36 +193,42 @@ export class EditCantonComponent implements OnInit {
     /**
      * This method call web services to create or edit an specific Canton
      */
-    saveChanges(){
-        this.changesSaved = false;
-        this.deleted = false;
-        if (!this.currentCanton){
-            this.cantonService.addCanton(this.name, this.province_id).subscribe((canton : Canton) => {
-                if (canton){
-                    this.currentCanton = canton;
-                    this.allCantons.push(this.currentCanton);
-                    this.changesSaved = true;
-                    this.messageType = true;
-                    this.newCanton = false;
-                    this.alertMessage = "El cantón ha sido creado.";
-                } else {
-                    this.messageType = false;
-                    this.alertMessage = "No se pudo eliminar el cantón.";
-                }
-            });
+    saveChanges(form: NgForm) {
+        if (!form.valid) {
+            this.changesSaved = true;
+            this.alertMessage = "No se pueden guardar los cambios.";
+            this.messageType = false;
         } else {
-            this.cantonService.editCanton(this.currentCanton.id, this.name, this.province_id).subscribe((canton : Canton) => {
-                this.changesSaved = true;
-                if (canton){
-                    this.currentCanton = canton;
-                    this.allCantons[this.currentCantonIndex] = this.currentCanton;
-                    this.messageType = true;
-                    this.alertMessage = "Se han guardado los cambios.";
-                } else {
-                    this.alertMessage = "No se pudo guardar los cambios.";
-                    this.messageType = false;
-                }
-            });
+            this.changesSaved = false;
+            this.deleted = false;
+            if (!this.currentCanton){
+                this.cantonService.addCanton(this.name, this.province_id).subscribe((canton : Canton) => {
+                    if (canton){
+                        this.currentCanton = canton;
+                        this.allCantons.push(this.currentCanton);
+                        this.changesSaved = true;
+                        this.messageType = true;
+                        this.newCanton = false;
+                        this.alertMessage = "El cantón ha sido creado.";
+                    } else {
+                        this.messageType = false;
+                        this.alertMessage = "No se pudo eliminar el cantón.";
+                    }
+                });
+            } else {
+                this.cantonService.editCanton(this.currentCanton.id, this.name, this.province_id).subscribe((canton : Canton) => {
+                    this.changesSaved = true;
+                    if (canton){
+                        this.currentCanton = canton;
+                        this.allCantons[this.currentCantonIndex] = this.currentCanton;
+                        this.messageType = true;
+                        this.alertMessage = "Se han guardado los cambios.";
+                    } else {
+                        this.alertMessage = "No se pudo guardar los cambios.";
+                        this.messageType = false;
+                    }
+                });
+            }
         }
     }
 

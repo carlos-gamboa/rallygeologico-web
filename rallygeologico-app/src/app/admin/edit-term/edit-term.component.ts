@@ -9,6 +9,7 @@ import {MultimediaService} from "../../services/multimedia.service";
 import {Multimedia} from "../../model/multimedia";
 import {Site} from "../../model/site";
 import {SiteService} from "../../services/site.service";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-edit-term',
@@ -289,37 +290,43 @@ export class EditTermComponent implements OnInit {
     });
   }
 
-  saveChanges(){
-    this.changesSaved = false;
-    this.deleted = false;
-    if (!this.currentTerm){
-      this.termService.addTerm(this.name, this.description).subscribe((term: Term) => {
-        if (term){
-          this.currentTerm = term;
-          this.allTerms.push(this.currentTerm);
+  saveChanges(form: NgForm) {
+    if (!form.valid) {
           this.changesSaved = true;
-          this.messageType = true;
-          this.newTerm = false;
-          this.alertMessage = "El término ha sido creado.";
-        } else {
+          this.alertMessage = "No se pueden guardar los cambios.";
           this.messageType = false;
-          this.alertMessage = "No se pudo eliminar el término.";
-        }
-      });
-    } else {
-      this.termService.editTerm(this.currentTerm.id, this.name, this.description).subscribe((term: Term) => {
-        this.changesSaved = true;
-        if (term){
-          this.currentTerm = term;
-          this.allTerms[this.currentTermIndex] = this.currentTerm;
-          this.messageType = true;
-          this.alertMessage = "Se han guardado los cambios.";
-        } else {
-          this.alertMessage = "No se pudo guardar los cambios.";
-          this.messageType = false;
-        }
-      });
-    }
+      } else {
+          this.changesSaved = false;
+          this.deleted = false;
+          if (!this.currentTerm){
+              this.termService.addTerm(this.name, this.description).subscribe((term: Term) => {
+                  if (term){
+                      this.currentTerm = term;
+                      this.allTerms.push(this.currentTerm);
+                      this.changesSaved = true;
+                      this.messageType = true;
+                      this.newTerm = false;
+                      this.alertMessage = "El término ha sido creado.";
+                  } else {
+                      this.messageType = false;
+                      this.alertMessage = "No se pudo eliminar el término.";
+                  }
+              });
+          } else {
+              this.termService.editTerm(this.currentTerm.id, this.name, this.description).subscribe((term: Term) => {
+                  this.changesSaved = true;
+                  if (term){
+                      this.currentTerm = term;
+                      this.allTerms[this.currentTermIndex] = this.currentTerm;
+                      this.messageType = true;
+                      this.alertMessage = "Se han guardado los cambios.";
+                  } else {
+                      this.alertMessage = "No se pudo guardar los cambios.";
+                      this.messageType = false;
+                  }
+              });
+          }
+      }
   }
 
   /**
