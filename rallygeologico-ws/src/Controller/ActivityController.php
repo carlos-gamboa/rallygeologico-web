@@ -189,4 +189,21 @@ class ActivityController extends AppController
         $this->render('/Activity/json/template');
     }
 
+    /**
+     * Gets all the activities by site
+     *
+     * @param null $siteId Id of the site
+     */
+    public function getActivitiesBySite($siteId = null){
+        $activities = $this->Activity->find('all', [
+                'contain' => ['Multimedia', 'Options'],
+                'conditions' => [
+                    'Activity.site_id' => $siteId
+                ]
+            ]
+        );
+        $this->set('activity', $activities);
+        $this->render('/Activity/json/template');
+    }
+
 }

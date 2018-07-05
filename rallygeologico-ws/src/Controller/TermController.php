@@ -196,4 +196,27 @@ class TermController extends AppController
         $this->render('/Term/json/template');
     }
 
+    /**
+     * Gets all the terms by site
+     *
+     * @param null $siteId Id of the site
+     */
+    public function getTermsBySite($siteId = null){
+        $this->loadModel('TermSite');
+        $term = $this->Term->find('all', [
+                'order' => ['Term.name' => 'ASC'],
+                'contain' => ['Multimedia'],
+                'conditions' => [
+                    'Term.id IN ' => $this->TermSite->find('all', [
+                        'fields' => ['TermSite.term_id'],
+                        'conditions' => ['TermSite.site_id' => $siteId
+                        ]
+                    ])
+                ]
+            ]
+        );
+        $this->set('term', $term);
+        $this->render('/Term/json/template');
+    }
+
 }
