@@ -1,4 +1,3 @@
-<app-header [activeTab]="2"></app-header>
 <div *ngIf="readyToShow"><!-- start banner Area -->
 <section class="banner-area relative" id="home">
   <div class="overlay overlay-bg"></div>
@@ -22,9 +21,6 @@
         <div class="text-center">
           <img class="competition-image mb-3" src="{{competition.rally.image_url}}">
           <h3 class="mb-3">{{competition.name}}</h3>
-          <div *ngIf="competition.user.id == user.id">
-            <button title="Modificar rally" class="genric-btn primary circle text-center info mb-3 medium">Modificar rally</button>
-          </div>
           <p class="text-justify">{{competition.description}}</p>
           <h5 class="mb-3">Creado por: {{competition.user.username}}</h5>
           <div>

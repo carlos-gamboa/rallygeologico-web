@@ -12,7 +12,7 @@ import {environment} from "../../../environments/environment";
 })
 export class HeaderComponent implements OnInit {
 
-    @Input() activeTab: number;
+    @Input() activeTab: number = 0;
 
     user:User;
     readyToShow: boolean = false;
