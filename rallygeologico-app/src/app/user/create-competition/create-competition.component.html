@@ -58,9 +58,12 @@
           </form>
         </div>
         <div class="mt-50" align="center">
-          <button title="crearCompetencia" class="btn genric-btn success col-lg-6" style="font-size: 16px" (click)="createCompetition()" [disabled]="competitionForm.invalid" *ngIf="!competitionCreated">Crear Competencia</button>
+          <button title="crearCompetencia" class="btn genric-btn success col-lg-6" style="font-size: 16px" (click)="createCompetition(competitionForm)" *ngIf="!competitionCreated">Crear Competencia</button>
           <div *ngIf="competitionCreated" class="alert alert-success col-lg-6 mt-10" role="alert">
             La competencia ha sido creada.
+          </div>
+          <div *ngIf="invalidForm && !competitionCreated" class="alert alert-danger col-lg-6 mt-10" role="alert">
+            No se puede crear la competencia.
           </div>
         </div>
       </div>

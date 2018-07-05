@@ -38,4 +38,5 @@
 </section>
 <!-- End map Area-->
 
-<app-footer></app-footer>
+<app-public-footer *ngIf="!user"></app-public-footer>
+<app-footer *ngIf="user"></app-footer>

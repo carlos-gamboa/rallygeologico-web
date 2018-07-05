@@ -171,7 +171,7 @@
             </form>
           </div>
           <div class="mt-50" align="center">
-            <button title="Crear Competencia" class="btn genric-btn success col-lg-6" style="font-size: 16px" (click)="saveChanges()" [disabled]="competitionForm.invalid" *ngIf="newCompetition || currentCompetition">Guardar cambios</button>
+            <button title="Crear Competencia" class="btn genric-btn success col-lg-6" style="font-size: 16px" (click)="saveChanges(competitionForm)" *ngIf="newCompetition || currentCompetition">Guardar cambios</button>
             <div *ngIf="changesSaved" class="alert col-lg-6 mt-10" role="alert" [class.alert-success]="messageType" [class.alert-danger]="!messageType">
               {{alertMessage}}
             </div>

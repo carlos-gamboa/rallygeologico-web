@@ -7,6 +7,7 @@ import {DistrictService} from "../../services/district.service";
 import {DataService} from "../../services/data/data.service";
 import {Canton} from "../../model/canton";
 import {CantonService} from "../../services/canton.service";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-edit-district',
@@ -191,36 +192,42 @@ export class EditDistrictComponent implements OnInit {
     /**
      * This method call web services to create or edit an specific District
      */
-    saveChanges(){
-        this.changesSaved = false;
-        this.deleted = false;
-        if (!this.currentDistrict){
-            this.districtService.addDistrict(this.name, this.canton_id).subscribe((district : District) => {
-                if (district){
-                    this.currentDistrict = district;
-                    this.allDistricts.push(this.currentDistrict);
-                    this.changesSaved = true;
-                    this.messageType = true;
-                    this.newDistrict = false;
-                    this.alertMessage = "El distrito ha sido creado.";
-                } else {
-                    this.messageType = false;
-                    this.alertMessage = "No se pudo eliminar el distrito.";
-                }
-            });
+    saveChanges(form: NgForm) {
+        if (!form.valid) {
+            this.changesSaved = true;
+            this.alertMessage = "No se pueden guardar los cambios.";
+            this.messageType = false;
         } else {
-            this.districtService.editDistrict(this.currentDistrict.id, this.name, this.canton_id).subscribe((district : District) => {
-                this.changesSaved = true;
-                if (district){
-                    this.currentDistrict = district;
-                    this.allDistricts[this.currentDistrictIndex] = this.currentDistrict;
-                    this.messageType = true;
-                    this.alertMessage = "Se han guardado los cambios.";
-                } else {
-                    this.alertMessage = "No se pudo guardar los cambios.";
-                    this.messageType = false;
-                }
-            });
+            this.changesSaved = false;
+            this.deleted = false;
+            if (!this.currentDistrict){
+                this.districtService.addDistrict(this.name, this.canton_id).subscribe((district : District) => {
+                    if (district){
+                        this.currentDistrict = district;
+                        this.allDistricts.push(this.currentDistrict);
+                        this.changesSaved = true;
+                        this.messageType = true;
+                        this.newDistrict = false;
+                        this.alertMessage = "El distrito ha sido creado.";
+                    } else {
+                        this.messageType = false;
+                        this.alertMessage = "No se pudo eliminar el distrito.";
+                    }
+                });
+            } else {
+                this.districtService.editDistrict(this.currentDistrict.id, this.name, this.canton_id).subscribe((district : District) => {
+                    this.changesSaved = true;
+                    if (district){
+                        this.currentDistrict = district;
+                        this.allDistricts[this.currentDistrictIndex] = this.currentDistrict;
+                        this.messageType = true;
+                        this.alertMessage = "Se han guardado los cambios.";
+                    } else {
+                        this.alertMessage = "No se pudo guardar los cambios.";
+                        this.messageType = false;
+                    }
+                });
+            }
         }
     }
 

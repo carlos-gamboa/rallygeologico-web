@@ -10,6 +10,7 @@ import {District} from "../../model/district";
 import {Site} from "../../model/site";
 import {SiteService} from "../../services/site.service";
 import {DistrictService} from "../../services/district.service";
+import {NgForm} from "@angular/forms";
 
 @Component({
     selector: 'app-edit-site',
@@ -175,39 +176,45 @@ export class EditSiteComponent implements OnInit {
         }
     }
 
-    saveChanges(){
-        this.changesSaved = false;
-        this.deleted = false;
-        if (!this.currentSite){
-                this.siteService.addSite(this.name, this.qr_url, this.details, this.description,
-                this.latitude, this.longitude, this.district_id, this.points, this.is_easter_egg).subscribe((site: Site) => {
-                if (site){
-                    this.currentSite = site;
-                    this.allSites.push(this.currentSite);
-                    this.changesSaved = true;
-                    this.messageType = true;
-                    this.newSite = false;
-                    this.alertMessage = "El sitio ha sido creado.";
-                } else {
-                    this.messageType = false;
-                    this.alertMessage = "No se pudo crear el sitio.";
-                }
-            });
+    saveChanges(form: NgForm) {
+        if (!form.valid) {
+            this.changesSaved = true;
+            this.alertMessage = "No se pueden guardar los cambios.";
+            this.messageType = false;
         } else {
-            this.siteService.editSite(this.currentSite.id, this.name, this.qr_url, this.details, this.description,
-                this.latitude, this.longitude, this.district_id, this.points, this.is_easter_egg).subscribe((site: Site) => {
-                this.changesSaved = true;
-                if (site){
-                    this.currentSite = site;
-                    this.allSites[this.currentSiteIndex] = this.currentSite;
-                    this.messageType = true;
-                    this.alertMessage = "Se han guardado los cambios.";
-                } else {
-                    this.alertMessage = "No se pudo guardar los cambios.";
-                    this.messageType = false;
+            this.changesSaved = false;
+            this.deleted = false;
+            if (!this.currentSite){
+                this.siteService.addSite(this.name, this.qr_url, this.details, this.description,
+                    this.latitude, this.longitude, this.district_id, this.points, this.is_easter_egg).subscribe((site: Site) => {
+                    if (site){
+                        this.currentSite = site;
+                        this.allSites.push(this.currentSite);
+                        this.changesSaved = true;
+                        this.messageType = true;
+                        this.newSite = false;
+                        this.alertMessage = "El sitio ha sido creado.";
+                    } else {
+                        this.messageType = false;
+                        this.alertMessage = "No se pudo crear el sitio.";
+                    }
+                });
+            } else {
+                this.siteService.editSite(this.currentSite.id, this.name, this.qr_url, this.details, this.description,
+                    this.latitude, this.longitude, this.district_id, this.points, this.is_easter_egg).subscribe((site: Site) => {
+                    this.changesSaved = true;
+                    if (site){
+                        this.currentSite = site;
+                        this.allSites[this.currentSiteIndex] = this.currentSite;
+                        this.messageType = true;
+                        this.alertMessage = "Se han guardado los cambios.";
+                    } else {
+                        this.alertMessage = "No se pudo guardar los cambios.";
+                        this.messageType = false;
 
-                }
-            });
+                    }
+                });
+            }
         }
     }
 

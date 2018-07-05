@@ -12,7 +12,7 @@ import {SiteService} from "../../services/site.service";
 import {Activity} from "../../model/activity";
 import {ActivityService} from "../../services/activity.service";
 import {Options} from "../../model/options";
-import {FormControl, Validators, ReactiveFormsModule} from "@angular/forms";
+import {FormControl, Validators, ReactiveFormsModule, NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-edit-activity',
@@ -91,7 +91,7 @@ export class EditActivityComponent implements OnInit {
   // Get the input field
   input = document.getElementById("searchTermEdit");
 
-
+  invalidForm: boolean = false;
 
   constructor(private dataService: DataService,
               private activityService: ActivityService,
@@ -429,37 +429,43 @@ export class EditActivityComponent implements OnInit {
     });
   }
 
-  saveChanges(){
-    this.changesSaved = false;
-    this.deleted = false;
-    if (!this.currentActivity){
-      this.activityService.addActivity(this.site_id, this.activity_type, this.points_awarded, this.description, this.name).subscribe((activity: Activity) => {
-        if (activity){
-          this.currentActivity = activity;
-          this.allActivities.push(this.currentActivity);
+  saveChanges(form: NgForm) {
+      if (!form.valid) {
           this.changesSaved = true;
-          this.messageType = true;
-          this.newActivity = false;
-          this.alertMessage = "La actividad ha sido creada.";
-        } else {
+          this.alertMessage = "No se pueden guardar los cambios.";
           this.messageType = false;
-          this.alertMessage = "No se pudo crear la actividad.";
-        }
-      });
-    } else {
-      this.activityService.editActivity(this.currentActivity.id, this.site_id, this.activity_type, this.points_awarded, this.description, this.name).subscribe((activity: Activity) => {
-        this.changesSaved = true;
-        if (activity){
-          this.currentActivity = activity;
-          this.allActivities[this.currentActivityIndex] = this.currentActivity;
-          this.messageType = true;
-          this.alertMessage = "Se han guardado los cambios.";
-        } else {
-          this.alertMessage = "No se pudo guardar los cambios.";
-          this.messageType = false;
-        }
-      });
-    }
+      } else {
+          this.changesSaved = false;
+          this.deleted = false;
+          if (!this.currentActivity) {
+              this.activityService.addActivity(this.site_id, this.activity_type, this.points_awarded, this.description, this.name).subscribe((activity: Activity) => {
+                  if (activity) {
+                      this.currentActivity = activity;
+                      this.allActivities.push(this.currentActivity);
+                      this.changesSaved = true;
+                      this.messageType = true;
+                      this.newActivity = false;
+                      this.alertMessage = "La actividad ha sido creada.";
+                  } else {
+                      this.messageType = false;
+                      this.alertMessage = "No se pudo crear la actividad.";
+                  }
+              });
+          } else {
+              this.activityService.editActivity(this.currentActivity.id, this.site_id, this.activity_type, this.points_awarded, this.description, this.name).subscribe((activity: Activity) => {
+                  this.changesSaved = true;
+                  if (activity) {
+                      this.currentActivity = activity;
+                      this.allActivities[this.currentActivityIndex] = this.currentActivity;
+                      this.messageType = true;
+                      this.alertMessage = "Se han guardado los cambios.";
+                  } else {
+                      this.alertMessage = "No se pudo guardar los cambios.";
+                      this.messageType = false;
+                  }
+              });
+          }
+      }
   }
 
   saveOptionChanges(){

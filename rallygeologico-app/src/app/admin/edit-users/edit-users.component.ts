@@ -3,6 +3,7 @@ import {DataService} from "../../services/data/data.service";
 import {UserService} from "../../services/user.service";
 import {User} from "../../model/user";
 import {Router} from "@angular/router";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-edit-users',
@@ -118,73 +119,79 @@ export class EditUsersComponent implements OnInit {
         }
     }
 
-    saveChanges(){
-        this.changesSaved = false;
-        this.deleted = false;
-        if (!this.currentUser){
-            this.userService.emailExists(this.email).subscribe((emailUsed: boolean) => {
-                if (!emailUsed) {
-                    this.userService.usernameExists(this.username).subscribe((usernameTaken: boolean) => {
-                        if (!usernameTaken) {
-                            this.userService.register(this.api_id, this.username, this.first_name, this.last_name, this.email, this.photo_url, +this.login_api, this.password, +this.password_needs_change, +this.is_active, +this.is_admin).subscribe((user: User[]) => {
-                                if (user[0]) {
-                                    this.currentUser = user[0];
-                                    this.allUsers.push(this.currentUser);
-                                    this.changesSaved = true;
-                                    this.messageType = true;
-                                    this.newUser = false;
-                                    this.changesSaved = true;
-                                    this.alertMessage = "El usuario ha sido creado.";
-                                    this.updateUsers();
-                                } else {
-                                    this.changesSaved = true;
-                                    this.messageType = false;
-                                    this.alertMessage = "No se pudo crear el usuario.";
-                                }
-                            });
-                        } else {
-                            this.changesSaved = true;
-                            this.messageType = false;
-                            this.alertMessage = "El nombre de usuario ya está siendo utilizado.";
-                        }
-                    });
-                } else {
-                    this.changesSaved = true;
-                    this.messageType = false;
-                    this.alertMessage = "El email ya está siendo utilizado.";
-                }
-            });
+    saveChanges(form: NgForm) {
+        if (!form.valid) {
+            this.changesSaved = true;
+            this.alertMessage = "No se pueden guardar los cambios.";
+            this.messageType = false;
         } else {
-            this.userService.emailExists(this.email).subscribe((emailUsed: boolean) => {
-                if (!emailUsed || this.email == this.currentUser.email) {
-                    this.userService.usernameExists(this.username).subscribe((usernameTaken: boolean) => {
-                        if (!usernameTaken || this.username == this.currentUser.username) {
-                            this.userService.editUser(this.currentUser.id, this.api_id,this.username,this.first_name,this.last_name,this.email,this.photo_url, +this.login_api,this.password, +this.password_needs_change, +this.is_active, +this.is_admin).subscribe((user: User) => {
-                                if (user){
-                                    this.currentUser = user;
-                                    this.allUsers[this.currentUserIndex] = this.currentUser;
-                                    this.messageType = true;
-                                    this.alertMessage = "Se han guardado los cambios.";
-                                    this.changesSaved = true;
-                                    this.updateUsers();
-                                } else {
-                                    this.alertMessage = "No se pudo guardar los cambios.";
-                                    this.changesSaved = true;
-                                    this.messageType = false;
-                                }
-                            });
-                        } else {
-                            this.changesSaved = true;
-                            this.messageType = false;
-                            this.alertMessage = "El nombre de usuario ya está siendo utilizado.";
-                        }
-                    });
-                } else {
-                    this.changesSaved = true;
-                    this.messageType = false;
-                    this.alertMessage = "El email ya está siendo utilizado.";
-                }
-            });
+            this.changesSaved = false;
+            this.deleted = false;
+            if (!this.currentUser){
+                this.userService.emailExists(this.email).subscribe((emailUsed: boolean) => {
+                    if (!emailUsed) {
+                        this.userService.usernameExists(this.username).subscribe((usernameTaken: boolean) => {
+                            if (!usernameTaken) {
+                                this.userService.register(this.api_id, this.username, this.first_name, this.last_name, this.email, this.photo_url, +this.login_api, this.password, +this.password_needs_change, +this.is_active, +this.is_admin).subscribe((user: User[]) => {
+                                    if (user[0]) {
+                                        this.currentUser = user[0];
+                                        this.allUsers.push(this.currentUser);
+                                        this.changesSaved = true;
+                                        this.messageType = true;
+                                        this.newUser = false;
+                                        this.changesSaved = true;
+                                        this.alertMessage = "El usuario ha sido creado.";
+                                        this.updateUsers();
+                                    } else {
+                                        this.changesSaved = true;
+                                        this.messageType = false;
+                                        this.alertMessage = "No se pudo crear el usuario.";
+                                    }
+                                });
+                            } else {
+                                this.changesSaved = true;
+                                this.messageType = false;
+                                this.alertMessage = "El nombre de usuario ya está siendo utilizado.";
+                            }
+                        });
+                    } else {
+                        this.changesSaved = true;
+                        this.messageType = false;
+                        this.alertMessage = "El email ya está siendo utilizado.";
+                    }
+                });
+            } else {
+                this.userService.emailExists(this.email).subscribe((emailUsed: boolean) => {
+                    if (!emailUsed || this.email == this.currentUser.email) {
+                        this.userService.usernameExists(this.username).subscribe((usernameTaken: boolean) => {
+                            if (!usernameTaken || this.username == this.currentUser.username) {
+                                this.userService.editUser(this.currentUser.id, this.api_id,this.username,this.first_name,this.last_name,this.email,this.photo_url, +this.login_api,this.password, +this.password_needs_change, +this.is_active, +this.is_admin).subscribe((user: User) => {
+                                    if (user){
+                                        this.currentUser = user;
+                                        this.allUsers[this.currentUserIndex] = this.currentUser;
+                                        this.messageType = true;
+                                        this.alertMessage = "Se han guardado los cambios.";
+                                        this.changesSaved = true;
+                                        this.updateUsers();
+                                    } else {
+                                        this.alertMessage = "No se pudo guardar los cambios.";
+                                        this.changesSaved = true;
+                                        this.messageType = false;
+                                    }
+                                });
+                            } else {
+                                this.changesSaved = true;
+                                this.messageType = false;
+                                this.alertMessage = "El nombre de usuario ya está siendo utilizado.";
+                            }
+                        });
+                    } else {
+                        this.changesSaved = true;
+                        this.messageType = false;
+                        this.alertMessage = "El email ya está siendo utilizado.";
+                    }
+                });
+            }
         }
     }
 
