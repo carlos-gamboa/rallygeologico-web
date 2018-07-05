@@ -120,7 +120,7 @@ class MultimediaController extends AppController
     public function edit($id = null)
     {
         $multimedia = $this->Multimedia->get($id, [
-            'contain' => ['Activity', 'Term']
+            'contain' => []
         ]);
         if ($this->getRequest()->is(['patch', 'post', 'put'])) {
             $multimedia = $this->Multimedia->patchEntity($multimedia, $this->getRequest()->getData());

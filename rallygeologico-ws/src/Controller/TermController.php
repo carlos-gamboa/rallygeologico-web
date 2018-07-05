@@ -87,7 +87,7 @@ class TermController extends AppController
     public function edit($id = null)
     {
         $term = $this->Term->get($id, [
-            'contain' => ['Site']
+            'contain' => []
         ]);
         if ($this->getRequest()->is(['patch', 'post', 'put'])) {
             $term = $this->Term->patchEntity($term, $this->getRequest()->getData());

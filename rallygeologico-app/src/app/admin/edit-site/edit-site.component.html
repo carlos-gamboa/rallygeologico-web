@@ -114,7 +114,7 @@
                 </div>
                 <div class="col-lg-6">
                   <label for="longitude">Longitud</label>
-                  <input class="text-input" type="text" [(ngModel)]="latitude" #longitudeInput="ngModel" id="longitude" name="longitude" placeholder="Longitud" required>
+                  <input class="text-input" type="text" [(ngModel)]="longitude" #longitudeInput="ngModel" id="longitude" name="longitude" placeholder="Longitud" required>
                   <div *ngIf="(longitudeInput?.invalid) && (longitudeInput?.touched)" class="alert alert-danger mt-2 ml-2 mr-2" role="alert">
                     <p class="alert-message">Debe introducir la longitud del sitio.</p>
                   </div>

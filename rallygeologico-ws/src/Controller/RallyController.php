@@ -88,7 +88,7 @@ class RallyController extends AppController
     public function edit($id = null)
     {
         $rally = $this->Rally->get($id, [
-            'contain' => ['Site']
+            'contain' => []
         ]);
         if ($this->getRequest()->is(['patch', 'post', 'put'])) {
             $rally = $this->Rally->patchEntity($rally, $this->getRequest()->getData());

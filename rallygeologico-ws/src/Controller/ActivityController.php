@@ -90,7 +90,7 @@ class ActivityController extends AppController
     public function edit($id = null)
     {
         $activity = $this->Activity->get($id, [
-            'contain' => ['Multimedia']
+            'contain' => []
         ]);
         if ($this->getRequest()->is(['patch', 'post', 'put'])) {
             $activity = $this->Activity->patchEntity($activity, $this->request->getData());
