@@ -88,7 +88,7 @@ class SiteController extends AppController
     public function edit($id = null)
     {
         $site = $this->Site->get($id, [
-            'contain' => []
+            'contain' => ['District']
         ]);
         if ($this->getRequest()->is(['patch', 'post', 'put'])) {
             $site = $this->Site->patchEntity($site, $this->getRequest()->getData());

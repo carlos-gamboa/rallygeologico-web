@@ -23,8 +23,8 @@ export class EditSiteComponent implements OnInit {
     districtList: District[];
 
     sites: Site[];
-    allSites: Site[];
-    showedSites: Site[];
+    allSites: Site[] = [];
+    showedSites: Site[] = [];
 
     user: User;
 
@@ -202,10 +202,10 @@ export class EditSiteComponent implements OnInit {
             } else {
                 this.siteService.editSite(this.currentSite.id, this.name, this.qr_url, this.details, this.description,
                     this.latitude, this.longitude, this.district_id, this.points, this.is_easter_egg).subscribe((site: Site) => {
-                    this.changesSaved = true;
                     if (site){
                         this.currentSite = site;
                         this.allSites[this.currentSiteIndex] = this.currentSite;
+                        this.changesSaved = true;
                         this.messageType = true;
                         this.alertMessage = "Se han guardado los cambios.";
                     } else {
@@ -271,6 +271,7 @@ export class EditSiteComponent implements OnInit {
     goBack(){
         this.siteSelected = false;
         this.currentSite = null;
+        this.changesSaved = false;
         this.reloadSites(this.allSites);
     }
 
