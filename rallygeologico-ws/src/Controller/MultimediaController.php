@@ -24,6 +24,7 @@ class MultimediaController extends AppController
     public function index()
     {
         $multimedia = $this->Multimedia->find('all', [
+            'conditions' => ['Multimedia.media_type' => '<> 10']
         ]);
 
         $this->set(compact('multimedia'));

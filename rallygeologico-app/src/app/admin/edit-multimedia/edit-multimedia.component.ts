@@ -118,6 +118,7 @@ export class EditMultimediaComponent implements OnInit {
      * @param {UserService} userService
      * @param {DataService} dataService
      * @param {ImagesService} imageService
+     * @param {Configuration} _configuration
      * @param {Router} router
      */
     constructor(private multimediaService: MultimediaService, private termsService: TermService, private activityService: ActivityService, private userService: UserService,
@@ -331,12 +332,7 @@ export class EditMultimediaComponent implements OnInit {
     /**
      * Saves the changes of an existent multimedia or adds a new one if it doesn't exist
      */
-    saveChanges(form: NgForm) {
-        if (!form.valid) {
-            this.changesSaved = true;
-            this.alertMessage = "No se pueden guardar los cambios.";
-            this.messageType = false;
-        } else {
+    saveChanges() {
             this.changesSaved = false;
             if(this.media_url == null || this.media_url == ""){
                 this.alertMessage = "No se pudo guardar los cambios, debe seleccionar una imagen.";
@@ -345,27 +341,44 @@ export class EditMultimediaComponent implements OnInit {
             }
             else {
                 if (this.currentMultimedia) {
-                    this.imageService.uploadImage(this.newFileName, this.file).subscribe((uploaded: boolean) => {
-                        if (uploaded) {
-                            this.multimediaService.editMultimedia(this.currentMultimedia.id, this.name, this.media_type, this.media_url, this.external_url).subscribe((multimedia: Multimedia) => {
-                                if (multimedia) {
-                                    this.currentMultimedia = multimedia;
-                                    this.allMultimedia[this.currentMultimediaIndex] = this.currentMultimedia;
-                                    this.imageEvent = null;
-                                    this.changesSaved = true;
-                                    this.messageType = true;
-                                    this.alertMessage = "Se han guardado los cambios.";
-                                } else {
-                                    this.alertMessage = "No se pudo guardar los cambios.";
-                                    this.messageType = false;
+                    if(this.file != null) {
+                        this.imageService.uploadImage(this.newFileName, this.file).subscribe((uploaded: boolean) => {
+                            if (uploaded) {
+                                this.multimediaService.editMultimedia(this.currentMultimedia.id, this.name, this.media_type, this.media_url, this.external_url).subscribe((multimedia: Multimedia) => {
+                                    if (multimedia) {
+                                        this.currentMultimedia = multimedia;
+                                        this.allMultimedia[this.currentMultimediaIndex] = this.currentMultimedia;
+                                        this.imageEvent = null;
+                                        this.changesSaved = true;
+                                        this.messageType = true;
+                                        this.alertMessage = "Se han guardado los cambios.";
+                                    } else {
+                                        this.alertMessage = "No se pudo guardar los cambios.";
+                                        this.messageType = false;
 
-                                }
-                            });
-                        } else {
-                            this.messageType = false;
-                            this.alertMessage = "No se pudo cargar la imagen.";
-                        }
-                    });
+                                    }
+                                });
+                            } else {
+                                this.messageType = false;
+                                this.alertMessage = "No se pudo cargar la imagen.";
+                            }
+                        });
+                    } else {
+                        this.multimediaService.editMultimedia(this.currentMultimedia.id, this.name, this.media_type, this.media_url, this.external_url).subscribe((multimedia: Multimedia) => {
+                            if (multimedia) {
+                                this.currentMultimedia = multimedia;
+                                this.allMultimedia[this.currentMultimediaIndex] = this.currentMultimedia;
+                                this.imageEvent = null;
+                                this.changesSaved = true;
+                                this.messageType = true;
+                                this.alertMessage = "Se han guardado los cambios.";
+                            } else {
+                                this.alertMessage = "No se pudo guardar los cambios.";
+                                this.messageType = false;
+
+                            }
+                        });
+                    }
                 }
                 else {
                     this.imageService.uploadImage(this.newFileName, this.file).subscribe((uploaded: boolean) => {
@@ -392,7 +405,6 @@ export class EditMultimediaComponent implements OnInit {
                     });
                 }
             }
-        }
     }
 
     /**

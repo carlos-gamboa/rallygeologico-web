@@ -83,6 +83,9 @@ export class AdminFooterComponent implements OnInit {
     ngOnInit() {
     }
 
+    /**
+     * Sets the flags to show the Qr manager
+     */
     adminQr(){
         this.readyToShow = false;
         this.editMode = true;
@@ -127,10 +130,10 @@ export class AdminFooterComponent implements OnInit {
         this.readyToShow = true;
     }
 
-      /**
-       * Verifies if there is a selected file, otherwise change to the initial url
-       * @param event
-       */
+    /**
+     * Verifies if there is a selected file, otherwise change to the initial url
+     * @param event
+     */
     updateUrl(event){
         this.readyToShow = false;
         if (this.inputImage.fileCounter == 0){
@@ -145,6 +148,9 @@ export class AdminFooterComponent implements OnInit {
         this.readyToShow = true;
     }
 
+    /**
+     * Updates the current Qr link
+     */
     saveChanges(){
         this.readyToShow = false;
         this.changesSaved = false;
