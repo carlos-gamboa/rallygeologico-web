@@ -21,10 +21,9 @@ class CantonController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
+        $canton = $this->Canton->find('all', [
             'contain' => ['Province']
-        ];
-        $canton = $this->paginate($this->Canton);
+        ]);
 
         $this->set(compact('canton'));
         $this->set('_serialize', 'canton');

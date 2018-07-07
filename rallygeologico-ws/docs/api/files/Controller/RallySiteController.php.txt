@@ -21,10 +21,9 @@ class RallySiteController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
+        $rallySite = $this->RallySite->find('all', [
             'contain' => ['Rally', 'Site']
-        ];
-        $rallySite = $this->paginate($this->RallySite);
+        ]);
 
         $this->set(compact('rallySite'));
         $this->set('_serialize', 'rallySite');

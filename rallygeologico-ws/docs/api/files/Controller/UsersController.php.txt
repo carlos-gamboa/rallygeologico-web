@@ -5,6 +5,10 @@ use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\Utility\Hash;
 use Cake\Auth\DefaultPasswordHasher;
+use Cake\Mailer\Email;
+use Cake\Network\Exception\SocketException;
+use Cake\ORM\TableRegistry;
+use Cake\I18n\Time;
 
 /**
  * Users Controller
@@ -23,14 +27,14 @@ class UsersController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
+        $users = $this->Users->find('all', [
             'contain' => []
-        ];
-        $users = $this->paginate($this->Users);
+        ]);
 
         $this->set(compact('users'));
         // Specify which view vars JsonView should serialize.
         $this->set('_serialize', 'users');
+        $this->render('/Users/json/template');
     }
 
     /**
@@ -74,10 +78,34 @@ class UsersController extends AppController
             $users = $this->Users->patchEntity($users, $this->getRequest()->getData());
             if ($this->Users->save($users)) {
                 $this->Flash->success(__('The user has been saved.'));
+                if ($users->is_active == 0){
+                    $email = new Email('default');
+                    $tokenNum = bin2hex(random_bytes(32));
+                    $tokenTable = $this->Users->Tokens;
+                    $token = $tokenTable->newEntity();
+                    $data = [];
+                    $data['value'] = $tokenNum;
+                    $data['type'] = "activate";
+                    $data['user_id'] = $users->id;
+                    $token = $token = $tokenTable->patchEntity($token, $data);
+                    $tokenTable->save($token);
+                    try {
+                        $email
+                            ->setTransport('ucr')
+                            ->setFrom('rallygeologico@ucr.ac.cr', 'Soporte Rally Geológico')
+                            ->setTo($this->getRequest()->getData()['email'], $this->getRequest()->getData()['first_name'] . " " . $this->getRequest()->getData()['last_name'])
+                            ->setTemplate('activate')
+                            ->setViewVars(['token' => $tokenNum])
+                            ->setEmailFormat('html')
+                            ->setSubject('Confirmar cuenta')
+                            ->send();
+                    } catch (\Exception $e) {
+                    }
+                }
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $this->set(compact('users'));
+        $this->set('users', $users);
         $this->render('/Users/json/template');
     }
 
@@ -97,12 +125,11 @@ class UsersController extends AppController
             $user = $this->Users->patchEntity($user, $this->getRequest()->getData());
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $this->set(compact('user'));
+        $this->set('users', $user);
+        $this->render('/Users/json/template');
     }
 
     /**
@@ -118,11 +145,13 @@ class UsersController extends AppController
         $user = $this->Users->get($id);
         if ($this->Users->delete($user)) {
             $this->Flash->success(__('The user has been deleted.'));
+            $this->set('users', true);
         } else {
             $this->Flash->error(__('The user could not be deleted. Please, try again.'));
+            $this->set('users', false);
         }
 
-        return $this->redirect(['action' => 'index']);
+        $this->render('/Users/json/template');
     }
 
     /**
@@ -306,6 +335,116 @@ class UsersController extends AppController
         }
         else{
             $this->set('users', true);
+        }
+        $this->render('/Users/json/template');
+    }
+
+    /**
+     * Changes the password of a user
+     */
+    public function changePassword(){
+        $data = $this->getRequest()->getData();
+        $userId = $data['id'];
+        $password = $data['password'];
+        $userInfo = $this->Users->get($userId, [
+            ]);
+        if((new DefaultPasswordHasher)->check($password, $userInfo->password)){
+            $data['password'] = $data['new_password'];
+            unset($data['new_password']);
+            $user = $this->Users->patchEntity($userInfo, $data);
+            if ($this->Users->save($user)) {
+                $this->set('users', true);
+            }
+            else {
+                $this->set('users', false);
+            }
+        } else {
+            $this->set('users', false);
+        }
+        $this->render('/Users/json/template');
+    }
+
+    /**
+     * Method to send an email to recover the account.
+     * Sends a mail to the admin with a message to recover the account.
+     *
+     */
+    public function forgotPassword () {
+
+        $user = $this->Users->find('all', [
+                'conditions' => [
+                    'Users.email' => $this->getRequest()->getData()['email'],
+                    'Users.login_api' => 3
+                ]
+            ]
+        );
+
+        if (count($user->toArray()) > 0) {
+            $email = new Email('default');
+            $tokenNum = bin2hex(random_bytes(32));
+            $tokenTable = $this->Users->Tokens;
+            $token = $tokenTable->newEntity();
+            $data = [];
+            $data['value'] = $tokenNum;
+            $data['type'] = "forgot";
+            $data['user_id'] = $user->toArray()[0]->id;
+            $token = $token = $tokenTable->patchEntity($token, $data);
+            $tokenTable->save($token);
+
+            try {
+                $email
+                    ->setTransport('ucr')
+                    ->setFrom('rallygeologico@ucr.ac.cr', 'Soporte Rally Geológico')
+                    ->setTo($this->getRequest()->getData()['email'], $this->getRequest()->getData()['first_name'] . " " . $this->getRequest()->getData()['last_name'])
+                    ->setTemplate('forgot')
+                    ->setViewVars(['token' => $tokenNum])
+                    ->setEmailFormat('html')
+                    ->setSubject('Recuperar contraseña')
+                    ->send();
+                $this->set('users', true);
+            } catch (\Exception $e) {
+                $this->set('users', false);
+            }
+        } else {
+            $this->set('users', false);
+        }
+        $this->render('/Users/json/template');
+    }
+
+    /**
+     * Changes the password of a user
+     */
+    public function forceChangePassword(){
+        $data = $this->getRequest()->getData();
+        $userId = $data['user_id'];
+        $userInfo = $this->Users->get($userId, [
+        ]);
+        $user = $this->Users->patchEntity($userInfo, $data);
+        if ($this->Users->save($user)) {
+            $this->set('users', true);
+        }
+        else {
+            $this->set('users', false);
+        }
+        $this->render('/Users/json/template');
+    }
+
+    /**
+     * Activates an user
+     *
+     * @param null $userId User's id.
+     */
+    public function activateUser($userId = null){
+        $data = $this->getRequest()->getData();
+        $userInfo = $this->Users->get($userId, [
+        ]);
+        $data['is_active'] = 1;
+        $user = $this->Users->patchEntity($userInfo, $data);
+        if ($this->Users->save($user)) {
+            $this->set('users', true);
+        }
+        else {
+            $this->set('users', false);
         }
         $this->render('/Users/json/template');
     }
