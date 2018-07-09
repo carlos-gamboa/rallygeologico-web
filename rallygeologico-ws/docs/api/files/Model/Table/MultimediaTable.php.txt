@@ -72,6 +72,11 @@ class MultimediaTable extends Table
             ->allowEmpty('media_url');
 
         $validator
+            ->scalar('external_url')
+            ->maxLength('external_url', 2000)
+            ->allowEmpty('external_url');
+
+        $validator
             ->scalar('name')
             ->maxLength('name', 100)
             ->allowEmpty('name');

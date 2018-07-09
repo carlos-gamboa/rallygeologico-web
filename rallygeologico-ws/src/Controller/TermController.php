@@ -21,17 +21,11 @@ class TermController extends AppController
      */
     public function index()
     {
-        $term = $this->paginate($this->Term);
+        $term = $this->Term->find('all', [
+        ]);
 
         $this->set(compact('term'));
         $this->set('_serialize', 'term');
-    }
-
-    public function getAllTerms($termId = null){
-        $media = $this->Term->find('all', [
-        ]);
-        $this->set('term', $media);
-        $this->render('/Term/json/template');
     }
 
     /**
@@ -57,7 +51,7 @@ class TermController extends AppController
     public function view($id = null)
     {
         $term = $this->Term->get($id, [
-            'contain' => ['Site']
+            'contain' => ['Site', 'Multimedia']
         ]);
 
         $this->set('term', $term);
@@ -93,7 +87,7 @@ class TermController extends AppController
     public function edit($id = null)
     {
         $term = $this->Term->get($id, [
-            'contain' => ['Site']
+            'contain' => []
         ]);
         if ($this->getRequest()->is(['patch', 'post', 'put'])) {
             $term = $this->Term->patchEntity($term, $this->getRequest()->getData());
@@ -126,6 +120,102 @@ class TermController extends AppController
             $this->set('term', false);
         }
         //return $this->redirect(['action' => 'index']);
+        $this->render('/Term/json/template');
+    }
+
+    /**Get all the terms
+     * @param null $termId
+     *
+     */
+    public function getAllTerms($termId = null){
+        $media = $this->Term->find('all', [
+        ]);
+        $this->set('term', $media);
+        $this->render('/Term/json/template');
+    }
+
+    /**
+     * Gets all terms those aren't part of the specified multimedia
+     *
+     * @param null $id
+     */
+    public function getOtherTermsFromMultimedia($id = null){
+        $this->loadModel('TermMultimedia');
+        $terms = $this->Term->find('all', [
+            'conditions' => [
+                'Term.id NOT IN ' => $this->TermMultimedia->find('all', [
+                    'fields' => ['TermMultimedia.term_id'],
+                    'conditions' => ['TermMultimedia.multimedia_id' => $id
+                    ]
+                ])
+            ]
+        ]);
+        $this->set('term', $terms);
+        $this->render('/Term/json/template');
+    }
+
+    /**
+     * Gets all terms those are part of the specified multimedia
+     *
+     * @param null $id
+     */
+    public function getAssociatedTermsFromMultimedia($id = null){
+        $this->loadModel('TermMultimedia');
+        $terms = $this->Term->find('all', [
+            'conditions' => [
+                'Term.id IN ' => $this->TermMultimedia->find('all', [
+                    'fields' => ['TermMultimedia.term_id'],
+                    'conditions' => ['TermMultimedia.multimedia_id' => $id
+                    ]
+                ])
+            ]
+        ]);
+        $this->set('term', $terms);
+      $this->render('/Term/json/template');
+    }
+
+    /**
+    * Gets all the terms ordered by letter
+     */
+    public function getAllTermsOrdered(){
+        $term = $this->Term->find('all', [
+                'order' => ['Term.name' => 'ASC'],
+                'contain' => ['Multimedia', 'Site']
+            ]
+        );
+        $this->set('term', $term);
+        $this->render('/Term/json/template');
+    }
+
+    public function getATerm($id = null){
+        $term = $this->Term->get($id, [
+                'contain' => ['Multimedia','Site']
+            ]
+        );
+        $this->set('term', $term);
+        $this->render('/Term/json/template');
+    }
+
+    /**
+     * Gets all the terms by site
+     *
+     * @param null $siteId Id of the site
+     */
+    public function getTermsBySite($siteId = null){
+        $this->loadModel('TermSite');
+        $term = $this->Term->find('all', [
+                'order' => ['Term.name' => 'ASC'],
+                'contain' => ['Multimedia'],
+                'conditions' => [
+                    'Term.id IN ' => $this->TermSite->find('all', [
+                        'fields' => ['TermSite.term_id'],
+                        'conditions' => ['TermSite.site_id' => $siteId
+                        ]
+                    ])
+                ]
+            ]
+        );
+        $this->set('term', $term);
         $this->render('/Term/json/template');
     }
 

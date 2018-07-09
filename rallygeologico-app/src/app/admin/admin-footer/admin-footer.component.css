@@ -1,0 +1,41 @@
+.logo{
+    width: 200px;
+}
+
+.helper {
+    display: inline-block;
+    height: 100%;
+    text-align: center;
+    line-height: 100%;
+}
+
+.logo-div{
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+
+.logo-anchor{
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.text-input{
+    width: 98%;
+    height: 40px;
+    padding: 10px;
+    color: #555555;
+    overflow: scroll;
+}
+
+.btn{
+    opacity: 1 !important;
+}
+
+.genric-btn.success {
+    color: #fff;
+    background: #609000;
+    border: 1px solid transparent;
+    height: 90% !important;
+}
+

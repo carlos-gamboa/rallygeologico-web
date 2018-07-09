@@ -168,7 +168,7 @@ INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL,
 INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/13/a.png', 'Límite fronterizo'); -- 39
 INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/14/a.png', 'Puntos'); -- 40
 INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/14/b.png', 'Sinclinal'); -- 41
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/15/a.png', 'Brecha'); -- 42
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/15/a.jpg', 'Brecha'); -- 42
 INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/16/a.png', 'Estructuras volcánicas'); -- 43
 INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/17/a.png', 'Roca'); -- 44
 INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/17/b.png', 'Biotita'); -- 45
@@ -179,7 +179,7 @@ INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL,
 INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/20/a.png', 'Columnas'); -- 50
 INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/20/b.png', 'Hexágonos'); -- 51
 INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/20/c.png', 'Irregulares'); -- 52
-INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/9/a.png', 'Lenticular'); -- 53
+INSERT INTO `multimedia` (`id`, `media_type`, `media_url`, `name`) VALUES (NULL, 0, 'assets/images/sites/9/a.jpg', 'Lenticular'); -- 53
 
 INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (1, 1);
 INSERT INTO `term_multimedia` (`term_id`, `multimedia_id`) VALUES (2, 2);

@@ -11,6 +11,7 @@ import {RallyService} from "../../services/rally.service";
 import {Router} from "@angular/router";
 import {DataService} from "../../services/data/data.service";
 import {CompetitionStatistics} from "../../model/competition.statistics";
+import {NgForm} from "@angular/forms";
 
 @Component({
     selector: 'app-edit-competition',
@@ -140,42 +141,48 @@ export class EditCompetitionComponent implements OnInit {
         }
     }
 
-    saveChanges(){
-        this.changesSaved = false;
-        this.deleted = false;
-        if (!this.currentCompetition){
-            this.competitionService.adminAddCompetition(this.name, this.is_active, this.is_public, this.description,
-                this.starting_date.replace("T", " "),
-                this.finishing_date.replace("T", " "), this.rally_id, this.admin_id).subscribe((competition: Competition) => {
-                if (competition){
-                    this.currentCompetition = competition;
-                    this.allCompetitions.push(this.currentCompetition);
-                    this.changesSaved = true;
-                    this.messageType = true;
-                    this.newCompetition = false;
-                    this.alertMessage = "La competencia ha sido creada.";
-                } else {
-                    this.messageType = false;
-                    this.alertMessage = "No se pudo crear la competencia.";
-                }
-            });
+    saveChanges(form: NgForm) {
+        if (!form.valid) {
+            this.changesSaved = true;
+            this.alertMessage = "No se pueden guardar los cambios.";
+            this.messageType = false;
         } else {
-            this.competitionService.editCompetition(this.currentCompetition.id, this.name, this.is_active,
-                this.is_public, this.description, this.starting_date.replace("T", " "),
-                this.finishing_date.replace("T", " "), this.rally_id,
-                this.admin_id).subscribe((competition: Competition) => {
-                this.changesSaved = true;
-                if (competition){
-                    this.currentCompetition = competition;
-                    this.allCompetitions[this.currentCompetitionIndex] = this.currentCompetition;
-                    this.messageType = true;
-                    this.alertMessage = "Se han guardado los cambios.";
-                } else {
-                    this.alertMessage = "No se pudo guardar los cambios.";
-                    this.messageType = false;
+            this.changesSaved = false;
+            this.deleted = false;
+            if (!this.currentCompetition){
+                this.competitionService.adminAddCompetition(this.name, this.is_active, this.is_public, this.description,
+                    this.starting_date.replace("T", " "),
+                    this.finishing_date.replace("T", " "), this.rally_id, this.admin_id).subscribe((competition: Competition) => {
+                    if (competition){
+                        this.currentCompetition = competition;
+                        this.allCompetitions.push(this.currentCompetition);
+                        this.changesSaved = true;
+                        this.messageType = true;
+                        this.newCompetition = false;
+                        this.alertMessage = "La competencia ha sido creada.";
+                    } else {
+                        this.messageType = false;
+                        this.alertMessage = "No se pudo crear la competencia.";
+                    }
+                });
+            } else {
+                this.competitionService.editCompetition(this.currentCompetition.id, this.name, this.is_active,
+                    this.is_public, this.description, this.starting_date.replace("T", " "),
+                    this.finishing_date.replace("T", " "), this.rally_id,
+                    this.admin_id).subscribe((competition: Competition) => {
+                    this.changesSaved = true;
+                    if (competition){
+                        this.currentCompetition = competition;
+                        this.allCompetitions[this.currentCompetitionIndex] = this.currentCompetition;
+                        this.messageType = true;
+                        this.alertMessage = "Se han guardado los cambios.";
+                    } else {
+                        this.alertMessage = "No se pudo guardar los cambios.";
+                        this.messageType = false;
 
-                }
-            });
+                    }
+                });
+            }
         }
     }
 
@@ -260,14 +267,25 @@ export class EditCompetitionComponent implements OnInit {
         this.reloadCompetitions(this.allCompetitions);
     }
 
-    deleteCompetition(id: number, i: number){
+    /**
+     * Loads all competitions' information
+     */
+    updateCompetitions(){
+        this.allCompetitions = [];
+        this.competitionService.getAllCompetitions().subscribe((competitions: Competition[]) => {
+            this.allCompetitions = competitions;
+            this.reloadCompetitions(this.allCompetitions);
+        });
+    }
+
+    deleteCompetition(id: number){
         this.deleted = false;
         this.changesSaved = false;
         this.competitionService.deleteCompetition(id).subscribe((deleted: boolean) => {
             this.deleted = true;
             if (deleted){
                 this.currentCompetition = null;
-                this.allCompetitions.splice(((this.currentPageCompetition - 1) * this.pageSize) + i, 1);
+                this.updateCompetitions();
                 this.messageType = true;
                 this.alertMessage = "Se ha eliminado la competencia.";
                 this.reloadCompetitions(this.allCompetitions);

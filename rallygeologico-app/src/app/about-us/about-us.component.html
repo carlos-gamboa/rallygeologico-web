@@ -1,5 +1,262 @@
-<app-public-header [activeTab]="3"></app-public-header>
-<p>
-  about-us works!
-</p>
-<app-public-footer></app-public-footer>
+<app-public-header [activeTab]="3" *ngIf="!user"></app-public-header>
+<app-header [activeTab]="5" *ngIf="user"></app-header>
+<!-- Start banner Area -->
+<section class="banner-area relative" id="home">
+  <div class="overlay overlay-bg"></div>
+  <div class="container">
+    <div class="row d-flex align-items-center justify-content-center">
+      <div class="about-content col-lg-12">
+        <h1 class="text-white">
+          Acerca de nosotros
+        </h1>
+        <p class="text-white link-nav"><a routerLink="/dashboard">Inicio </a>  <span class="lnr lnr-arrow-right"></span>  <a routerLink="/about_us">Acerca de nosotros</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End banner Area -->
+
+<!--Start about-us Area -->
+
+<!--Start CICG area -->
+<section class="home-about-area section-gap">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 home-about-left">
+        <h6 class="text-uppercase">El CICG: Centro de Investigación en Ciencias Geológicas</h6>
+        <h1>¿Quiénes somos?</h1>
+        <br>
+        <p>
+          <span>Origen</span>
+        </p>
+        <p style="text-align: justify; text-justify: inter-word;">
+          El Centro de Investigación en Ciencias Geológicas, fue creado en la sesión N. 5186, del Consejo Universitario
+          de la Universidad de Costa Rica, efectuada el 29 de agosto del 2007. Su reglamento específico fue aprobado por
+          la Rectoría en resolución R-4329-2009 y publicado en el Alcance a la Gaceta Universitaria N.9-2009 del 14 de
+          julio del 2009.
+        </p><br>
+        <p style="text-align: justify; text-justify: inter-word;">
+          El Centro de Investigación en Ciencias Geológicas (CICG) es una unidad de investigación científica de carácter
+          multidisciplinario, dedicada al estudio de los procesos geológicos que han dado origen al planeta y lo continúan
+          modificando. Esto con el propósito de brindar a la sociedad los insumos necesarios para una gestión adecuada de
+          los recursos geológicos, del territorio y del riesgo.
+        </p>
+        <br>
+        <p>
+          <span>Proyecto</span>
+        </p>
+        <p style="text-align: justify; text-justify: inter-word;">
+          El Centro de Investigación en Ciencias Geológicas (CICG) de la Universidad de Costa Rica mediante esta propuesta
+          se enfoca en realzar las maravillas geológicas de Costa Rica. Con la geodiversificación de la oferta turística
+          en el noroeste de Costa Rica, específicamente en los cantones de Liberia y La Cruz.
+        </p>
+        <br>
+        <h1>Créditos</h1>
+        <br>
+        <p>
+          <span>Centro de Investigación en Ciencias Geológicas (CICG)</span>
+        </p>
+        <p style="text-align: justify; text-justify: inter-word;">
+          Unidad de investigación de la Universidad de Costa Rica dedicada al estudio de los procesos geológicos.
+        </p>
+        <ul class="unordered-list-about-us">
+          <li>Percy Denyer Chavarría </li>
+          <li>Juan Pablo Solano Monge</li>
+        </ul>
+        <br>
+        <p>
+          <span>Área de Conservación Guanacaste (ACG)</span>
+        </p>
+        <p style="text-align: justify; text-justify: inter-word;">
+          Institución encargada de restaurar y conservar hasta la perpetuidad un ecosistema completo de bosque seco
+          tropical y sus ecosistemas adyacentes en parte de las provincias de Guanacaste y Alajuela.
+        </p>
+        <ul class="unordered-list-about-us">
+          <li>Alejandro Masís Cuevillas</li>
+          <li>Róger Blanco Segura</li>
+          <li>María Marta Chavarría Díaz</li>
+          <li>Felipe Chavarría Díaz</li>
+        </ul>
+        <br>
+        <p>
+          <span>museo + UCR</span>
+        </p>
+        <p style="text-align: justify; text-justify: inter-word;">
+          Unidad de investigación que adquiere, conserva, investiga y exhibe el patrimonio natural y cultural.
+        </p>
+        <ul class="unordered-list-about-us">
+          <li>Mariano Chinchilla Chavarría</li>
+        </ul>
+        <br>
+        <br>
+        <p>
+          <span>Sitios De Interés</span>
+        </p>
+        <ul class="unordered-list-about-us">
+          <li> <a href="http://www.geologia.ucr.ac.cr/">Escuela Centroamericana de Geología (ECG)</a></li>
+          <li> <a href="http://www.rsn.ucr.ac.cr/">Red Sismológica Nacional (RSN)</a></li>
+          <li> <a href="http://www.geologia.ucr.ac.cr/revista/revista-geol.html>">Revista Geológica de América Central (RGAC)</a></li>
+          <li> <a href="http://163.178.105.2:84/">Biblioteca de la Escuela Centroamericana de Geología</a></li>
+          <li> <a href="https://www.facebook.com/aceg.geologia/">Asociación Centroamericana de Estudiantes de Geología (ACEG)</a></li>
+          <li> <a href="http://rutageologica.ucr.ac.cr/">A través de la historia geológica: Recorridos en el litoral norte de la costa pacífica de Costa Rica</a></li>
+        </ul>
+        <br>
+        <img class="mx-auto d-block img-fluid" style="max-width: 20em;" src="../../../assets/images/ucr/logo_cicg.png" alt="">
+        <br>
+        <br>
+
+      </div>
+      <div class="col-lg-6 home-about-right">
+        <img class="mx-auto d-block img-fluid" src="{{assetsUrl}}../assets/images/sites/18/c.png" alt="">
+        <br>
+        <img class="mx-auto d-block img-fluid" src="{{assetsUrl}}../assets/images/sites/11/a.png" alt="">
+        <br>
+        <img class="mx-auto d-block img-fluid" src="{{assetsUrl}}../assets/images/sites/17/a.png" alt="">
+        <br>
+        <img class="mx-auto d-block img-fluid" src="{{assetsUrl}}../assets/images/sites/18/b.png" alt="">
+        <br>
+        <img class="mx-auto d-block img-fluid" src="{{assetsUrl}}../assets/images/sites/19/b.png" alt="">
+      </div>
+    </div>
+    <hr>
+    <br>
+    <br>
+    <div class="row">
+      <div class="col-md-6 offset-md-3 offset-sm-0 text-center">
+        <br>
+        <h3>Contacto</h3>
+        <br>
+        <p>
+          <span style="font-weight: 600; color: #0e0e0e">Dirección: </span> Barrio los Profesores (carretera a Sabanilla) de GlaxoSmithKline 50m N y 200m W, casa
+          N. 13, 2060 San Pedro De Montes De Oca, San Jose, Costa Rica.
+        </p>
+        <p>
+          <span style="font-weight: 600; color: #0e0e0e">Horario: </span> Lunes a viernes de 8:00-17:00
+        </p>
+        <p>
+          <span style="font-weight: 600; color: #0e0e0e">Teléfono: </span> (506) 2225-1684 (506) 2253-9801
+        </p>
+        <p>
+          <span style="font-weight: 600; color: #0e0e0e">Correo electrónico:</span> <a href="mailto:cicg@ucr.ac.cr">cicg@ucr.ac.cr</a>
+        </p>
+        <p>
+          Si desea informarse más acerca del  Centro de Investigación en Ciencias Geológicas de la Universidad de
+          Costa Rica puede visitar su sitio: <a class="genric-btn text-center info small mt-4" href="http://www.cicg.ucr.ac.cr/">Visitar la página del CICG</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End CICG area -->
+<!-- Start developers area -->
+<section class="feature-us-area relative pt-100 pb-20">
+  <div class="overlay overlay-bg">
+  </div>
+  <div class="container">
+    <div class="row align-items-center justify-content-center">
+      <div class="col-lg-6 col-md-6"><!--START CREDITS-->
+          <div class="single-feature">
+               <h1 class="text-white">Equipo de Desarrollo</h1>
+          </div>
+      </div>
+    </div>
+    <hr style="height: 2px; background-color: white"> <br> <!--START ANDROID-->
+    <div class="row align-items-center justify-content-center">
+      <div class="col-lg-6 col-md-6"><!--START WEB-->
+        <div class="single-feature">
+          <h2 class="text-white">Equipo de Desarrollo Web</h2>
+        </div>
+      </div>
+    </div>
+    <div class="row align-items-center justify-content-center">
+      <div class="col-lg-4 col-md-6">
+        <div class="single-feature">
+          <h3 class="text-white">Jhosua Arias</h3>
+            <a href="mailto:jhosuarqui@gmail.com">jhosuarqui@gmail.com</a><br>
+            <a href="http://www.linkedin.com/in/jhosua-arias-quintero"><i class="fa-us fa-linkedin-square"></i></a>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="single-feature">
+          <h3 class="text-white">Carlos Gamboa</h3>
+            <a href="mailto:carlos.gamboav19@gmail.com">carlos.gamboav19@gmail.com</a><br>
+            <a href="http://cr.linkedin.com/in/carlos-gamboa-vargas-6a5414147"><i class="fa-us fa-linkedin-square"></i></a>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="single-feature">
+          <h3 class="text-white">Fernando Rojas</h3>
+            <a href="mailto:ferojasmel@hotmail.com">ferojasmel@hotmail.com</a><br>
+            <a href="http://www.linkedin.com/in/fernando-rojas-mel"><i class="fa-us fa-linkedin-square"></i></a>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="single-feature">
+          <h3 class="text-white">Ana Laura Vargas</h3>
+            <a href="mailto:alauvargas@gmail.com">alauvargas@gmail.com</a><br>
+            <a href="https://www.linkedin.com/in/ana-laura-vargas-355a17166/"><i class="fa-us fa-linkedin-square"></i></a>
+        </div>
+      </div>
+    </div>
+      <hr style="height: 2px; background-color: white"> <br> <!--START ANDROID-->
+      <div class="row align-items-center justify-content-center">
+        <div class="col-lg-6 col-md-6">
+          <div class="single-feature">
+            <a href="#"><h2 class="text-white">Equipo de Desarrollo Android</h2></a>
+          </div>
+        </div>
+      </div>
+    <div class="row align-items-center justify-content-center">
+      <div class="col-lg-4 col-md-6">
+        <div class="single-feature">
+          <h3 class="text-white">Benjamín Blanco</h3>
+            <a href="mailto:crbenjminblanco@gmail.com">crbenjminblanco@gmail.com</a><br>
+            <a href="http://linkedin.com/in/benjamín-blanco-rojas-389733140"><i class="fa-us fa-linkedin-square"></i></a>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="single-feature">
+          <h3 class="text-white">Pablo Madrigal</h3>
+            <a href="mailto:pablomadrigalq@gmail.com">pablomadrigalq@gmail.com</a><br>
+            <a href="http://www.linkedin.com/in/pablomadrigal"><i class="fa-us fa-linkedin-square"></i></a>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="single-feature">
+          <h3 class="text-white">Jorge Remón</h3>
+            <a href="mailto:jorgeremonm@gmail.com">jorgeremonm@gmail.com</a><br>
+            <a href="https://www.linkedin.com/in/jorge-remón/"><i class="fa-us fa-linkedin-square"></i></a>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="single-feature">
+          <h3 class="text-white">Daniel Varela</h3>
+            <a href="mailto:daniel.varela.serrano@gmail.com">daniel.varela.serrano@gmail.com</a><br>
+            <a href="https://www.linkedin.com/in/daniel-varela-720111129/"><i class="fa-us fa-linkedin-square"></i></a>
+        </div>
+      </div>
+    </div>
+      <hr style="height: 2px; background-color: white"> <br>
+      <div class="row align-items-center justify-content-center">
+          <div class="col-lg-6 col-md-6">
+              <div class="single-feature">
+                  <a href="#"><h2 class="text-white">Supervisor del Proyecto</h2></a>
+              </div>
+          </div>
+      </div>
+      <div class="row align-items-center justify-content-center">
+          <div class="col-lg-4 col-md-6">
+              <div class="single-feature">
+                  <h3 class="text-white">Alan Calderón</h3>
+                  <a href="mailto:alan.calderon@ucr.ac.cr">alan.calderon@ucr.ac.cr</a><br>
+<!--                  <a href="http://linkedin.com/in/benjamín-blanco-rojas-389733140"><i class="fa-us fa-linkedin-square"></i></a>-->
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+<!-- End developers area -->
+
+<!-- End about-us Area -->
+<app-public-footer *ngIf="!user"></app-public-footer>
+<app-footer *ngIf="user"></app-footer>

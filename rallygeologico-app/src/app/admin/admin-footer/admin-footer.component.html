@@ -1,0 +1,78 @@
+<!-- start footer Area -->
+<footer class="footer-area section-gap">
+  <div class="container">
+    <div class="row" align="center">
+      <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="single-footer-widget">
+          <img class="mx-auto d-block img-fluid" src="{{qr?.media_url}}" alt="" width="30%" height="auto" *ngIf="!imageEvent">
+          <img class="mx-auto d-block img-fluid" src="{{imageEvent?.src}}" alt="" width="30%" height="auto" *ngIf="imageEvent">
+          <div class="title text-center mb-5 mt-3">
+            <h3 class="mb-10"><a style="color: black" href="{{qr?.external_url}}"><span class="fa fa-android checked"></span>  Descarga la aplicación para Android</a>  <span class="fa fa-edit mt-3" (click)="adminQr()" *ngIf="!editMode"></span></h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 mb-30" *ngIf="editMode">
+        <div class="row">
+        <!--<form class="row" #multimediaForm="ngForm">-->
+          <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-sm-12">
+            <label for="qr" class="mb-0">Seleccione el nuevo Qr</label>
+            <image-upload #inputImage [style]="customStyle" id="qr" [max]="1" [extensions]="['png']" buttonCaption="Seleccione"
+                          dropBoxMessage="O arrastre una imagen" clearButtonCaption="Quitar imagen" fileTooLargeMessage="Imagen demasiado grande" (click)="updateUrl($event)" (uploadFinished)="onUpload($event)"></image-upload>
+          </div>
+          <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-sm-12">
+            <label for="link">Link de descarga</label>
+            <input class="text-input" type="text" [(ngModel)]="link" #linkInput="ngModel" id="link" name="link">
+          </div>
+          <div class="col-lg-6 offset-lg-3 col-md-6 offset-md-3 col-sm-12 mt-20" align="center">
+            <button title="Actualizar Qr" class="btn genric-btn success col-lg-6 mb-2 text-center" style="font-size: 16px; border-radius: 0px; vertical-align: middle" (click)="saveChanges()">Guardar cambios</button>
+            <div *ngIf="changesSaved" class="alert col-lg-6 mt-10" role="alert" [class.alert-success]="messageType" [class.alert-danger]="!messageType">
+              {{alertMessage}}
+            </div>
+          </div>
+        <!--</form>-->
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2 col-md-6 col-sm-6 mt-4">
+        <div class="single-footer-widget logo-div">
+          <a href="https://www.ucr.ac.cr/" class="logo-anchor"><img class="mx-auto d-block img-fluid logo" src="{{assetsUrl}}../assets/images/ucr/firma-vertical-dos-lineas-cmyk.png" alt=""></a>
+        </div>
+      </div>
+      <div class="col-lg-3  col-md-6 col-sm-6 mt-4">
+        <div class="single-footer-widget logo-div">
+          <a href="https://www.ecci.ucr.ac.cr/" class="logo-anchor"><span class="helper"></span><img class="mx-auto d-block img-fluid logo" src="{{assetsUrl}}../assets/images/ucr/logo_ecci.png" alt=""></a>
+        </div>
+      </div>
+      <div class="col-lg-3  col-md-6 col-sm-6 mt-4">
+        <div class="single-footer-widget logo-div">
+          <a href="http://www.cicg.ucr.ac.cr/" class="logo-anchor"><img class="mx-auto d-block img-fluid logo" src="{{assetsUrl}}../assets/images/ucr/logo_cicg.png" alt=""></a>
+        </div>
+      </div>
+      <div class="col-lg-2  col-md-6 col-sm-6 mt-4">
+        <div class="single-footer-widget logo-div">
+          <a href="/" class="logo-anchor"><img class="mx-auto d-block img-fluid logo" src="{{assetsUrl}}../assets/images/ucr/sinac.png" alt=""></a>
+        </div>
+      </div>
+      <div class="col-lg-2  col-md-6 col-sm-6 mt-4">
+        <div class="single-footer-widget logo-div">
+          <a href="/" class="logo-anchor"><img class="mx-auto d-block img-fluid logo" src="{{assetsUrl}}../assets/images/ucr/acg.png" alt=""></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom row">
+      <p class="footer-text m-0 col-lg-6 col-md-12">
+        Copyright &copy; Centro de Investigación en Ciencias Geológicas
+        <br>
+        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+        Copyright &copy; This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+      </p>
+      <div class="footer-social col-lg-6 col-md-12">
+        <a href="#"><i class="fa fa-facebook"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- End footer Area -->

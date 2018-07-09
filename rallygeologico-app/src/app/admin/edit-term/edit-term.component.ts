@@ -9,6 +9,7 @@ import {MultimediaService} from "../../services/multimedia.service";
 import {Multimedia} from "../../model/multimedia";
 import {Site} from "../../model/site";
 import {SiteService} from "../../services/site.service";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-edit-term',
@@ -96,7 +97,7 @@ export class EditTermComponent implements OnInit {
       this.allTerms = terms;
       this.reloadTerms(this.allTerms);
       this.allMultimedia = [];
-      this.multimediaService.getMultimedia().subscribe((multimedia: Multimedia[]) => {
+      this.multimediaService.getAllMultimedia().subscribe((multimedia: Multimedia[]) => {
         this.allMultimedia = multimedia;
         this.siteService.getSites().subscribe((sites: Site[]) => {
           this.allSites = sites;
@@ -256,9 +257,9 @@ export class EditTermComponent implements OnInit {
 
   updateSites(){
     this.allSites = [];
-    this.siteService.getOtherSitesFromTerm(this.currentTerm.id).subscribe((otherSites: Site[]) => { //TODO Change this services because the use rallyId, not termId
+    this.siteService.getOtherSitesFromTerm(this.currentTerm.id).subscribe((otherSites: Site[]) => {
       this.otherSites = otherSites;
-      this.siteService.getAssociatedSitesFromTerm(this.currentTerm.id).subscribe((currentSites: Site[]) => { //TODO Change this services because the use rallyId, not termId
+      this.siteService.getAssociatedSitesFromTerm(this.currentTerm.id).subscribe((currentSites: Site[]) => {
         this.currentSites = currentSites;
         for(let site of this.otherSites){
           this.allSites.push(site);
@@ -289,37 +290,43 @@ export class EditTermComponent implements OnInit {
     });
   }
 
-  saveChanges(){
-    this.changesSaved = false;
-    this.deleted = false;
-    if (!this.currentTerm){
-      this.termService.addTerm(this.name, this.description).subscribe((term: Term) => {
-        if (term){
-          this.currentTerm = term;
-          this.allTerms.push(this.currentTerm);
+  saveChanges(form: NgForm) {
+    if (!form.valid) {
           this.changesSaved = true;
-          this.messageType = true;
-          this.newTerm = false;
-          this.alertMessage = "El término ha sido creado.";
-        } else {
+          this.alertMessage = "No se pueden guardar los cambios.";
           this.messageType = false;
-          this.alertMessage = "No se pudo eliminar el término.";
-        }
-      });
-    } else {
-      this.termService.editTerm(this.currentTerm.id, this.name, this.description).subscribe((term: Term) => {
-        this.changesSaved = true;
-        if (term){
-          this.currentTerm = term;
-          this.allTerms[this.currentTermIndex] = this.currentTerm;
-          this.messageType = true;
-          this.alertMessage = "Se han guardado los cambios.";
-        } else {
-          this.alertMessage = "No se pudo guardar los cambios.";
-          this.messageType = false;
-        }
-      });
-    }
+      } else {
+          this.changesSaved = false;
+          this.deleted = false;
+          if (!this.currentTerm){
+              this.termService.addTerm(this.name, this.description).subscribe((term: Term) => {
+                  if (term){
+                      this.currentTerm = term;
+                      this.allTerms.push(this.currentTerm);
+                      this.changesSaved = true;
+                      this.messageType = true;
+                      this.newTerm = false;
+                      this.alertMessage = "El término ha sido creado.";
+                  } else {
+                      this.messageType = false;
+                      this.alertMessage = "No se pudo eliminar el término.";
+                  }
+              });
+          } else {
+              this.termService.editTerm(this.currentTerm.id, this.name, this.description).subscribe((term: Term) => {
+                  this.changesSaved = true;
+                  if (term){
+                      this.currentTerm = term;
+                      this.allTerms[this.currentTermIndex] = this.currentTerm;
+                      this.messageType = true;
+                      this.alertMessage = "Se han guardado los cambios.";
+                  } else {
+                      this.alertMessage = "No se pudo guardar los cambios.";
+                      this.messageType = false;
+                  }
+              });
+          }
+      }
   }
 
   /**

@@ -48,6 +48,7 @@
       <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/umpirsky/twig-php-function" />
       <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/asm89/twig-cache-extension" />
       <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/ozee31/cakephp-cors" />
+      <path value="$PROJECT_DIR$/rallygeologico-ws/vendor/symfony/polyfill-ctype" />
     </include_path>
   </component>
 </project>

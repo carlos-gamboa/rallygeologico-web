@@ -21,10 +21,9 @@ class SiteController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
+        $site = $this->Site->find('all', [
             'contain' => ['District', 'Rally']
-        ];
-        $site = $this->paginate($this->Site);
+        ]);
 
         $this->set(compact('site'));
         $this->set('_serialize', 'site');
@@ -89,7 +88,7 @@ class SiteController extends AppController
     public function edit($id = null)
     {
         $site = $this->Site->get($id, [
-            'contain' => ['CompetitionStatistics', 'Rally', 'Term']
+            'contain' => ['District']
         ]);
         if ($this->getRequest()->is(['patch', 'post', 'put'])) {
             $site = $this->Site->patchEntity($site, $this->getRequest()->getData());

@@ -21,7 +21,8 @@ class ProvinceController extends AppController
      */
     public function index()
     {
-        $province = $this->paginate($this->Province);
+        $province = $this->Province->find('all', [
+        ]);
 
         $this->set(compact('province'));
         $this->set('_serialize', 'province');

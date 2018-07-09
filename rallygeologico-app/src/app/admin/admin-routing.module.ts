@@ -8,6 +8,9 @@ import {EditSiteComponent} from "./edit-site/edit-site.component";
 import {EditCantonComponent} from "./edit-canton/edit-canton.component";
 import {EditDistrictComponent} from "./edit-district/edit-district.component";
 import {EditTermComponent} from "./edit-term/edit-term.component";
+import {EditUsersComponent} from "./edit-users/edit-users.component";
+import {EditMultimediaComponent} from "./edit-multimedia/edit-multimedia.component";
+import {EditActivityComponent} from "./edit-activity/edit-activity.component";
 
 const routes : Routes = [
     { path: 'admin', component: AdminComponent, children: [
@@ -31,6 +34,15 @@ const routes : Routes = [
         },
         {
             path: 'rally', component: EditRallyComponent
+        },
+        {
+            path: 'users', component: EditUsersComponent
+        },
+        {
+            path: 'multimedia', component: EditMultimediaComponent
+        },
+        {
+            path: 'activity', component: EditActivityComponent
         }
     ]},
 ];

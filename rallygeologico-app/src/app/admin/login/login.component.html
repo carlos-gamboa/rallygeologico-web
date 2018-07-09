@@ -12,22 +12,22 @@
     </div>
   </div>
 </header><!-- #header -->
-<div class="login-background">
+<div class="login-background" (keydown.enter)="passwordLogin()">
   <div class="wrap-login">
     <div class="row">
       <div class="col-sm-12 center">
-        <h2 class="mb-60 text-center login-title">Iniciar Sesión como Administrador</h2>
+        <h2 class="mb-60 text-center login-title">Iniciar sesión como administrador</h2>
         <img class="mb-60 center login-icon" src="{{assetsUrl}}../../assets/images/login-icon.png" alt="Icono de Usuario">
         <div class="center text-center">
 
           <div class="btn-group margbutton" *ngIf="loginWithFacebook && !isNotRegistered" (click)="loginWithOptions()">
             <span class='btn facebookcolor disabled'><i class="fa fa-facebook"></i></span>
-            <span class='btn facebookcolor ' [class.disabled-color]="!facebookWorking" href='' style="width:14em"> {{facebookText}}</span>
+            <span class='btn facebookcolor api-button' [class.disabled-color]="!facebookWorking" href=''> {{facebookText}}</span>
           </div>
 
           <div class="btn-group margbutton" *ngIf="loginWithGoogle && !isNotRegistered" (click)="googleSignIn()">
             <span class='btn btn-danger disabled'><i class="fa fa-google" style="color:white; width:16px; height:20px"></i></span>
-            <span class='btn btn-danger' [class.disabled-color]="!googleWorking" href='' style="width:14em;"> {{googleText}}</span>
+            <span class='btn btn-danger api-button' [class.disabled-color]="!googleWorking"> {{googleText}}</span>
           </div>
 
           <div *ngIf="loginWithPassword && !isNotRegistered">
@@ -63,3 +63,5 @@
     </div>
   </div>
 </div>
+<app-public-footer></app-public-footer>
+

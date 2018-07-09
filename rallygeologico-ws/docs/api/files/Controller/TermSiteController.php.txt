@@ -21,10 +21,9 @@ class TermSiteController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
+        $termSite = $this->TermSite->find('all', [
             'contain' => ['Term']
-        ];
-        $termSite = $this->paginate($this->TermSite);
+        ]);
 
         $this->set(compact('termSite'));
         $this->set('_serialize', 'termSite');

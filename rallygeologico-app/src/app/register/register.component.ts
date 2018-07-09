@@ -20,6 +20,7 @@ export class RegisterComponent implements OnInit {
     email: string;
     username: string;
     password: string;
+    is_active: number;
 
     GId: string;
     GfirstName: string;
@@ -37,7 +38,7 @@ export class RegisterComponent implements OnInit {
     messageType: number;
     alertMessage: string;
 
-    photoUrl : string = environment.assetsUrl + "assets/user-icon.png";
+    photoUrl : string = environment.assetsUrl + "assets/images/users/user1.png";
     user : User;
     successful : boolean = false;
     googleClientS : string = environment.googleClientS;
@@ -53,6 +54,11 @@ export class RegisterComponent implements OnInit {
 
     constructor(private fb: FacebookService, private router: Router,  private userService: UserService, private _ngZone: NgZone) {
         this.assetsUrl = environment.assetsUrl;
+        if (environment.production){
+            this.is_active = 0;
+        } else {
+            this.is_active = 1;
+        }
         if (this.facebookWorking){
             let initParams: InitParams = {
                 appId: environment.facebookKey,
@@ -132,7 +138,7 @@ export class RegisterComponent implements OnInit {
                 if (!emailUsed) {
                     this.userService.usernameExists(this.username).subscribe((usernameTaken: boolean) => {
                         if (!usernameTaken) {
-                            this.userService.register(this.fbId, this.username, this.firstName, this.lastName, this.email, this.photoUrl, 0, null, 1).subscribe((users: User[]) => {
+                            this.userService.register(this.fbId, this.username, this.firstName, this.lastName, this.email, this.photoUrl, 0, null, 0,1, 0).subscribe((users: User[]) => {
                                 if (users) {
                                     this.successful = true;
                                     this.messageType = 0;
@@ -165,7 +171,7 @@ export class RegisterComponent implements OnInit {
                 if (!emailUsed) {
                     this.userService.usernameExists(this.username).subscribe((usernameTaken: boolean) => {
                         if (!usernameTaken) {
-                            this.userService.register(this.GId, this.username, this.GfirstName, this.GlastName, this.Gemail, this.photoUrl, 1, null, 1).subscribe((users: User[]) => {
+                            this.userService.register(this.GId, this.username, this.GfirstName, this.GlastName, this.Gemail, this.photoUrl, 1, null, 0, 1, 0).subscribe((users: User[]) => {
                                 if (users) {
                                     this.successful = true;
                                     this.messageType = 0;
@@ -253,11 +259,11 @@ export class RegisterComponent implements OnInit {
             if (!emailUsed) {
                 this.userService.usernameExists(this.username).subscribe((usernameTaken: boolean) => {
                     if (!usernameTaken) {
-                        this.userService.register(this.fbId, this.username, this.firstName, this.lastName, this.email, this.photoUrl, 3, this.password, 1).subscribe((users: User[]) => {
+                        this.userService.register(this.fbId, this.username, this.firstName, this.lastName, this.email, this.photoUrl, 3, this.password, 0,this.is_active, 0).subscribe((users: User[]) => {
                             if (users) {
                                 this.successful = true;
                                 this.messageType = 0;
-                                this.alertMessage = "Se ha registrado con éxito.";
+                                this.alertMessage = "Se ha registrado con éxito. Se ha enviado un correo de confirmación.";
                             } else {
                                 this.messageType = 1;
                                 this.alertMessage = "Hubo un error, no se ha podido registrar.";

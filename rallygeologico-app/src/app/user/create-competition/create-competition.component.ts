@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Rally} from "../../model/rally";
 import {RallyService} from "../../services/rally.service";
 import {UserService} from "../../services/user.service";
@@ -35,14 +35,18 @@ export class CreateCompetitionComponent implements OnInit {
 
     currentCompetition: Competition;
 
-    name: string;
-    is_public: string;
-    rally_id: string;
-    description: string;
+    name: string = "";
+    is_public: string = "1";
+    rally_id: string = "1";
+    description: string = "";
 
     competitionCreated: boolean;
 
     invitedUsers: number[] = [];
+
+    invalidForm: boolean;
+
+
 
     /**
      * Creates a CreateCompetitionComponent, initialize the components
@@ -59,6 +63,7 @@ export class CreateCompetitionComponent implements OnInit {
               private invitationService: InvitationService,
               private competitionStatisticsService: CompetitionStatisticsService,  private router: Router) {
         this.competitionCreated = false;
+        this.invalidForm = false;
         this.user = this.dataService.getUser();
         if (!this.user) {
             this.userService.isLoggedIn().subscribe((users: User) => {
@@ -137,21 +142,25 @@ export class CreateCompetitionComponent implements OnInit {
     /**
      * Creates a competition calling the corresponding service
      */
-  createCompetition(){
-      this.competitionService.createCompetition(this.is_public, this.user.id, this.description, this.name, this.rally_id).subscribe((competition: Competition) => {
-          if (competition){
-              this.currentCompetition = competition;
-              this.competitionStatisticsService.createCompetitionStatistics(this.user.id, this.currentCompetition.id).subscribe((statistics: CompetitionStatistics) =>{
-                 if (statistics){
-                     this.competitionCreated = true;
-                 }  else {
-                     console.log("Couldn't create competition");
-                 }
-              });
-          } else {
-              console.log("Couldn't create competition");
-          }
-      });
+  createCompetition(form: NgForm){
+      if(!form.valid){
+           this.invalidForm = true;
+      } else {
+          this.competitionService.createCompetition(this.is_public, this.user.id, this.description, this.name, this.rally_id).subscribe((competition: Competition) => {
+              if (competition) {
+                  this.currentCompetition = competition;
+                  this.competitionStatisticsService.createCompetitionStatistics(this.user.id, this.currentCompetition.id).subscribe((statistics: CompetitionStatistics) => {
+                      if (statistics) {
+                          this.competitionCreated = true;
+                      } else {
+                          console.log("Couldn't create competition");
+                      }
+                  });
+              } else {
+                  console.log("Couldn't create competition");
+              }
+          });
+       }
   }
 
   addOtherCompetition(competitionForm: NgForm){

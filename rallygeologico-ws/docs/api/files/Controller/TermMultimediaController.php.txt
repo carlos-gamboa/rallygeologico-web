@@ -21,10 +21,9 @@ class TermMultimediaController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
+        $termMultimedia = $this->TermMultimedia->find('all', [
             'contain' => ['Term', 'Multimedia']
-        ];
-        $termMultimedia = $this->paginate($this->TermMultimedia);
+        ]);
 
         $this->set(compact('termMultimedia'));
     }

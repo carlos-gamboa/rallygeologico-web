@@ -1,0 +1,64 @@
+<!-- Start banner Area -->
+<section class="banner-area relative" id="home">
+  <div class="overlay overlay-bg"></div>
+  <div class="container">
+    <div class="row d-flex align-items-center justify-content-center">
+      <div class="about-content col-lg-12">
+        <h1 class="text-white">
+          Exploradores
+        </h1>
+        <p class="text-white link-nav"><a routerLink="/dashboard">Inicio </a>  <span class="lnr lnr-arrow-right"></span>  <a routerLink="/search-rallies">Exploradores</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End banner Area -->
+
+<!-- Start list rallies Area -->
+<section class="contact-page-area section-gap list-users">
+  <div class="container">
+    <div class="row">
+      <div class="offset-md-2 col-md-8 col-xs-12">
+        <h3 class="text-center mb-3">Busca usuarios por nombre de usuario</h3>
+        <div class="busqueda" id="searchform">
+          <input [(ngModel)]="searchQuery" type="text" title="Digite aquí el nombre del la competencia" id="searchterm" placeholder="Digite el nombre de usuario" />
+          <button type="button" id="search" title="Click aquí para buscar el usuario" (click)="searchUsers()">Buscar</button>
+        </div>
+        <div class="text-center">
+          <h4 class="title">Resultados</h4> <br>
+          <div style="overflow-x:auto;">
+            <table class="table">
+              <thead>
+              <th><h5 class="text-center">Foto de perfil</h5></th>
+              <th><h5 class="text-center">Nombre de usuario</h5></th>
+              <th><h5 class="text-center">Nombre</h5></th>
+              <th><h5 class="text-center">Apellidos</h5></th>
+              <th><h5 class="text-center">Ir al perfil</h5></th>
+              </thead>
+              <tbody>
+              <tr *ngFor="let user of showedUsers; let i = index">
+                <td style="vertical-align: middle"><div class="text-center"><img  style="width: 100px" src="{{user?.photo_url}}"></div></td>
+                <td style="vertical-align: middle"><h5 >{{user?.username}}</h5></td>
+                <td style="vertical-align: middle"><h5 >{{user?.first_name}}</h5></td>
+                <td style="vertical-align: middle"><h4 >{{user?.last_name}}</h4></td>
+                <td style="vertical-align: middle">
+                  <a title="Eliminar" class="invite-btn genric-btn circle text-center info medium wide-button" routerLink="/profile/{{user.id}}">Ir al perfil</a>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="row">
+            <div class="col-md-12 mt-10 text-center">
+              <div class="d-inline-block">
+                <ngb-pagination [collectionSize]="totalUsers" [(page)]="currentPage" [maxSize]="5" [pageSize]="pageSize" [rotate]="true"
+                                [ellipses]="true" [boundaryLinks]="false" (pageChange)="pageChange()"></ngb-pagination>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End list users Area -->

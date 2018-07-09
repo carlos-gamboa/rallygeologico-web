@@ -1,4 +1,4 @@
-<app-admin-header [activeTab]="2"></app-admin-header>
+<app-admin-header [activeTab]="3"></app-admin-header>
 <!-- Start banner Area -->
 <section class="banner-area relative" id="home">
   <div class="overlay overlay-bg"></div>
@@ -6,9 +6,8 @@
     <div class="row d-flex align-items-center justify-content-center">
       <div class="about-content col-lg-12">
         <h1 class="text-white">
-          Administrar Rally
+          Administrar rallies
         </h1>
-        <p class="text-white link-nav"><a routerLink="/dashboard">Inicio </a>  <span class="lnr lnr-arrow-right"></span>  <a routerLink="/admin/rally">Administrar Rally</a></p>
       </div>
     </div>
   </div>
@@ -24,7 +23,7 @@
                 <div class="offset-md-2 col-md-8 col-xs-12">
                     <h3 class="text-center mb-3">Seleccione el rally</h3>
                     <div class="busqueda" id="searchFormEdit">
-                        <input [(ngModel)]="searchRallyQuery" type="text" title="Digite aquí el nombre del rally" id="searchTermEdit" placeholder="Digite el nombre del rally" />
+                        <input [(ngModel)]="searchRallyQuery" type="text" title="Digite aquí el nombre del rally" id="searchTermEdit" placeholder="Digite el nombre del rally" (keydown.enter)="searchRally()"/>
                         <button type="button" id="searchEdit" title="Click aquí para buscar el rally" (click)="searchRally()">Buscar</button>
                     </div>
                     <div class="text-center">
@@ -32,7 +31,7 @@
                         <div class="mt-4 mb-4">
                             <button title="Agregar nuevo rally" class="invite-btn genric-btn text-center primary medium" (click)="edit(-1)">Crear nuevo rally</button>
                         </div>
-                        <div>
+                        <div style="overflow-x:auto;">
                             <table class="table">
                                 <thead>
                                 <th><h5 class="text-center">Nombre</h5></th>
@@ -41,11 +40,11 @@
                                 </thead>
                                 <tbody>
                                 <tr *ngFor="let rally of showedRallies; let i = index">
-                                    <td><h5 >{{rally?.name}}</h5></td>
-                                    <td>
+                                    <td style="vertical-align: middle"><h5 >{{rally?.name}}</h5></td>
+                                    <td style="vertical-align: middle">
                                         <button title="Editar" class="invite-btn table-button genric-btn circle text-center warning medium" (click)="edit(i)">Editar</button>
                                     </td>
-                                    <td>
+                                    <td style="vertical-align: middle">
                                         <button title="Eliminar" class="invite-btn table-button genric-btn circle text-center danger medium" (click)="deleteRally(i)">Eliminar</button>
                                     </td>
                                 </tr>
@@ -83,7 +82,8 @@
                     <button title="Detalles" class="invite-btn genric-btn text-center medium wide-button" [class.primary]="activeTab == 0" [class.primary-border]="activeTab != 0" (click)="changeTab(0)">Detalles del rally</button>
                 </div>
                 <div class="col-md-4">
-                    <button title="Sitios" class="invite-btn genric-btn text-center medium wide-button" [class.primary]="activeTab == 1" [class.primary-border]="activeTab != 1" (click)="changeTab(1)">Administrar sitios</button>
+                    <button title="Sitios" class="invite-btn genric-btn text-center medium wide-button" [disabled]="true" [class.primary]="activeTab == 1" [class.primary-border]="activeTab != 1" *ngIf="!currentRally" (click)="changeTab(1)">Administrar sitios</button>
+                    <button title="Sitios" class="invite-btn genric-btn text-center medium wide-button" [disabled]="false" [class.primary]="activeTab == 1" [class.primary-border]="activeTab != 1" *ngIf="currentRally" (click)="changeTab(1)">Administrar sitios</button>
                 </div>
             </div>
         </div>
@@ -145,7 +145,7 @@
                         </form>
                     </div>
                     <div class="mt-50" align="center">
-                        <button title="Actualizar Rally" class="btn genric-btn success col-lg-6" style="font-size: 16px" (click)="saveChanges()" [disabled]="rallyForm.invalid" *ngIf="newRally || currentRally">Guardar cambios</button>
+                        <button title="Actualizar Rally" class="btn genric-btn success col-lg-6" style="font-size: 16px" (click)="saveChanges(rallyForm)" *ngIf="newRally || currentRally">Guardar cambios</button>
                         <div *ngIf="changesSaved" class="alert col-lg-6 mt-10" role="alert" [class.alert-success]="messageType" [class.alert-danger]="!messageType">
                             {{alertMessage}}
                         </div>
@@ -163,12 +163,12 @@
                 <div class="offset-md-2 col-md-8 col-xs-12">
                     <h3 class="text-center mb-3">Seleccione el sitio</h3>
                     <div class="busqueda" id="searchSiteForm">
-                        <input [(ngModel)]="searchSiteQuery" type="text" title="Digite aquí el nombre del sitio" id="searchSiteInput" placeholder="Digite el nombre del sitio" />
+                        <input [(ngModel)]="searchSiteQuery" type="text" title="Digite aquí el nombre del sitio" id="searchSiteInput" placeholder="Digite el nombre del sitio" (keydown.enter)="searchSite()"/>
                         <button type="button" id="searchSite" title="Click aquí para buscar el sitio" (click)="searchSite()">Buscar</button>
                     </div>
                     <h3 class="text-center mb-3">Resultados</h3>
                     <div align="center">
-                        <div class="mt-10 mb-10">
+                        <div class="mt-10 mb-10" style="overflow-x:auto;">
                             <table class="table">
                                 <thead>
                                 <th><h5 class="text-center">Sitio</h5></th>
@@ -177,9 +177,9 @@
                                 </thead>
                                 <tbody>
                                 <tr *ngFor="let site of showedSites; let i = index">
-                                    <td><h5 >{{site?.name}}</h5></td>
-                                    <td><h5 >{{site?.district.name}}</h5></td>
-                                    <td align="center">
+                                    <td style="vertical-align: middle"><h5 >{{site?.name}}</h5></td>
+                                    <td style="vertical-align: middle"><h5 >{{site?.district.name}}</h5></td>
+                                    <td align="center" style="vertical-align: middle">
                                         <button title="Eliminar" class="invite-btn table-button genric-btn circle text-center danger medium" *ngIf="belongsTo(site.id)" (click)="deleteRallySite(i)">Eliminar</button>
                                         <button title="Agregar" class="invite-btn table-button genric-btn circle text-center info medium" *ngIf="!belongsTo(site.id)" (click)="addRallySite(i)">Agregar</button>
                                     </td>
@@ -203,3 +203,4 @@
     <!-- End sites Area -->
 
 </div>
+<app-admin-footer></app-admin-footer>

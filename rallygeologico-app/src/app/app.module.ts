@@ -17,12 +17,11 @@ import {InstructionsComponent} from "./instructions/instructions.component";
 import {RalliesComponent} from "./rallies/rallies.component";
 import {RallyComponent} from "./rally/rally.component";
 import {PublicHeaderComponent} from "./public-header/public-header.component";
-import {PublicFooterComponent} from "./admin/public-footer/public-footer.component";
 import {FacebookModule} from 'ngx-facebook';
 import {DataService} from "./services/data/data.service";
 import {UserService} from "./services/user.service";
 import {Configuration} from "./services/data/constants";
-import {HttpClient, HttpClientModule, HttpHandler} from "@angular/common/http";
+import {HttpClientModule} from "@angular/common/http";
 import {RallyService} from "./services/rally.service";
 import {InvitationService} from "./services/invitation.service";
 import {CompetitionService} from "./services/competition.service";
@@ -38,7 +37,14 @@ import {MultimediaService} from "./services/multimedia.service";
 import {DistrictService} from "./services/district.service";
 import {CantonService} from "./services/canton.service";
 import {ProvinceService} from "./services/province.service";
-
+import {ActivityService} from "./services/activity.service";
+import {ForgotPasswordComponent} from './forgot-password/forgot-password.component';
+import {TokenLandingComponent} from './token-landing/token-landing.component';
+import {ModalGalleryModule} from "angular-modal-gallery";
+import 'hammerjs'
+import 'mousetrap'
+import {ImagesService} from "./services/images.service";
+import {ImageUploadModule} from "angular2-image-upload";
 
 @NgModule({
   declarations: [
@@ -54,6 +60,8 @@ import {ProvinceService} from "./services/province.service";
       RallyComponent,
       PublicHeaderComponent,
       SiteComponent,
+      ForgotPasswordComponent,
+      TokenLandingComponent,
   ],
   imports: [
       BrowserModule,
@@ -70,9 +78,11 @@ import {ProvinceService} from "./services/province.service";
       AgmCoreModule.forRoot({
           apiKey: environment.googleMapsKey
       }),
-      AgmSnazzyInfoWindowModule
+      AgmSnazzyInfoWindowModule,
+      ModalGalleryModule.forRoot(),
+      ImageUploadModule.forRoot(),
   ],
-  providers: [DataService, UserService, Configuration, RallyService, InvitationService, CompetitionService, SiteService, CompetitionStatisticsService, TermService, MultimediaService, DistrictService, CantonService, ProvinceService],
+  providers: [DataService, UserService, Configuration, RallyService, InvitationService, CompetitionService, SiteService, CompetitionStatisticsService, TermService, MultimediaService, DistrictService, CantonService, ProvinceService, ActivityService, ImagesService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
